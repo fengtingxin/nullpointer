@@ -1,0 +1,302 @@
+
+<!doctype html>
+        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+        <head>
+                <!-- META TAGS -->
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>nullpointer</title>
+                <link rel="shortcut icon" href="images/favicon.png" />
+                <!-- Style Sheet-->
+                
+                <link href="docs/css/zui.min.css" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="css/zui.lite.css">
+                <link rel="stylesheet" type="text/css" href="css/zui-theme.css">
+                <link href="docs/css/doc.min.css" rel="stylesheet">
+                <link rel="stylesheet" type="text/css" href="css/style.css">
+                <link rel="stylesheet" type="text/css" href="css/main5152.css">     
+                <style id="themeStyle"></style>
+                <link rel="stylesheet" type="text/css" href="responsive5152.css"> 
+                
+                <style type="text/css">
+                        #top .primary-color, a, #cancel-comment-reply-link, .blog-tags a:hover, .relThumb a:hover strong, .flex_column h1, .flex_column h2, .flex_column h3, .flex_column h4, .flex_column h5, .flex_column h6, #top #wrap_all .tweet-text a, #top #js_sort_items a.active_sort, .callout a:hover {
+                                    color: #f0b70c;
+                                }
+                </style>   
+        </head>
+
+        <body>
+                <nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px;">
+                                <div class="center-block">
+                                      <div class="container">
+                                <!-- 导航头部 -->
+                                <div class="navbar-header">
+                                              <!-- 移动设备上的导航切换按钮 -->
+                                              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+                                                <span class="sr-only">切换导航</span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                              </button>
+                                              <!-- 品牌名称或logo -->
+                                                <img src="images/logo.png" alt="nullpointer" width="200" style="margin-top: 3px;">
+                                            </div>
+                                            <!-- 导航项目 -->
+                                            <div class="collapse navbar-collapse navbar-collapse-example">
+                                              
+                                                      <ul class="nav navbar-nav navbar-right"">
+                                                                <li class="current-menu-item"><a href="index.html">主页</a></li>
+                                                                <li><a href="bug-list-admin.html">BUGS</a></li>
+                                                                <li><a href="q_a_list.html">技术问答</a></li>
+                                                                <li><a href="contact.html">帮助</a></li>
+                                                                <li><a href="login.html">登陆/注册</a></li>
+                                                                <!-- 导航中的下拉菜单 -->
+                                                                <li class="dropdown">
+                                                                  <a href="your/nice/url" class="dropdown-toggle" data-toggle="dropdown"><img src="images/touxiang.jpg" width="20px" height="20px" class="img-circle"/> <b class="caret"></b></a>
+                                                                  <ul class="dropdown-menu" role="menu" style="text-align: center;">
+                                                                                <li><a href="full-width.html">我的主页</a></li>
+                                                                                <li><a href="elements.html">信息管理</a></li>
+                                                                                <li><a href="page.html">账号设置</a></li>
+                                                                                <li><a href="contact.html">建议反馈</a></li>
+                                                                  </ul>
+                                                                </li>
+                                                      </ul>
+                                            </div><!-- END .navbar-collapse -->
+                                          </div>    
+                                </div>
+                                      
+                </nav>
+
+                <!--导航栏完成-->
+                <!--搜索框-->
+                <div class="search-area-wrapper">
+                        <div class="search-area container">
+                                <h3 class="search-header">今天你遇到什么技术难点了吗？</h3>
+                                <p class="search-tag-line">请在下方搜索您所遇到的问题吧！</p>
+                                <form id="search-form" class="search-form clearfix" method="get" action="#" autocomplete="off" novalidate="novalidate">
+                                        <input class="search-term required" type="text" id="s" name="s" placeholder="在这里搜索问题/BUG" title="* Please enter a search term!" style="height: 43px;" />
+                                        <button type="button" class="btn btn-primary btn-lg" ">BUG搜索</button>
+                                        <button type="button" class="btn btn-primary btn-lg" ">问题搜索</button>
+                                        <div id="search-error-container"></div>
+                                </form>
+                        </div>
+                </div>
+                <!--搜索框完成-->
+                <div class="container" style="padding-top: 20px;">
+                        <div class="row clearfix">
+                                        <!-- start of page content -->
+                                        <div class="col-md-8 column" style="margin-top: 20px;">
+                                                <!-- Basic Home Page Template -->
+                                                        <div class="col-md-6 column">
+                                                                <h1>问答推荐</h1>
+                                                                <ul class="articles">
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
+                                                                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                                                                <span class="like-count">66</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">WordPress Site Maintenance</a></h4>
+                                                                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                                                                <span class="like-count">15</span>
+                                                                        </li>
+                                                                        <li class="article-entry video">
+                                                                                <h4><a href="single.html">Meta Tags in WordPress</a></h4>
+                                                                                <span class="article-meta">23 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                                                                <span class="like-count">8</span>
+                                                                        </li>
+                                                                        <li class="article-entry image">
+                                                                                <h4><a href="single.html">WordPress in Your Language</a></h4>
+                                                                                <span class="article-meta">22 Feb, 2013 in <a href="#" title="View all posts in Advanced Techniques">Advanced Techniques</a></span>
+                                                                                <span class="like-count">6</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">Know Your Sources</a></h4>
+                                                                                <span class="article-meta">22 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                                                                <span class="like-count">2</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">Validating a Website</a></h4>
+                                                                                <span class="article-meta">21 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                                                                <span class="like-count">3</span>
+                                                                        </li>
+                                                                </ul>
+                                                        </div>
+
+
+                                                        <div class="col-md-6 column">
+                                                                <h1>BUG专题推荐</h1>
+                                                                <ul class="articles">
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
+                                                                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                                                                <span class="like-count">66</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">Using Javascript</a></h4>
+                                                                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Advanced Techniques">Advanced Techniques</a></span>
+                                                                                <span class="like-count">18</span>
+                                                                        </li>
+                                                                        <li class="article-entry image">
+                                                                                <h4><a href="single.html">Using Images</a></h4>
+                                                                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Designing in WordPress">Designing in WordPress</a></span>
+                                                                                <span class="like-count">7</span>
+                                                                        </li>
+                                                                        <li class="article-entry video">
+                                                                                <h4><a href="single.html">Using Video</a></h4>
+                                                                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in WordPress Plugins">WordPress Plugins</a></span>
+                                                                                <span class="like-count">7</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">WordPress Site Maintenance</a></h4>
+                                                                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in Website Dev">Website Dev</a></span>
+                                                                                <span class="like-count">15</span>
+                                                                        </li>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="single.html">WordPress CSS Information and Techniques</a></h4>
+                                                                                <span class="article-meta">24 Feb, 2013 in <a href="#" title="View all posts in Theme Development">Theme Development</a></span>
+                                                                                <span class="like-count">1</span>
+                                                                        </li>
+                                                                </ul>
+                                                        </div>
+                                        </div>
+                                        <!-- end of page content -->
+
+
+                                        <!-- start of sidebar -->
+                                        <aside class="col-md-4 column">
+
+                                                <section class="widget">
+                                                        
+                                                </section>
+
+                                                <section class="widget">
+                                                        <div class="quick-links-widget">
+                                                                <h3 class="title">挖掘机技术哪家强？</h3>
+                                                                
+                                                        </div>
+                                                </section>
+
+                                                <section class="widget">
+                                                        <h3 class="title">Tags</h3>
+                                                        <div class="tagcloud">
+                                                                <a href="#" class="btn btn-mini">C++</a>
+                                                                <a href="#" class="btn btn-mini">C语言</a>
+                                                                <a href="#" class="btn btn-mini">server</a>
+                                                                <a href="#" class="btn btn-mini">html</a>
+                                                                <a href="#" class="btn btn-mini">css</a>
+                                                                <a href="#" class="btn btn-mini">date</a>
+                                                                <a href="#" class="btn btn-mini">design</a>
+                                                                <a href="#" class="btn btn-mini">files</a>
+                                                                <a href="#" class="btn btn-mini">format</a>
+                                                                <a href="#" class="btn btn-mini">header</a>
+                                                                <a href="#" class="btn btn-mini">images</a>
+                                                                <a href="#" class="btn btn-mini">plugins</a>
+                                                                <a href="#" class="btn btn-mini">setting</a>
+                                                                <a href="#" class="btn btn-mini">templates</a>
+                                                                <a href="#" class="btn btn-mini">theme</a>
+                                                                <a href="#" class="btn btn-mini">time</a>
+                                                                <a href="#" class="btn btn-mini">videos</a>
+                                                                <a href="#" class="btn btn-mini">website</a>
+                                                                <a href="#" class="btn btn-mini">wordpress</a>
+                                                        </div>
+                                                </section>
+
+                                        </aside>
+                                        <!-- end of sidebar -->
+                                </div>
+                </div>
+
+                <footer id="footer-wrapper">
+                        <div id="footer" class="container">
+                                <div class="row">
+                                        <div class="col-md-3 column">
+                                                <section class="widget">
+                                                        <h3 class="title">我们是什么</h3>
+                                                        <div class="textwidget">
+                                                                <p>我们的主要目标是为程序员解决各种各样的BUG </p>
+                                                                <p>你可以在这里查你所想，想你所问，还可以看到各种各样的BUG推荐和问答推荐 </p>
+                                                        </div>
+                                                </section>
+                                        </div>
+
+                                        <div class="col-md-3 column">
+                                                <section class="widget"><h3 class="title">目录</h3>
+                                                        <ul>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet,">主页</a> </li>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet,">BUGS</a></li>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet,">技术问答</a></li>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet, ">个人中心</a></li>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet,">信息反馈</a></li>
+                                                                <li><a href="#" title="Lorem ipsum dolor sit amet,">联系我们</a></li>
+                                                        </ul>
+                                                </section>
+                                        </div>
+
+                                        <div class="col-md-3 column">
+                                                <section class="widget">
+                                                        <h3 class="title">最新消息</h3>
+                                                        <div id="twitter_update_list">
+                                                                <ul>
+                                                                        <li>大猩猩突然吃起了屎！</li>
+                                                                </ul>
+                                                        </div>
+                                                       
+                                                </section>
+                                        </div>
+
+                                        <div class="col-md-3 column">
+                                                <section class="widget">
+                                                        <h3 class="title">Flickr Photos</h3>
+                                                        <div class="flickr-photos" id="basicuse">
+                                                        </div>
+                                                </section>
+                                        </div>
+
+                                </div>
+                        </div>
+                        <!-- end of #footer -->
+
+                        <!-- Footer Bottom -->
+                        <div id="footer-bottom-wrapper">
+                                <div id="footer-bottom" class="container">
+                                        <div class="row">
+                                                <div class="col-md-6 column">
+                                                        <p class="copyright">
+                                                                Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect from <a href="#" title="旋风小组" target="_blank">EXP小组</a>
+                                                        </p>
+                                                </div>
+                                                <div class="col-md-6 column">
+                                                        <!-- Social Navigation -->
+                                                        <ul class="social-nav clearfix">
+                                                                <li class="linkedin"><a target="_blank" href="#"></a></li>
+                                                                <li class="stumble"><a target="_blank" href="#"></a></li>
+                                                                <li class="google"><a target="_blank" href="#"></a></li>
+                                                                <li class="deviantart"><a target="_blank" href="#"></a></li>
+                                                                <li class="flickr"><a target="_blank" href="#"></a></li>
+                                                                <li class="skype"><a target="_blank" href="skype:#?call"></a></li>
+                                                                <li class="rss"><a target="_blank" href="#"></a></li>
+                                                                <li class="twitter"><a target="_blank" href="#"></a></li>
+                                                                <li class="facebook"><a target="_blank" href="#"></a></li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>        
+
+        </body>
+        <!-- script -->
+        <script src="assets/jquery.js"></script>
+        <script src="assets/clipboard/clipboard.min.js"></script>
+        <script src="assets/less/less.min.js"></script>
+
+        <!-- ZUI Javascript组件 -->
+        <script src="docs/js/zui.min.js"></script>
+        <script src="docs/js/doc.min.js"></script>
+                            <!-- 增强文档插件 -->
+        <script async src="assets/prettify/prettify.js"></script>
+        <script src="assets/marked/marked.min.js"></script>
+</html>
