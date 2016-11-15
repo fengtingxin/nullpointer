@@ -70,7 +70,7 @@ create table bug
 /*==============================================================*/
 create table comment
 (
-   Column_1             integer not null auto_increment,
+   commentId            integer not null auto_increment,
    commentContent       longtext,
    commentPublishTime   date,
    commentAuthorId      integer,
@@ -78,7 +78,7 @@ create table comment
    commentHateNum       integer,
    bugId                integer,
    commentParentId      integer,
-   primary key (Column_1)
+   primary key (commentId)
 );
 
 /*==============================================================*/
