@@ -117,6 +117,7 @@ CREATE TABLE `loginuser` (
   `loginEmail` varchar(30) DEFAULT NULL,
   `loginUserId` int(11) NOT NULL AUTO_INCREMENT,
   `roleId` int(11) DEFAULT NULL,
+  `loginActive` int(11) DEFAULT '0',
   PRIMARY KEY (`loginUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
