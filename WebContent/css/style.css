@@ -1,0 +1,58 @@
+*{
+    font-family: "微软雅黑";
+    text-decoration: none;
+}
+/**max width 980px**/
+
+.search-area-wrapper {
+    background: #353b65 url(../images/main-bg.jpg) center top no-repeat;
+    background-size: 100%;
+}
+h3.search-header {
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+}
+p.search-tag-line {
+    font-family: "Droid Serif", serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 28px;
+    color: #fff;
+    text-align: center;
+}
+.search-area-wrapper .search-area {
+    padding: 50px 0;
+}
+
+form.search-form input.search-term {
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    padding: 12px;
+    width: 72%;
+    color: #858c91;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+ul.articles {
+    list-style: none;
+    margin: 0;
+    padding:0px;
+}
+ul.articles .article-entry {
+    position: relative;
+    padding: 0 0 0 24px;
+    background: url(../images/standard.png) no-repeat 0 3px;
+}
+.example{
+    position: relative;
+    padding: 20px;
+    margin: 0 0 15px;
+    border-style: solid;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: all .3s;
+}

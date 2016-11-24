@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* 
+*	Date: 2016-11-17
+*	Author: Agnes Xu
+	change：fengtingxin
+*/
+
+
+.game_time{height:200px;margin-left:170px;text-align:center;}
+
+/* time scroll*/
+.pie{width:200px;height:200px;background-color:blue;border-radius:100px;position:absolute;}
+.pie1{clip:rect(0px,200px,200px,100px);-o-transform:rotate(0deg);-moz-transform:rotate(0deg);-webkit-transform:rotate(0deg);background-color:#400040;}
+.pie2{clip:rect(0px,100px,200px,0px);-o-transform:rotate(0deg);-moz-transform:rotate(0deg);-webkit-transform:rotate(0deg);background-color:#400040;}
+.hold{width:200px;height:200px;position:absolute;z-index:1;}
+.bg{width:200px;height:200px;border-radius:200px;position:absolute;background-color:#c0c0c0;}
+.time{width:160px;height:160px;margin:20px 0 0 20px;background-color:#8080ff;border-radius:160px;position:absolute;z-index:1;text-align:center;line-height:160px;font-size:30px;}
