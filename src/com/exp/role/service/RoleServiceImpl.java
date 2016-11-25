@@ -23,8 +23,4 @@ public class RoleServiceImpl {
 	public Role getRole(Integer roleId){
 		return this.roleDaoImpl.getRole(roleId);
 	}
-	
-	public void memeda(){
-		
-	}
 }
