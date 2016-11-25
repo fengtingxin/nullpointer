@@ -36,7 +36,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 				<!-- 品牌名称或logo -->
-				<img src="images/logo.png" alt="nullpointer" width="200"
+				<img src="${ctx}/images/logo.png" alt="nullpointer"
 					style="margin-top: 3px;">
 			</div>
 			<!-- 导航项目 -->
@@ -127,61 +127,28 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我的分享</h2>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<h4>
-							<a href="###">HTML5 发展历史</a>
-						</h4>
+				<c:forEach items="${pagesShare.list}" var="p">
+					<div class="item">
+						<div class="item-heading">
+							<c:set var="tags" value="${p.tags}"></c:set>
+							<c:forEach var="t" items="${tags}">
+								<div class="pull-right label label-success">${t.tagName}</div>
+							</c:forEach>
+							<h4>
+								<a href="###">${p.bugTitle}</a>
+							</h4>
+						</div>
+						<div class="item-content">
+							<div class="text">${p.bugDescribe}</div>
+						</div>
+						<div class="item-footer">
+							<a href="#" class="text-muted"><i class="icon-comments"></i>
+								${p.bugLikeNum+p.bugHateNum}</a> &nbsp; <span class="text-muted">${p.bugPublishTime}
+							</span>
+						</div>
 					</div>
-					<div class="item-content">
-						<div class="text">HTML 5草案的前身名为Web Applications
-							1.0，是在2004年由WHATWG提出。2008年1月22日，第一份正式草案发布。WHATWG表示该规范是目前仍在进行的工作，仍须多年的努力。[8]目前Mozilla
-							Firefox、Google Chrome、Opera、Safari（版本4以上）、Internet
-							Explorer（版本9以上）已支持HTML5技术。</div>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<h4>
-							<a href="###">HTML5 发展历史</a>
-						</h4>
-					</div>
-					<div class="item-content">
+				</c:forEach>
 
-						<div class="text">HTML 5草案的前身名为Web Applications
-							1.0，是在2004年由WHATWG提出。2008年1月22日，第一份正式草案发布。WHATWG表示该规范是目前仍在进行的工作，仍须多年的努力。[8]目前Mozilla
-							Firefox、Google Chrome、Opera、Safari（版本4以上）、Internet
-							Explorer（版本9以上）已支持HTML5技术。</div>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<h4>
-							<a href="###">HTML5 发展历史</a>
-						</h4>
-					</div>
-					<div class="item-content">
-						<div class="text">HTML 5草案的前身名为Web Applications
-							1.0，是在2004年由WHATWG提出。2008年1月22日，第一份正式草案发布。WHATWG表示该规范是目前仍在进行的工作，仍须多年的努力。[8]目前Mozilla
-							Firefox、Google Chrome、Opera、Safari（版本4以上）、Internet
-							Explorer（版本9以上）已支持HTML5技术。</div>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
 				<ul class="pager">
 					<li class="previous"><a href="your/nice/url">«</a></li>
 					<li><a href="your/nice/url">1</a></li>
