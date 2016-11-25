@@ -35,8 +35,4 @@ public class RoleDaoImpl extends BaseDao<Role, String>{
 		}
 	}
 	
-	//public test
-	public void test(){
-		
-	}
 }
