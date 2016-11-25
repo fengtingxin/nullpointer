@@ -68,7 +68,7 @@
 			<div class="collapse navbar-collapse navbar-collapse-example">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="${ctx }/index">主页</a></li>
+					<li class="current-menu-item"><a href="${ctx }/index.jsp">主页</a></li>
 					<li><a href="${ctx }/bug-list-admin.html">BUGS</a></li>
 					<li><a href="${ctx }/q_a_list.html">技术问答</a></li>
 					<li><a href="${ctx }/contact.html">帮助</a></li>
@@ -181,7 +181,14 @@
 										<span class="profile__mod-inner-heading">用户名</span>
 									</div>
 									<div>
-										<span>${loginUser.getLoginName() }</span>
+										<span>
+										<c:if test="${loginUser.loginName!=null}">
+										${loginUser.loginName}
+										</c:if>
+										<c:if test="${loginUser.loginName==null}">
+										暂无
+										</c:if>
+										</span>
 									</div>
 								</div>
 								<div class="profile__mod-inner-item">
@@ -189,8 +196,15 @@
 										<span class="profile__mod-inner-heading">出生日期</span>
 									</div>
 									<div>
+									<c:if test="${loginUser.userInfo.userInfoBirthday!=null}">
 										<fmt:formatDate value="${loginUser.userInfo.userInfoBirthday}"
 											pattern="yyyy-MM-dd" />
+									</c:if>
+									<c:if test="${loginUser.userInfo.userInfoBirthday==null}">
+										暂无
+									</c:if>
+										
+										
 										<span></span>
 									</div>
 								</div>
@@ -199,7 +213,15 @@
 										<span class="profile__mod-inner-heading">性别</span>
 									</div>
 									<div>
-										<span>${loginUser.userInfo.getUserInfoSex() }</span>
+										<span>
+										<c:if test="${loginUser.userInfo.userInfoSex==null}">
+										暂无
+									    </c:if>
+									    <c:if test="${loginUser.userInfo.userInfoSex!=null}">
+										${loginUser.userInfo.userInfoSex}
+									    </c:if>
+						
+										</span>
 									</div>
 								</div>
 								<div class="profile__mod-inner-item">
@@ -207,7 +229,14 @@
 										<span class="profile__mod-inner-heading">荣誉值</span>
 									</div>
 									<div>
-										<span>${loginUser.userInfo.getUserInfoHonorCount() }</span>
+										<span>
+										 <c:if test="${loginUser.userInfo.userInfoHonorCount !=null}">
+										${loginUser.userInfo.userInfoHonorCount }
+									    </c:if>
+										 <c:if test="${loginUser.userInfo.userInfoHonorCount ==null}">
+										暂无
+									    </c:if>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -219,7 +248,16 @@
 									<div>
 										<span class="profile__mod-inner-heading">邮箱</span>
 										<div>
-											<span>${loginUser.getLoginEmail() }</span>
+											<span>
+											 <c:if test="${loginUser.loginEmail !=null}">
+										${loginUser.loginEmail }
+									    </c:if>
+									     <c:if test="${loginUser.loginEmail ==null}">
+										暂无
+									    </c:if>
+									    
+											
+											</span>
 										</div>
 									</div>
 								</div>
@@ -228,9 +266,16 @@
 										<span class="profile__mod-inner-heading">注册时间</span>
 									</div>
 									<div>
-										<span> <fmt:formatDate
+										<span> 
+										 <c:if test="${loginUser.userInfo.userInfoRegistTime!=null}">
+										<fmt:formatDate
 												value="${loginUser.userInfo.userInfoRegistTime}"
-												pattern="yyyy-MM-dd" /></span>
+												pattern="yyyy-MM-dd" />
+									    </c:if>
+									     <c:if test="${loginUser.userInfo.userInfoRegistTime==null}">
+									    暂无
+									    </c:if>
+										</span>
 									</div>
 								</div>
 								<div class="profile__mod-inner-item">
@@ -238,7 +283,13 @@
 										<span class="profile__mod-inner-heading">个人描述</span>
 									</div>
 									<div>
-										<span>${loginUser.userInfo.getUserInfoDescribe() }</span>
+										<span>
+										<c:if test="${loginUser.userInfo.userInfoDescribe!=null }">
+										${loginUser.userInfo.userInfoDescribe }</c:if>	
+											<c:if test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
+						这家伙很懒 什么都没有留下
+					</c:if>									
+										</span>
 									</div>
 								</div>
 
@@ -308,7 +359,6 @@
 						// 使用$.zui.Chart构造Chart实例
 						var myNWwChart = new $.zui.Chart(ctx);
 						var myNWwChart2 = new $.zui.Chart(honor);
-						
 						var data = [ {
 							value : 150,
 							color : "blue", // 使用颜色名称
