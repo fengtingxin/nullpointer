@@ -1,6 +1,5 @@
 package com.exp.loginUser.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -52,7 +51,6 @@ public class LoginUserController {
 			UserInfo userInfo = new UserInfo();
 			// 获取用户注册时间
 			Date time = new Date();// new Date()为获取当前系统时间
-			System.out.println("time:" + time);
 			//给新注册的用户分配角色
 			Role role=this.roleServiceImpl.getRole(2);
 			loginUser.setRole(role);

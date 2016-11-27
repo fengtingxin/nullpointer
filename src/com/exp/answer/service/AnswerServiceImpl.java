@@ -1,6 +1,5 @@
 package com.exp.answer.service;
 
-import java.util.List;
 
 import javax.annotation.Resource;
 

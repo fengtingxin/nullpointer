@@ -18,11 +18,20 @@ import com.exp.userinfo.dao.UserInfoDaoImpl;
 public class UserInfoServiceImpl{
     @Resource
 	private UserInfoDaoImpl userInfoDaoImpl;
-    
+    /**
+     * @function 根据id查询单个UserInfo
+     * @author tangwenru
+     * @param id
+     * @return
+     */
     public UserInfo findById(Integer id){
     	return this.userInfoDaoImpl.findById(id);
     }
-    
+    /**
+     * @function 修改用户信息
+     * @author tangwenru
+     * @param u UserInfo对象
+     */
     @Transactional(readOnly = false)
 	public void editUserInfo(UserInfo u) {
 		this.userInfoDaoImpl.editUserInfo(u);

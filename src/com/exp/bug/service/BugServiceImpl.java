@@ -75,14 +75,4 @@ public class BugServiceImpl {
 	public Bug getBug(Integer bugId){
 		return this.bugDaoImpl.getBug(bugId);
 	}
-	
-	public void updateBugComment(Bug bug){
-		try {
-			this.bugDaoImpl.update(bug);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			this.bugDaoImpl.updateBugComment(bug);
-			e.printStackTrace();
-		}
-	}
 }

@@ -1,6 +1,7 @@
 package com.exp.bug.controller;
 
 import java.util.Date;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -96,6 +97,21 @@ public class BugController {
 		return "bug-detailed";
 	}
 
+	/**
+	 * 提交评论
+	 * 	条件：
+	 * 		登录
+	 *  	非空
+	 *  一级评论
+	 *  二级评论
+	 * @param bugId
+	 * @param content
+	 * @param commentId
+	 * @param request
+	 * @param session
+	 * @return
+	 * @author fengtingxin
+	 */
 	@RequestMapping(value = "{bugId}", method = RequestMethod.POST)
 	public String submitComment(@PathVariable("bugId") Integer bugId, @RequestParam(name = "content") String content,
 			@RequestParam(name = "commentId", required = false) Integer commentId,HttpServletRequest request,HttpSession session) {
@@ -127,13 +143,9 @@ public class BugController {
 			Comment comment=new Comment();
 			comment.setBug(bug);
 			comment.setCommentContent(content);
-//			System.out.println(commentId);
 			comment.setCommentPublishTime(new Date());
 			comment.setParentComment(this.commentServiceImpl.getCommentById(commentId));
-//			comment.setParentComment(this.commentServiceImpl.getCommentById(commentId));
-//			System.out.println("parent ID :"+this.commentServiceImpl.getCommentById(commentId));
 			comment.setUserInfo(loginUser.getUserInfo());
-//			System.out.println(comment.getParentComment().getCommentId());
 			this.commentServiceImpl.saveComment(comment);
 		}
 		return "redirect:findone?bugId=" + bugId;

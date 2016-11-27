@@ -8,7 +8,8 @@ import com.framework.BaseDao;
 @Repository
 public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
 	/**
-	 * @tangwenru 用户信息的查询编辑
+	 * @function 根据id查询单个UserInfo
+	 * @author tangwenru
 	 * @param id
 	 * @return
 	 */
@@ -20,7 +21,11 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
 			return null;
 		}
 	}
-
+    /**
+     * @function 更新用户信息
+     * @author tangwenru
+     * @param u
+     */
 	public void updateUserInfo(UserInfo u) {
 		try {
 			this.update(u);
@@ -29,7 +34,12 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @function 编辑用户信息
+	 * @author tangwenru
+	 * @param id
+	 * @return
+	 */
 	public void editUserInfo(UserInfo u) {
 		u.getLoginUser().setLoginName(u.getLoginUser().getLoginName());
 		u.setUserInfoBirthday(u.getUserInfoBirthday());

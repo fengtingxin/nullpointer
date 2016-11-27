@@ -1,6 +1,5 @@
 package com.exp.userinfo.controller;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,8 +57,8 @@ public class UserInfoController {
 	}
 
 	/**
-	 * 根据用户的id查找用户，返回home.jsp页面 zhangzhaolin
-	 * 
+	 * @function 根据用户的id查找用户，返回home.jsp页面 
+	 * @author tangwenru
 	 * @param id
 	 * @param request
 	 * @return
@@ -95,8 +94,8 @@ public class UserInfoController {
 	}
 
 	/**
-	 * 计算用户注册距离现在的时间差
-	 * 
+	 * @function 计算用户注册距离现在的时间差
+	 * @author tangwenru
 	 * @param u
 	 *            UserInfo对象
 	 * @return
@@ -128,8 +127,8 @@ public class UserInfoController {
 	}
 
 	/**
-	 * 点击编辑，调用的方法
-	 * 
+	 * @function 点击编辑，调用的方法
+	 * @author tangwenru
 	 * @param id
 	 * @param request
 	 * @return
@@ -155,8 +154,8 @@ public class UserInfoController {
 	}
 
 	/**
-	 * 点击更新信息，将编辑后的信息更新
-	 * 
+	 * @function 点击更新信息，将编辑后的信息更新
+	 * @author tangwenru
 	 * @param id
 	 * @param loginName
 	 * @param birthday
