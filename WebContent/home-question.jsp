@@ -23,6 +23,12 @@
 </head>
 <body>
 	<!-- Start of Header -->
+	<!-- Start of Header -->
+	<c:if test="${empty loginUser}">
+		<%
+			response.sendRedirect("login.jsp");
+		%>
+	</c:if>
 	<nav class="navbar navbar-inverse" role="navigation"
 		style="margin-bottom: 0px;">
 	<div class="center-block">
@@ -44,9 +50,9 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug-list-admin.jsp">BUGS</a></li>
+					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact.jsp">帮助</a></li>
+					<li><a href="${ctx}/contact">帮助</a></li>
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
@@ -57,7 +63,7 @@
 							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 							<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>

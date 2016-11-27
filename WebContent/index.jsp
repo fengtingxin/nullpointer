@@ -66,7 +66,7 @@
 						<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
 						<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 						<li><a href="question/list_new">技术问答</a></li>
-						<li><a href="${ctx}/contact.jsp">帮助</a></li>
+						<li><a href="${ctx}/contact">帮助</a></li>
 						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 						<!-- 导航中的下拉菜单 -->
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -74,7 +74,7 @@
 									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
 										class="img-circle" />
 								</c:if> <c:if test="${loginUser!=null}">
-								
+
 									<img
 										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
 										width="20px" height="20px" class="img-circle" />
@@ -83,7 +83,7 @@
 								<li><a href="${ctx}/home">我的主页</a></li>
 								<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 								<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
-								<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+								<li><a href="${ctx}/contact">建议反馈</a></li>
 							</ul></li>
 					</ul>
 				</div>
@@ -160,9 +160,10 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a href="single.html" data-toggle="tooltip"
-												title="${bug.bugTitle}"> ${fn:substring(bug.bugTitle, 0, 50)}
-												<c:if test="${fn:length(bug.bugTitle)>50}">...</c:if>
+											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
+												data-toggle="tooltip" title="${bug.bugTitle}">
+												${fn:substring(bug.bugTitle, 0, 50)} <c:if
+													test="${fn:length(bug.bugTitle)>50}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"> <fmt:formatDate
 												value="${bug.bugPublishTime}" pattern="yyyy-MM-dd" /> <c:set

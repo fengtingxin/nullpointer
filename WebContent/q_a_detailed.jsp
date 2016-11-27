@@ -49,9 +49,9 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug-list-admin.jsp">BUGS</a></li>
+					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact.jsp">帮助</a></li>
+					<li><a href="${ctx}/contact">帮助</a></li>
 					<li><a href="${ctx}/login.jsp">登陆</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
@@ -62,7 +62,7 @@
 							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -201,8 +201,8 @@
 					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
 					<form class="form">
 						<div class="form-group">
-							<textarea class="form-control new-comment-text" rows="2"
-								placeholder="撰写评论..."></textarea>
+							<textarea id="content" name="content"
+								class="form-control kindeditor"></textarea>
 						</div>
 						<div class="form-group comment-user">
 
@@ -253,14 +253,25 @@
 
 </body>
 <!-- script -->
-<script src="${ctx}/assets/jquery.js"></script>
-<script src="${ctx}/assets/clipboard/clipboard.min.js"></script>
-<script src="${ctx}/assets/less/less.min.js"></script>
+<script src="assets/jquery.js"></script>
+<script src="assets/clipboard/clipboard.min.js"></script>
+<script src="assets/less/less.min.js"></script>
 
 <!-- ZUI Javascript组件 -->
-<script src="${ctx}/docs/js/zui.min.js"></script>
-<script src="${ctx}/docs/js/doc.min.js"></script>
+<script src="docs/js/zui.min.js"></script>
+<script src="docs/js/doc.min.js"></script>
 <!-- 增强文档插件 -->
-<script async src="${ctx}/assets/prettify/prettify.js"></script>
-<script src="${ctx}/assets/marked/marked.min.js"></script>
+<script src="assets/prettify/prettify.js"></script>
+<style type="text/css" href="assets/prettify/prettify.css"></style>
+<script src="assets/marked/marked.min.js"></script>
+<script src="js/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		KindEditor.create('textarea.kindeditor', {
+			basePath : 'js/kindeditor/',
+			allowFileManager : true,
+			bodyClass : 'article-content'
+		});
+	});
+</script>
 </html>

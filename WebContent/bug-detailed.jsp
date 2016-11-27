@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<%request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -24,7 +25,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
 <style id="themeStyle"></style>
-<link rel="stylesheet" type="text/css" href="${ctx}/responsive5152.css">
 </head>
 
 <body>
@@ -49,20 +49,27 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug-list-admin.jsp">BUGS</a></li>
+					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact.jsp">帮助</a></li>
+					<li><a href="${ctx}/contact">帮助</a></li>
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx}/images/touxiang.jpg" width="20px" height="20px"
-							class="img-circle" /> <b class="caret"></b></a>
+						class="dropdown-toggle" data-toggle="dropdown"> <c:if
+								test="${loginUser==null}">
+								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+									class="img-circle" />
+							</c:if> <c:if test="${loginUser!=null}">
+
+								<img
+									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+									width="20px" height="20px" class="img-circle" />
+							</c:if> <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -147,8 +154,6 @@
 					varStatus="status">
 					<c:if test="${ct.parentComment == null }">
 						<div class="comment">
-
-
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
 							<a href="###" class="avatar"> <i
 								class="icon-camera-retro icon-2x"></i>
@@ -163,7 +168,7 @@
 								</div>
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
-									<a href="##">回复</a>
+									<a href="javascript:focusAndChangeStatus(${ct.commentId })">回复</a>
 								</div>
 							</div>
 
@@ -202,29 +207,51 @@
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
-					<form class="form">
+					<form id="comment_form_submit" class="form" method="post"
+						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">
-							<textarea id="content" name="content"
+							<textarea id="content_submit" name="content"
 								class="form-control kindeditor"></textarea>
 						</div>
+						<input type="hidden" id="commentIdInput" name="commentId" value="" />
 						<div class="form-group comment-user">
-
 							<div class="col-md-2 pull-right">
-								<button type="submit" class="btn btn-block btn-primary">提交评论</button>
+								<button type="submit" class="btn btn-block btn-primary"
+									onclick="formValidation()">提交评论</button>
 							</div>
 						</div>
+					</form>
 				</div>
-				</form>
+				</footer>
 			</div>
-			</footer>
+			<!--评论内容结束--> </footer> </article>
 		</div>
-		<!--评论内容结束-->
-		</footer>
-		</article>
-	</div>
 	</div>
 	<!--文章完成-->
-
+	<script type="text/javascript">
+/*
+ * 当点击回复时，修改commentId为点击回复的值
+ 同时滚动到输入框的div
+ */
+function focusAndChangeStatus(comentId){
+	document.getElementById("commentIdInput").value=comentId; //修改ID
+    $('html, body').animate({  
+        scrollTop: $("#commentReplyForm2").offset().top
+    }, 1000);
+}
+</script>
+	<c:if test="${not empty bug_detailed_judge }">
+<!-- 提示部分！ -->
+	<script type="text/javascript">
+	window.onload=function(){
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
+			icon: 'bell', //定义图标
+			fade:'true',
+		    type: 'primary', // 定义颜色主题
+		}).show();
+	}
+	</script>
+</c:if>
 
 
 	<!-- Footer Bottom -->
@@ -257,14 +284,28 @@
 
 </body>
 <!-- script -->
-<script src="${ctx}/assets/jquery.js"></script>
-<script src="${ctx}/assets/clipboard/clipboard.min.js"></script>
-<script src="${ctx}/assets/less/less.min.js"></script>
+<script src="${ctx }/assets/jquery.js"></script>
+<script src="${ctx }/assets/clipboard/clipboard.min.js"></script>
+<script src="${ctx }/assets/less/less.min.js"></script>
 
 <!-- ZUI Javascript组件 -->
-<script src="${ctx}/docs/js/zui.min.js"></script>
-<script src="${ctx}/docs/js/doc.min.js"></script>
+<script src="${ctx }/docs/js/zui.min.js"></script>
+<script src="${ctx }/docs/js/doc.min.js"></script>
 <!-- 增强文档插件 -->
-<script async src="${ctx}/assets/prettify/prettify.js"></script>
-<script src="${ctx}/assets/marked/marked.min.js"></script>
+<script src="${ctx }/assets/prettify/prettify.js"></script>
+<style type="text/css" href="${ctx }/assets/prettify/prettify.css"></style>
+<script src="${ctx }/assets/marked/marked.min.js"></script>
+<script src="${ctx }/js/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		KindEditor.create('textarea[id="content_submit"]', {
+			basePath : '${ctx}/js/kindeditor/',
+			allowFileManager : true,
+			bodyClass : 'article-content',
+			afterBlur : function() {
+				this.sync();
+			}
+		});
+	});
+</script>
 </html>

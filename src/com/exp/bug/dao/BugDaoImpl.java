@@ -1,6 +1,5 @@
 package com.exp.bug.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -114,6 +113,15 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}
+	}
+	public void updateBugComment(Bug bug){
+		try {
+			this.excuteBySql("update Bug set comments=?" , new Object[]{bug.getComments()});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("update bugComment wrong!");
+			e.printStackTrace();
 		}
 	}
 }

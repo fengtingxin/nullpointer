@@ -59,20 +59,28 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug-list-admin.jsp">BUGS</a></li>
+					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact.jsp">帮助</a></li>
+					<li><a href="${ctx}/contact">帮助</a></li>
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx }/images/touxiang.jpg" width="20px" height="20px"
-							class="img-circle" /> <b class="caret"></b></a>
+						class="dropdown-toggle" data-toggle="dropdown">
+						<c:if test="${loginUser==null}">
+									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+										class="img-circle" />
+								</c:if> <c:if test="${loginUser!=null}">
+
+									<img
+										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+										width="20px" height="20px" class="img-circle" />
+								</c:if>
+						 <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx}/home">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -110,88 +118,6 @@
 				</h3>
 				</header>
 				<div class="items items-hover">
-				<!--  
-					<div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="${ctx}/bug-detailed.jsp">ClassNotFoundException</a>
-							</h2>
-						</div>
-						<div class="item-content">
-
-							<div class="text">这里是bug的描述...</div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								12</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span class="text-muted">2013-11-11
-								16:14:37</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="###">NumberFormatException</a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">这里是bug的描述...</div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								12</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span class="text-muted">2013-11-11
-								16:14:37</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="###">NumberFormatException</a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">这里是bug的描述...</div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								12</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span class="text-muted">2013-11-11
-								16:14:37</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="###">ClassCastException</a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">这里是bug的描述...</div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								12</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span class="text-muted">2013-11-11
-								16:14:37</span>
-						</div>
-					</div>
-					<div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="###">ArrayIndexOutOfBoundsException</a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">这里是bug的描述...</div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								12</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span class="text-muted">2013-11-11
-								16:14:37</span>
-						</div>
-					</div>-->
 					 <c:forEach items="${page.list }" var="bug">
 				 <div class="item">
 						<div class="item-heading">

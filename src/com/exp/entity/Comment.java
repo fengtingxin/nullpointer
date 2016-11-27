@@ -62,7 +62,7 @@ public class Comment {
 	public void setCommentHateNum(Integer commentHateNum) {
 		this.commentHateNum = commentHateNum;
 	}
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+	@ManyToOne(cascade =CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "bugID")
 	public Bug getBug() {
 		return bug;
@@ -70,7 +70,7 @@ public class Comment {
 	public void setBug(Bug bug) {
 		this.bug = bug;
 	}
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
 	@JoinColumn(name = "commentAuthorID")
 	public UserInfo getUserInfo() {
 		return userInfo;
@@ -78,15 +78,15 @@ public class Comment {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-	@JoinColumn(name = "commentParentId", insertable = false, updatable = false)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "commentParentId",referencedColumnName="commentId",updatable=true)
 	public Comment getParentComment() {
 		return parentComment;
 	}
 	public void setParentComment(Comment parentComment) {
 		this.parentComment = parentComment;
 	}
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "commentId")
 	public Set<Comment> getComments() {
 		return comments;

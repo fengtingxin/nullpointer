@@ -111,7 +111,7 @@ public class Bug {
 		this.bugPageviews = bugPageviews;
 	}
 
-	@OneToMany(mappedBy = "bug")
+	@OneToMany(mappedBy = "bug",cascade=CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return comments;
 	}
@@ -130,7 +130,7 @@ public class Bug {
 		this.userInfo = userInfo;
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST,fetch=FetchType.EAGER)
 	@JoinTable(name = "r_tag_bug", joinColumns = {
 			@JoinColumn(name = "bugId", referencedColumnName = "bugId") }, inverseJoinColumns = {
 					@JoinColumn(name = "tagId", referencedColumnName = "tagId") })

@@ -43,7 +43,7 @@
 <body>
 
 	<!-- Start of Header -->
-	<c:if test="${loginUser==null }">
+	<c:if test="${ empty loginUser }">
 		<%
 			response.sendRedirect("login.jsp");
 		%>
@@ -71,7 +71,7 @@
 					<li class="current-menu-item"><a href="${ctx }/index.jsp">主页</a></li>
 					<li><a href="${ctx }/bug-list-admin.html">BUGS</a></li>
 					<li><a href="${ctx }/q_a_list.html">技术问答</a></li>
-					<li><a href="${ctx }/contact.html">帮助</a></li>
+					<li><a href="${ctx }/contact">帮助</a></li>
 					<li><a href="${ctx }/login.html">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="${ctx }/your/nice/url"
@@ -82,7 +82,7 @@
 							<li><a href="${ctx }/home.html">我的主页</a></li>
 							<li><a href="${ctx }/home-question.html">信息管理</a></li>
 							<li><a href="${ctx }/accountSetting.html">账号设置</a></li>
-							<li><a href="${ctx }/contact.html">建议反馈</a></li>
+							<li><a href="${ctx }/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>

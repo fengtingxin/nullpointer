@@ -61,18 +61,26 @@
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
 					<li><a href="${ctx}/bug-list-admin.jsp">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact.jsp">帮助</a></li>
+					<li><a href="${ctx}/contact">帮助</a></li>
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx}/images/touxiang.jpg" width="20px" height="20px"
-							class="img-circle" /> <b class="caret"></b></a>
+						class="dropdown-toggle" data-toggle="dropdown">
+						<c:if test="${loginUser==null}">
+									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+										class="img-circle" />
+								</c:if> <c:if test="${loginUser!=null}">
+
+									<img
+										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+										width="20px" height="20px" class="img-circle" />
+								</c:if>
+						 <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact.jsp">建议反馈</a></li>
+							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
 			</div>
