@@ -1,10 +1,7 @@
 package com.exp.answer.controller;
 
-
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 
 import org.springframework.stereotype.Controller;
 
@@ -31,7 +28,7 @@ public class AnswerController {
 	@RequestMapping("/findAnswerByTime")
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
 		Page<Answer> pages;
-		int userInfoId = 1;//userinfoId改为userInfoId
+		int userInfoId = 1;// userinfoId改为userInfoId
 		pages = this.answerserviceimpl.findAnswerByTime(pageNum, 6, new Object[] { userInfoId });
 		request.setAttribute("pages", pages);
 		return "home-answer";
