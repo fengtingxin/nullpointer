@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en-gb" dir="ltr" class="uk-notouch">
@@ -143,7 +145,10 @@
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.bugLikeNum+p.bugHateNum}</a> &nbsp; <span class="text-muted">${p.bugPublishTime}
+								${fn:length(question.comments)}
+											<!-- 汤文茹将此处bug的点赞数修改为评论数 --></a> &nbsp; <span class="text-muted">
+											<fmt:formatDate value="${p.bugPublishTime }" pattern="yyyy-MM-dd HH:mm" />
+											<!-- 汤文茹规范了bug的发表时间 -->
 							</span>
 						</div>
 					</div>

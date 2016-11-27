@@ -1,6 +1,5 @@
 package com.exp.loginUser.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;

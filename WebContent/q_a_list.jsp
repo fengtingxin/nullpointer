@@ -135,9 +135,11 @@
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
 										${question.questionAnswerCount }</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
-										${question.questionLikeNum }</a> &nbsp; <span class="text-muted">
+											${fn:length(question.comments)}
+											<!-- 汤文茹将此处question的点赞数修改为评论数 -->
+											</a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"
-											pattern="yyyy-MM-dd" />
+											pattern="yyyy-MM-dd HH:mm" />
 									</span>
 								</div>
 							</div>

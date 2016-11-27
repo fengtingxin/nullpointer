@@ -1,7 +1,7 @@
 package com.exp.bug.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +19,7 @@ import com.exp.entity.Bug;
 
 import com.exp.entity.Tag;
 
-import com.exp.question.service.QuestionServiceImpl;
+
 import com.exp.tag.service.TagServiceImpl;
 import com.framework.Page;
 

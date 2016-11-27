@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -142,7 +144,10 @@
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.questionLikeNum} </a> &nbsp; <span class="text-muted">${p.questionPublishTime}
+								${fn:length(p.answers)} </a> &nbsp; <span class="text-muted">
+							    <!-- 汤文茹将点赞数改为回答问题数-->
+							    <!-- 汤文茹将问题的格式规范化 -->
+								<fmt:formatDate value="${p.questionPublishTime }" pattern="yyyy-MM-dd HH:mm" />
 							</span>
 						</div>
 					</div>

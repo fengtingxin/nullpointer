@@ -1,15 +1,12 @@
 package com.exp.answer.dao;
 
-import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.exp.entity.Answer;
 import com.framework.BaseDao;
 import com.framework.Page;
-
+//汤文茹删除了不必要引入的包
 @Repository
 public class AnswerDaoImpl extends BaseDao<Answer, Integer> {
 

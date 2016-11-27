@@ -1,16 +1,13 @@
 package com.exp.share.dao;
 
-import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.exp.entity.Bug;
-import com.exp.entity.Comment;
+
 import com.framework.BaseDao;
 import com.framework.Page;
-
+//汤文茹删除了不必要引入的包
 @Repository
 public class ShareDaoImpl extends BaseDao<Bug, Integer> {
 
@@ -26,7 +23,8 @@ public class ShareDaoImpl extends BaseDao<Bug, Integer> {
 	 * @return 用户的问题列表，放到page对象中
 	 */
 	// 按页，搜索条件查询
-	public Page<Bug> ShareByTime(int pageNum, int pageSize, Object[] params) {
+	//汤文茹修改了方法名称，由ShareByTime改成shareByTime,按驼峰命名法命名
+	public Page<Bug> shareByTime(int pageNum, int pageSize, Object[] params) {
 		String hql;
 
 		hql = "from Bug where bugAuthorId=? order by bugPublishTime";
