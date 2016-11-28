@@ -169,6 +169,7 @@
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
 									<a href="javascript:focusAndChangeStatus(${ct.commentId })">回复</a>
+									
 								</div>
 							</div>
 
@@ -184,6 +185,7 @@
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
+									
 													<fmt:formatDate value="${cts.commentPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -193,7 +195,10 @@
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
-													<a href="##">编辑</a> <a href="##">删除</a>
+												    <c:if test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+												    <a href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
+												    </c:if>
+													
 												</div>
 											</div>
 										</div>

@@ -35,5 +35,14 @@ public class CommentServiceImpl {
 			
 		}
 	}
+	/**
+	 * @function 根据评论的id删除评论
+	 * @author tangwenru
+	 * @param commentId
+	 */
+	@Transactional(readOnly = false)
+	public void deleteComment(int commentId){
+		this.commentDaoImpl.deleteComment(commentId);
+	}
 
 }

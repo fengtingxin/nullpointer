@@ -1,26 +1,24 @@
 package com.exp.question.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.entity.Question;
 import com.exp.question.service.QuestionServiceImpl;
 import com.framework.Page;
-
+//删除了不必要引用的包
 @Controller
 @RequestMapping("question")
 public class QuestionController {
 	@Resource
-	private QuestionServiceImpl questionserviceimpl;
+	private QuestionServiceImpl questionServiceImpl;//将questionserviceimpl改成questionServiceImpl
 	// 设置每页有5条数据
 	private Integer pageSize = 5;
 
@@ -35,7 +33,7 @@ public class QuestionController {
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Question> page;
 		int userinfoId = 1;
-		page = this.questionserviceimpl.findQuestionByTime(pageNum, 4, new Object[] { userinfoId });
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userinfoId });
 		session.setAttribute("page", page);
 		return "home-question";
 	}
@@ -50,7 +48,7 @@ public class QuestionController {
 	public String questionList_theNew(@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
 			HttpSession session) {
 		Page<Question> page = new Page<Question>();
-		page = questionserviceimpl.findQuestion_theNew(currentPageNum, pageSize);
+		page = questionServiceImpl.findQuestion_theNew(currentPageNum, pageSize);
 		session.setAttribute("questionPage_theNew", page);
 		return "q_a_list";
 	}

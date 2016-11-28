@@ -16,7 +16,7 @@ import com.framework.Page;
 @RequestMapping("/answer")
 public class AnswerController {
 	@Resource
-	private AnswerServiceImpl answerserviceimpl;
+	private AnswerServiceImpl answerServiceImpl;//将此处answerserviceimpl改成answerServiceImpl
 
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题
@@ -29,7 +29,7 @@ public class AnswerController {
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
 		Page<Answer> pages;
 		int userInfoId = 1;// userinfoId改为userInfoId
-		pages = this.answerserviceimpl.findAnswerByTime(pageNum, 6, new Object[] { userInfoId });
+		pages = this.answerServiceImpl.findAnswerByTime(pageNum, 6, new Object[] { userInfoId });
 		request.setAttribute("pages", pages);
 		return "home-answer";
 	}

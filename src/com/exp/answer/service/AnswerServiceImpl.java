@@ -16,7 +16,7 @@ import com.framework.Page;
 public class AnswerServiceImpl {
 
 	@Resource
-	private AnswerDaoImpl answerdaoimpl;
+	private AnswerDaoImpl answerDaoImpl;//answerdaoimpl改成answerDaoImpl
 
 	/**
 	 * @author Ray_1 功能 按时间将用户的所有问题查询出来
@@ -30,6 +30,6 @@ public class AnswerServiceImpl {
 	 */
 	@Transactional(readOnly = true)
 	public Page<Answer> findAnswerByTime(int pageNum, int pageSize, Object[] params) {
-		return this.answerdaoimpl.findAnswerByTime(pageNum, pageSize, params);
+		return this.answerDaoImpl.findAnswerByTime(pageNum, pageSize, params);
 	}
 }

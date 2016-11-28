@@ -20,7 +20,7 @@ import com.framework.Page;
 public class QuestionServiceImpl {
 
 	@Resource
-	private QuestionDaoImpl questiondaoimpl;
+	private QuestionDaoImpl questionDaoImpl;//将questiondaoimpl改成questionDaoImpl
 
 	/**
 	 * @author Ray_1 功能 按时间将用户的所有问题查询出来
@@ -34,11 +34,11 @@ public class QuestionServiceImpl {
 	 */
 	@Transactional(readOnly = true)
 	public Page<Question> findQuestionByTime(int pageNum, int pageSize, Object[] params) {
-		return this.questiondaoimpl.findQuestionByTime(pageNum, pageSize, params);
+		return this.questionDaoImpl.findQuestionByTime(pageNum, pageSize, params);
 	}
 
 	public List<Question> findQuestionRecommend() {
-		return questiondaoimpl.findQuestionRecommend();
+		return questionDaoImpl.findQuestionRecommend();
 	}
 
 	/**
@@ -50,6 +50,6 @@ public class QuestionServiceImpl {
 	 * @return 简单的罗列出技术问答中的数据---最新发布
 	 */
 	public Page<Question> findQuestion_theNew(Integer currentPageNum, Integer pageSize) {
-		return questiondaoimpl.findQuestion_theNew(currentPageNum, pageSize);
+		return questionDaoImpl.findQuestion_theNew(currentPageNum, pageSize);
 	}
 }
