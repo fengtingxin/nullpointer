@@ -93,12 +93,14 @@
 					<div class="col-md-6">
 						<select data-placeholder="选择问题类型..."
 							class="chosen-select form-control" tabindex="-1" multiple="">
-							<option value="strawberries">JAVA</option>
-							<option value="apple">C++</option>
-							<option value="orange">hibernate</option>
-							<option value="cherry">C语言</option>
-							<option value="banana">html</option>
-							<option value="figs">php</option>
+							<option value="JAVA">JAVA</option>
+							<option value="C++">C++</option>
+							<option value="hibernate">hibernate</option>
+							<option value="C语言">C语言</option>
+							<option value="html">html</option>
+							<option value="php">php</option>
+							<option value="C#">C#</option>
+							<option value=".net">.net</option>
 						</select>
 					</div>
 				</div>

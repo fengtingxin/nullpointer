@@ -135,7 +135,7 @@
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
 										${question.questionAnswerCount }</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
-											${fn:length(question.comments)}
+											${fn:length(question.answers)}
 											<!-- 汤文茹将此处question的点赞数修改为评论数 -->
 											</a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"
@@ -235,7 +235,7 @@
 				<h2>
 					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
 				</h2>
-				<a href="question.jsp"><button class="btn btn-success btn-lg"
+				<a href="${ctx }/question.jsp"><button class="btn btn-success btn-lg"
 						type="button">向大哲们提问</button></a>
 
 			</div>
