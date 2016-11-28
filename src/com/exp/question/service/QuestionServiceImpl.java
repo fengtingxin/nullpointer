@@ -52,4 +52,20 @@ public class QuestionServiceImpl {
 	public Page<Question> findQuestion_theNew(Integer currentPageNum, Integer pageSize) {
 		return questionDaoImpl.findQuestion_theNew(currentPageNum, pageSize);
 	}
+
+	/**
+	 * @author zhang zhao lin
+	 * @param currentPageNum
+	 *            当前页数 默认为1
+	 * @param pageSize
+	 *            每一页有多少条数据
+	 * @return 查询问题页中数据 按照最多人回答排序
+	 */
+	public Page<Question> findQuestion_theMostAnswerCount(Integer currentPageNum, Integer pageSize) {
+		return questionDaoImpl.findQuestion_theMostAnswerCount(currentPageNum, pageSize);
+	}
+
+	public Page<Question> findQuestion_noOne(Integer currentPageNum, Integer pageSize) {
+		return questionDaoImpl.findQuestion_noOne(currentPageNum, pageSize);
+	}
 }

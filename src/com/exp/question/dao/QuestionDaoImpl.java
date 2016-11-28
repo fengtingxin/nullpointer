@@ -72,4 +72,42 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 		return page;
 		// return "";
 	}
+
+	/**
+	 * @author zhang zhao lin
+	 * @param currentPageNum
+	 *            当前页数 默认为1
+	 * @param pageSize
+	 *            每一页有多少条数据
+	 * @return 查询问题页中数据 按照最多人回答排序
+	 */
+	public Page<Question> findQuestion_theMostAnswerCount(Integer currentPageNum, Integer pageSize) {
+		String hql = "from Question order by questionAnswerCount DESC,questionPublishTime DESC";
+		Page<Question> page = new Page<Question>();
+		try {
+			page = super.findByPage(currentPageNum, pageSize, hql, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return page;
+	}
+
+	/**
+	 * @author zhang zhao lin
+	 * @param currentPageNum 当前页
+	 * @param pageSize 
+	 * @return 查询尚未解决的问题
+	 */
+	public Page<Question> findQuestion_noOne(Integer currentPageNum, Integer pageSize) {
+		String sql = "from Question where questionAnswerCount = 0";
+		Page<Question> page = new Page<Question>();
+		try {
+			page = super.findByPage(currentPageNum, pageSize, sql, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return page;
+	}
 }

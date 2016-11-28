@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -51,7 +51,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 				<!-- 品牌名称或logo -->
-				<img src="${ctx }/images/logo.png" alt="nullpointer" width="200"
+				<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"
 					style="margin-top: 3px;">
 			</div>
 			<!-- 导航项目 -->
@@ -65,21 +65,20 @@
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown">
-						<c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
+						class="dropdown-toggle" data-toggle="dropdown"><c:if
+								test="${loginUser==null}">
+								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+									class="img-circle" />
+							</c:if> <c:if test="${loginUser!=null}">
 
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="20px" height="20px" class="img-circle" />
-								</c:if>
-						 <b class="caret"></b></a>
+								<img
+									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+									width="20px" height="20px" class="img-circle" />
+							</c:if> <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx}/home">我的主页</a></li>
+							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx}/page.jsp">账号设置</a></li>
+							<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
 							<li><a href="${ctx}/contact">建议反馈</a></li>
 						</ul></li>
 				</ul>
@@ -87,6 +86,7 @@
 			<!-- END .navbar-collapse -->
 		</div>
 	</div>
+
 	</nav>
 
 	<!--导航栏完成-->
@@ -100,84 +100,114 @@
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
 					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
 				<div id="search-error-container"></div>
 			</form>
 		</div>
 	</div>
 	<!--搜索框完成-->
-
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
-
-		<div class="col-md-8 column">
-			<div class="example">
-				<header>
-				<h3>
-					<i class="icon-list-ul"></i> 用户BUG查询 <small> 共${userBugNum }条</small>
-				</h3>
-				</header>
-				<div class="items items-hover">
-					 <c:forEach items="${page.list }" var="bug">
-				 <div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)} <c:if
-													test="${fn:length(bug.bugTitle) >45}">...</c:if></a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">${fn:substring(bug.bugDescribe,0,100)} <c:if
-													test="${fn:length(bug.bugDescribe) >100}">...</c:if></div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${fn:length(bug.comments)}</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> ${bug.bugLikeNum }</a> &nbsp; <span class="text-muted">
-								<fmt:formatDate value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
-								</span>
-						</div>
+		<div class="col-md-8 column"
+			style="border: 1px solid #ddd; padding: 20px;">
+			<ul class="nav nav-tabs">
+				<li><a href="${ctx }/question/list_new"
+					data-target="#tab2Content1">最新发布</a></li>
+				<li><a href="${ctx }/question/list_answer"
+					data-target="#tab2Content2">最多人回答</a></li>
+				<li><a class="active" href="${ctx }/question/list_noone"
+					data-target="#tab2Content3">尚未解决</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade active in" id="tab2Content1">
+					<div class="items items-hover">
+						<!--标签1内容开始-->
+						<c:set var="questionList_theNew" value="${questionPage.list}"></c:set>
+						<c:forEach var="question" items="${ questionList_theNew}">
+							<div class="item">
+								<div class="item-heading">
+									<h2 class="post-title">
+										<a href="###">${question.questionTitle }</a>
+									</h2>
+								</div>
+								<div class="item-content">
+									<div class="text">${question.questionDescirbe }</div>
+								</div>
+								<div class="item-footer">
+									<a href="#" class="text-muted"><i class="icon-comments"></i>
+										${fn:length(bug.comments)}</a> &nbsp; <a href="#"
+										class="text-muted"><i class="icon-thumbs-o-up"></i>
+										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
+										<fmt:formatDate value="${question.questionPublishTime }"
+											pattern="yyyy-MM-dd HH:mm" />
+									</span>
+								</div>
+							</div>
+						</c:forEach>
+						<!--分页实现-->
+						<ul class="pager pager-loose">
+							<li class="previous"><a
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.prePageNum}">«</a></li>
+							<c:forEach begin="1" end="${questionPage.totalPageNum }"
+								var="pageNum">
+								<li><a
+									href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+							</c:forEach>
+							<li class="next"><a
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+						</ul>
 					</div>
-				
-				</c:forEach>
+					<!--标签1内容结束-->
 				</div>
-				<!--分页实现-->
-				<ul class="pager pager-loose">
-				<li class="previous"><a
-								href="${ctx}/bug/listuser?currentPageNum=${questionPage.prePageNum}">«</a></li>
-				<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen" href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
-					</c:forEach>
-					
-					<li class="next"><a
-								href="${ctx}/bug/listuser?currentPageNum=${questionPage.nextPageNum}">»</a></li>
-				</ul>
+				<div class="tab-pane fade" id="tab2Content2">
+					<!--<p>标签2的内容。</p>-->
+
+					<!--标签2内容结束-->
+				</div>
+				<div class="tab-pane fade" id="tab2Content3">
+					<!--<p>这是标签3的内容。</p>-->
+
+					<!--标签3内容结束-->
+				</div>
 			</div>
 
 
 		</div>
 		<div class="col-md-4 column" style="margin-top: 30px;">
-
-			<div class="col-md-8">
-				<h2>
-					<i class="icon icon-align-left"></i> 分类管理
-				</h2>
-				<ul class="nav nav-stacked nav-primary" style="margin-top: 20px;">
-					<li><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
-					<li class="active"><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
-				</ul>
-			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
-					<i class="icon icon-align-left"></i> Tag
+					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
 				</h2>
-				<div class="tagcloud">
-						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
-						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:forEach>
-					</div>
+				<a href="question.jsp"><button class="btn btn-success btn-lg"
+						type="button">向大哲们提问</button></a>
+
+			</div>
+
+			<div class="col-md-12" style="margin-top: 20px;">
+				<h2>
+					<i class="icon icon-align-left icon-2x"></i> Tag
+				</h2>
+				<div class="tagcloud" style="margin-top: 20px;">
+					<a href="#" class="btn btn-primary">C++</a> <a href="#"
+						class="btn btn-primary">C语言</a> <a href="#"
+						class="btn btn-primary">server</a> <a href="#"
+						class="btn btn-primary">html</a> <a href="#"
+						class="btn btn-primary">css</a> <a href="#"
+						class="btn btn-primary">date</a> <a href="#"
+						class="btn btn-primary">design</a> <a href="#"
+						class="btn btn-primary">files</a> <a href="#"
+						class="btn btn-primary">format</a> <a href="#"
+						class="btn btn-primary">header</a> <a href="#"
+						class="btn btn-primary">images</a> <a href="#"
+						class="btn btn-primary">plugins</a> <a href="#"
+						class="btn btn-primary">setting</a> <a href="#"
+						class="btn btn-primary">templates</a> <a href="#"
+						class="btn btn-primary">theme</a> <a href="#"
+						class="btn btn-primary">time</a> <a href="#"
+						class="btn btn-primary">videos</a> <a href="#"
+						class="btn btn-primary">website</a> <a href="#"
+						class="btn btn-primary">wordpress</a>
+				</div>
 
 			</div>
 		</div>

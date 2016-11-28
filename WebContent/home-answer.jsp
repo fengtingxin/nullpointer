@@ -148,13 +148,14 @@
 					</div>
 				</c:forEach>
 				<ul class="pager">
-					<li class="previous"><a href="your/nice/url">«</a></li>
-					<li><a href="your/nice/url">1</a></li>
-					<li class="active"><a href="your/nice/url">2</a></li>
-					<li><a href="your/nice/url">3</a></li>
-					<li><a href="your/nice/url">4</a></li>
-					<li><a href="your/nice/url">5</a></li>
-					<li class="next"><a href="your/nice/url">»</a></li>
+					<li class="previous"><a
+								href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.prePageNum}">«</a></li>
+				<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
+						<li><a name="pagen" href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:forEach>
+					
+					<li class="next"><a
+								href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 

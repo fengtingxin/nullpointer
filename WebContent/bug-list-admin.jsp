@@ -142,12 +142,14 @@
 				</div>
 				<!--分页实现-->
 				<ul class="pager pager-loose">
-				<li class="previous"><a href="#">«</a></li>
+				<li class="previous"><a
+								href="${ctx}/bug/listadmin?currentPageNum=${questionPage.prePageNum}">«</a></li>
 				<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
 						<li><a name="pagen" href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:forEach>
 					
-				<li class="next"><a href="#">»</a></li>
+					<li class="next"><a
+								href="${ctx}/bug/listadmin?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 
