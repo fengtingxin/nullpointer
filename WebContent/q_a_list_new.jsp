@@ -65,15 +65,16 @@
 					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
-								
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="20px" height="20px" class="img-circle" />
-								</c:if> <b class="caret"></b></a>
+						class="dropdown-toggle" data-toggle="dropdown"><c:if
+								test="${loginUser==null}">
+								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+									class="img-circle" />
+							</c:if> <c:if test="${loginUser!=null}">
+
+								<img
+									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+									width="20px" height="20px" class="img-circle" />
+							</c:if> <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx}/home.jsp">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
@@ -99,8 +100,8 @@
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
 					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
 				<div id="search-error-container"></div>
 			</form>
 		</div>
@@ -110,17 +111,18 @@
 		<div class="col-md-8 column"
 			style="border: 1px solid #ddd; padding: 20px;">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="###" data-target="#tab2Content1"
-					data-toggle="tab">最新发布</a></li>
-				<li><a href="###" data-target="#tab2Content2" data-toggle="tab">最多人回答</a></li>
-				<li><a href="###" data-target="#tab2Content3" data-toggle="tab">尚未解决</a></li>
+				<li><a class="active" href="${ctx }/question/list_new"
+					data-target="#tab2Content1">最新发布</a></li>
+				<li><a href="${ctx }/question/list_answer"
+					data-target="#tab2Content2">最多人回答</a></li>
+				<li><a href="${ctx }/question/list_noone"
+					data-target="#tab2Content3">尚未解决</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane fade active in" id="tab2Content1">
 					<div class="items items-hover">
 						<!--标签1内容开始-->
-						<c:set var="questionList_theNew"
-							value="${questionPage_theNew.list}"></c:set>
+						<c:set var="questionList_theNew" value="${questionPage.list}"></c:set>
 						<c:forEach var="question" items="${ questionList_theNew}">
 							<div class="item">
 								<div class="item-heading">
@@ -135,9 +137,7 @@
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
 										${question.questionAnswerCount }</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
-											${fn:length(question.comments)}
-											<!-- 汤文茹将此处question的点赞数修改为评论数 -->
-											</a> &nbsp; <span class="text-muted">
+										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"
 											pattern="yyyy-MM-dd HH:mm" />
 									</span>
@@ -146,84 +146,27 @@
 						</c:forEach>
 						<!--分页实现-->
 						<ul class="pager pager-loose">
-							<li class="previous"><a href="#">«</a></li>
-							<li class="active"><a
-								href="${ctx }/question/list_new?currentPageNum=1">1</a></li>
-							<li><a href="${ctx}/question/list_new?currentPageNum=2">2</a></li>
-							<li><a href="${ctx}/question/list_new?currentPageNum=3">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
+							<li class="previous"><a
+								href="${ctx}/question/list_new?currentPageNum=${questionPage.prePageNum}">«</a></li>
+							<c:forEach begin="1" end="${questionPage.totalPageNum }"
+								var="pageNum">
+								<li><a
+									href="${ctx }/question/list_new?currentPageNum=${pageNum }">${pageNum }</a></li>
+							</c:forEach>
 							<li class="next"><a
-								href="${ctx}/question/list_new?currentPageNum=${questionPage_theNew.nextPageNum}">»</a></li>
+								href="${ctx}/question/list_new?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 						</ul>
 					</div>
 					<!--标签1内容结束-->
 				</div>
 				<div class="tab-pane fade" id="tab2Content2">
 					<!--<p>标签2的内容。</p>-->
-					<ul class="pager pager-loose">
-						<li class="previous"><a href="#">«</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li class="next"><a href="#">»</a></li>
-					</ul>
+
 					<!--标签2内容结束-->
 				</div>
 				<div class="tab-pane fade" id="tab2Content3">
 					<!--<p>这是标签3的内容。</p>-->
-					<div class="items items-hover">
-						<div class="item">
-							<div class="item-heading">
-								<h2 class="post-title">
-									<a href="${ctx}/q_a_detailed.jsp">我的JAVA语言出现了XXX问题？</a>
-								</h2>
-							</div>
-							<div class="item-content">
-								<div class="media pull-right">
-									<img src="${ctx}/docs/img/img2.jpg" alt=""
-										data-toggle="lightbox" class="img-thumbnail">
-								</div>
-								<div class="text">HTML 5草案的前身名为Web Applications
-									1.0，是在2004年由WHATWG提出。2008年1月22日，第一份正式草案发布。WHATWG表示该规范是目前仍在进行的工作，仍须多年的努力。[8]目前Mozilla
-									Firefox、Google Chrome、Opera、Safari（版本4以上）、Internet
-									Explorer（版本9以上）已支持HTML5技术。</div>
-							</div>
-							<div class="item-footer">
-								<a href="#" class="text-muted"><i class="icon-comments"></i>
-									12</a> &nbsp; <a href="#" class="text-muted"><i
-									class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span
-									class="text-muted">2013-11-11 16:14:37</span>
-							</div>
-						</div>
-						<div class="item">
-							<div class="item-heading">
-								<h2 class="post-title">
-									<a href="###">我的C语言出现了XXX问题</a>
-								</h2>
-							</div>
-							<div class="item-content">
-								<div class="text">这里是bug的描述...</div>
-							</div>
-							<div class="item-footer">
-								<a href="#" class="text-muted"><i class="icon-comments"></i>
-									12</a> &nbsp; <a href="#" class="text-muted"><i
-									class="icon-thumbs-o-up"></i> 35</a> &nbsp; <span
-									class="text-muted">2013-11-11 16:14:37</span>
-							</div>
-						</div>
-					</div>
-					<ul class="pager pager-loose">
-						<li class="previous"><a href="#">«</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li class="next"><a href="#">»</a></li>
-					</ul>
+
 					<!--标签3内容结束-->
 				</div>
 			</div>
