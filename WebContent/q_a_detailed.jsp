@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<%request.setCharacterEncoding("utf-8"); %>
+<%
+	request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -52,7 +54,12 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"> <c:if
@@ -163,7 +170,7 @@
 								<div class="text">${ct.answerContent }</div>
 								<div class="actions">
 									<a href="javascript:focusAndChangeStatus(${ct.answerId })">回复</a>
-									
+
 								</div>
 							</div>
 
@@ -179,7 +186,7 @@
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
-									
+
 													<fmt:formatDate value="${cts.answerPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -189,10 +196,12 @@
 												</div>
 												<div class="text">${cts.answerContent}</div>
 												<div class="actions">
-												    <c:if test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
-												    <a href="${ctx }/answer/delete?answerId=${cts.answerId}&questionId=${question.questionId}">删除</a>
-												    </c:if>
-													
+													<c:if
+														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a
+															href="${ctx }/answer/delete?answerId=${cts.answerId}&questionId=${question.questionId}">删除</a>
+													</c:if>
+
 												</div>
 											</div>
 										</div>
@@ -223,7 +232,7 @@
 				</div>
 				</footer>
 			</div>
-			<!--评论内容结束--> </footer> </article>
+			<!--评论内容结束--> </footer></article>
 		</div>
 	</div>
 	<!--文章完成-->
@@ -240,17 +249,18 @@ function focusAndChangeStatus(answerId){
 }
 </script>
 	<c:if test="${not empty bug_detailed_judge }">
-<!-- 提示部分！ -->
-	<script type="text/javascript">
+		<!-- 提示部分！ -->
+		<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
-			icon: 'bell', //定义图标
-			fade:'true',
-		    type: 'primary', // 定义颜色主题
-		}).show();
-	}
-	</script>
-</c:if>
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>
+			', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+			}
+		</script>
+	</c:if>
 
 
 	<!-- Footer Bottom -->

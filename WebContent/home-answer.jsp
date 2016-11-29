@@ -49,7 +49,12 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"><img
@@ -134,7 +139,7 @@
 					<div class="item">
 						<div class="item-heading">
 							<c:set var="qa" value="${p.question.tags}"></c:set>
-							
+
 							<c:forEach var="tt" items="${qa}">
 								<div class="pull-right label label-success">${tt.tagName }</div>
 							</c:forEach>
@@ -143,21 +148,22 @@
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.answerLikeNum }</a> &nbsp; <span class="text-muted">
-								<fmt:formatDate value="${p.answerPublishTime }" pattern="yyyy-MM-dd HH:mm" />
+								${p.answerLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
+									value="${p.answerPublishTime }" pattern="yyyy-MM-dd HH:mm" />
 							</span>
 						</div>
 					</div>
 				</c:forEach>
 				<ul class="pager">
 					<li class="previous"><a
-								href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.prePageNum}">«</a></li>
-				<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen" href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
+						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.prePageNum}">«</a></li>
+					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
+						<li><a name="pagen"
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:forEach>
-					
+
 					<li class="next"><a
-								href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 

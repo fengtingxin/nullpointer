@@ -87,20 +87,24 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx }/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx }/contact">帮助</a></li>
-					<li><a href="${ctx }/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown">
-						<c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
+						class="dropdown-toggle" data-toggle="dropdown"> <c:if
+								test="${loginUser==null}">
+								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+									class="img-circle" />
+							</c:if> <c:if test="${loginUser!=null}">
 
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="20px" height="20px" class="img-circle" />
-								</c:if>
-						<b class="caret"></b></a>
+								<img
+									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+									width="20px" height="20px" class="img-circle" />
+							</c:if> <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx }/home.jsp">我的主页</a></li>
 							<li><a href="${ctx }/home-question.jsp">信息管理</a></li>
@@ -186,21 +190,22 @@
 
 				</div>
 				<!-- end of page content -->
-				
-				
-<c:if test="${not empty adviceReminder }">
-<!-- 提示部分！ -->
-	<script type="text/javascript">
+
+
+				<c:if test="${not empty adviceReminder }">
+					<!-- 提示部分！ -->
+					<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
-			icon: 'bell', //定义图标
-			fade:'true',
-		    type: 'primary', // 定义颜色主题
-		    
-		}).show();
-	}
-	</script>
-</c:if>
+		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>
+						', {
+										icon : 'bell', //定义图标
+										fade : 'true',
+										type : 'primary', // 定义颜色主题
+
+									}).show();
+						}
+					</script>
+				</c:if>
 				<!-- start of sidebar -->
 				<div class="col-md-4 column">
 
@@ -210,21 +215,22 @@
 					<h3 class="title">Latest Articles</h3>
 					<ul class="articles">
 						<c:forEach var="question" items="${questionList}">
-									<li class="article-entry standard">
-										<h4>
-											<a href="single.html" data-toggle="tooltip"
-												title="${question.questionTitle}">
-												${fn:substring(question.questionTitle,0,50)} <c:if
-													test="${fn:length(question.questionTitle) >50}">...</c:if>
-											</a>
-										</h4> <span class="article-meta">
-										<fmt:formatDate	value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
-											<c:set var="tag" value="${question.tags }"></c:set> 
-											<c:forEach var="tt" items="${tag}">
-												<a href="#" title="${tt.tagName}"> ${tt.tagName} &nbsp;</a>
-											</c:forEach> </span> <span class="like-count">${question.questionLikeNum }</span>
-									</li>
-								</c:forEach>
+							<li class="article-entry standard">
+								<h4>
+									<a href="single.html" data-toggle="tooltip"
+										title="${question.questionTitle}">
+										${fn:substring(question.questionTitle,0,50)} <c:if
+											test="${fn:length(question.questionTitle) >50}">...</c:if>
+									</a>
+								</h4> <span class="article-meta"> <fmt:formatDate
+										value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
+									<c:set var="tag" value="${question.tags }"></c:set> <c:forEach
+										var="tt" items="${tag}">
+										<a href="#" title="${tt.tagName}"> ${tt.tagName} &nbsp;</a>
+									</c:forEach>
+							</span> <span class="like-count">${question.questionLikeNum }</span>
+							</li>
+						</c:forEach>
 					</ul>
 					</section>
 				</div>
