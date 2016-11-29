@@ -196,8 +196,7 @@
 					<!-- 提示部分！ -->
 					<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>
-						', {
+		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
 										icon : 'bell', //定义图标
 										fade : 'true',
 										type : 'primary', // 定义颜色主题
