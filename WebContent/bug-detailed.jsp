@@ -54,7 +54,12 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+							<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+						</c:if>
+						<c:if test="${loginUser!=null}">
+							<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+						</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"> <c:if
