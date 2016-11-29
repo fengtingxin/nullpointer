@@ -78,7 +78,14 @@ public class BugController {
 		return "bug-list-user";
 
 	}
-
+    /**
+     * @function 根据bugId查询到单个Bug,保存Bug对象
+     * @author tangwenru
+     * @param bugId
+     * @param bug_detailed_bell
+     * @param request
+     * @return bug-detailed.jsp页面
+     */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
 	public String getBug(Integer bugId,@RequestParam(name="bug_detailed_bell",required=false) String bug_detailed_bell, HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.exp.answer.dao.AnswerDaoImpl;
 import com.exp.entity.Answer;
-
+import com.exp.entity.Comment;
 import com.framework.Page;
 
 @Service
@@ -16,7 +16,7 @@ import com.framework.Page;
 public class AnswerServiceImpl {
 
 	@Resource
-	private AnswerDaoImpl answerdaoimpl;
+	private AnswerDaoImpl answerDaoImpl;//answerdaoimpl改成answerDaoImpl
 
 	/**
 	 * @author Ray_1 功能 按时间将用户的所有问题查询出来
@@ -30,6 +30,35 @@ public class AnswerServiceImpl {
 	 */
 	@Transactional(readOnly = true)
 	public Page<Answer> findAnswerByTime(int pageNum, int pageSize, Object[] params) {
-		return this.answerdaoimpl.findAnswerByTime(pageNum, pageSize, params);
+		return this.answerDaoImpl.findAnswerByTime(pageNum, pageSize, params);
 	}
+	/**
+	 * @function 根据answerId删除单个answer
+	 * @author tangwenru
+	 * @param answerId
+	 */
+	@Transactional(readOnly=false)
+	public void deleteAnswer(Integer answerId){
+		this.answerDaoImpl.deleteAnswer(answerId);
+	}
+	/**
+	 * @function 保存答案
+	 * @author tangwenru
+	 * @param answer
+	 */
+	@Transactional(readOnly = false)
+	public void saveAnswer(Answer answer){
+		try {
+			this.answerDaoImpl.save(answer);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block1
+	         e.printStackTrace();
+		}
+	}
+	@Transactional(readOnly = true)
+	public Answer getAnswer(int answerId){
+		return this.answerDaoImpl.getAnser(answerId);
+		
+	}
+	
 }

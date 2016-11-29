@@ -25,48 +25,7 @@
 </script>
 </head>
 <body>
-	<!-- Start of Header -->
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-							width="20px" height="20px" class="img-circle" /><b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx}/home.jsp">我的主页</a></li>
-							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	</nav>
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
@@ -130,62 +89,25 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我的评论</h2>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<a href="###">java验证问题</a>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<a href="###">呜呜呜呜呜开车了，上车了</a>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right">
-							<span class="label label-primary">HTML5</span>
+
+				<c:forEach items="${pagecom.list}" var="p">
+					<div class="item">
+						<div class="item-heading">
+							<c:set value="${p.bug}" var="bug"></c:set>
+
+							<forEach var="bb" items="${bug.tags}">
+							<div class="pull-right label label-success">${bb.tagName}</div>
+							</forEach>
+							<a href="###">${bug.bugTitle}</a>
 						</div>
-						<a href="###">HTML5 发展历史，兔兔兔兔为什么要吃小兔兔</a>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right">
-							<span class="label label-primary">Python</span> <span
-								class="label label-info">验证</span> <span
-								class="label label-badge">问题</span>
+						<div class="item-footer">
+							<a href="#" class="text-muted"><i class="icon-comments"></i>
+								${p.commentLikeNum}</a> &nbsp; <span class="text-muted">${p.commentPublishTime}
+							</span>
 						</div>
-						<a href="###">Python验证问题</a>
 					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
-				<div class="item">
-					<div class="item-heading">
-						<div class="pull-right label label-success">维基</div>
-						<a href="###">PHP验证问题</a>
-					</div>
-					<div class="item-footer">
-						<a href="#" class="text-muted"><i class="icon-comments"></i>
-							243</a> &nbsp; <span class="text-muted">2013-11-11 16:14:37</span>
-					</div>
-				</div>
+				</c:forEach>
+
 				<ul class="pager">
 					<li class="previous"><a href="your/nice/url">«</a></li>
 					<li><a href="your/nice/url">1</a></li>

@@ -48,48 +48,7 @@
 			response.sendRedirect("login.jsp");
 		%>
 	</c:if>
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx }/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="${ctx }/index.jsp">主页</a></li>
-					<li><a href="${ctx }/bug-list-admin.html">BUGS</a></li>
-					<li><a href="${ctx }/q_a_list.html">技术问答</a></li>
-					<li><a href="${ctx }/contact">帮助</a></li>
-					<li><a href="${ctx }/login.html">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="${ctx }/your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-							width="20px" height="20px" class="img-circle" /><b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx }/home.html">我的主页</a></li>
-							<li><a href="${ctx }/home-question.html">信息管理</a></li>
-							<li><a href="${ctx }/accountSetting.html">账号设置</a></li>
-							<li><a href="${ctx }/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	</nav>
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
@@ -181,11 +140,9 @@
 										<span class="profile__mod-inner-heading">用户名</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.loginName!=null}">
+										<span> <c:if test="${loginUser.loginName!=null}">
 										${loginUser.loginName}
-										</c:if>
-										<c:if test="${loginUser.loginName==null}">
+										</c:if> <c:if test="${loginUser.loginName==null}">
 										暂无
 										</c:if>
 										</span>
@@ -196,15 +153,16 @@
 										<span class="profile__mod-inner-heading">出生日期</span>
 									</div>
 									<div>
-									<c:if test="${loginUser.userInfo.userInfoBirthday!=null}">
-										<fmt:formatDate value="${loginUser.userInfo.userInfoBirthday}"
-											pattern="yyyy-MM-dd" />
-									</c:if>
-									<c:if test="${loginUser.userInfo.userInfoBirthday==null}">
+										<c:if test="${loginUser.userInfo.userInfoBirthday!=null}">
+											<fmt:formatDate
+												value="${loginUser.userInfo.userInfoBirthday}"
+												pattern="yyyy-MM-dd" />
+										</c:if>
+										<c:if test="${loginUser.userInfo.userInfoBirthday==null}">
 										暂无
 									</c:if>
-										
-										
+
+
 										<span></span>
 									</div>
 								</div>
@@ -213,14 +171,13 @@
 										<span class="profile__mod-inner-heading">性别</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.userInfo.userInfoSex==null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoSex==null}">
 										暂无
-									    </c:if>
-									    <c:if test="${loginUser.userInfo.userInfoSex!=null}">
+									    </c:if> <c:if test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
 									    </c:if>
-						
+
 										</span>
 									</div>
 								</div>
@@ -229,11 +186,11 @@
 										<span class="profile__mod-inner-heading">荣誉值</span>
 									</div>
 									<div>
-										<span>
-										 <c:if test="${loginUser.userInfo.userInfoHonorCount !=null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoHonorCount !=null}">
 										${loginUser.userInfo.userInfoHonorCount }
-									    </c:if>
-										 <c:if test="${loginUser.userInfo.userInfoHonorCount ==null}">
+									    </c:if> <c:if
+												test="${loginUser.userInfo.userInfoHonorCount ==null}">
 										暂无
 									    </c:if>
 										</span>
@@ -248,15 +205,13 @@
 									<div>
 										<span class="profile__mod-inner-heading">邮箱</span>
 										<div>
-											<span>
-											 <c:if test="${loginUser.loginEmail !=null}">
+											<span> <c:if test="${loginUser.loginEmail !=null}">
 										${loginUser.loginEmail }
-									    </c:if>
-									     <c:if test="${loginUser.loginEmail ==null}">
+									    </c:if> <c:if test="${loginUser.loginEmail ==null}">
 										暂无
 									    </c:if>
-									    
-											
+
+
 											</span>
 										</div>
 									</div>
@@ -266,13 +221,12 @@
 										<span class="profile__mod-inner-heading">注册时间</span>
 									</div>
 									<div>
-										<span> 
-										 <c:if test="${loginUser.userInfo.userInfoRegistTime!=null}">
-										<fmt:formatDate
-												value="${loginUser.userInfo.userInfoRegistTime}"
-												pattern="yyyy-MM-dd" />
-									    </c:if>
-									     <c:if test="${loginUser.userInfo.userInfoRegistTime==null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoRegistTime!=null}">
+												<fmt:formatDate
+													value="${loginUser.userInfo.userInfoRegistTime}"
+													pattern="yyyy-MM-dd" />
+											</c:if> <c:if test="${loginUser.userInfo.userInfoRegistTime==null}">
 									    暂无
 									    </c:if>
 										</span>
@@ -283,12 +237,12 @@
 										<span class="profile__mod-inner-heading">个人描述</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.userInfo.userInfoDescribe!=null }">
-										${loginUser.userInfo.userInfoDescribe }</c:if>	
-											<c:if test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoDescribe!=null }">
+										${loginUser.userInfo.userInfoDescribe }</c:if> <c:if
+												test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
 						这家伙很懒 什么都没有留下
-					</c:if>									
+					</c:if>
 										</span>
 									</div>
 								</div>

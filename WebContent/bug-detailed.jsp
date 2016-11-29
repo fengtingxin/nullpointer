@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<%request.setCharacterEncoding("utf-8"); %>
+<%
+	request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -28,55 +30,7 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx }/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"> <c:if
-								test="${loginUser==null}">
-								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-									class="img-circle" />
-							</c:if> <c:if test="${loginUser!=null}">
-
-								<img
-									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-									width="20px" height="20px" class="img-circle" />
-							</c:if> <b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx}/home.jsp">我的主页</a></li>
-							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	</nav>
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -142,7 +96,38 @@
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>
 
-			</section> <footer> <!--评论内容开始-->
+			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+			<div class="container" style="margin-top: 25px;">
+				<a href="跳转到控制器即可.html">
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+						<div class="container">
+							<i class="icon icon-angle-up icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+							点赞
+						</div>
+
+					</div>
+				</a> <a href="">
+
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+						<div class="container">
+							<i class="icon icon-angle-down icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+							踩
+						</div>
+
+					</div>
+				</a>
+			</div>
+			<!--评论内容开始-->
 			<div class="comments">
 				<header>
 
@@ -184,6 +169,7 @@
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
+
 													<fmt:formatDate value="${cts.commentPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -193,7 +179,12 @@
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
-													<a href="##">编辑</a> <a href="##">删除</a>
+													<c:if
+														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a
+															href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
+													</c:if>
+
 												</div>
 											</div>
 										</div>
@@ -205,6 +196,7 @@
 					</c:if>
 				</c:forEach> </section>
 				<footer>
+
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
 					<form id="comment_form_submit" class="form" method="post"
@@ -241,17 +233,17 @@ function focusAndChangeStatus(comentId){
 }
 </script>
 	<c:if test="${not empty bug_detailed_judge }">
-<!-- 提示部分！ -->
-	<script type="text/javascript">
+		<!-- 提示部分！ -->
+		<script type="text/javascript">
 	window.onload=function(){
 		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
-			icon: 'bell', //定义图标
-			fade:'true',
-		    type: 'primary', // 定义颜色主题
-		}).show();
-	}
-	</script>
-</c:if>
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+			}
+		</script>
+	</c:if>
 
 
 	<!-- Footer Bottom -->

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,49 +24,7 @@
 
 </head>
 <body>
-	<!-- Start of Header -->
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-							width="20px" height="20px" class="img-circle" /> <b
-							class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx}/home.jsp">我的主页</a></li>
-							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	</nav>
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
@@ -133,7 +92,7 @@
 					<div class="item">
 						<div class="item-heading">
 							<c:set var="qa" value="${p.question.tags}"></c:set>
-							
+
 							<c:forEach var="tt" items="${qa}">
 								<div class="pull-right label label-success">${tt.tagName }</div>
 							</c:forEach>
@@ -142,19 +101,22 @@
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.answerLikeNum }</a> &nbsp; <span class="text-muted">${p.answerPublishTime}
+								${p.answerLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
+									value="${p.answerPublishTime }" pattern="yyyy-MM-dd HH:mm" />
 							</span>
 						</div>
 					</div>
 				</c:forEach>
 				<ul class="pager">
-					<li class="previous"><a href="your/nice/url">«</a></li>
-					<li><a href="your/nice/url">1</a></li>
-					<li class="active"><a href="your/nice/url">2</a></li>
-					<li><a href="your/nice/url">3</a></li>
-					<li><a href="your/nice/url">4</a></li>
-					<li><a href="your/nice/url">5</a></li>
-					<li class="next"><a href="your/nice/url">»</a></li>
+					<li class="previous"><a
+						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.prePageNum}">«</a></li>
+					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
+						<li><a name="pagen"
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:forEach>
+
+					<li class="next"><a
+						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 

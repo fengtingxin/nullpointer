@@ -1,5 +1,6 @@
 package com.exp.userinfo.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -201,5 +203,24 @@ public class UserInfoController {
 
 		this.userInfoServiceImpl.editUserInfo(u);
 		return "redirect:home";
+	}
+	/**
+	 * @author Ray_1 用户退出
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping("/logOut")
+	public String loginOut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();// 防止创建Session
+		if (session == null) {
+			return "login";
+		}
+		session.invalidate();
+		//session.removeAttribute("loginUser");
+		return "login";
 	}
 }

@@ -38,82 +38,10 @@
 	color: #f0b70c;
 }
 </style>
-<script type="text/javascript">
-	function keyup(num, obj, show) {
-		var intopictitleinfos = document.getElementById(show);
-		var input = document.getElementById(obj);
-		var last = num - obj.value.replace(/[^\x00-\xff]/g, "aa").length;
-		if (obj.value.replace(/[^\x00-\xff]/g, "aa").length < num) {
-			intopictitleinfos.innerText = "目前为"
-					+ obj.value.replace(/[^\x00-\xff]/g, "aa").length
-					+ "个字符，还可以输入" + last + "个";
-		} else {
-			intopictitleinfos.innerText = "已经输入了50个汉字或者100个半角英文，不能再输入了！";
-		}
-	}
-	function textCounter(field, countfield, maxlimit) {
-		// 函数，3个参数，表单名字，表单域元素名，限制字符；  
-		if (field.value.length > maxlimit)
-			//如果元素区字符数大于最大字符数，按照最大字符数截断；  
-			field.value = field.value.substring(0, maxlimit);
-		else
-			//在记数区文本框内显示剩余的字符数；  
-			countfield.value = maxlimit - field.value.length;
-	}
-</script>
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx }/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx }/contact">帮助</a></li>
-					<li><a href="${ctx }/login.jsp">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown">
-						<c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
-
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="20px" height="20px" class="img-circle" />
-								</c:if>
-						<b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx }/home.jsp">我的主页</a></li>
-							<li><a href="${ctx }/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx }/page.jsp">账号设置</a></li>
-							<li><a href="${ctx }/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<!-- END .navbar-collapse -->
-		</div>
-	</div>
-	</nav>
-
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -151,8 +79,13 @@
 							<div class="form-group">
 								<label for="exampleInputAccount4" class="col-sm-2 required">账号</label>
 								<div class="col-md-6 col-sm-10">
-									<input type="text" class="form-control"
+								<c:if test="${not empty loginUser }">
+									<input type="text" class="form-control" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" readonly>
+								</c:if>
+								<c:if test="${empty loginUser }">
+								<input type="text" class="form-control"
 										id="exampleInputAccount4" name="name" placeholder="用户名">
+								</c:if>
 								</div>
 							</div>
 							<div class="form-group">
@@ -186,21 +119,21 @@
 
 				</div>
 				<!-- end of page content -->
-				
-				
-<c:if test="${not empty adviceReminder }">
-<!-- 提示部分！ -->
-	<script type="text/javascript">
+
+
+				<c:if test="${not empty adviceReminder }">
+					<!-- 提示部分！ -->
+					<script type="text/javascript">
 	window.onload=function(){
 		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
-			icon: 'bell', //定义图标
-			fade:'true',
-		    type: 'primary', // 定义颜色主题
-		    
-		}).show();
-	}
-	</script>
-</c:if>
+										icon : 'bell', //定义图标
+										fade : 'true',
+										type : 'primary', // 定义颜色主题
+
+									}).show();
+						}
+					</script>
+				</c:if>
 				<!-- start of sidebar -->
 				<div class="col-md-4 column">
 
@@ -210,21 +143,22 @@
 					<h3 class="title">Latest Articles</h3>
 					<ul class="articles">
 						<c:forEach var="question" items="${questionList}">
-									<li class="article-entry standard">
-										<h4>
-											<a href="single.html" data-toggle="tooltip"
-												title="${question.questionTitle}">
-												${fn:substring(question.questionTitle,0,50)} <c:if
-													test="${fn:length(question.questionTitle) >50}">...</c:if>
-											</a>
-										</h4> <span class="article-meta">
-										<fmt:formatDate	value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
-											<c:set var="tag" value="${question.tags }"></c:set> 
-											<c:forEach var="tt" items="${tag}">
-												<a href="#" title="${tt.tagName}"> ${tt.tagName} &nbsp;</a>
-											</c:forEach> </span> <span class="like-count">${question.questionLikeNum }</span>
-									</li>
-								</c:forEach>
+							<li class="article-entry standard">
+								<h4>
+									<a href="single.html" data-toggle="tooltip"
+										title="${question.questionTitle}">
+										${fn:substring(question.questionTitle,0,50)} <c:if
+											test="${fn:length(question.questionTitle) >50}">...</c:if>
+									</a>
+								</h4> <span class="article-meta"> <fmt:formatDate
+										value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
+									<c:set var="tag" value="${question.tags }"></c:set> <c:forEach
+										var="tt" items="${tag}">
+										<a href="#" title="${tt.tagName}"> ${tt.tagName} &nbsp;</a>
+									</c:forEach>
+							</span> <span class="like-count">${question.questionLikeNum }</span>
+							</li>
+						</c:forEach>
 					</ul>
 					</section>
 				</div>

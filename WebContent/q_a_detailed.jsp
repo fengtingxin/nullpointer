@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<%
+	request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -16,7 +20,6 @@
 <title>nullpointer</title>
 <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
 <!-- Style Sheet-->
-
 <link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui.lite.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui-theme.css">
@@ -24,52 +27,10 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
 <style id="themeStyle"></style>
-<link rel="stylesheet" type="text/css" href="${ctx}/responsive5152.css">
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
-					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="images/touxiang.jpg" width="20px" height="20px"
-							class="img-circle" /> <b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="${ctx}/home.jsp">我的主页</a></li>
-							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
-							<li><a href="${ctx}/page.jsp">账号设置</a></li>
-							<li><a href="${ctx}/contact">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	</nav>
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -90,137 +51,162 @@
 	<!--搜索框完成-->
 	<!--文章开始-->
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
-		<div class="col col-md-8"
-			style="border: 1px solid #ddd; padding: 20px;">
+		<div style="border: 1px solid #ddd; padding: 20px;">
 			<article class="article"> <header>
-			<h1 class="text-center">我的C语言出现了XX问题？</h1>
+			<h1 class="text-center">${question.questionTitle }</h1>
 			<dl class="dl-inline">
-
+				<dt>来源：</dt>
+				<dd>${question.userInfo.loginUser.loginName }</dd>
+				<dt>
+					最后修订：
+					<fmt:formatDate value="${question.questionPublishTime }"
+						pattern="yyyy-MM-dd HH:mm" />
+				</dt>
+				<dd></dd>
+				<dt></dt>
 				<dd class="pull-right">
-					<span class="label label-success">HTML</span> <span
+					<!-- <span class="label label-success">HTML</span> -->
+					<c:set var="tag" value="${question.tags }"></c:set>
+					<c:forEach var="tt" items="${tag }" varStatus="i">
+						<c:if test="${i.count%3==1 }">
+							<span class="label label-success">${tt.tagName }</span>
+						</c:if>
+						<c:if test="${i.count%3==2 }">
+							<span class="label label-warning">${tt.tagName }</span>
+						</c:if>
+						<c:if test="${i.count%3==0}">
+							<span class="label label-info">${tt.tagName }</span>
+						</c:if>
+
+					</c:forEach>
+					<!-- <span
 						class="label label-warning">网页设计</span> <span
 						class="label label-info">W3C</span> <span
 						class="label label-danger"><i class="icon-eye-open"></i>
-						235</span>
+						235</span> -->
 				</dd>
 			</dl>
-
-			</header> <section class="content">
-			巴啦啦balk放假了咯jfk垃圾卡都放假了啊经费独立空间了,该咋办啊？ </section> <!--评论内容-->
+			<section class="abstract">
+			<p>
+				<strong>问题描述：</strong>${question.questionDescribe }
+			</p>
+			</section> <footer> <!--评论内容开始-->
 			<div class="comments">
 				<header>
 
-				<h3>所有评论</h3>
+				<h3>所有回答</h3>
 				</header>
-				<section class="comments-list">
-				<div class="comment">
-					<a href="###" class="avatar"> <i
-						class="icon-camera-retro icon-2x"></i>
-					</a>
-					<div class="content">
-						<div class="pull-right text-muted">3 个小时前</div>
-						<div>
-							<a href="###"><strong>张士超</strong></a>
-						</div>
-						<div class="text">今天玩的真开心！~~~~~~</div>
-						<div class="actions">
-							<a href="##">回复</a>
-						</div>
-					</div>
-					<div class="comments-list">
+				<section class="comments-list"> <c:set var="comment"
+					value="${question.answers }">
+				</c:set> <!-- 父级 --> <c:forEach var="ct" items="${comment}"
+					varStatus="status">
+					<c:if test="${ct.parentAnswer == null }">
 						<div class="comment">
-							<a href="###" class="avatar"> <i class="icon-user icon-2x"></i>
-							</a>
-							<div class="content">
-								<div class="pull-right text-muted">2 个小时前</div>
-								<div>
-									<a href="###"><strong>Catouse</strong></a> <span
-										class="text-muted">回复</span> <a href="###">汤汤</a>
-								</div>
-								<div class="text">你到底把我家钥匙放哪里了...</div>
-								<div class="actions">
-									<a href="##">回复</a> <a href="##">编辑</a> <a href="##">删除</a>
-								</div>
-							</div>
-							<div class="comments-list">
-								<div class="comment">
-									<a href="###" class="avatar"> <i
-										class="icon-yinyang icon-2x"></i>
-									</a>
-									<div class="content">
-										<div class="pull-right text-muted">1 个小时前</div>
-										<div>
-											<a href="###"><strong>门口大爷</strong></a> <span
-												class="text-muted">回复</span> <a href="###">Catouse</a>
-										</div>
-										<div class="text">不在我这儿...</div>
-										<div class="actions">
-											<a href="##">回复</a>
-										</div>
-									</div>
-								</div>
-								<div class="comment">
-									<a href="###" class="avatar"> <i
-										class="icon-cube-alt icon-2x"></i>
-									</a>
-									<div class="content">
-										<div class="pull-right text-muted">1 个小时前</div>
-										<div>
-											<a href="###"><strong>队长</strong></a> <span
-												class="text-muted">回复</span> <a href="###">Catouse</a>
-										</div>
-										<div class="text">也不在我这儿...</div>
-										<div class="actions">
-											<a href="##">回复</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="comment">
+							<c:set var="parentId" value="${ct.answerId }"></c:set>
 							<a href="###" class="avatar"> <i
-								class="icon-heart-empty icon-2x"></i>
+								class="icon-camera-retro icon-2x"></i>
 							</a>
 							<div class="content">
-								<div class="pull-right text-muted">30 分钟前</div>
-								<div>
-									<a href="###"><strong>华师大第一美女</strong></a> <span
-										class="text-muted">回复</span> <a href="###">张士超</a>
+								<div class="pull-right text-muted">
+									<fmt:formatDate value="${ct.answerPublishTime }"
+										pattern="yyyy-MM-dd HH:mm" />
 								</div>
-								<div class="text">很开心~~~</div>
+								<div>
+									<a href="###"><strong>${ct.userInfo.loginUser.loginName }</strong></a>
+								</div>
+								<div class="text">${ct.answerContent }</div>
 								<div class="actions">
-									<a href="##">回复</a>
+									<a href="javascript:focusAndChangeStatus(${ct.answerId })">回复</a>
+
 								</div>
 							</div>
+
+							<div class="comments-list">
+								<c:set var="comms" value="${question.answers}">
+								</c:set>
+								<c:forEach var="cts" items="${comms}">
+									<c:if
+										test="${cts.parentAnswer != null && cts.parentAnswer.answerId == parentId}">
+										<div class="comment">
+											<a href="###" class="avatar"> <i
+												class="icon-user icon-2x"></i>
+											</a>
+											<div class="content">
+												<div class="pull-right text-muted">
+
+													<fmt:formatDate value="${cts.answerPublishTime }"
+														pattern="yyyy-MM-dd HH:mm" />
+												</div>
+												<div>
+													<a href="###"><strong>${cts.userInfo.loginUser.loginName }</strong></a>
+													<span class="text-muted">回复</span> <a href="###">${ct.userInfo.loginUser.loginName }</a>
+												</div>
+												<div class="text">${cts.answerContent}</div>
+												<div class="actions">
+													<c:if
+														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a
+															href="${ctx }/answer/delete?answerId=${cts.answerId}&questionId=${question.questionId}">删除</a>
+													</c:if>
+
+												</div>
+											</div>
+										</div>
+									</c:if>
+
+								</c:forEach>
+							</div>
 						</div>
-					</div>
-				</div>
-				</section>
+					</c:if>
+				</c:forEach> </section>
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
-					<form class="form">
+					<form id="comment_form_submit" class="form" method="post"
+						action="${ctx }/question/${question.questionId}">
 						<div class="form-group">
-							<textarea id="content" name="content"
+							<textarea id="content_submit" name="content"
 								class="form-control kindeditor"></textarea>
 						</div>
+						<input type="hidden" id="commentIdInput" name="answerId" value="" />
 						<div class="form-group comment-user">
-
 							<div class="col-md-2 pull-right">
-								<button type="submit" class="btn btn-block btn-primary">提交评论</button>
+								<button type="submit" class="btn btn-block btn-primary"
+									onclick="formValidation()">提交评论</button>
 							</div>
 						</div>
+					</form>
 				</div>
-				</form>
+				</footer>
 			</div>
-			</footer>
+			<!--评论内容结束--> </footer></article>
 		</div>
-		<!--评论内容结束-->
-		</article>
-	</div>
 	</div>
 	<!--文章完成-->
-
+	<script type="text/javascript">
+/*
+ * 当点击回复时，修改anserId为点击回复的值
+ 同时滚动到输入框的div
+ */
+function focusAndChangeStatus(answerId){
+	document.getElementById("commentIdInput").value=answerId; //修改ID
+    $('html, body').animate({  
+        scrollTop: $("#commentReplyForm2").offset().top
+    }, 1000);
+}
+</script>
+	<c:if test="${not empty bug_detailed_judge }">
+		<!-- 提示部分！ -->
+		<script type="text/javascript">
+	window.onload=function(){
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+			}
+		</script>
+	</c:if>
 
 
 	<!-- Footer Bottom -->
@@ -230,7 +216,7 @@
 				<div class="col-md-6 column">
 					<p class="copyright">
 						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
+						from <a href="#" title="旋风小组" target="_blank">EXP小组</a>
 					</p>
 				</div>
 				<div class="col-md-6 column">
@@ -253,24 +239,27 @@
 
 </body>
 <!-- script -->
-<script src="assets/jquery.js"></script>
-<script src="assets/clipboard/clipboard.min.js"></script>
-<script src="assets/less/less.min.js"></script>
+<script src="${ctx }/assets/jquery.js"></script>
+<script src="${ctx }/assets/clipboard/clipboard.min.js"></script>
+<script src="${ctx }/assets/less/less.min.js"></script>
 
 <!-- ZUI Javascript组件 -->
-<script src="docs/js/zui.min.js"></script>
-<script src="docs/js/doc.min.js"></script>
+<script src="${ctx }/docs/js/zui.min.js"></script>
+<script src="${ctx }/docs/js/doc.min.js"></script>
 <!-- 增强文档插件 -->
-<script src="assets/prettify/prettify.js"></script>
-<style type="text/css" href="assets/prettify/prettify.css"></style>
-<script src="assets/marked/marked.min.js"></script>
-<script src="js/kindeditor/kindeditor.js"></script>
+<script src="${ctx }/assets/prettify/prettify.js"></script>
+<style type="text/css" href="${ctx }/assets/prettify/prettify.css"></style>
+<script src="${ctx }/assets/marked/marked.min.js"></script>
+<script src="${ctx }/js/kindeditor/kindeditor.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		KindEditor.create('textarea.kindeditor', {
-			basePath : 'js/kindeditor/',
+		KindEditor.create('textarea[id="content_submit"]', {
+			basePath : '${ctx}/js/kindeditor/',
 			allowFileManager : true,
-			bodyClass : 'article-content'
+			bodyClass : 'article-content',
+			afterBlur : function() {
+				this.sync();
+			}
 		});
 	});
 </script>

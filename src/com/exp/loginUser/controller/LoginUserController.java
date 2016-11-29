@@ -1,8 +1,12 @@
 package com.exp.loginUser.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,12 +55,12 @@ public class LoginUserController {
 			UserInfo userInfo = new UserInfo();
 			// 获取用户注册时间
 			Date time = new Date();// new Date()为获取当前系统时间
-			//给新注册的用户分配角色
-			Role role=this.roleServiceImpl.getRole(2);
+			// 给新注册的用户分配角色
+			Role role = this.roleServiceImpl.getRole(2);
 			loginUser.setRole(role);
 			userInfo.setUserInfoRegistTime(time);
 			userInfo.setLoginUser(loginUser);
-			userInfo.setUserInfoHeadPortrait("default");
+			userInfo.setUserInfoHeadPortrait("default.jpg");
 			loginUser.setUserInfo(userInfo);
 			String result = this.userServiceImpl.register(loginUser);
 			if (result == "0") {
