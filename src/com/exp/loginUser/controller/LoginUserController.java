@@ -137,23 +137,4 @@ public class LoginUserController {
 		}
 		return result;
 	}
-
-	/**
-	 * @author Ray_1 用户退出
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	@RequestMapping("/logOut")
-	public String loginOut(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession session = request.getSession(false);// 防止创建Session
-		if (session == null) {
-			return "login";
-		}
-		session.removeAttribute("loginUser");
-		return "login";
-	}
 }

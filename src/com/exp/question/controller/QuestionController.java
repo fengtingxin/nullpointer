@@ -1,6 +1,5 @@
 package com.exp.question.controller;
 
-
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-import com.exp.entity.Bug;
-import com.exp.entity.Comment;
+
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.question.service.QuestionServiceImpl;
@@ -132,7 +131,6 @@ public class QuestionController {
 		Question question =this.questionServiceImpl.getQuestion(questionId);
 		if(answerId==null){
 			//添加一条父级commet
-			System.out.println("执行了吗 空");
 			if(question==null){
 				return "redirect:list_new"; //找不到跳转到list
 			}
@@ -144,7 +142,6 @@ public class QuestionController {
 			question.getAnswers().add(answer);
 			this.answerServiceImpl.saveAnswer(answer);
 		}else{
-			System.out.println("执行了吗 不空");
 			Answer answer=new Answer();
 			answer.setQuestion(question);
 			answer.setAnswerContent(content);
