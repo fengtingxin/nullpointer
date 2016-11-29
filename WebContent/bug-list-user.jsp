@@ -62,20 +62,24 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown">
-						<c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
+						class="dropdown-toggle" data-toggle="dropdown"> <c:if
+								test="${loginUser==null}">
+								<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+									class="img-circle" />
+							</c:if> <c:if test="${loginUser!=null}">
 
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="20px" height="20px" class="img-circle" />
-								</c:if>
-						 <b class="caret"></b></a>
+								<img
+									src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+									width="20px" height="20px" class="img-circle" />
+							</c:if> <b class="caret"></b></a>
 						<ul class="dropdown-menu" role="menu" style="text-align: center;">
 							<li><a href="${ctx}/home">我的主页</a></li>
 							<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
@@ -118,39 +122,43 @@
 				</h3>
 				</header>
 				<div class="items items-hover">
-					 <c:forEach items="${page.list }" var="bug">
-				 <div class="item">
-						<div class="item-heading">
-							<h2 class="post-title">
-								<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)} <c:if
-													test="${fn:length(bug.bugTitle) >45}">...</c:if></a>
-							</h2>
-						</div>
-						<div class="item-content">
-							<div class="text">${fn:substring(bug.bugDescribe,0,100)} <c:if
-													test="${fn:length(bug.bugDescribe) >100}">...</c:if></div>
-						</div>
-						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${fn:length(bug.comments)}</a> &nbsp; <a href="#" class="text-muted"><i
-								class="icon-thumbs-o-up"></i> ${bug.bugLikeNum }</a> &nbsp; <span class="text-muted">
-								<fmt:formatDate value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
+					<c:forEach items="${page.list }" var="bug">
+						<div class="item">
+							<div class="item-heading">
+								<h2 class="post-title">
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
+										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
+									</a>
+								</h2>
+							</div>
+							<div class="item-content">
+								<div class="text">${fn:substring(bug.bugDescribe,0,100)}
+									<c:if test="${fn:length(bug.bugDescribe) >100}">...</c:if>
+								</div>
+							</div>
+							<div class="item-footer">
+								<a href="#" class="text-muted"><i class="icon-comments"></i>
+									${fn:length(bug.comments)}</a> &nbsp; <a href="#"
+									class="text-muted"><i class="icon-thumbs-o-up"></i>
+									${bug.bugLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
+										value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
 								</span>
+							</div>
 						</div>
-					</div>
-				
-				</c:forEach>
+
+					</c:forEach>
 				</div>
 				<!--分页实现-->
 				<ul class="pager pager-loose">
-				<li class="previous"><a
-								href="${ctx}/bug/listuser?currentPageNum=${page.prePageNum}">«</a></li>
-				<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen" href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+					<li class="previous"><a
+						href="${ctx}/bug/listuser?currentPageNum=${page.prePageNum}">«</a></li>
+					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
+						<li><a name="pagen"
+							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:forEach>
-					
+
 					<li class="next"><a
-								href="${ctx}/bug/listuser?currentPageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/bug/listuser?currentPageNum=${page.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 
@@ -172,12 +180,12 @@
 					<i class="icon icon-align-left"></i> Tag
 				</h2>
 				<div class="tagcloud">
-						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
-						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:forEach>
-					</div>
+					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
+					<c:forEach var="tt" items="${tag}">
+						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
+							class="btn btn-primary">${tt.tagName}</a>
+					</c:forEach>
+				</div>
 
 			</div>
 		</div>

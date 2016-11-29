@@ -62,7 +62,12 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"><c:if
@@ -113,7 +118,7 @@
 			<ul class="nav nav-tabs">
 				<li><a href="${ctx }/question/list_new"
 					data-target="#tab2Content1">最新发布</a></li>
-				<li><a  class="active" href="${ctx }/question/list_answer"
+				<li><a class="active" href="${ctx }/question/list_answer"
 					data-target="#tab2Content2">最多人回答</a></li>
 				<li><a href="${ctx }/question/list_noone"
 					data-target="#tab2Content3">尚未解决</a></li>
@@ -127,7 +132,8 @@
 							<div class="item">
 								<div class="item-heading">
 									<h2 class="post-title">
-										<a href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
+										<a
+											href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
 									</h2>
 								</div>
 								<div class="item-content">

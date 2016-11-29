@@ -72,7 +72,12 @@
 					<li><a href="${ctx }/bug-list-admin.html">BUGS</a></li>
 					<li><a href="${ctx }/q_a_list.html">技术问答</a></li>
 					<li><a href="${ctx }/contact">帮助</a></li>
-					<li><a href="${ctx }/login.html">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="${ctx }/your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"><img
@@ -181,11 +186,9 @@
 										<span class="profile__mod-inner-heading">用户名</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.loginName!=null}">
+										<span> <c:if test="${loginUser.loginName!=null}">
 										${loginUser.loginName}
-										</c:if>
-										<c:if test="${loginUser.loginName==null}">
+										</c:if> <c:if test="${loginUser.loginName==null}">
 										暂无
 										</c:if>
 										</span>
@@ -196,15 +199,16 @@
 										<span class="profile__mod-inner-heading">出生日期</span>
 									</div>
 									<div>
-									<c:if test="${loginUser.userInfo.userInfoBirthday!=null}">
-										<fmt:formatDate value="${loginUser.userInfo.userInfoBirthday}"
-											pattern="yyyy-MM-dd" />
-									</c:if>
-									<c:if test="${loginUser.userInfo.userInfoBirthday==null}">
+										<c:if test="${loginUser.userInfo.userInfoBirthday!=null}">
+											<fmt:formatDate
+												value="${loginUser.userInfo.userInfoBirthday}"
+												pattern="yyyy-MM-dd" />
+										</c:if>
+										<c:if test="${loginUser.userInfo.userInfoBirthday==null}">
 										暂无
 									</c:if>
-										
-										
+
+
 										<span></span>
 									</div>
 								</div>
@@ -213,14 +217,13 @@
 										<span class="profile__mod-inner-heading">性别</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.userInfo.userInfoSex==null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoSex==null}">
 										暂无
-									    </c:if>
-									    <c:if test="${loginUser.userInfo.userInfoSex!=null}">
+									    </c:if> <c:if test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
 									    </c:if>
-						
+
 										</span>
 									</div>
 								</div>
@@ -229,11 +232,11 @@
 										<span class="profile__mod-inner-heading">荣誉值</span>
 									</div>
 									<div>
-										<span>
-										 <c:if test="${loginUser.userInfo.userInfoHonorCount !=null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoHonorCount !=null}">
 										${loginUser.userInfo.userInfoHonorCount }
-									    </c:if>
-										 <c:if test="${loginUser.userInfo.userInfoHonorCount ==null}">
+									    </c:if> <c:if
+												test="${loginUser.userInfo.userInfoHonorCount ==null}">
 										暂无
 									    </c:if>
 										</span>
@@ -248,15 +251,13 @@
 									<div>
 										<span class="profile__mod-inner-heading">邮箱</span>
 										<div>
-											<span>
-											 <c:if test="${loginUser.loginEmail !=null}">
+											<span> <c:if test="${loginUser.loginEmail !=null}">
 										${loginUser.loginEmail }
-									    </c:if>
-									     <c:if test="${loginUser.loginEmail ==null}">
+									    </c:if> <c:if test="${loginUser.loginEmail ==null}">
 										暂无
 									    </c:if>
-									    
-											
+
+
 											</span>
 										</div>
 									</div>
@@ -266,13 +267,12 @@
 										<span class="profile__mod-inner-heading">注册时间</span>
 									</div>
 									<div>
-										<span> 
-										 <c:if test="${loginUser.userInfo.userInfoRegistTime!=null}">
-										<fmt:formatDate
-												value="${loginUser.userInfo.userInfoRegistTime}"
-												pattern="yyyy-MM-dd" />
-									    </c:if>
-									     <c:if test="${loginUser.userInfo.userInfoRegistTime==null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoRegistTime!=null}">
+												<fmt:formatDate
+													value="${loginUser.userInfo.userInfoRegistTime}"
+													pattern="yyyy-MM-dd" />
+											</c:if> <c:if test="${loginUser.userInfo.userInfoRegistTime==null}">
 									    暂无
 									    </c:if>
 										</span>
@@ -283,12 +283,12 @@
 										<span class="profile__mod-inner-heading">个人描述</span>
 									</div>
 									<div>
-										<span>
-										<c:if test="${loginUser.userInfo.userInfoDescribe!=null }">
-										${loginUser.userInfo.userInfoDescribe }</c:if>	
-											<c:if test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoDescribe!=null }">
+										${loginUser.userInfo.userInfoDescribe }</c:if> <c:if
+												test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
 						这家伙很懒 什么都没有留下
-					</c:if>									
+					</c:if>
 										</span>
 									</div>
 								</div>

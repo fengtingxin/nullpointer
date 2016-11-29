@@ -49,7 +49,12 @@
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>
-					<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					<c:if test="${loginUser==null}">
+						<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+					</c:if>
+					<c:if test="${loginUser!=null}">
+						<li><a href="${ctx}/loginUser/logOut">退出</a></li>
+					</c:if>
 					<!-- 导航中的下拉菜单 -->
 					<li class="dropdown"><a href="your/nice/url"
 						class="dropdown-toggle" data-toggle="dropdown"><img
@@ -145,10 +150,9 @@
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${fn:length(question.comments)}
-											<!-- 汤文茹将此处bug的点赞数修改为评论数 --></a> &nbsp; <span class="text-muted">
-											<fmt:formatDate value="${p.bugPublishTime }" pattern="yyyy-MM-dd HH:mm" />
-											<!-- 汤文茹规范了bug的发表时间 -->
+								${fn:length(question.comments)} <!-- 汤文茹将此处bug的点赞数修改为评论数 --></a>
+							&nbsp; <span class="text-muted"> <fmt:formatDate
+									value="${p.bugPublishTime }" pattern="yyyy-MM-dd HH:mm" /> <!-- 汤文茹规范了bug的发表时间 -->
 							</span>
 						</div>
 					</div>
