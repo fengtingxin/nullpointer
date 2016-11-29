@@ -27,7 +27,7 @@ public class CommentServiceImpl {
 	 * @return 用户的问题列表，放到page对象中
 	 */
 	@Transactional(readOnly = true)
-	public Page<Comment> findQuestionByTime(int pageNum, int pageSize, Object[] params) {
+	public Page<Comment> findCommentByTime(int pageNum, int pageSize, Object[] params) {
 		return this.commentDaoImpl.findCommentByTime(pageNum, pageSize, params);
 	}
 

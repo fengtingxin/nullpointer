@@ -153,8 +153,14 @@
 					<li class="previous"><a
 						href="${ctx}/bug/listuser?currentPageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen"
+							<c:if test="${pageNum ==page.currentPageNum}">
+						<li class="active"><a name="pagen"
 							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
+					<c:if test="${pageNum !=page.currentPageNum}">
+					<li><a name="pagen"
+							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
 					</c:forEach>
 
 					<li class="next"><a

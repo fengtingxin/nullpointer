@@ -18,15 +18,15 @@ public class ShareController {
 
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所分享的问题
+	 * @author tangwenru 增加了参数userInfoId，动态获取当前用户
 	 * @param pageNum
 	 *            一页有多少
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/shareByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
+	public String list(@RequestParam(name="userInfoId") Integer userInfoId,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
 		Page<Bug> pages;
-		int userInfoId = 1;//汤文茹将userinfoId改成了userInfoId
 		pages = this.shareServiceImpl.findBugByTime(pageNum, 4, new Object[] {userInfoId });
 		request.setAttribute("pagesShare", pages);
 		return "home-share";
