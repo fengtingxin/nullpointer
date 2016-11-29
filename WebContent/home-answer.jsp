@@ -45,7 +45,7 @@
 			<div class="collapse navbar-collapse navbar-collapse-example">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="index.jsp">主页</a></li>
+					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<li><a href="${ctx}/q_a_list.jsp">技术问答</a></li>
 					<li><a href="${ctx}/contact">帮助</a></li>

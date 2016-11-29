@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -33,6 +35,7 @@ public class Bug {
 	private Integer bugHateNum;// bug被踩数量
 	private Integer bugPageviews;// bug浏览量
 	private UserInfo userInfo;// bug对应的用户
+	private Bug_Like bug_likes; // 一个bug对应一个bug_like类 -- 统计有多少赞和有哪些人点赞
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	private Set<Tag> tags = new HashSet<Tag>(0);
 
@@ -111,7 +114,7 @@ public class Bug {
 		this.bugPageviews = bugPageviews;
 	}
 
-	@OneToMany(mappedBy = "bug",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "bug", cascade = CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return comments;
 	}
@@ -130,7 +133,7 @@ public class Bug {
 		this.userInfo = userInfo;
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST,fetch=FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "r_tag_bug", joinColumns = {
 			@JoinColumn(name = "bugId", referencedColumnName = "bugId") }, inverseJoinColumns = {
 					@JoinColumn(name = "tagId", referencedColumnName = "tagId") })
@@ -140,6 +143,15 @@ public class Bug {
 
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
+	}
+
+	@OneToOne(targetEntity = Bug_Like.class, mappedBy = "bug")
+	public Bug_Like getBug_likes() {
+		return bug_likes;
+	}
+
+	public void setBug_likes(Bug_Like bug_likes) {
+		this.bug_likes = bug_likes;
 	}
 
 }
