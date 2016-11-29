@@ -50,7 +50,7 @@
 			</div>
 			<div class="login-content">
 				<div class="loginbox-title"></div>
-				<form id="signupForm" action="${ctx}/index">
+				<form id="signupForm" action="${ctx }/index">
 					<div class="login-error"></div>
 					<div class="row">
 						<label class="field">用户名</label> <input type="text"
