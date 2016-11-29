@@ -56,7 +56,7 @@ public class LoginUserController {
 			loginUser.setRole(role);
 			userInfo.setUserInfoRegistTime(time);
 			userInfo.setLoginUser(loginUser);
-			userInfo.setUserInfoHeadPortrait("default");
+			userInfo.setUserInfoHeadPortrait("default.jpg");
 			loginUser.setUserInfo(userInfo);
 			String result = this.userServiceImpl.register(loginUser);
 			if (result == "0") {

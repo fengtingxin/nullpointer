@@ -93,16 +93,16 @@ public class Answer {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-	@JoinColumn(name = "answerParentId", insertable = false, updatable = false)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "answerParentId",referencedColumnName="answerId",updatable=true)
 	public Answer getParentAnswer() {
 		return parentAnswer;
 	}
 	public void setParentAnswer(Answer parentAnswer) {
 		this.parentAnswer = parentAnswer;
 	}
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "menuId")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "answerId")
 	public Set<Answer> getAnswers() {
 		return answers;
 	}

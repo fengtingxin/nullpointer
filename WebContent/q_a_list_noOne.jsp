@@ -127,11 +127,12 @@
 							<div class="item">
 								<div class="item-heading">
 									<h2 class="post-title">
-										<a href="###">${question.questionTitle }</a>
+										<a href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
 									</h2>
 								</div>
 								<div class="item-content">
-									<div class="text">${question.questionDescirbe }</div>
+									<div class="text">${question.questionDescribe }</div>/
+									<!--  -->
 								</div>
 								<div class="item-footer">
 									<a href="#" class="text-muted"><i class="icon-comments"></i>

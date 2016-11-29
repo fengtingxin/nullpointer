@@ -14,7 +14,11 @@ public class CommentServiceImpl {
 	
 	@Resource
 	private CommentDaoImpl commentDaoImpl;
-	
+	/**
+	 * @fuction 保存评论
+	 * @author fengtingxin
+	 * @param comment Comment对象
+	 */
 	@Transactional(readOnly = false)
 	public void saveComment(Comment comment){
 		try {

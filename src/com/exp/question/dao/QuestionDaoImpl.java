@@ -110,4 +110,20 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 		}
 		return page;
 	}
+	/**
+	 * @function 根据question的id查询单个Question
+	 * @author tangwenru
+	 * @param questionId
+	 * @return
+	 */
+	public Question getQuestion(int questionId){
+		try {
+			Question question=this.get(questionId);
+			return question;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

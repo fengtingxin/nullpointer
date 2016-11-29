@@ -30,7 +30,6 @@ public class CommentDaoImpl extends BaseDao<Comment, String> {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("啥呀");
 		}
 	}
 }

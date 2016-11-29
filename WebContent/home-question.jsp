@@ -146,7 +146,7 @@
 							</h4>
 						</div>
 						<div class="item-content">
-							<div class="text">${p.questionDescirbe }</div>
+							<div class="text">${p.questionDescribe }</div>
 						</div>
 						<div class="item-footer">
 							<a href="#" class="text-muted"><i class="icon-comments"></i>

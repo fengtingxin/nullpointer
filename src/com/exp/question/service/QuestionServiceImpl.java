@@ -68,4 +68,14 @@ public class QuestionServiceImpl {
 	public Page<Question> findQuestion_noOne(Integer currentPageNum, Integer pageSize) {
 		return questionDaoImpl.findQuestion_noOne(currentPageNum, pageSize);
 	}
+	/**
+	 * @function 通过qustion的id获取单个Question
+	 * @author tangwenru
+	 * @param questionId
+	 * @return
+	 */
+	public Question getQuestion(Integer questionId){
+		return this.questionDaoImpl.getQuestion(questionId);
+		
+	}
 }

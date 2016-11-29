@@ -23,7 +23,7 @@ public class Question {
 
 	private Integer questionId;
 	private String questionTitle;// 问题的标题
-	private String questionDescirbe;// 问题的描述
+	private String questionDescribe;// 问题的描述
 	private Date questionPublishTime;// 问题的发表时间
 	private Integer questionLikeNum;// 问题获赞数量
 	private Integer questionHateNum;// 问题被踩数量
@@ -50,12 +50,13 @@ public class Question {
 		this.questionTitle = questionTitle;
 	}
 
-	public String getQuestionDescirbe() {
-		return questionDescirbe;
+
+	public String getQuestionDescribe() {
+		return questionDescribe;
 	}
 
-	public void setQuestionDescirbe(String questionDescirbe) {
-		this.questionDescirbe = questionDescirbe;
+	public void setQuestionDescribe(String questionDescribe) {
+		this.questionDescribe = questionDescribe;
 	}
 
 	public Date getQuestionPublishTime() {
