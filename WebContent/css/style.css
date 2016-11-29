@@ -56,3 +56,9 @@ ul.articles .article-entry {
     outline: none;
     transition: all .3s;
 }
+.thumbs{
+    cursor: pointer;
+}
+.thumbs:hover{
+    color: red;
+}

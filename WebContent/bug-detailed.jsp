@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<%request.setCharacterEncoding("utf-8"); %>
+<%
+	request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -142,7 +144,38 @@
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>
 
-			</section> <footer> <!--评论内容开始-->
+			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+			<div class="container" style="margin-top: 25px;">
+				<a href="跳转到控制器即可.html">
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+						<div class="container">
+							<i class="icon icon-angle-up icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+							点赞
+						</div>
+
+					</div>
+				</a> <a href="">
+
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+						<div class="container">
+							<i class="icon icon-angle-down icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+							踩
+						</div>
+
+					</div>
+				</a>
+			</div>
+			<!--评论内容开始-->
 			<div class="comments">
 				<header>
 
@@ -169,7 +202,7 @@
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
 									<a href="javascript:focusAndChangeStatus(${ct.commentId })">回复</a>
-									
+
 								</div>
 							</div>
 
@@ -185,7 +218,7 @@
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
-									
+
 													<fmt:formatDate value="${cts.commentPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -195,10 +228,12 @@
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
-												    <c:if test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
-												    <a href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
-												    </c:if>
-													
+													<c:if
+														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a
+															href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
+													</c:if>
+
 												</div>
 											</div>
 										</div>
@@ -210,6 +245,7 @@
 					</c:if>
 				</c:forEach> </section>
 				<footer>
+
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
 					<form id="comment_form_submit" class="form" method="post"
@@ -246,17 +282,18 @@ function focusAndChangeStatus(comentId){
 }
 </script>
 	<c:if test="${not empty bug_detailed_judge }">
-<!-- 提示部分！ -->
-	<script type="text/javascript">
+		<!-- 提示部分！ -->
+		<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
-			icon: 'bell', //定义图标
-			fade:'true',
-		    type: 'primary', // 定义颜色主题
-		}).show();
-	}
-	</script>
-</c:if>
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>
+			', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+			}
+		</script>
+	</c:if>
 
 
 	<!-- Footer Bottom -->
