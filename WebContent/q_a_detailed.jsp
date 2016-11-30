@@ -88,7 +88,9 @@
 			</dl>
 			<section class="abstract">
 			<p>
-				<strong>问题描述：</strong>${question.questionDescribe }
+				<strong>问题描述：</strong>
+				<c:if test="${question.questionDescribe==null }">暂无</c:if>
+				<c:if test="${question.questionDescribe!=null }">${question.questionDescribe }</c:if>
 			</p>
 			</section> <footer> <!--评论内容开始-->
 			<div class="comments">

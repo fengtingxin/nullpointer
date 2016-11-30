@@ -27,15 +27,16 @@ public class CommentContoller {
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题 个人主页部分
 	 * @param pageNum
 	 *            一页有多少
+	 * @author tangwenru 新增参数userInfoId 动态获取此时用户的id
+	 * @param userInfoId
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("findCommentByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
+	public String list(@RequestParam(name="userInfoId",required=false) Integer userInfoId,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Comment> page;
-		int userinfoId = 1;
-		page = this.commentServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userinfoId });
-		session.setAttribute("pagecom", page);
+		page = this.commentServiceImpl.findCommentByTime(pageNum, 4, new Object[] { userInfoId });
+		session.setAttribute("pageComment", page);//pagecom改成pageComment
 		return "home-comment";
 	}
 

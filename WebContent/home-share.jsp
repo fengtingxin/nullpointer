@@ -59,16 +59,16 @@
 								我的主页</a></li>
 						<li><a href="${ctx}/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx}/home-question.jsp"><i
+						<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx}/home-answer.jsp"><i
+						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx}/home-comment.jsp"><i
+						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li class="active"><a href="${ctx}/home-share.jsp"><i
+						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -97,14 +97,14 @@
 								<div class="pull-right label label-success">${t.tagName}</div>
 							</c:forEach>
 							<h4>
-								<a href="###">${p.bugTitle}</a>
+								<a href="${ctx }/bug/findone?bugId=${p.bugId}">${p.bugTitle}</a>
 							</h4>
 						</div>
 						<div class="item-content">
 							<div class="text">${p.bugDescribe}</div>
 						</div>
 						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
+							<a href="${ctx }/bug/findone?bugId=${p.bugId}" class="text-muted"><i class="icon-comments"></i>
 								${fn:length(question.comments)} <!-- 汤文茹将此处bug的点赞数修改为评论数 --></a>
 							&nbsp; <span class="text-muted"> <fmt:formatDate
 									value="${p.bugPublishTime }" pattern="yyyy-MM-dd HH:mm" /> <!-- 汤文茹规范了bug的发表时间 -->
@@ -114,13 +114,21 @@
 				</c:forEach>
 
 				<ul class="pager">
-					<li class="previous"><a href="your/nice/url">«</a></li>
-					<li><a href="your/nice/url">1</a></li>
-					<li class="active"><a href="your/nice/url">2</a></li>
-					<li><a href="your/nice/url">3</a></li>
-					<li><a href="your/nice/url">4</a></li>
-					<li><a href="your/nice/url">5</a></li>
-					<li class="next"><a href="your/nice/url">»</a></li>
+						<li class="previous"><a
+						href="${ctx}/share/shareByTime?pageNum=${pagesShare.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+					<c:forEach begin="1" end="${pagesShare.totalPageNum }" var="pageNum">
+						<c:if test="${pageNum ==pagesShare.currentPageNum}">
+						<li class="active"><a name="pagen"
+							href="${ctx }/share/shareByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+						<c:if test="${pageNum !=pagesShare.currentPageNum}">
+						<li><a name="pagen"
+							href="${ctx }/share/shareByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+					</c:forEach>
+
+					<li class="next"><a
+						href="${ctx}/share/shareByTime?pageNum=${pagesShare.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
 				</ul>
 			</div>
 

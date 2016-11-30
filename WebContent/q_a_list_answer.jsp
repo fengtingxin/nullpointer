@@ -102,8 +102,15 @@
 								href="${ctx}/question/list_answer?currentPageNum=${questionPage.prePageNum}">«</a></li>
 							<c:forEach begin="1" end="${questionPage.totalPageNum }"
 								var="pageNum">
+								<c:if test="${pageNum ==questionPage.currentPageNum }">
+								<li class="active"><a
+									href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+								</c:if>
+								<c:if test="${pageNum !=questionPage.currentPageNum }">
 								<li><a
 									href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+								</c:if>
+								
 							</c:forEach>
 							<li class="next"><a
 								href="${ctx}/question/list_answer?currentPageNum=${questionPage.nextPageNum}">»</a></li>

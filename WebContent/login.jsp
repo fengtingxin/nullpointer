@@ -66,7 +66,10 @@
 						<label class="field">验证码</label> <input type="text"
 							class="input-text-user input-click" name="codeValue"
 							id="codeValue" style="width: 120px; float: left"> <img
+
+
 							src="${ctx }/MakeCodeServlet" width="150px" height="40px"
+
 							style="float: left" />
 					</div>
 					<div class="row btnArea">

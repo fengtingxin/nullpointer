@@ -25,15 +25,15 @@ public class AnswerController {
     private QuestionServiceImpl questionServiceImpl;
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题
+	 * @author tangwenru 增加了参数userInfoId，动态获取当前用户
 	 * @param pageNum
 	 *            一页有多少
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/findAnswerByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
+	public String list(@RequestParam(name="userInfoId") Integer userInfoId,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
 		Page<Answer> pages;
-		int userInfoId = 1;// userinfoId改为userInfoId
 		pages = this.answerServiceImpl.findAnswerByTime(pageNum, 6, new Object[] { userInfoId });
 		request.setAttribute("pages", pages);
 		return "home-answer";

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,16 +61,16 @@
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime"><i
+						<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime"><i
+						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/comment/findCommentByTime"><i
+						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/share/shareByTime"><i
+						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -90,32 +92,47 @@
 			<div class="items">
 				<h2 class="header-dividing">我的评论</h2>
 
-				<c:forEach items="${pagecom.list}" var="p">
+				<c:forEach items="${pageComment.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
 							<c:set value="${p.bug}" var="bug"></c:set>
 
-							<forEach var="bb" items="${bug.tags}">
+							<c:forEach var="bb" items="${bug.tags}">
 							<div class="pull-right label label-success">${bb.tagName}</div>
-							</forEach>
-							<a href="###">${bug.bugTitle}</a>
+							</c:forEach>
+							<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${bug.bugTitle}</a>
+							
 						</div>
 						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.commentLikeNum}</a> &nbsp; <span class="text-muted">${p.commentPublishTime}
+						   
+							<a href="${ctx }/bug/findone?bugId=${bug.bugId}" class="text-muted">
+							<p>${p.commentContent }</p>
+							<i class="icon-comments"></i>
+							    
+								${fn:length(bug.comments)}</a> &nbsp; <span class="text-muted">
+								<fmt:formatDate
+									value="${p.commentPublishTime }" pattern="yyyy-MM-dd HH:mm" />
 							</span>
 						</div>
 					</div>
 				</c:forEach>
 
 				<ul class="pager">
-					<li class="previous"><a href="your/nice/url">«</a></li>
-					<li><a href="your/nice/url">1</a></li>
-					<li class="active"><a href="your/nice/url">2</a></li>
-					<li><a href="your/nice/url">3</a></li>
-					<li><a href="your/nice/url">4</a></li>
-					<li><a href="your/nice/url">5</a></li>
-					<li class="next"><a href="your/nice/url">»</a></li>
+					<li class="previous"><a
+						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+					<c:forEach begin="1" end="${pageComment.totalPageNum }" var="pageNum">
+						<c:if test="${pageNum ==pageComment.currentPageNum}">
+						<li class="active"><a name="pagen"
+							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+						<c:if test="${pageNum !=pageComment.currentPageNum}">
+						<li><a name="pagen"
+							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+					</c:forEach>
+
+					<li class="next"><a
+						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
 				</ul>
 			</div>
 
