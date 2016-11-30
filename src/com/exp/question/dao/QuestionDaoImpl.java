@@ -126,4 +126,12 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 			return null;
 		}
 	}
+	/**
+	 *测试搜索框下面内容
+	 *@author Ray_1
+	 */
+//	public TestSearch(){
+//		
+//	}
+	
 }
