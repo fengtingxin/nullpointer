@@ -796,7 +796,7 @@
 /* Typography */
 
 	.label {
-		font-family: Droid Sans;
+		font-family: 微软雅黑;
 		color: #8f8f8f;
 		font-size: 13px;
 		text-shadow: 0 1px 0 #FFFFFF;
@@ -1287,6 +1287,7 @@
 	.wwIcon {
 		background-position: 0 13px;
     	padding-left: 25px;
+    	font-family:微软雅黑
 	}
 
 	.wwOptions {
@@ -1712,7 +1713,7 @@
 	    height: 26px;
 	    line-height: 26px;
 	    box-shadow: 0 1px 0 #ffffff, 0 1px 0 #ffffff inset;	
-	    font-family: Oswald;
+	    font-family: 微软雅黑;
 		color: #8f8f8f;
 		font-size: 12px;
 		text-shadow: 0 1px 0 #FFFFFF;
