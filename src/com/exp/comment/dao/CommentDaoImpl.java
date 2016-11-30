@@ -43,6 +43,7 @@ public class CommentDaoImpl extends BaseDao<Comment, String> {
 			return null;
 		}
 	}
+
 	public Comment findCommentById(Integer commentId) {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Comment where commentId=" + commentId);
 		return (Comment) query.uniqueResult();
