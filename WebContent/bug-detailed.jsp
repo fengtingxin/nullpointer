@@ -91,7 +91,7 @@
 				<strong>摘要：</strong>${bug.bugDescribe }
 			</p>
 			</section> </header> <section class="content">
-			<p>Bug原因：</p>
+			<h2>Bug原因：</h2>
 			<p>${bug.bugReason }</p>
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>

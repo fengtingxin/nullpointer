@@ -43,14 +43,14 @@
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">标题</label>
 					<div class="col-md-6 col-sm-10">
-						<input type="text" class="form-control" id="exampleInputAccount4"
+						<input type="text" class="form-control" id="exampleInputAccount4" name="questionTitle"
 							placeholder="问题标题">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">类别选择</label>
 					<div class="col-md-6">
-						<select data-placeholder="选择问题类型..."
+						<select name="tag" data-placeholder="选择问题类型..."
 							class="chosen-select form-control" tabindex="-1" multiple="">
 							<option value="JAVA">JAVA</option>
 							<option value="C++">C++</option>

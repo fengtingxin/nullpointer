@@ -72,7 +72,6 @@ public class AdviceController {
 		adviceContent=EncodingTool.encodeStr(adviceContent);
 		adviceTheme=EncodingTool.encodeStr(adviceTheme);
 		adviceUserEmail=EncodingTool.encodeStr(adviceUserEmail);
-		
 		Advice advice =new Advice();
 		advice.setAdviceContent(adviceContent);
 		advice.setAdviceTheme(adviceTheme);
@@ -86,6 +85,7 @@ public class AdviceController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			request.setAttribute("remindMsg", "服务器开小差，您辛苦了！");
+			return "contact";
 		}
 		return "contact";
 	}
