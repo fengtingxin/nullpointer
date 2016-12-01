@@ -20,7 +20,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+
 @Entity
+@Indexed
 @Table(name = "bug")
 public class Bug {
 	// 属性
@@ -50,6 +57,7 @@ public class Bug {
 		this.bugId = bugId;
 	}
 
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	public String getBugTitle() {
 		return bugTitle;
 	}
@@ -58,6 +66,7 @@ public class Bug {
 		this.bugTitle = bugTitle;
 	}
 
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	public String getBugDescribe() {
 		return bugDescribe;
 	}
@@ -66,6 +75,7 @@ public class Bug {
 		this.bugDescribe = bugDescribe;
 	}
 
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	public String getBugReason() {
 		return bugReason;
 	}

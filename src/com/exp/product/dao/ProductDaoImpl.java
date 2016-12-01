@@ -20,13 +20,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ReflectionUtils;
 
+import com.exp.entity.Bug;
 import com.exp.entity.TbGoods;
 import com.framework.BaseDao;
 
 @Repository
-public class ProductDaoImpl extends BaseDao<TbGoods, String> {
+public class ProductDaoImpl extends BaseDao<Bug, String> {
 
-	public List<TbGoods> search(String search) {
+	public List<Bug> search(String search) {
 
 		Session session = super.getSession();
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
@@ -37,12 +38,12 @@ public class ProductDaoImpl extends BaseDao<TbGoods, String> {
 			e.printStackTrace();
 		}
 		SearchFactory sf = fullTextSession.getSearchFactory();
-		QueryBuilder qb = sf.buildQueryBuilder().forEntity(TbGoods.class).get();
-		List<TbGoods> list = null;
+		QueryBuilder qb = sf.buildQueryBuilder().forEntity(Bug.class).get();
+		List<Bug> list = null;
 		try {
 			// 模糊查询
 			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.7f)
-					.onFields("goodsName", "introduce").matching(search).createQuery();
+					.onFields("bugTitle", "bugDescribe", "bugReason").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
 			// 上面是搜索功能的代码，下面是结果集关键字高亮的实现代码
@@ -50,12 +51,12 @@ public class ProductDaoImpl extends BaseDao<TbGoods, String> {
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "goodsName", "introduce" };
-			for (TbGoods q : list) {
+			String[] fieldNames = { "bugTitle", "bugDescribe", "bugReason" };
+			for (Bug q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
 					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(TbGoods.class, fieldName).getReadMethod(), q);
+							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
@@ -66,13 +67,13 @@ public class ProductDaoImpl extends BaseDao<TbGoods, String> {
 					if (hightLightFieldValue != null) {
 						// 运用反射设置结果集中的关键字高亮
 						ReflectionUtils.invokeMethod(
-								BeanUtils.getPropertyDescriptor(TbGoods.class, fieldName).getWriteMethod(), q,
+								BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getWriteMethod(), q,
 								hightLightFieldValue);
 					}
 				}
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return list;
 	}
