@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.bug.service.BugServiceImpl;
+import com.exp.bugLikeRecord.service.BugLikeRecordServiceImpl;
 import com.exp.comment.service.CommentServiceImpl;
 import com.exp.entity.Bug;
+import com.exp.entity.BugLikeRecord;
 import com.exp.entity.Comment;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Tag;
-
+import com.exp.entity.UserInfo;
 import com.exp.tag.service.TagServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
 
@@ -34,6 +37,10 @@ public class BugController {
 	private TagServiceImpl tagServiceImpl;
 	@Resource
 	private CommentServiceImpl commentServiceImpl;
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
 
 	/**
 	 * @function 分页查询官方发布的bug,每页8个
@@ -156,5 +163,45 @@ public class BugController {
 			this.commentServiceImpl.saveComment(comment);
 		}
 		return "redirect:findone?bugId=" + bugId;
+	}
+	@RequestMapping("like")
+	public String  bugLike(@RequestParam(name="userInfoId") Integer userInfoId,
+	@RequestParam(name="bugId")Integer bugId,HttpServletRequest request){
+		Bug bug=this.bugServiceImpl.getBug(bugId);
+		if(userInfoId==null){
+	    	request.setAttribute("adviceReminder", "ok");
+	    	request.setAttribute("bug", bug);
+			request.setAttribute("remindMsg", "请登录！");
+			return "bug-detailed";
+	    }
+		if(userInfoId!=null&this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId)!=null){
+			UserInfo userInfo=this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser=userInfo.getLoginUser();
+			request.setAttribute("loginUser", loginUser);
+			request.setAttribute("bug", bug);
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("remindMsg", "您已经点过赞了！");
+			request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+	    	return "bug-detailed";
+	    }else{
+		UserInfo userInfo=this.userInfoServiceImpl.findById(userInfoId);
+		
+		
+		bug.setBugLikeNum(bug.getBugLikeNum()+1);
+		this.bugServiceImpl.updateBug(bug);
+		BugLikeRecord bugLikeRecord=new BugLikeRecord();
+		bugLikeRecord.setBug(bug);
+		
+		bugLikeRecord.setUserInfo(userInfo);
+		bugLikeRecord.setBugLikeStatus(1);
+		bugLikeRecord.setBuglikeTime(new Date());
+		LoginUser loginUser=userInfo.getLoginUser();
+		request.setAttribute("loginUser", loginUser);
+		request.setAttribute("bug", bug);
+		this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
+		request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+		
+		return "bug-detailed";
+	    }
 	}
 }
