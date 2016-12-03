@@ -216,6 +216,7 @@ public class BugController {
 					System.out.println("执行");
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
+					request.setAttribute("hateStatus", this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 					return "bug-detailed";
 
 				}
@@ -233,6 +234,7 @@ public class BugController {
 							this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
+					request.setAttribute("hateStatus", this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 					return "bug-detailed";
 
 				}
@@ -247,10 +249,12 @@ public class BugController {
 							this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
+					request.setAttribute("hateStatus", this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 					return "bug-detailed";
 				}
 
 			} else {
+				request.setAttribute("hateStatus", this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 				request.setAttribute("loginUser", loginUser);
 				request.setAttribute("bug", bug);
 				request.setAttribute("adviceReminder", "ok");
@@ -291,6 +295,7 @@ public class BugController {
 					bugHateRecord.setBugHateStatus(0);
 					this.bugHateRecordServiceImpl.updateBugHateRecord(bugHateRecord);
 					request.setAttribute("hateStatus", 0);
+					request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() );
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
 					return "bug-detailed";
@@ -310,6 +315,7 @@ public class BugController {
 							this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
+					request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() );
 					return "bug-detailed";
 
 				}
@@ -324,10 +330,12 @@ public class BugController {
 							this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 					request.setAttribute("loginUser", loginUser);
 					request.setAttribute("bug", bug);
+					request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() );
 					return "bug-detailed";
 				}
 
 			} else {
+				request.setAttribute("likeStatus",this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() );
 				request.setAttribute("loginUser", loginUser);
 				request.setAttribute("bug", bug);
 				request.setAttribute("adviceReminder", "ok");
