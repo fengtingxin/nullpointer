@@ -7,6 +7,8 @@
     margin-top:10px;
     height:37px;
     width:550px;
+    margin-left:20px;
+    
 }
 #searchbox div {
     float:left;
@@ -17,8 +19,9 @@
    line-height:35px;
    border:solid 1px #4791FF;
 }
-#btnSelect a{
-   width:100px;
+
+#buttongoole{
+	width:100px;dtitles
    height:37px;
    background:#167ED9;
    display:block;
@@ -32,12 +35,21 @@ a:link {
 a:hover {
     cursor:pointer;
 }
-#dtitles {
-    width:540px;
-    height:90px;
+#dtitles ul li
+{
+  padding-top:10px;
+height:30px;	
+list-style:none;
+margin-left:5px;
+}
+#dtitles{
+    width:440px;
+    height:160px;
     border:solid 1px #CCCCCC;
     display:none;
-    font-size:12px;
+    font-size:16px;
+    margin-left:20px;
+    
 }
 .li1 {
     background:#F0F0F0;

@@ -122,7 +122,7 @@
 				<ul class="pager">
 					<li class="previous"><a
 						href="${ctx}/question/findQuestionByTime?pageNum=${page.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
-					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
+					<c:forEach begin="1" end="${page.totalPageNum}" var="pageNum">
 						<c:if test="${pageNum ==page.currentPageNum}">
 						<li class="active"><a name="pagen"
 							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
