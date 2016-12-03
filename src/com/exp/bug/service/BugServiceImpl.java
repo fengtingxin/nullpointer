@@ -82,6 +82,11 @@ public class BugServiceImpl {
 	 */
 	@Transactional(readOnly=false)
 	public void updateBug(Bug bug){
-		this.bugDaoImpl.updateBug(bug);
+		try {
+			this.bugDaoImpl.update(bug);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

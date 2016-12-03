@@ -123,7 +123,8 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 */
 	public void updateBug(Bug bug){
 		try {
-			this.update(bug);
+			super.update(bug);
+			System.out.println("gengxinwanbi");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
