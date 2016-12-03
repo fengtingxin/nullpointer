@@ -15,8 +15,10 @@
 	<c:if test="${sessionScope.aaa !=null}">
 		<c:set var="aaa" value="${sessionScope.aaa}"></c:set>
 		<c:forEach var="t" items="${ aaa}">
-		${t.goodsName }
-		${t.introduce}<br />
+		bugTitle:${t.bugTitle }<br />
+		bugDescribe:${t.bugDescribe}<br />
+		bugReason:${t.bugReason}<br />
+			<hr />
 		</c:forEach>
 	</c:if>
 	<c:if test="${sessionScope.aaa==null }">

@@ -80,7 +80,7 @@
 								<label for="exampleInputAccount4" class="col-sm-2 required">账号</label>
 								<div class="col-md-6 col-sm-10">
 								<c:if test="${not empty loginUser }">
-									<input type="text" class="form-control" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" readonly>
+									<input type="text" class="form-control" name="name" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" value="${loginUser.loginName }" readonly/>
 								</c:if>
 								<c:if test="${empty loginUser }">
 								<input type="text" class="form-control"
@@ -91,8 +91,15 @@
 							<div class="form-group">
 								<label for="exampleInputAccount4" class="col-sm-2 required">您的邮箱</label>
 								<div class="col-md-6 col-sm-10">
+								<c:if test="${not empty loginUser }">
+								
 									<input type="text" class="form-control"
+										id="exampleInputAccount4" name="email" placeholder="${loginUser.loginEmail}" value="${loginUser.loginEmail}" readonly/>
+								</c:if>
+								<c:if test="${empty loginUser }">
+								<input type="text" class="form-control"
 										id="exampleInputAccount4" name="email" placeholder="邮箱地址">
+								</c:if>
 								</div>
 							</div>
 							<div class="form-group">
@@ -140,12 +147,12 @@
 
 
 					<section class="widget">
-					<h3 class="title">Latest Articles</h3>
+					<h3 class="title">问题推荐</h3>
 					<ul class="articles">
 						<c:forEach var="question" items="${questionList}">
 							<li class="article-entry standard">
 								<h4>
-									<a href="single.html" data-toggle="tooltip"
+									<a href="${ctx }/question/findone?questionId=${question.questionId}" data-toggle="tooltip"
 										title="${question.questionTitle}">
 										${fn:substring(question.questionTitle,0,50)} <c:if
 											test="${fn:length(question.questionTitle) >50}">...</c:if>

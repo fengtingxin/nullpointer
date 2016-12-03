@@ -91,24 +91,42 @@
 				<strong>摘要：</strong>${bug.bugDescribe }
 			</p>
 			</section> </header> <section class="content">
-			<p>Bug原因：</p>
+			<h2>Bug原因：</h2>
 			<p>${bug.bugReason }</p>
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>
 
 			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
 			<div class="container" style="margin-top: 25px;">
-				<a href="跳转到控制器即可.html">
+				<a href="${ctx }/bug/like?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+						<c:if test="${likeStatus==1 }">
+						<div class="haveen">
 						<div class="container">
 							<i class="icon icon-angle-up icon-3x"></i>
 						</div>
 						<div class="container"
 							style="text-align: center; padding-bottom: 10px;">
 							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
-							点赞
+							赞
 						</div>
+						</div>
+						</c:if>
+						<c:if test="${likeStatus==null }">
+						<div>
+						<div class="container">
+							<i class="icon icon-angle-up icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+							赞
+						</div>
+						</div>
+						</c:if>
+						
+						
 
 					</div>
 				</a> <a href="">
@@ -125,8 +143,22 @@
 						</div>
 
 					</div>
+					
 				</a>
 			</div>
+			<c:if test="${not empty adviceReminder }">
+					<!-- 提示部分！ -->
+					<script type="text/javascript">
+	window.onload=function(){
+		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
+										icon : 'bell', //定义图标
+										fade : 'true',
+										type : 'primary', // 定义颜色主题
+
+									}).show();
+						}
+					</script>
+				</c:if>
 			<!--评论内容开始-->
 			<div class="comments">
 				<header>
