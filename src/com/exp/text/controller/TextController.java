@@ -1,7 +1,9 @@
 package com.exp.text.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,42 +26,58 @@ public class TextController {
 
 	@Resource
 	private TextServiceImpl textServiceImpl;
-	EncodingTool encode = new EncodingTool();
-	private Object response;
+	/**
+	 * @author Ray_1功能：搜索下来框
+	 * @param pageNum
+	 * @param searchParam
+	 * @param request
+	 * @param model
+	 * @param response
+	 */
 
-	@RequestMapping(value="/list",method=RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public void list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-			@RequestParam(name = "titleText", defaultValue = "") String searchParam, HttpServletRequest request,
+			@RequestParam(name = "title", defaultValue = "") String searchParam, HttpServletRequest request,
 			Model model, HttpServletResponse response) {
-		System.out.println("controller");
-		Page<Bug> page;
-		searchParam = encode.encodeStr(searchParam);
-		System.out.println(searchParam);
-		if (searchParam == null || "".equals(searchParam)) {
-			page = this.textServiceImpl.listTest(pageNum, 8, null);
-		} else {
-			page = this.textServiceImpl.listTest(pageNum, 8, new Object[] { searchParam });
+		
+			System.out.println("searchParam为" + searchParam);
+		try {
+			// 这里不设置编码会有乱码
+			response.setContentType("text/html;charset=utf-8");
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
 		}
-		request.setAttribute("pageText", page);
+
+		Page<Bug> page = null;
+		searchParam = EncodingTool.encodeStr(searchParam);
+		// System.out.println("searchParam"+searchParam);
+		if (searchParam == null || "".equals(searchParam)) {
+			page = this.textServiceImpl.listTest(pageNum, 4, null);
+		} else {
+			page = this.textServiceImpl.listTest(pageNum, 4, new Object[] { searchParam });
+		}
 		request.setAttribute("searchParam", searchParam);
 		try {
 			StringBuilder sb = new StringBuilder();
-			PrintWriter out = response.getWriter();
-			out.println();
+			System.out.println("触发controller");
 			if (page != null) {
 				System.out.println("查询内容不为空");
 				sb.append("<ul>");
-				for (int i = 0; i < 5; i++) {
-					sb.append("<li>"+page.getList()+"</li>");
+				List<Bug> bugs = page.getList();
+				for (Bug bug : bugs) {
+					String bugtitle = bug.getBugTitle();
+					System.out.println(bugtitle);
+					if (bugtitle.length() > 40)
+						sb.append("<li>" + bugtitle.substring(0, 40) + "</li>");
 				}
-				sb.append("</ul>");
 
+				System.out.println(sb.toString());
+				response.getWriter().write(sb.toString());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }
