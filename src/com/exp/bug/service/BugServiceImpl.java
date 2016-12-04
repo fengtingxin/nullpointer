@@ -75,4 +75,18 @@ public class BugServiceImpl {
 	public Bug getBug(Integer bugId){
 		return this.bugDaoImpl.getBug(bugId);
 	}
+	/**
+	 * @function 更新bug
+	 * @author tangwenru
+	 * @param bug
+	 */
+	@Transactional(readOnly=false)
+	public void updateBug(Bug bug){
+		try {
+			this.bugDaoImpl.update(bug);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

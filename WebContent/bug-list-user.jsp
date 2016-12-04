@@ -72,7 +72,7 @@
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">${fn:substring(bug.bugTitle,0,45)}
 										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
 									</a>
 								</h2>

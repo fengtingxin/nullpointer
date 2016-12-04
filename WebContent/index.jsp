@@ -112,7 +112,7 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
+											<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
 												${fn:substring(bug.bugTitle, 0, 50)} <c:if
 													test="${fn:length(bug.bugTitle)>50}">...</c:if>

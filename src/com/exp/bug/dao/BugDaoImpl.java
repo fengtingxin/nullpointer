@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.exp.entity.Bug;
+import com.exp.entity.BugLikeRecord;
 import com.framework.BaseDao;
 import com.framework.Page;
 
@@ -115,4 +116,19 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 			return null;
 		}
 	}
+	/**
+	 * @function 更新bug
+	 * @author tangwenru
+	 * @param bug
+	 */
+	public void updateBug(Bug bug){
+		try {
+			super.update(bug);
+			System.out.println("gengxinwanbi");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

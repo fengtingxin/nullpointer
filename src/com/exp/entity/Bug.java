@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Analyze;
@@ -45,6 +43,7 @@ public class Bug {
 	private Bug_Like bug_likes; // 一个bug对应一个bug_like类 -- 统计有多少赞和有哪些人点赞
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	private Set<Tag> tags = new HashSet<Tag>(0);
+	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
 
 	// set/get方法
 	@Id
@@ -163,5 +162,18 @@ public class Bug {
 	public void setBug_likes(Bug_Like bug_likes) {
 		this.bug_likes = bug_likes;
 	}
+	/**
+	 * @author tangwenru
+	 * @return
+	 */
+	@OneToMany(mappedBy = "bug", cascade = CascadeType.ALL)
+	public Set<BugLikeRecord> getBugLikeRecords() {
+		return bugLikeRecords;
+	}
+
+	public void setBugLikeRecords(Set<BugLikeRecord> bugLikeRecords) {
+		this.bugLikeRecords = bugLikeRecords;
+	}
+	
 
 }
