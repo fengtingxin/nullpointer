@@ -18,9 +18,33 @@ public class TagServiceImpl {
      * tag查询
      */
 	@Resource
-	private TagDaoImpl tagdaoimpl;
+	private TagDaoImpl tagDaoImpl;
 
 	public List<Tag> findAllTag() {
-		return tagdaoimpl.findAllTag();
+		return tagDaoImpl.findAllTag();
+	}
+	/**
+	 * 功能：
+	 * 找到tag通过name
+	 * @param tagName
+	 * @return
+	 * @author fengtingxin
+	 */
+	public Tag getOneTagByName(String tagName){
+		try {
+			return this.tagDaoImpl.findOne("from Tag where tagName=?", new Object[]{tagName});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("get TAG error in serviceImpl");
+			Tag tag=new Tag();
+			tag.setTagName(tagName);
+			try {
+				this.tagDaoImpl.save(tag);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return tag;
+		}
 	}
 }

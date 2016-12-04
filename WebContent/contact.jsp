@@ -80,7 +80,7 @@
 								<label for="exampleInputAccount4" class="col-sm-2 required">账号</label>
 								<div class="col-md-6 col-sm-10">
 								<c:if test="${not empty loginUser }">
-									<input type="text" class="form-control" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" readonly>
+									<input type="text" class="form-control" name="name" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" value="${loginUser.loginName }" readonly>
 								</c:if>
 								<c:if test="${empty loginUser }">
 								<input type="text" class="form-control"

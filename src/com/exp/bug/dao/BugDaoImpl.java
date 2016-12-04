@@ -115,4 +115,12 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 			return null;
 		}
 	}
+	/**
+	 * 找到所有的bug，无序
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<Bug> getAllBug(){
+		return this.getSession().createQuery("from Bug").list();
+	}
 }
