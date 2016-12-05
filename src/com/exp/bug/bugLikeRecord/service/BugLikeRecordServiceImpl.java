@@ -1,11 +1,11 @@
-package com.exp.bugLikeRecord.service;
+package com.exp.bug.bugLikeRecord.service;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exp.bugLikeRecord.dao.BugLikeRecordDaoImpl;
+import com.exp.bug.bugLikeRecord.dao.BugLikeRecordDaoImpl;
 import com.exp.entity.BugLikeRecord;
 
 @Service

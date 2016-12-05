@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
+import com.exp.entity.QuestionLikeRecord;
+import com.exp.entity.UserInfo;
+import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
+import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
 //删除了不必要引用的包
@@ -29,6 +33,13 @@ public class QuestionController {
 	private QuestionServiceImpl questionServiceImpl;//将questionserviceimpl改成questionServiceImpl
 	@Resource 
 	private AnswerServiceImpl answerServiceImpl;
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private QuestionLikeRecordServiceImpl questionLikeRecordServiceImpl;
+	@Resource
+	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
+	
 	// 设置每页有5条数据
 	private Integer pageSize = 5;
 
@@ -95,9 +106,19 @@ public class QuestionController {
 	 * @return q_a_detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getQuestion(@RequestParam("questionId") Integer questionId,@RequestParam(name="bug_detailed_bell",required=false) String bug_detailed_bell,
+	public String getQuestion(@RequestParam("questionId") Integer questionId,
+			@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
+			@RequestParam(name="bug_detailed_bell",required=false) String bug_detailed_bell,
 			HttpServletRequest request){
 		Question question=this.questionServiceImpl.getQuestion(questionId);
+		if (userInfoId != null & this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null) {
+			request.setAttribute("likeStatus",
+					this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus());
+		}
+		if (userInfoId != null & this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null) {
+			request.setAttribute("hateStatus",
+					this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus());
+		}
 		request.setAttribute("question",question);
 		if(bug_detailed_bell!=null){
 			if(bug_detailed_bell.substring(bug_detailed_bell.length()-1).equals("1")){
@@ -151,5 +172,90 @@ public class QuestionController {
 			this.answerServiceImpl.saveAnswer(answer);
 		}
 		return "redirect:findone?questionId=" + questionId;
+	}
+	/**
+	 * @function 对问题进行点赞，取消赞
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param questionId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "like", method = RequestMethod.GET)
+	public String bugLike(@RequestParam(name = "userInfoId") Integer userInfoId,
+			@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
+		Question question = this.questionServiceImpl.getQuestion(questionId);
+		// 判断用户是否登录
+		if (userInfoId == null) {
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("question", question);
+			request.setAttribute("remindMsg", "请登录！");
+			return "q_a_detailed";
+
+		} else {// 用户已登录
+			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser = userInfo.getLoginUser();
+			// question被踩记录为空，或者bug被踩状态失效
+			if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) == null
+					|| this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 0) {
+				// question已经被点赞
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 1) {
+					question.setQuestionLikeNum(question.getQuestionLikeNum() - 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(0);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) == null) {
+					// 该用户没有点赞此question
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = new QuestionLikeRecord();
+					questionLikeRecord.setQuestion(question);
+					questionLikeRecord.setUserInfo(userInfo);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					questionLikeRecord.setQuestionLikeTime(new Date());
+					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus",
+							this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus());
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("qestion", question);
+					return "q_a_detailed";
+
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 0) {
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus",
+							this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus());
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+
+			} else {
+				request.setAttribute("hateStatus", this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus());
+				request.setAttribute("loginUser", loginUser);
+				request.setAttribute("question", question);
+				request.setAttribute("adviceReminder", "ok");
+				request.setAttribute("remindMsg", "取消踩后才可以点赞哦！");
+				return "q_a_detailed";
+
+			}
+
+			return "q_a_detailed";
+
+		}
+
 	}
 }

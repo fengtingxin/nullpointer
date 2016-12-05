@@ -1,4 +1,4 @@
-package com.exp.bugLikeRecord.controller;
+package com.exp.bug.bugLikeRecord.controller;
 
 import org.springframework.stereotype.Controller;
 

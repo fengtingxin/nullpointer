@@ -79,7 +79,7 @@
 								<div class="item-heading">
 									<h2 class="post-title">
 										<a
-											href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
+											href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}">${question.questionTitle }</a>
 									</h2>
 								</div>
 								<div class="item-content">
