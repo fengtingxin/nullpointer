@@ -87,7 +87,7 @@
 								</div>
 								<div class="item-footer">
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
-										${fn:length(bug.comments)}</a> &nbsp; <a href="#"
+										${question.questionAnswerCount}</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
 										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"

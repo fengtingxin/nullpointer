@@ -319,16 +319,16 @@
 						var myNWwChart2 = new $.zui.Chart(honor);
 						var data = [ {
 							value : 150,
-							color : "blue", // 使用颜色名称
+							//color : "blue", // 使用颜色名称
 							label : "JAVA"
 						}, {
 							value : 250,
-							color : "#F7464A", // 自定义颜色
+							//color : "#F7464A", // 自定义颜色
 							// highlight: "#FF5A5E", // 自定义高亮颜色
 							label : "C++"
 						}, {
 							value : 50,
-							color : 'green',
+							//color : 'green',
 							label : "hibernate"
 						}, {
 							// 不指定color值，使用随机颜色

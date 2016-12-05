@@ -12,7 +12,7 @@ module.exports = function (element, selector, checkYoSelf) {
 
   while (parent && parent !== document) {
     if (matches(parent, selector)) return parent;
-    parent = parent.parentNode
+    parent = parent.parentNode;
   }
 }
 

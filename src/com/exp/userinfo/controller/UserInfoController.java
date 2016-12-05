@@ -4,8 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -22,6 +28,7 @@ import com.exp.bug.service.BugServiceImpl;
 import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
+import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
 import com.exp.question.service.QuestionServiceImpl;
@@ -59,14 +66,15 @@ public class UserInfoController {
 	}
 
 	/**
-	 * @function 根据用户的id查找用户，返回home.jsp页面 
+	 * @function 根据用户的id查找用户，返回home.jsp页面
 	 * @author tangwenru
+	 * @author zhang zhao lin 实现社区属性 tag以及个人tag获取
 	 * @param id
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "home", method = RequestMethod.GET)
-	
+
 	public String findById(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
 		// 获取用户的id信息
@@ -81,13 +89,18 @@ public class UserInfoController {
 			session.setAttribute("hour", array[1]);
 			session.setAttribute("min", array[2]);
 			session.setAttribute("second", array[3]);
-			//社区属性
-			System.out.println(userInfo.getTags());
-			try {
-				System.out.println(userInfo.getTags().size());
-			} catch (Exception e) {
-				// TODO: handle exception
+			// 社区属性
+			HashMap<String, Integer> hashmap = new HashMap<>();
+
+			Set<R_Tag_UserInfo> userInfo_tags = userInfo.getR_tag_userInfo();
+			for (R_Tag_UserInfo it : userInfo_tags) {
+				String tagName = it.getTag().getTagName();
+				Integer tagNumber = it.getTagNumber();
+				System.out.println("tagName:" + tagName + "tagNumber:" + tagNumber);
+				hashmap.put(tagName, tagNumber);
 			}
+
+			// 等一下再打印
 			return "home";
 		} else {
 			return "login";
@@ -111,19 +124,19 @@ public class UserInfoController {
 		System.out.println("time : " + u.getUserInfoRegistTime());
 		long[] array = new long[4];
 		// 计算时间差
-		if(now!=null){
-		long l = now.getTime() - date.getTime();
-		long day = l / (24 * 60 * 60 * 1000);
-		long hour = (l / (60 * 60 * 1000) - day * 24);
-		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
-		long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
-		
-		array[0] = day;
-		array[1] = hour;
-		array[2] = min;
-		array[3] = s;
-		System.out.println("day:" + day + "hour:" + hour);
-	
+		if (now != null) {
+			long l = now.getTime() - date.getTime();
+			long day = l / (24 * 60 * 60 * 1000);
+			long hour = (l / (60 * 60 * 1000) - day * 24);
+			long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+			long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+
+			array[0] = day;
+			array[1] = hour;
+			array[2] = min;
+			array[3] = s;
+			System.out.println("day:" + day + "hour:" + hour);
+
 		}
 		return array;
 	}
@@ -204,6 +217,7 @@ public class UserInfoController {
 		this.userInfoServiceImpl.editUserInfo(u);
 		return "redirect:home";
 	}
+
 	/**
 	 * @author Ray_1 用户退出
 	 * @param request
@@ -220,7 +234,7 @@ public class UserInfoController {
 			return "login";
 		}
 		session.invalidate();
-		//session.removeAttribute("loginUser");
+		// session.removeAttribute("loginUser");
 		return "login";
 	}
 }

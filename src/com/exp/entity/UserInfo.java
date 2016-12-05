@@ -1,6 +1,5 @@
 package com.exp.entity;
 
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class UserInfo {
 	private Set<Question> questions = new HashSet<Question>(0);
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	private Set<Answer> answers = new HashSet<Answer>(0);
-	private Set<Tag> tags = new HashSet<Tag>(0);
+	private Set<R_Tag_UserInfo> r_tag_userInfo = new HashSet<R_Tag_UserInfo>(0);
 	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
 
 	@Id
@@ -146,17 +145,6 @@ public class UserInfo {
 		this.answers = answers;
 	}
 
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinTable(name = "r_tag_userinfo", joinColumns = {
-			@JoinColumn(name = "userInfoId", referencedColumnName = "userInfoId") }, inverseJoinColumns = {
-					@JoinColumn(name = "tagId", referencedColumnName = "tagId") })
-	public Set<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
 	/**
 	 * @author tangwenru
 	 * @return
@@ -169,6 +157,14 @@ public class UserInfo {
 	public void setBugLikeRecords(Set<BugLikeRecord> bugLikeRecords) {
 		this.bugLikeRecords = bugLikeRecords;
 	}
-	
+
+	@OneToMany(mappedBy = "userInfo",fetch=FetchType.EAGER)
+	public Set<R_Tag_UserInfo> getR_tag_userInfo() {
+		return r_tag_userInfo;
+	}
+
+	public void setR_tag_userInfo(Set<R_Tag_UserInfo> r_tag_userInfo) {
+		this.r_tag_userInfo = r_tag_userInfo;
+	}
 
 }
