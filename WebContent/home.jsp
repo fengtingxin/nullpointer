@@ -171,10 +171,7 @@
 										<span class="profile__mod-inner-heading">性别</span>
 									</div>
 									<div>
-										<span> <c:if
-												test="${loginUser.userInfo.userInfoSex==null}">
-										暂无
-									    </c:if> <c:if test="${loginUser.userInfo.userInfoSex!=null}">
+										<span>  <c:if test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
 									    </c:if>
 									    <c:if
