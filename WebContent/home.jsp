@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -20,6 +20,10 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/style.css">
 <style id="themeStyle"></style>
 <style type="text/css">
+*{
+	font-family: '微软雅黑';
+}
+
 .profile__mod-inner-heading {
 	font-size: 14px;
 	color: #999;
@@ -48,7 +52,7 @@
 			response.sendRedirect("login.jsp");
 		%>
 	</c:if>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
@@ -79,16 +83,20 @@
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a
+							href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a
+							href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a
+							href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a
+							href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -176,8 +184,7 @@
 										暂无
 									    </c:if> <c:if test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
-									    </c:if>
-									    <c:if
+									    </c:if> <c:if
 												test="${loginUser.userInfo.userInfoSex!='男'&&loginUser.userInfo.userInfoSex!='女'}">
 										暂无
 									    </c:if>
@@ -289,6 +296,7 @@
 			</div>
 		</div>
 	</div>
+	<c:set var="userInfo_tags" value="${sessionScope.userInfo_tags }"></c:set>
 
 </body>
 <script src="${ctx }/assets/jquery.js"></script>
@@ -304,10 +312,18 @@
 
 
 <script src="${ctx }/js/laydate.js" type="text/javascript"></script>
+<!-- JSON -->
+<script type="text/javascript" src="${ctx }/js/jquery.json-2.3.js"></script>
 <script type="text/javascript">
 	$(document)
 			.ready(
 					function() {
+						var userInfoTag_data = ${userInfo_tags};
+						userInfoTag_data = eval(userInfoTag_data);					
+						//console.log(userInfoTag_data);
+						if(userInfoTag_data.length==0){
+							userInfoTag_data = [{lable:"暂无",value:1,color:'#E5E5E5'}];
+						}
 						// 使用jquery方法获取 2d context 对象
 						var ctx = $("#myChart").get(0).getContext("2d");
 						var honor = $("#Honor").get(0).getContext("2d");
@@ -317,25 +333,7 @@
 						// 使用$.zui.Chart构造Chart实例
 						var myNWwChart = new $.zui.Chart(ctx);
 						var myNWwChart2 = new $.zui.Chart(honor);
-						var data = [ {
-							value : 150,
-							color : "blue", // 使用颜色名称
-							label : "JAVA"
-						}, {
-							value : 250,
-							color : "#F7464A", // 自定义颜色
-							// highlight: "#FF5A5E", // 自定义高亮颜色
-							label : "C++"
-						}, {
-							value : 50,
-							color : 'green',
-							label : "hibernate"
-						}, {
-							// 不指定color值，使用随机颜色
-							// 
-							value : 100,
-							label : "servlet"
-						} ];
+						var data = userInfoTag_data;
 
 						var data2 = {
 							labels : [ "一月", "二月", "三月", "四月", "五月", "六月",

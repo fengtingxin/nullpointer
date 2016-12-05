@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.bug.service.BugServiceImpl;
+import com.exp.bugHateRecord.service.BugHateRecordServiceImpl;
 import com.exp.bugLikeRecord.service.BugLikeRecordServiceImpl;
 import com.exp.comment.service.CommentServiceImpl;
 import com.exp.entity.Bug;
+import com.exp.entity.BugHateRecord;
 import com.exp.entity.BugLikeRecord;
 import com.exp.entity.Comment;
 import com.exp.entity.LoginUser;
@@ -45,6 +47,8 @@ public class BugController {
 	private UserInfoServiceImpl userInfoServiceImpl;
 	@Resource
 	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
+	@Resource
+	private BugHateRecordServiceImpl bugHateRecordServiceImpl;
 
 	/**
 	 * @author Ray_1功能：搜索下来框
@@ -159,10 +163,20 @@ public class BugController {
 	 * @return bug-detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getBug(Integer bugId,
+
+	public String getBug(@RequestParam(name = "bugId") Integer bugId,
+			@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
 			@RequestParam(name = "bug_detailed_bell", required = false) String bug_detailed_bell,
 			HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
+		if (userInfoId != null & this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null) {
+			request.setAttribute("likeStatus",
+					this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+		}
+		if (userInfoId != null & this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null) {
+			request.setAttribute("hateStatus",
+					this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+		}
 		request.setAttribute("bug", bug);
 		if (bug_detailed_bell != null) {
 			if (bug_detailed_bell.substring(bug_detailed_bell.length() - 1).equals("1")) {
@@ -227,47 +241,5 @@ public class BugController {
 			this.commentServiceImpl.saveComment(comment);
 		}
 		return "redirect:findone?bugId=" + bugId;
-	}
-
-	@RequestMapping("like")
-	public String bugLike(@RequestParam(name = "userInfoId") Integer userInfoId,
-			@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
-		Bug bug = this.bugServiceImpl.getBug(bugId);
-		if (userInfoId == null) {
-			request.setAttribute("adviceReminder", "ok");
-			request.setAttribute("bug", bug);
-			request.setAttribute("remindMsg", "请登录！");
-			return "bug-detailed";
-		}
-		if (userInfoId != null & this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null) {
-			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
-			LoginUser loginUser = userInfo.getLoginUser();
-			request.setAttribute("loginUser", loginUser);
-			request.setAttribute("bug", bug);
-			request.setAttribute("adviceReminder", "ok");
-			request.setAttribute("remindMsg", "您已经点过赞了！");
-			request.setAttribute("likeStatus",
-					this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
-			return "bug-detailed";
-		} else {
-			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
-
-			bug.setBugLikeNum(bug.getBugLikeNum() + 1);
-			this.bugServiceImpl.updateBug(bug);
-			BugLikeRecord bugLikeRecord = new BugLikeRecord();
-			bugLikeRecord.setBug(bug);
-
-			bugLikeRecord.setUserInfo(userInfo);
-			bugLikeRecord.setBugLikeStatus(1);
-			bugLikeRecord.setBuglikeTime(new Date());
-			LoginUser loginUser = userInfo.getLoginUser();
-			request.setAttribute("loginUser", loginUser);
-			request.setAttribute("bug", bug);
-			this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
-			request.setAttribute("likeStatus",
-					this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
-
-			return "bug-detailed";
-		}
 	}
 }

@@ -1,249 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>nullpointer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<!DOCTYPE HTML>
-<html lang="en-US">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Kanrisha - A Premium HTML5 Responsive Admin Template</title>
-	<!--[if lt IE 9]>
-		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="Javascript/Flot/excanvas.js"></script>
-	<![endif]-->
-	<!-- The Fonts -->
-	<link href="http://fonts.useso.com/css?family=Oswald|Droid+Sans:400,700" rel="stylesheet">
-	<!-- The Main CSS File -->
-	<link rel="stylesheet" href="CSS/style.css">
-	<!-- jQuery -->
-	<script src="Javascript/jQuery/jquery-1.7.2.min.js"></script>
-	<!-- Flot -->
-	<script src="Javascript/Flot/jquery.flot.js"></script>
-	<script src="Javascript/Flot/jquery.flot.resize.js"></script>
-	<script src="Javascript/Flot/jquery.flot.pie.js"></script>
-	<!-- DataTables -->
-	<script src="Javascript/DataTables/jquery.dataTables.min.js"></script>
-	<!-- ColResizable -->
-	<script src="Javascript/ColResizable/colResizable-1.3.js"></script>
-	<!-- jQuryUI -->
-	<script src="Javascript/jQueryUI/jquery-ui-1.8.21.min.js"></script>
-	<!-- Uniform -->
-	<script src="Javascript/Uniform/jquery.uniform.js"></script>
-	<!-- Tipsy -->
-	<script src="Javascript/Tipsy/jquery.tipsy.js"></script>
-	<!-- Elastic -->
-	<script src="Javascript/Elastic/jquery.elastic.js"></script>
-	<!-- ColorPicker -->
-	<script src="Javascript/ColorPicker/colorpicker.js"></script>
-	<!-- SuperTextarea -->
-	<script src="Javascript/SuperTextarea/jquery.supertextarea.min.js"></script>
-	<!-- UISpinner -->
-	<script src="Javascript/UISpinner/ui.spinner.js"></script>
-	<!-- MaskedInput -->
-	<script src="Javascript/MaskedInput/jquery.maskedinput-1.3.js"></script>
-	<!-- ClEditor -->
-	<script src="Javascript/ClEditor/jquery.cleditor.js"></script>
-	<!-- Full Calendar -->
-	<script src="Javascript/FullCalendar/fullcalendar.js"></script>
-	<!-- Color Box -->
-	<script src="Javascript/ColorBox/jquery.colorbox.js"></script>
-	<!-- Kanrisha Script -->
-	<script src="Javascript/kanrisha.js"></script>
-</head>
-<body>
-	<!-- Change Pattern -->
-	<div class="changePattern">
-		<span id="pattern1"></span>
-		<span id="pattern2"></span>
-		<span id="pattern3"></span>
-		<span id="pattern4"></span>
-		<span id="pattern5"></span>
-		<span id="pattern6"></span>
-	</div>
-	<!-- Top Panel -->
-	<div class="top_panel">
-		<div class="wrapper">
-			<div class="user">
-				<img src="Images/user_avatar.png" alt="user_avatar" class="user_avatar">
-				<span class="label">John Alex</span>
-				<!-- Top Tooltip -->
-				<div class="top_tooltip">
-					<div>
-						<ul class="user_options">
-							<li class="i_16_profile"><a href="#" title="Profile"></a></li>
-							<li class="i_16_tasks"><a href="#" title="Tasks"></a></li>
-							<li class="i_16_notes"><a href="#" title="Notes"></a></li>
-							<li class="i_16_options"><a href="#" title="Options"></a></li>
-							<li class="i_16_logout"><a href="#" title="Log-Out"></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			
-		</div>
-	</div>
+		<!-- basic styles -->
 
-	<header class="main_header">
-		<div class="wrapper">
-			<div class="logo">
-				<a href="#" Title="Kanrisha Home">
-					<img src="Images/kanrisha_logo.png" alt="kanrisha_logo">
-				</a>
-			</div>
-		</div>
-	</header>
-	<div class="wrapper small_menu">
-		<ul class="menu_small_buttons">
-			<li><a title="General Info" class="i_22_dashboard" href="advice.html"></a></li>
-			<li><a title="Your Messages" class="i_22_inbox smActive" href="bug_review.html"></a></li>
-			<li><a title="Visual Data" class="i_22_charts" href="find_Users.html"></a></li>
-			<li><a title="Kit elements" class="i_22_ui" href="publish_bug.html"></a></li>
-			<li><a title="Some Rows" class="i_22_tables" href="find_bug.html"></a></li>
-		</ul>
-	</div>
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
 
-	<div class="wrapper contents_wrapper">
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
 		
-		<aside class="sidebar">
-			<ul class="tab_nav">
-				<li class=" i_32_dashboard">
-					<a href="advice.html" title="General Info">
-						<span class="tab_label">用户建议</span>
-						<span class="tab_info">用户提交的建议</span>
-					</a>
-				</li>
-				<li class="active_tab i_32_inbox">
-					<a href="bug_review.html" title="Your Messages">
-						<span class="tab_label">审核bug</span>
-						<span class="tab_info">审核用户分享的bug</span>
-					</a>
-				</li>
-				<li class="i_32_charts">
-					<a href="find_Users.html" title="Visual Data">
-						<span class="tab_label">查询用户</span>
-						<span class="tab_info">查询</span>
-					</a>
-				</li>
-				<li class="i_32_ui">
-					<a href="publish_bug.html" title="Kit elements">
-						<span class="tab_label">发布bug</span>
-						<span class="tab_info">发布bug</span>
-					</a>
-				</li>
-				<li class="i_32_tables">
-					<a href="find_bug.html" title="Some Rows">
-						<span class="tab_label">查询bug</span>
-						<span class="tab_info">查询已经发布bug</span>
-					</a>
-				</li>
-			</ul>
-		</aside>
-		<div class="contents">
-			<div class="grid_wrapper">
-				<div class="g_6 contents_header">
-					<h3 class="i_16_message tab_label">bug审核</h3>
-					<div><span class="label">审核用户分享的bug</span></div>
-				</div>
-				<div class="g_12 separator"><span></span></div>
-				<!--table-->
-				<div class="g_12">
-					<div class="widget_header">
-						<h4 class="widget_header_title wwIcon i_16_tooltip">Ticket Table</h4>
-					</div>
-					<div class="widget_contents noPadding twCheckbox">
-						<table class="tables datatable noObOLine">
-							<thead>
-								<tr>
-									<th>
-										<input type="checkbox" class="simple_form tMainC">
-									</th>
-									<th>ID</th>
-									<th>Title</th>
-									<th>Priority</th>
-									<th>Status</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="status_open">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td><a href="bug_detail.html">123123</a></td>
-									<td>I Can't Remember My Password</td>
-									<td>High</td>
-									<td>Open</td>
-								</tr>
-								<tr class="status_open">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238750</td>
-									<td>My Account Was Hacked</td>
-									<td>Low</td>
-									<td>Open</td>
-								<tr class="status_open">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238751</td>
-									<td>Can I Change My UserName</td>
-									<td>Medium</td>
-									<td>Open</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238752</td>
-									<td>I Want To Delete My Account Permanently</td>
-									<td>Low</td>
-									<td>Closed</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238753</td>
-									<td>Is It Possible To Create Two Account</td>
-									<td>Medium</td>
-									<td>Closed</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238754</td>
-									<td>There Is A Bug On Your Website</td>
-									<td>High</td>
-									<td>Closed</td>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238755</td>
-									<td>I Can't Found The RSS</td>
-									<td>Low</td>
-									<td>Closed</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238756</td>
-									<td>What's The Price Of The Pro Account</td>
-									<td>High</td>
-									<td>Closed</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238757</td>
-									<td>Can I Upload More Than 30Mb</td>
-									<td>Medium</td>
-									<td>Closed</td>
-								</tr>
-								<tr class="status_closed">
-									<td><input type="checkbox" class="simple_form"></td>
-									<td>#238758</td>
-									<td>The Server Is Slow</td>
-									<td>High</td>
-									<td>Closed</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>		
+		<!-- fonts -->
+		<!-- ace styles -->
+
+		<link rel="stylesheet" href="assets/css/ace.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+
+		<script src="assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<small>
+							<i class="icon-leaf"></i>
+							nullpointer
+						</small>
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
+
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									<small>Welcome,</small>
+									Jason
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="#">
+										<i class="icon-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
 		</div>
-	</div>
-	<footer>
-		<div class="wrapper">
-			<span class="copyright">
-				COPYRIGHT © 2012 Mahieddine Abd-kader
-			</span>
-		</div>
-	</footer>
-</body>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+					<ul class="nav nav-list">
+						<li>
+							<a href="advice.html">
+								<i class="icon-dashboard"></i>
+								<span class="menu-text"> 控制台 </span>
+							</a>
+						</li>
+
+						<li>
+							<a href="advice.html">
+								<i class="icon-text-width"></i>
+								<span class="menu-text"> 用户建议 </span>
+							</a>
+						</li>
+						<li class="active open">
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-edit"></i>
+								<span class="menu-text"> bug管理 </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li >
+									<a href="bug.html" class="active">
+										<i class="icon-double-angle-right"></i>
+										查询bug
+									</a>
+								</li>
+
+								<li class="active"	>
+									<a href="bug_review.html">
+										<i class="icon-double-angle-right"></i>
+										bug审核
+									</a>
+								</li>
+
+								<li>
+									<a href="bug_publish.html">
+										<i class="icon-double-angle-right"></i>
+										发布bug
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-list"></i>
+								<span class="menu-text"> 用户管理 </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a href="users.html">
+										<i class="icon-double-angle-right"></i>
+										用户详情
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">Home</a>
+							</li>
+							<li class="active">bug管理</li>
+						</ul><!-- .breadcrumb -->
+
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								bug审核
+								<small>
+									<i class="icon-double-angle-right"></i>
+									bug标题
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="widget-box">
+											<h4>我是bug标题</h4>
+												<address>
+													<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo">
+													作者：<strong>Twitter, Inc.</strong>
+													发布时间：<strong>12/30/2017</strong>
+													
+												</address>
+											<hr />
+											<h1>发现有如下问题：</h1>
+											
+											
+												<pre class="prettyprint linenums">&lt;p class="muted"&gt;Fusce dapibus, tellus ac cursus commodo.&lt;/p&gt;
+	&lt;p class="text-warning"&gt;Etiam porta sem malesuada.&lt;/p&gt;
+	&lt;p class="text-error"&gt;Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;
+	&lt;p class="text-info"&gt;Aenean eu leo quam.&lt;/p&gt;
+	&lt;p class="text-success"&gt;Duis mollis.&lt;/p&gt;</pre>
+											
+											<h2>将本网站的代码改的好一些就好了</h2>
+											<hr/>
+											<div class="col-sm-2">
+												<button class="btn btn-lg btn-danger">
+												<i class="icon-bolt bigger-110"></i>
+												拒绝
+												<i class="icon-arrow-left icon-on-left"></i>
+											</button>
+											</div>
+											<div class="col-sm-2">
+												<button class="btn btn-lg btn-success">
+												<i class="icon-ok"></i>
+												同意
+											</button>
+											</div>
+										</div>
+									</div><!-- /span -->
+								</div>
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+				<div class="ace-settings-container" id="ace-settings-container">
+					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+						<i class="icon-cog bigger-150"></i>
+					</div>
+
+					<div class="ace-settings-box" id="ace-settings-box">
+						<div>
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">将本网站的代码改的好一些就好了
+
+
+									<option data-skin="default" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>&nbsp; Choose Skin</span>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+							<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+							<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+							<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+							<label class="lbl" for="ace-settings-add-container">
+								Inside
+								<b>.container</b>
+							</label>
+						</div>
+					</div>
+				</div><!-- /#ace-settings-container -->
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script src="assets/js/jquery.min.js"></script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<![endif]-->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<!-- ace scripts -->
+
+		<script src="assets/js/ace-elements.min.js"></script>
+		<script src="assets/js/ace.min.js"></script>
+
+		<!-- inline scripts related to this page -->
+
+		<script type="text/javascript">
+			jQuery(function($) {
+			
+				window.prettyPrint && prettyPrint();
+				$('#id-check-horizontal').removeAttr('checked').on('click', function(){
+					$('#dt-list-1').toggleClass('dl-horizontal').prev().html(this.checked ? '&lt;dl class="dl-horizontal"&gt;' : '&lt;dl&gt;');
+				});
+			
+			})
+		</script>
+	</body>
 </html>

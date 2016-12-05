@@ -1,6 +1,7 @@
 package com.exp.bugLikeRecord.dao;
 
 import org.springframework.stereotype.Repository;
+
 import com.exp.entity.BugLikeRecord;
 import com.framework.BaseDao;
 
@@ -48,6 +49,22 @@ public class BugLikeRecordDaoImpl extends BaseDao<BugLikeRecord, String> {
 		}
 		
 		
+	}
+	/**
+	 * @function 根据id查询单个bug点赞记录
+	 * @author tangwenru
+	 * @param bugLikeREcordId
+	 * @return
+	 */
+	public BugLikeRecord getBugLikeRecord(int bugLikeRecordId){
+		try {
+			BugLikeRecord b=this.get(bugLikeRecordId);
+			return b;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 		
 	

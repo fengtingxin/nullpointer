@@ -12,7 +12,7 @@ import com.exp.entity.BugLikeRecord;
 @Transactional(readOnly=true)
 public class BugLikeRecordServiceImpl {
 	@Resource
-	private BugLikeRecordDaoImpl bugLikeRecordImpl;
+	private BugLikeRecordDaoImpl bugLikeRecordDaoImpl;
 	/**
 	 * @function 更新bug点赞记录表
 	 * @author tangwenru
@@ -20,7 +20,9 @@ public class BugLikeRecordServiceImpl {
 	 */
 	@Transactional(readOnly=false)
 	public void updateBugLikeRecord(BugLikeRecord b){
-		this.bugLikeRecordImpl.updateBugLikeRecord(b);
+		BugLikeRecord record=this.bugLikeRecordDaoImpl.getBugLikeRecord(b.getBugLikeRecordId());
+		b.setBugLikeStatus(b.getBugLikeStatus());
+		this.bugLikeRecordDaoImpl.updateBugLikeRecord(record);
 		
 	}
 	/**
@@ -30,12 +32,29 @@ public class BugLikeRecordServiceImpl {
 	 */
 	@Transactional(readOnly=false)
 	public void saveBugLikeRecord(BugLikeRecord b){
-		this.bugLikeRecordImpl.saveBugLikeRecord(b);
+		this.bugLikeRecordDaoImpl.saveBugLikeRecord(b);
 	}
+	/**
+	 * @function 查询单个bug点赞记录
+	 * @author tangwenru
+	 * @param bugId
+	 * @param userInfoId
+	 * @return
+	 */
 	public BugLikeRecord findBugLikeRecord(Integer bugId,Integer userInfoId){
-		return this.bugLikeRecordImpl.findBugLikerecord(bugId, userInfoId);
+		return this.bugLikeRecordDaoImpl.findBugLikerecord(bugId, userInfoId);
 		
 	}
+	/**
+	 * @function 根据id查询单个bug点赞记录
+	 * @author tangwenru
+	 * @param bugLikeRecordId
+	 * @return
+	 */
+	public BugLikeRecord getBugLikeRecord(Integer bugLikeRecordId){
+		return this.bugLikeRecordDaoImpl.getBugLikeRecord(bugLikeRecordId);
+	}
+	
 	
 
 }

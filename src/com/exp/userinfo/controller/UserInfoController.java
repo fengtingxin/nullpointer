@@ -4,8 +4,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -22,11 +28,16 @@ import com.exp.bug.service.BugServiceImpl;
 import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
+import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
+import com.exp.entity.ZuiData;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 public class UserInfoController {
@@ -59,20 +70,20 @@ public class UserInfoController {
 	}
 
 	/**
-	 * @function 根据用户的id查找用户，返回home.jsp页面 
+	 * @function 根据用户的id查找用户，返回home.jsp页面
 	 * @author tangwenru
+	 * @author zhang zhao lin 实现社区属性 tag以及个人tag获取
 	 * @param id
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "home", method = RequestMethod.GET)
-	
+
 	public String findById(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
 		// 获取用户的id信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		if (session.getAttribute("loginUser") != null && session.getAttribute("loginUser") != "") {
-			System.out.println(loginUser);
 			UserInfo userInfo = loginUser.getUserInfo();
 
 			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到session范围
@@ -81,13 +92,19 @@ public class UserInfoController {
 			session.setAttribute("hour", array[1]);
 			session.setAttribute("min", array[2]);
 			session.setAttribute("second", array[3]);
-			//社区属性
-			System.out.println(userInfo.getTags());
-			try {
-				System.out.println(userInfo.getTags().size());
-			} catch (Exception e) {
-				// TODO: handle exception
+			ArrayList<ZuiData> zuiData_List = new ArrayList<ZuiData>();
+			Set<R_Tag_UserInfo> userInfo_tags = userInfo.getR_tag_userInfo();
+			for (R_Tag_UserInfo it : userInfo_tags) {
+				ZuiData zuiData = new ZuiData();
+				String tagName = it.getTag().getTagName();
+				zuiData.setLabel(tagName);
+				Integer tagNumber = it.getTagNumber();
+				zuiData.setValue(tagNumber);
+				zuiData_List.add(zuiData);
 			}
+			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			session.setAttribute("userInfo_tags", jsonObject);
+			// 等一下再打印
 			return "home";
 		} else {
 			return "login";
@@ -111,19 +128,19 @@ public class UserInfoController {
 		System.out.println("time : " + u.getUserInfoRegistTime());
 		long[] array = new long[4];
 		// 计算时间差
-		if(now!=null){
-		long l = now.getTime() - date.getTime();
-		long day = l / (24 * 60 * 60 * 1000);
-		long hour = (l / (60 * 60 * 1000) - day * 24);
-		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
-		long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
-		
-		array[0] = day;
-		array[1] = hour;
-		array[2] = min;
-		array[3] = s;
-		System.out.println("day:" + day + "hour:" + hour);
-	
+		if (now != null) {
+			long l = now.getTime() - date.getTime();
+			long day = l / (24 * 60 * 60 * 1000);
+			long hour = (l / (60 * 60 * 1000) - day * 24);
+			long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+			long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
+
+			array[0] = day;
+			array[1] = hour;
+			array[2] = min;
+			array[3] = s;
+			System.out.println("day:" + day + "hour:" + hour);
+
 		}
 		return array;
 	}
@@ -204,6 +221,7 @@ public class UserInfoController {
 		this.userInfoServiceImpl.editUserInfo(u);
 		return "redirect:home";
 	}
+
 	/**
 	 * @author Ray_1 用户退出
 	 * @param request
@@ -220,7 +238,7 @@ public class UserInfoController {
 			return "login";
 		}
 		session.invalidate();
-		//session.removeAttribute("loginUser");
+		// session.removeAttribute("loginUser");
 		return "login";
 	}
 }

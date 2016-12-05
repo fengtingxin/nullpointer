@@ -27,6 +27,29 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
 <style id="themeStyle"></style>
+<script type="text/javascript">
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("likeDiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","${ctx}/ajax/test1.txt",true);
+xmlhttp.send();
+}
+</script>
 </head>
 
 <body>
@@ -120,7 +143,27 @@
 						</div>
 						<div class="container"
 							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+							<p style="margin-bottom: 0px">
+							
+							${bug.bugLikeNum }
+							
+							</p>
+							赞
+						</div>
+						</div>
+						</c:if>
+							<c:if test="${likeStatus==0}">
+						<div>
+						<div class="container">
+							<i class="icon icon-angle-up icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">
+							
+							${bug.bugLikeNum }
+							
+							</p>
 							赞
 						</div>
 						</div>
@@ -129,10 +172,12 @@
 						
 
 					</div>
-				</a> <a href="">
+				</a><a href="${ctx }/bug/hate?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
 
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+						<c:if test="${hateStatus==1 }">
+						<div class="haveen">
 						<div class="container">
 							<i class="icon icon-angle-down icon-3x"></i>
 						</div>
@@ -141,8 +186,34 @@
 							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
 							踩
 						</div>
-
+                       </div>
+                       </c:if>
+					
+					<c:if test="${hateStatus==null }">
+					<div>
+					<div class="container">
+							<i class="icon icon-angle-down icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+							踩
+						</div>
 					</div>
+					</c:if>
+					<c:if test="${hateStatus==0 }">
+					<div>
+					<div class="container">
+							<i class="icon icon-angle-down icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+							踩
+						</div>
+					</div>
+					</c:if>
+			   </div>
 					
 				</a>
 			</div>

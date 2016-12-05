@@ -137,7 +137,7 @@
 										fade : 'true',
 										type : 'primary', // 定义颜色主题
 
-									}).show();
+							}).show();
 						}
 					</script>
 				</c:if>

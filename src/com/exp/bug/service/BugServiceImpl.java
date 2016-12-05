@@ -88,12 +88,83 @@ public class BugServiceImpl {
 		return this.bugDaoImpl.getBug(bugId);
 	}
 	/**
+	 * 功能：得到所有的bug//无序
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<Bug> getAllBug(){
+		return this.bugDaoImpl.findBugRecommend();
+	}
+	/**
+	 * 功能：
+	 * 根据id删除一个bug
+	 * @param bugId
+	 * @author fengtingxin
+	 */
+	@Transactional(readOnly = false)
+	public void deleteOneBug(Integer bugId){
+		try {
+			this.bugDaoImpl.delete(bugId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("bug exception about delete one!");
+			Bug bug;
+			try {
+				bug = this.bugDaoImpl.get(bugId);
+				this.bugDaoImpl.delete(bug);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+	}
+	
+	/**
+	 * 功能：
+	 * 根据id找到一个bug
+	 * @param bugId
+	 * @return
+	 * @author fengtingxin
+	 */
+	public Bug getOneBug(Integer bugId){
+		try {
+			return this.bugDaoImpl.get(bugId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/**
+	 * 功能：
+	 * 保存bug
+	 * @param bug
+	 * @author fengtingxin
+	 */
+	@Transactional(readOnly = false)
+	public void saveOneBug(Bug bug){
+		try {
+			this.bugDaoImpl.save(bug);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("there is a error when save a bug");
+		}
+	}
+	/**
 	 * @function 更新bug
 	 * @author tangwenru
 	 * @param bug
 	 */
 	@Transactional(readOnly=false)
 	public void updateBug(Bug bug){
-		this.bugDaoImpl.updateBug(bug);
+		try {
+			this.bugDaoImpl.update(bug);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
