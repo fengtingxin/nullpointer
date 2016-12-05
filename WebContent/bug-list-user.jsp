@@ -72,7 +72,7 @@
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">${fn:substring(bug.bugTitle,0,45)}
 										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
 									</a>
 								</h2>
@@ -97,14 +97,20 @@
 				<!--分页实现-->
 				<ul class="pager pager-loose">
 					<li class="previous"><a
-						href="${ctx}/bug/listuser?currentPageNum=${page.prePageNum}">«</a></li>
+						href="${ctx}/bug/listuser?pageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen"
+							<c:if test="${pageNum ==page.currentPageNum}">
+						<li class="active"><a name="pagen"
 							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
+					<c:if test="${pageNum !=page.currentPageNum}">
+					<li><a name="pagen"
+							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/bug/listuser?currentPageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/bug/listuser?pageNum=${page.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 

@@ -112,7 +112,7 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
+											<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
 												${fn:substring(bug.bugTitle, 0, 50)} <c:if
 													test="${fn:length(bug.bugTitle)>50}">...</c:if>
@@ -258,8 +258,4 @@
 <!-- 增强文档插件 -->
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
-<script type="text/javascript">
-	$('[data-toggle="tooltip"]').tooltip();
-	window.open = "${ctx}/index";
-</script>
 </html>

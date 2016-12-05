@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-import com.exp.entity.Bug;
-import com.exp.entity.Comment;
+
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.question.service.QuestionServiceImpl;
@@ -35,16 +34,17 @@ public class QuestionController {
 
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题 个人主页部分
+	 * @param userInfoId 
+	 * @author tangwenru 新增参数userInfoId 动态获取此时用户的id
 	 * @param pageNum
 	 *            一页有多少
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
+	public String list(@RequestParam(name="userInfoId",required=false) Integer userInfoId,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Question> page;
-		int userinfoId = 1;
-		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userinfoId });
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userInfoId });
 		session.setAttribute("page", page);
 		return "home-question";
 	}

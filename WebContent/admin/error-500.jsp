@@ -19,7 +19,15 @@
 
 		<link href="${ctx }/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome.min.css" />
-
+<!-- 网站logo缩略图 -->
+<link rel="shortcut icon" href="${ctx }/images/favicon.png" />
+<link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
+<!-- 条件 -->
+<c:if test="${empty loginUser }">
+		<%
+			response.sendRedirect("login.jsp");
+		%>
+</c:if>
 		<!--[if IE 7]>
 		  <link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome-ie7.min.css" />
 		<![endif]-->
@@ -78,7 +86,7 @@
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="#">
+									<a href="${ctx }/admin/logOut">
 										<i class="icon-off"></i>
 										退出登录
 									</a>
@@ -89,7 +97,15 @@
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
 		</div>
-
+<script type="text/javascript">
+/*
+方法：详情清除缓存，
+*/
+function clear() {
+	$.session.clear();
+	window.location.href="login.jsp"
+}
+</script>
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}

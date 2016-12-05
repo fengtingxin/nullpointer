@@ -73,7 +73,7 @@
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">${fn:substring(bug.bugTitle,0,45)}
 										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
 									</a>
 								</h2>
@@ -97,14 +97,20 @@
 				<!--分页实现-->
 				<ul class="pager pager-loose">
 					<li class="previous"><a
-						href="${ctx}/bug/listadmin?currentPageNum=${page.prePageNum}">«</a></li>
+						href="${ctx}/bug/listadmin?pageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen"
+					<c:if test="${pageNum ==page.currentPageNum}">
+						<li class="active"><a name="pagen"
 							href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
+					<c:if test="${pageNum !=page.currentPageNum}">
+					<li><a name="pagen"
+							href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/bug/listadmin?currentPageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/bug/listadmin?pageNum=${page.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 
@@ -117,7 +123,7 @@
 					<i class="icon icon-align-left"></i> 分类管理
 				</h2>
 				<ul class="nav nav-stacked nav-primary" style="margin-top: 20px;">
-					<li class="active"><a href="${ctx}/bug/lista">官方BUG查询</a></li>
+					<li class="active"><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
 					<li><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
 				</ul>
 			</div>

@@ -22,7 +22,14 @@ ${fn:substring(oneAdvice.adviceTheme, 0, 10)}
 
 		<link href="${ctx }/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome.min.css" />
-
+<!-- 网站logo缩略图 -->
+<link rel="shortcut icon" href="${ctx }/images/favicon.png" />
+<link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
+<c:if test="${empty loginUser }">
+		<%
+			response.sendRedirect("login.jsp");
+		%>
+</c:if>
 		<!--[if IE 7]>
 		  <link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome-ie7.min.css" />
 		<![endif]-->
@@ -85,7 +92,7 @@ ${fn:substring(oneAdvice.adviceTheme, 0, 10)}
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								
 								<li>
-									<a href="#">
+									<a href="${ctx }/admin/logOut">
 										<i class="icon-off"></i>
 										退出登录
 									</a>
@@ -96,7 +103,6 @@ ${fn:substring(oneAdvice.adviceTheme, 0, 10)}
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
 		</div>
-
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}

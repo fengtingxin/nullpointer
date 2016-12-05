@@ -88,9 +88,46 @@
 			</dl>
 			<section class="abstract">
 			<p>
-				<strong>问题描述：</strong>${question.questionDescribe }
+				
 			</p>
-			</section> <footer> <!--评论内容开始-->
+			</section></header>
+			 <section class="content">
+			 <h2>问题描述：</h2>
+				<c:if test="${question.questionDescribe==null }">暂无</c:if>
+				<c:if test="${question.questionDescribe!=null }">${question.questionDescribe }</c:if>
+			 </section>
+		     <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+			<div class="container" style="margin-top: 25px;">
+				<a href="跳转到控制器即可.html">
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+						<div class="container">
+							<i class="icon icon-angle-up icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${question.questionLikeNum }</p>
+							点赞
+						</div>
+
+					</div>
+				</a> <a href="">
+
+					<div class="col-md-6 column thumbs"
+						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+						<div class="container">
+							<i class="icon icon-angle-down icon-3x"></i>
+						</div>
+						<div class="container"
+							style="text-align: center; padding-bottom: 10px;">
+							<p style="margin-bottom: 0px">${question.questionHateNum }</p>
+							踩
+						</div>
+
+					</div>
+				</a>
+			</div>
+			<!--评论内容开始-->
 			<div class="comments">
 				<header>
 

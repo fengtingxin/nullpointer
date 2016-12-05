@@ -15,6 +15,7 @@
 		<!-- basic styles -->
 		<link href="${ctx }/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome.min.css" />
+		<!-- 网站缩略图 -->
 		<link rel="shortcut icon" href="${ctx }/images/favicon.png" />
 		<link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
 		<!--[if IE 7]>

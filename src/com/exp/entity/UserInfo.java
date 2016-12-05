@@ -1,8 +1,6 @@
 package com.exp.entity;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.swing.plaf.synth.SynthSpinnerUI;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -42,6 +39,7 @@ public class UserInfo {
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	private Set<Answer> answers = new HashSet<Answer>(0);
 	private Set<Tag> tags = new HashSet<Tag>(0);
+	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
 
 	@Id
 	@GenericGenerator(name = "foreignkey", strategy = "foreign", parameters = @Parameter(value = "loginUser", name = "property"))
@@ -159,5 +157,18 @@ public class UserInfo {
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
+	/**
+	 * @author tangwenru
+	 * @return
+	 */
+	@OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+	public Set<BugLikeRecord> getBugLikeRecords() {
+		return bugLikeRecords;
+	}
+
+	public void setBugLikeRecords(Set<BugLikeRecord> bugLikeRecords) {
+		this.bugLikeRecords = bugLikeRecords;
+	}
+	
 
 }

@@ -79,16 +79,16 @@
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime"><i
+						<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime"><i
+						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/home-comment.jsp"><i
+						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/home-share.jsp"><i
+						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -176,6 +176,10 @@
 										暂无
 									    </c:if> <c:if test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
+									    </c:if>
+									    <c:if
+												test="${loginUser.userInfo.userInfoSex!='男'&&loginUser.userInfo.userInfoSex!='女'}">
+										暂无
 									    </c:if>
 
 										</span>

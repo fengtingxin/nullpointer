@@ -33,12 +33,14 @@
 
 <body>
 
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!-- End of Header -->
 
 	<!-- Start of Search Wrapper -->
-	<div style="margin-top: 30px;">
-		<div class="search-area container">
+	<div
+		style="padding-top: 30px; background-color: #f3f3f3; padding-bottom: 30px;">
+		<div class="search-area container"
+			style="background-color: white; padding: 30px 80px 30px 60px">
 			<form class="form-horizontal">
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">标题</label>
@@ -52,14 +54,12 @@
 					<div class="col-md-6">
 						<select data-placeholder="选择问题类型..."
 							class="chosen-select form-control" tabindex="-1" multiple="">
-							<option value="JAVA">JAVA</option>
-							<option value="C++">C++</option>
-							<option value="hibernate">hibernate</option>
-							<option value="C语言">C语言</option>
-							<option value="html">html</option>
-							<option value="php">php</option>
-							<option value="C#">C#</option>
-							<option value=".net">.net</option>
+							<option value="strawberries">JAVA</option>
+							<option value="apple">C++</option>
+							<option value="orange">hibernate</option>
+							<option value="cherry">C语言</option>
+							<option value="banana">html</option>
+							<option value="figs">php</option>
 						</select>
 					</div>
 				</div>

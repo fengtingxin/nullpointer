@@ -66,14 +66,17 @@
 						<label class="field">验证码</label> <input type="text"
 							class="input-text-user input-click" name="codeValue"
 							id="codeValue" style="width: 120px; float: left"> <img
+
+
 							src="${ctx }/MakeCodeServlet" width="150px" height="40px"
+
 							style="float: left" />
 					</div>
 					<div class="row btnArea">
-						<a class="login-btn" id="submit" style="text-decoration: none">登录</a>
+						<a class="login-btn" id="submit" style="text-decoration: none font-family="">登录</a>
 					</div>
 					<div class="row tips">
-						<a href="#" class="link">忘记密码?</a>
+						<a href="${ctx }/admin/login.jsp" class="link">管理员登录</a>
 					</div>
 				</form>
 			</div>

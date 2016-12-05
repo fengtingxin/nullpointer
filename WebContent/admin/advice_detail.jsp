@@ -51,7 +51,7 @@
 		<![endif]-->
 		<c:if test="${empty loginUser }">
 		<%
-			response.sendRedirect("${ctx }/admin/login.jsp");
+			response.sendRedirect("login.jsp");
 		%>
 </c:if>
 	</head>
@@ -87,7 +87,7 @@
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="javascript:clear()">
+									<a href="${ctx }/admin/logOut">
 										<i class="icon-off"></i>
 										退出登录
 									</a>
@@ -98,14 +98,6 @@
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
 		</div>
-<script type="text/javascript">
-/*
-方法：详情清除缓存，
-*/
-function clear() {
-	$.session.clear();
-}
-</script>
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}

@@ -30,7 +30,7 @@ public class CommentDaoImpl extends BaseDao<Comment, String> {
 	public Page<Comment> findCommentByTime(int pageNum, int pageSize, Object[] params) {
 		String hql;
 
-		hql = "from Comment where commentAuthorId=? order by commentPublishTime";
+		hql = "from Comment c where c.userInfo.userInfoId=? order by c.commentPublishTime";
 		params[0] = params[0];
 		try {
 			Page<Comment> page = new Page<Comment>();
@@ -43,7 +43,6 @@ public class CommentDaoImpl extends BaseDao<Comment, String> {
 			return null;
 		}
 	}
-
 	public Comment findCommentById(Integer commentId) {
 		Query query = this.sessionFactory.getCurrentSession().createQuery("from Comment where commentId=" + commentId);
 		return (Comment) query.uniqueResult();

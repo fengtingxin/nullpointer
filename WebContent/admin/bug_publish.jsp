@@ -24,7 +24,7 @@
 <link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
 <c:if test="${empty loginUser }">
 		<%
-			response.sendRedirect("${ctx }/admin/login.jsp");
+			response.sendRedirect("login.jsp");
 		%>
 </c:if>
 		<!--[if IE 7]>
@@ -99,7 +99,7 @@
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="#">
+									<a href="${ctx }/admin/logOut">
 										<i class="icon-off"></i>
 										退出登录
 									</a>
@@ -110,7 +110,6 @@
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
 		</div>
-
 		<div class="main-container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}

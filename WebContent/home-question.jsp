@@ -59,20 +59,20 @@
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li class="active"><a href="${ctx }/home.jsp"><i
+						<li><a href="${ctx }/home.jsp"><i
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime"><i
+						<li class="active"><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime"><i
+						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/comment/findCommentByTime"><i
+						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/share/shareByTime"><i
+						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -102,14 +102,15 @@
 								<div class="pull-right label label-success">${tt.tagName }</div>
 							</c:forEach>
 							<h4>
-								<a href="###">${p.questionTitle }</a>
+								<a href="${ctx}/question/findone?questionId=${p.questionId}">${p.questionTitle }</a>
 							</h4>
 						</div>
 						<div class="item-content">
 							<div class="text">${p.questionDescribe }</div>
 						</div>
 						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
+							<a href="${ctx}/question/findone?questionId=${p.questionId}" class="text-muted">
+							<i class="icon-comments"></i>
 								${fn:length(p.answers)} </a> &nbsp; <span class="text-muted">
 								<!-- 汤文茹将点赞数改为回答问题数--> <!-- 汤文茹将问题的格式规范化 --> <fmt:formatDate
 									value="${p.questionPublishTime }" pattern="yyyy-MM-dd HH:mm" />
@@ -119,13 +120,21 @@
 				</c:forEach>
 
 				<ul class="pager">
-					<li class="previous"><a href="your/nice/url">«</a></li>
-					<li><a href="your/nice/url">1</a></li>
-					<li class="active"><a href="your/nice/url">2</a></li>
-					<li><a href="your/nice/url">3</a></li>
-					<li><a href="your/nice/url">4</a></li>
-					<li><a href="your/nice/url">5</a></li>
-					<li class="next"><a href="your/nice/url">»</a></li>
+					<li class="previous"><a
+						href="${ctx}/question/findQuestionByTime?pageNum=${page.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+					<c:forEach begin="1" end="${page.totalPageNum}" var="pageNum">
+						<c:if test="${pageNum ==page.currentPageNum}">
+						<li class="active"><a name="pagen"
+							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+						<c:if test="${pageNum !=page.currentPageNum}">
+						<li><a name="pagen"
+							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+						</c:if>
+					</c:forEach>
+
+					<li class="next"><a
+						href="${ctx}/question/findQuestionByTime?pageNum=${page.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
 				</ul>
 			</div>
 

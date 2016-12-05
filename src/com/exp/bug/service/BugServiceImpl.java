@@ -141,4 +141,18 @@ public class BugServiceImpl {
 			System.out.println("there is a error when save a bug");
 		}
 	}
+	/**
+	 * @function 更新bug
+	 * @author tangwenru
+	 * @param bug
+	 */
+	@Transactional(readOnly=false)
+	public void updateBug(Bug bug){
+		try {
+			this.bugDaoImpl.update(bug);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

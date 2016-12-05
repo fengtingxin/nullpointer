@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -56,20 +57,20 @@
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li class="active"><a href="${ctx }/home.jsp"><i
+						<li><a href="${ctx }/home.jsp"><i
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime"><i
+					<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-question-sign"></i> 我的问题<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime"><i
+						<li class="active"><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-reply"></i> 我的回答<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/comment/findCommentByTime"><i
+						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-comments"></i> 我的评论<span
 								class="label label-badge label-success">4</span></a></li>
-						<li><a href="${ctx }/share/shareByTime"><i
+						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
 								class="icon icon-share"></i> 我的分享<span
 								class="label label-badge label-success">4</span></a></li>
 					</ul>
@@ -99,11 +100,13 @@
 								<div class="pull-right label label-success">${tt.tagName }</div>
 							</c:forEach>
 							<c:set var="qb" value="${p.question.questionTitle}"></c:set>
-							<a href="###">${qb}</a>
+							<a href="${ctx }/question/findone?questionId=${p.question.questionId}">${qb}</a>
 						</div>
 						<div class="item-footer">
-							<a href="#" class="text-muted"><i class="icon-comments"></i>
-								${p.answerLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
+							<a href="${ctx }/question/findone?questionId=${p.question.questionId}" class="text-muted">
+							<p>${p.answerContent }</p>
+							<i class="icon-comments"></i>
+								${fn:length(p.question.answers)}</a> &nbsp; <span class="text-muted"> <fmt:formatDate
 									value="${p.answerPublishTime }" pattern="yyyy-MM-dd HH:mm" />
 							</span>
 						</div>
@@ -111,14 +114,21 @@
 				</c:forEach>
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.prePageNum}">«</a></li>
-					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<li><a name="pagen"
-							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
+						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+					<c:forEach begin="1" end="${pages.totalPageNum }" var="pageNum">
+					<c:if test="${pageNum ==pages.currentPageNum}">
+					<li class="active"><a name="pagen"
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+					</c:if>
+					<c:if test="${pageNum !=pages.currentPageNum}">
+					<li><a name="pagen"
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+					</c:if>
+						
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/answer/findAnswerByTime?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
 				</ul>
 			</div>
 

@@ -59,7 +59,7 @@
 
 <c:if test="${empty loginUser }">
 		<%
-			response.sendRedirect("${ctx }/admin/login.jsp");
+			response.sendRedirect("login.jsp");
 		%>
 </c:if>
 
@@ -91,7 +91,7 @@
 
 						<ul
 							class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-							<li><a href="javascript:clear()"> <i class="icon-off"></i> 退出登录
+							<li><a href="${ctx }/admin/logOut"> <i class="icon-off"></i> 退出登录
 							</a></li>
 						</ul></li>
 				</ul>
@@ -101,14 +101,6 @@
 		</div>
 		<!-- /.container -->
 	</div>
-<script type="text/javascript">
-/*
-方法：详情清除缓存，
-*/
-function clear() {
-	$.session.clear();
-}
-</script>
 	<div class="main-container" id="main-container">
 		<script type="text/javascript">
 			try {

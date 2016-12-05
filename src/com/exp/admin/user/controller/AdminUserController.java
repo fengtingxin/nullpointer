@@ -1,8 +1,10 @@
 package com.exp.admin.user.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -92,4 +94,24 @@ public class AdminUserController {
 		request.setAttribute("oneUser", loginUser);
 		return "admin/user_detail";
 	}
+	
+	/**
+	 * @author Ray_1 用户退出
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping("logOut")
+	public String loginOut(HttpServletRequest request)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();// 防止创建Session
+		if (session == null) {
+			return "login";
+		}
+		session.invalidate();
+		return "admin/login";
+	}
+	
 }
