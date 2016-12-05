@@ -1,14 +1,18 @@
 package com.exp.bug.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +49,65 @@ public class BugController {
 	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
 	@Resource
 	private BugHateRecordServiceImpl bugHateRecordServiceImpl;
+
+	/**
+	 * @author Ray_1功能：搜索下来框
+	 * @param pageNum
+	 * @param searchParam
+	 * @param request
+	 * @param model
+	 * @param response
+	 */
+
+	@RequestMapping(value = "/findBugByValue", method = RequestMethod.POST)
+	public void list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+			@RequestParam(name = "title", defaultValue = "") String searchParam, HttpServletRequest request,
+			Model model, HttpServletResponse response) {
+		
+			System.out.println("searchParam为" + searchParam);
+		try {
+			// 这里不设置编码会有乱码
+			response.setContentType("text/html;charset=utf-8");
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
+		}
+
+		Page<Bug> page = null;
+		searchParam = EncodingTool.encodeStr(searchParam);
+		// System.out.println("searchParam"+searchParam);
+		if (searchParam == null || "".equals(searchParam)) {
+			page = this.bugServiceImpl.findBugByValue(pageNum, 4, null);
+		} else {
+			page = this.bugServiceImpl.findBugByValue(pageNum, 4, new Object[] { searchParam });
+		}
+		request.setAttribute("searchParam", searchParam);
+		try {
+			StringBuilder sb = new StringBuilder();
+			//System.out.println("触发controller");
+			if (page != null) {
+				System.out.println("查询内容不为空");
+				
+				List<Bug> bugs = page.getList();
+				for (Bug bug : bugs) {
+					String bugtitle = bug.getBugTitle();
+					System.out.println(bugtitle);
+					if (bugtitle.length() > 100){
+						sb.append("<li>" + bugtitle.substring(0, 100) + "</li>");
+						}
+					else{
+						sb.append("<li>" + bugtitle + "</li>");
+					}
+				}
+				
+				System.out.println(sb.toString());
+				response.getWriter().write(sb.toString());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @function 分页查询官方发布的bug,每页8个
@@ -100,6 +163,7 @@ public class BugController {
 	 * @return bug-detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
+
 	public String getBug(@RequestParam(name = "bugId") Integer bugId,
 			@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
 			@RequestParam(name = "bug_detailed_bell", required = false) String bug_detailed_bell,
@@ -178,6 +242,7 @@ public class BugController {
 		}
 		return "redirect:findone?bugId=" + bugId;
 	}
+
 
 	/**
 	 * @function 对bug进行点赞、取消赞
@@ -440,5 +505,6 @@ public class BugController {
 		}
 
 	}
+
 
 }
