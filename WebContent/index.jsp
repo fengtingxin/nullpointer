@@ -258,8 +258,4 @@
 <!-- 增强文档插件 -->
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
-<script type="text/javascript">
-	$('[data-toggle="tooltip"]').tooltip();
-	window.open = "${ctx}/index";
-</script>
 </html>

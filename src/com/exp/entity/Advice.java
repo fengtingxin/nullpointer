@@ -2,6 +2,7 @@ package com.exp.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +18,7 @@ public class Advice {
 	private String adviceContent;  //建议内容
 	private String adviceUserEmail;//建议使用邮箱
 	private Date adviceTime;       //建议的时间
-	
-//	private boolean visable; //是否被查看
+	private boolean visable;       //是否被查看
 	
 	
 	//set/get
@@ -59,6 +59,12 @@ public class Advice {
 	}
 	public void setAdviceTime(Date adviceTime) {
 		this.adviceTime = adviceTime;
+	}
+	public boolean isVisable() {
+		return visable;
+	}
+	public void setVisable(boolean visable) {
+		this.visable = visable;
 	}
 	
 	

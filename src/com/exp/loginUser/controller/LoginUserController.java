@@ -94,7 +94,7 @@ public class LoginUserController {
 		if (loginUser == null) {
 			return "error";
 		}
-		loginUser.setLoginActive(1); // 激活用户
+		loginUser.setLoginActive(true); // 激活用户
 		UserInfo userInfo = loginUser.getUserInfo();
 		userInfo.setUserInfoHeadPortrait("default.jpg"); // 设置用户的默认头像
 		loginUser.setUserInfo(userInfo);

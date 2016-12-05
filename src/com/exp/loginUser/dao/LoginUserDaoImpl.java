@@ -1,5 +1,7 @@
 package com.exp.loginUser.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.hibernate.Query;
@@ -77,11 +79,20 @@ public class LoginUserDaoImpl extends BaseDao<LoginUser, String> {
 		try {
 			LoginUser l1=this.findByLoginName(loginUser.getLoginName());
 			super.excuteBySql("update loginUser set loginName=?,loginPassword=?,loginEmail=?,loginActive=? where loginUserId=?",
-					new Object[]{loginUser.getLoginName(),loginUser.getLoginPassword(),loginUser.getLoginEmail(),loginUser.getLoginActive(),l1.getLoginUserId()});
+					new Object[]{loginUser.getLoginName(),loginUser.getLoginPassword(),loginUser.getLoginEmail(),loginUser.isLoginActive(),l1.getLoginUserId()});
 		} catch (Exception e) {
 			e.printStackTrace();
 			//对错误的处理
 			
 		}
+	}
+	/**
+	 * 功能：
+	 * 得到所有的loginUser
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<LoginUser> findAllUsers(){
+		return  this.sessionFactory.getCurrentSession().createQuery("from LoginUser").list();
 	}
 }

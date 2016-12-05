@@ -1,13 +1,17 @@
 package com.exp.advice.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.exp.advice.dao.AdviceDaoImpl;
 import com.exp.entity.Advice;
 
 @Service
+@Transactional(readOnly = true)
 public class AdviceServiceImpl {
 
 	@Resource
@@ -17,8 +21,9 @@ public class AdviceServiceImpl {
 	 * 保存用户提交的建议
 	 * @param advice
 	 * @return
-	 * 
+	 * @author fengtingxin
 	 */
+	@Transactional(readOnly = false)
 	public void saveAdvice(Advice advice){
 		try {
 			this.adviceDaoImpl.save(advice);
@@ -29,4 +34,54 @@ public class AdviceServiceImpl {
 			saveAdvice(advice);
 		}
 	}
+	/**
+	 * 功能：
+	 * 查找到所有的建议
+	 * @return
+	 * List<Advice>
+	 * @author fengtingxin
+	 */
+	public List<Advice> findAllAdvice(){
+		return this.adviceDaoImpl.fingAllAdvice();
+	}
+	/**
+	 * 功能：
+	 * 删除一个建议
+	 * 通过id
+	 * @param id
+	 * @author fengtingxin
+	 */
+	@Transactional(readOnly = false)
+	public void deleteOneAdvice(Integer id){
+		try {
+			this.adviceDaoImpl.delete(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("advice exception about delete one!");
+			try {
+				Advice advice =this.adviceDaoImpl.get(id);
+				this.adviceDaoImpl.delete(advice);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
+	/**
+	 * 功能：
+	 * 通过id找到一个advice
+	 * @param adviceId
+	 * @return
+	 * @author fengtingxin
+	 */
+	public Advice fingOneAdvice(Integer adviceId){
+		try {
+			return this.adviceDaoImpl.get(adviceId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }

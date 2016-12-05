@@ -23,15 +23,8 @@ public class LoginUser {
 	private String loginPassword;// 用户密码
 	private Role role;
 	private UserInfo userInfo;
-	private Integer loginActive;
+	private boolean loginActive;
 
-	public Integer getLoginActive() {
-		return loginActive;
-	}
-
-	public void setLoginActive(Integer loginActive) {
-		this.loginActive = loginActive;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +78,14 @@ public class LoginUser {
 
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public boolean isLoginActive() {
+		return loginActive;
+	}
+
+	public void setLoginActive(boolean loginActive) {
+		this.loginActive = loginActive;
 	}
 
 }

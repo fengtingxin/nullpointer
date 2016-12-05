@@ -1,5 +1,7 @@
 package com.exp.loginUser.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 
@@ -126,7 +128,7 @@ public class LoginUserServiceImpl {
 			return "19";
 		}
 		// 判断是否激活
-		if (t1.getLoginActive() == null) {
+		if (t1.isLoginActive() == false) {
 			return "16";
 		}
 		// 登录成功！
@@ -147,5 +149,27 @@ public class LoginUserServiceImpl {
 			t1 = this.loginUserDaoImpl.findByLoginName(loginName);
 		}
 		return t1;
+	}
+	
+	/**
+	 * 功能：
+	 * 得到所有的loginUser
+	 * @return
+	 * @author fengtingxin
+	 * 
+	 */
+	public List<LoginUser> findAllLoginUser(){
+		return this.loginUserDaoImpl.findAllUsers();
+	}
+	
+	public LoginUser fingOneLoginUserById(Integer loginUserId){
+		try {
+			return this.loginUserDaoImpl.get(loginUserId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("get a loginUser by Id error");
+			return null;
+		}
+		
 	}
 }

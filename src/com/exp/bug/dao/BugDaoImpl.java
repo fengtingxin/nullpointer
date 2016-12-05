@@ -117,6 +117,14 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 		}
 	}
 	/**
+	 * 找到所有的bug，无序
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<Bug> getAllBug(){
+		return this.getSession().createQuery("from Bug").list();
+	}
+	/**
 	 * @function 更新bug
 	 * @author tangwenru
 	 * @param bug
