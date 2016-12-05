@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -58,6 +59,7 @@ public class Tag {
 	}
 
 	@OneToMany(mappedBy = "tag", fetch = FetchType.EAGER)
+	@OrderBy(value="tagNumber ASC")
 	public Set<R_Tag_UserInfo> getR_tag_userInfo() {
 		return r_tag_userInfo;
 	}

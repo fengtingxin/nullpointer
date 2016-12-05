@@ -31,9 +31,13 @@ import com.exp.entity.Question;
 import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
+import com.exp.entity.ZuiData;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 public class UserInfoController {
@@ -80,7 +84,6 @@ public class UserInfoController {
 		// 获取用户的id信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		if (session.getAttribute("loginUser") != null && session.getAttribute("loginUser") != "") {
-			System.out.println(loginUser);
 			UserInfo userInfo = loginUser.getUserInfo();
 
 			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到session范围
@@ -89,17 +92,18 @@ public class UserInfoController {
 			session.setAttribute("hour", array[1]);
 			session.setAttribute("min", array[2]);
 			session.setAttribute("second", array[3]);
-			// 社区属性
-			HashMap<String, Integer> hashmap = new HashMap<>();
-
+			ArrayList<ZuiData> zuiData_List = new ArrayList<ZuiData>();
 			Set<R_Tag_UserInfo> userInfo_tags = userInfo.getR_tag_userInfo();
 			for (R_Tag_UserInfo it : userInfo_tags) {
+				ZuiData zuiData = new ZuiData();
 				String tagName = it.getTag().getTagName();
+				zuiData.setLabel(tagName);
 				Integer tagNumber = it.getTagNumber();
-				System.out.println("tagName:" + tagName + "tagNumber:" + tagNumber);
-				hashmap.put(tagName, tagNumber);
+				zuiData.setValue(tagNumber);
+				zuiData_List.add(zuiData);
 			}
-
+			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			session.setAttribute("userInfo_tags", jsonObject);
 			// 等一下再打印
 			return "home";
 		} else {
