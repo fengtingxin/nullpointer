@@ -1,0 +1,25 @@
+a:hover {
+	cursor: pointer;
+}
+
+#dtitles  li {
+	padding-top: 10px;
+	height: 40px;
+	list-style: none;
+	padding-left: 10px;
+	padding-bottom:15px;
+}
+
+#dtitles {
+	background:#fff;
+	width: 835px;
+	max-height: 160px;
+	min-height:40px;
+	border: solid 1px #CCCCCC;
+	display: none;
+	font-size: 16px;
+}
+
+.li1 {
+	background: #F0F0F0;
+}

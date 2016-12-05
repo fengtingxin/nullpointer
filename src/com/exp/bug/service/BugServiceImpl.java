@@ -25,6 +25,18 @@ public class BugServiceImpl {
 	public List<Bug> findHonor() {
 		return bugDaoImpl.findBugRecommend();
 	}
+	/**
+	 * @author Ray_1
+	 * 功能：按搜索框的内容搜索bug
+	 * @param pageNum
+	 * @param pageSize
+	 * @param params
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public Page<Bug> findBugByValue(int pageNum, int pageSize, Object[] params) {
+		return this.bugDaoImpl.findBugByValue(pageNum, pageSize, params);
+	}
 	
 	/**
 	 * @function 分页查询官方发布的bug

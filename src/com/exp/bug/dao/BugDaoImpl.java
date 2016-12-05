@@ -23,35 +23,67 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 		Query query = session.createQuery("from Bug order by bugPublishTime DESC,bugLikeNum DESC ");
 		return query.list();
 	}
-	
+
 	/**
-	 * @功能  获取管理员发布的bug，对其分页排序
-	 * @author tangwenru
-	 * @param pageNum  分页数量
-	 * @param pageSize 分页大小
-	 * @param params   参数
+	 * @author Ray_1   按搜索框搜索bug
+	 * @param pageNum
+	 * @param pageSize
+	 * @param params
 	 * @return
 	 */
-	public Page<Bug> findAdminBug(int pageNum, int pageSize,Object[] params){
+	// 按页，搜索bug查询
+
+	public Page<Bug> findBugByValue(int pageNum, int pageSize, Object[] params) {
+		String hql = null;
+		if (params != null && params.length > 0) {
+			hql = "from Bug p where p.bugTitle like ?";
+			params[0] = "%" + params[0] + "%";
+			try {
+				Page<Bug> page = new Page<Bug>();
+				page.setCurrentPageNum(pageNum);
+				page.setPageSize(pageSize);
+				page = this.findByPage(pageNum, pageSize, hql, params);
+				return page;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @功能 获取管理员发布的bug，对其分页排序
+	 * @author tangwenru
+	 * @param pageNum
+	 *            分页数量
+	 * @param pageSize
+	 *            分页大小
+	 * @param params
+	 *            参数
+	 * @return
+	 */
+	public Page<Bug> findAdminBug(int pageNum, int pageSize, Object[] params) {
 		String hql;
-		if(params!=null && params.length>0){
-			hql="from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=1 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
-			params[0]="%"+params[0]+"%";
-			
-		}else{
-			hql="from Bug b where b.userInfo.loginUser.role.roleId=1 order by bugPublishTime DESC,bugLikeNum DESC,comments.size desc";
+		if (params != null && params.length > 0) {
+			hql = "from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=1 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+			params[0] = "%" + params[0] + "%";
+
+		} else {
+			hql = "from Bug b where b.userInfo.loginUser.role.roleId=1 order by bugPublishTime DESC,bugLikeNum DESC,comments.size desc";
 		}
 		try {
-			Page<Bug> page=new Page<Bug>();
+			Page<Bug> page = new Page<Bug>();
 			page.setCurrentPageNum(pageNum);
 			page.setPageSize(pageSize);
-			page=this.findByPage(pageNum, pageSize, hql, params);
+			page = this.findByPage(pageNum, pageSize, hql, params);
 			return page;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+
 	/**
 	 * @function 获取用户发布的bug,分页显示
 	 * @author tangwenru
@@ -60,55 +92,58 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 * @param params
 	 * @return
 	 */
-	public Page<Bug> findUserBug(int pageNum, int pageSize,Object[] params){
+	public Page<Bug> findUserBug(int pageNum, int pageSize, Object[] params) {
 		String hql;
-		if(params!=null && params.length>0){
-			hql="from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
-			params[0]="%"+params[0]+"%";
-			
-		}else{
-			hql="from Bug b where b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+		if (params != null && params.length > 0) {
+			hql = "from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+			params[0] = "%" + params[0] + "%";
+
+		} else {
+			hql = "from Bug b where b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
 		}
 		try {
-			Page<Bug> page=new Page<Bug>();
+			Page<Bug> page = new Page<Bug>();
 			page.setCurrentPageNum(pageNum);
 			page.setPageSize(pageSize);
-			page=this.findByPage(pageNum, pageSize, hql, params);
+			page = this.findByPage(pageNum, pageSize, hql, params);
 			return page;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+
 	/**
-	 * @function　获取官方发布的bug的数量
+	 * @function 获取官方发布的bug的数量
 	 * @author tangwenru
 	 * @return
 	 */
-	public Integer getAdminBugNum(){
+	public Integer getAdminBugNum() {
 		Session session = super.getSession();
 		Query query = session.createQuery("from Bug b where b.userInfo.loginUser.role.roleId=1 ");
 		return query.list().size();
 	}
+
 	/**
-	 * @function　获取用户发布的bug的数量
+	 * @function 获取用户发布的bug的数量
 	 * @author tangwenru
 	 * @return
 	 */
-	public Integer getUserBugNum(){
+	public Integer getUserBugNum() {
 		Session session = super.getSession();
 		Query query = session.createQuery("from Bug b where b.userInfo.loginUser.role.roleId=2");
 		return query.list().size();
 	}
+
 	/**
 	 * @function 根据bug的id查询单个bug
 	 * @author tangwenru
 	 * @param bugId
 	 * @return
 	 */
-	public Bug getBug(int bugId){
+	public Bug getBug(int bugId) {
 		try {
-			Bug bug=this.get(bugId);
+			Bug bug = this.get(bugId);
 			return bug;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -116,12 +151,13 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 			return null;
 		}
 	}
+
 	/**
 	 * @function 更新bug
 	 * @author tangwenru
 	 * @param bug
 	 */
-	public void updateBug(Bug bug){
+	public void updateBug(Bug bug) {
 		try {
 			this.update(bug);
 		} catch (Exception e) {
