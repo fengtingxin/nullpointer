@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.exp.bug.bugHateRecord.service.BugHateRecordServiceImpl;
+import com.exp.bug.bugLikeRecord.service.BugLikeRecordServiceImpl;
 import com.exp.bug.service.BugServiceImpl;
 import com.exp.comment.commentHateRecord.service.CommentHateRecordServiceImpl;
 import com.exp.comment.commentLikeRecord.service.CommentLikeRecordServiceImpl;
@@ -39,6 +41,10 @@ public class CommentContoller {
 	private CommentLikeRecordServiceImpl commentLikeRecordServiceImpl;
 	@Resource
 	private CommentHateRecordServiceImpl commentHateRecordServiceImpl;
+	@Resource
+	private BugLikeRecordServiceImpl bugLikeServiceRecordServiceImpl;
+	@Resource
+	private BugHateRecordServiceImpl bugHateServiceImpl;
 
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题 个人主页部分
@@ -67,9 +73,11 @@ public class CommentContoller {
 	 */
 	@RequestMapping(value = "delete")
 	public String delete(@RequestParam("commentId") int commentId,
-			@RequestParam(name = "bugId", required = false) int bugId, HttpServletRequest request) {
+			@RequestParam(name = "bugId", required = false) int bugId,HttpServletRequest request,HttpSession session) {
+		LoginUser loginUser=(LoginUser) session.getAttribute("loginUser");
 		this.commentServiceImpl.deleteComment(commentId);
-		return "redirect:findone?bugId=" + bugId;
+	
+		return "redirect:findone?bugId=" + bugId+"&userInfoId="+loginUser.getLoginUserId();
 	}
 
 	/**
@@ -80,8 +88,14 @@ public class CommentContoller {
 	 * @return
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getBug(Integer bugId, HttpServletRequest request) {
+	public String getBug(Integer bugId, Integer userInfoId,HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
+		if(this.bugHateServiceImpl.findBugHateRecord(bugId, userInfoId)!=null){
+			request.setAttribute("hateStatus", this.bugHateServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+		}
+		if(this.bugLikeServiceRecordServiceImpl.findBugLikeRecord(bugId, userInfoId)!=null){
+			request.setAttribute("likeStatus", this.bugLikeServiceRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+		}
 		request.setAttribute("bug", bug);
 		return "bug-detailed";
 	}

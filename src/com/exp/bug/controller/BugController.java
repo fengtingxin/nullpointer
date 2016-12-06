@@ -3,8 +3,9 @@ package com.exp.bug.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +28,10 @@ import com.exp.entity.BugHateRecord;
 import com.exp.entity.BugLikeRecord;
 import com.exp.entity.Comment;
 import com.exp.entity.LoginUser;
+import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
+import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
@@ -49,6 +52,8 @@ public class BugController {
 	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
 	@Resource
 	private BugHateRecordServiceImpl bugHateRecordServiceImpl;
+	@Resource
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 
 	/**
 	 * @author Ray_1功能：搜索下来框
@@ -240,7 +245,24 @@ public class BugController {
 			comment.setUserInfo(loginUser.getUserInfo());
 			this.commentServiceImpl.saveComment(comment);
 		}
-		return "redirect:findone?bugId=" + bugId;
+		//增加社区属性
+		Set<Tag> tags=bug.getTags();
+		Iterator<Tag> iterator=tags.iterator();
+		while(iterator.hasNext()){
+			Tag tag=iterator.next();
+			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+				R_Tag_UserInfo r=new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			}else{
+				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+				r.setTagNumber(r.getTagNumber()+1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
+		return "redirect:findone?bugId=" + bugId+"&userInfoId="+loginUser.getLoginUserId();
 	}
 
 

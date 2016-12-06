@@ -1,6 +1,9 @@
 package com.exp.question.controller;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +21,14 @@ import com.exp.entity.Answer;
 import com.exp.entity.Question;
 import com.exp.entity.QuestionHateRecord;
 import com.exp.entity.QuestionLikeRecord;
+import com.exp.entity.R_Tag_UserInfo;
+import com.exp.entity.Tag;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
 import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
 import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
@@ -40,7 +46,8 @@ public class QuestionController {
 	private QuestionLikeRecordServiceImpl questionLikeRecordServiceImpl;
 	@Resource
 	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
-	
+	@Resource
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 	// 设置每页有5条数据
 	private Integer pageSize = 5;
 
@@ -163,6 +170,7 @@ public class QuestionController {
 			answer.setUserInfo(loginUser.getUserInfo());
 			question.getAnswers().add(answer);
 			this.answerServiceImpl.saveAnswer(answer);
+		
 		}else{
 			Answer answer=new Answer();
 			answer.setQuestion(question);
@@ -171,8 +179,25 @@ public class QuestionController {
 			answer.setParentAnswer(this.answerServiceImpl.getAnswer(answerId));
 			answer.setUserInfo(loginUser.getUserInfo());
 			this.answerServiceImpl.saveAnswer(answer);
+			
 		}
-		return "redirect:findone?questionId=" + questionId;
+		Set<Tag> tags=question.getTags();
+		Iterator<Tag> iterator=tags.iterator();
+		while(iterator.hasNext()){
+			Tag tag=iterator.next();
+			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+				R_Tag_UserInfo r=new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			}else{
+				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+				r.setTagNumber(r.getTagNumber()+1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
+		return "redirect:findone?questionId=" + questionId+"&userInfoId="+loginUser.getLoginUserId();
 	}
 	/**
 	 * @function 对问题进行赞、取消赞
