@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx }/css/style.css">
 <style id="themeStyle"></style>
 <style type="text/css">
-*{
+* {
 	font-family: '微软雅黑';
 }
 
@@ -45,15 +45,13 @@
 </head>
 
 <body>
-
-	<!-- Start of Header -->
-	<c:if test="${ empty loginUser }">
+	<%@ include file="nav.jsp"%>
+	<!--导航栏完成-->
+	<c:if test="${empty loginUser}">
 		<%
 			response.sendRedirect("login.jsp");
 		%>
 	</c:if>
-	<%@ include file="nav.jsp"%>
-	<!--导航栏完成-->
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
 		<div class="col-md-3 column">
@@ -85,20 +83,16 @@
 								class="icon-user"></i> 账号设置</a></li>
 						<li><a
 							href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-question-sign"></i> 我的问题<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-question-sign"></i> 我的问题</a></li>
 						<li><a
 							href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-reply"></i> 我的回答<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-reply"></i> 我的回答</a></li>
 						<li><a
 							href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-comments"></i> 我的评论<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-comments"></i> 我的评论</a></li>
 						<li><a
 							href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-share"></i> 我的分享<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-share"></i> 我的分享</a></li>
 					</ul>
 					</nav>
 				</div>
@@ -179,7 +173,8 @@
 										<span class="profile__mod-inner-heading">性别</span>
 									</div>
 									<div>
-										<span>  <c:if test="${loginUser.userInfo.userInfoSex!=null}">
+										<span> <c:if
+												test="${loginUser.userInfo.userInfoSex!=null}">
 										${loginUser.userInfo.userInfoSex}
 									    </c:if> <c:if
 												test="${loginUser.userInfo.userInfoSex!='男'&&loginUser.userInfo.userInfoSex!='女'}">
@@ -316,10 +311,14 @@
 			.ready(
 					function() {
 						var userInfoTag_data = ${userInfo_tags};
-						userInfoTag_data = eval(userInfoTag_data);					
+						userInfoTag_data = eval(userInfoTag_data);
 						//console.log(userInfoTag_data);
-						if(userInfoTag_data.length==0){
-							userInfoTag_data = [{lable:"暂无",value:1,color:'#E5E5E5'}];
+						if (userInfoTag_data.length == 0) {
+							userInfoTag_data = [ {
+								lable : "暂无",
+								value : 1,
+								color : '#E5E5E5'
+							} ];
 						}
 						// 使用jquery方法获取 2d context 对象
 						var ctx = $("#myChart").get(0).getContext("2d");
