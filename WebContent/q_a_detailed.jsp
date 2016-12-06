@@ -82,11 +82,10 @@
 				</dd>
 			</dl>
 			<section class="abstract">
-			<p></p>
+			<p>问题描述：${question.questionDescribe }</p>
 			</section></header> <section class="content">
-			<h2>问题描述：</h2>
-			<c:if test="${question.questionDescribe==null }">暂无</c:if> <c:if
-				test="${question.questionDescribe!=null }">${question.questionDescribe }</c:if>
+			<h2>详细信息</h2>
+			<c:if test="${question.questionDetailed!=null }">${question.questionDetailed }</c:if>
 			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
 			<div class="container" style="margin-top: 25px;">
 				<a
@@ -113,7 +112,6 @@
 								<div class="container"
 									style="text-align: center; padding-bottom: 10px;">
 									<p style="margin-bottom: 0px">${question.questionLikeNum }
-
 									</p>
 									赞
 								</div>

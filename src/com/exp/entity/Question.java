@@ -24,16 +24,17 @@ public class Question {
 	private Integer questionId;
 	private String questionTitle;// 问题的标题
 	private String questionDescribe;// 问题的描述
+	private String questionDetailed;// 问题详细信息
 	private Date questionPublishTime;// 问题的发表时间
-	private Integer questionLikeNum;// 问题获赞数量
-	private Integer questionHateNum;// 问题被踩数量
-	private Integer questionAnswerCount;// 回答的数量
+	private Integer questionLikeNum = 0;// 问题获赞数量
+	private Integer questionHateNum = 0;// 问题被踩数量
+	private Integer questionAnswerCount = 0;// 回答的数量
 	private UserInfo userInfo;// 问题对应的用户
 	private Set<Answer> answers = new HashSet<Answer>(0);// 问题的回答
 	private Set<Tag> tags = new HashSet<Tag>(0);
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getQuestionId() {
 		return questionId;
 	}
@@ -49,7 +50,6 @@ public class Question {
 	public void setQuestionTitle(String questionTitle) {
 		this.questionTitle = questionTitle;
 	}
-
 
 	public String getQuestionDescribe() {
 		return questionDescribe;
@@ -77,6 +77,14 @@ public class Question {
 
 	public Integer getQuestionHateNum() {
 		return questionHateNum;
+	}
+
+	public String getQuestionDetailed() {
+		return questionDetailed;
+	}
+
+	public void setQuestionDetailed(String questionDetailed) {
+		this.questionDetailed = questionDetailed;
 	}
 
 	public void setQuestionHateNum(Integer questionHateNum) {

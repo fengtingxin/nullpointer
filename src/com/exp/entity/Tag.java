@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tag")
-public class Tag {
+public class Tag implements java.io.Serializable {
 
 	// 属性
 	private Integer tagId; // id //主键
@@ -59,7 +59,7 @@ public class Tag {
 	}
 
 	@OneToMany(mappedBy = "tag", fetch = FetchType.EAGER)
-	@OrderBy(value="tagNumber ASC")
+	@OrderBy(value = "tagNumber ASC")
 	public Set<R_Tag_UserInfo> getR_tag_userInfo() {
 		return r_tag_userInfo;
 	}

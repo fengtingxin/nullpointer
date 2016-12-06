@@ -44,7 +44,7 @@
 			request.getRequestDispatcher("index").forward(request, response);
 		}
 	%>
-	<%@ include file="nav.jsp"  %> 
+	<%@ include file="nav.jsp"%>
 
 	<!--导航栏完成-->
 	<!--搜索框-->
@@ -59,7 +59,9 @@
 					style="height: 43px;" />
 				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
 				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
-				<div ><ul id="dtitles"></ul></div>
+				<div>
+					<ul id="dtitles"></ul>
+				</div>
 				<div id="search-error-container"></div>
 			</form>
 		</div>
@@ -82,8 +84,9 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}" data-toggle="tooltip"
-												title="${question.questionTitle}">
+											<a
+												href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}"
+												data-toggle="tooltip" title="${question.questionTitle}">
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
 											</a>
@@ -114,7 +117,8 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
+											<a
+												href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
 												${fn:substring(bug.bugTitle, 0, 50)} <c:if
 													test="${fn:length(bug.bugTitle)>50}">...</c:if>
@@ -158,7 +162,7 @@
 					<div class="tagcloud">
 						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/bug-list-admin.jsp&tagName = ${tt.tagName}"
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:forEach>
 					</div>
@@ -263,11 +267,11 @@
 <script type="text/javascript">
 	$('[data-toggle="tooltip"]').tooltip();
 	window.open = "${ctx}/index";
-	
+
 	// 搜索框js @author Ray
 	$(document).ready($("#s").keydown(function(event) {
 		//  按空格建或者enter键 触发查询事件
-		if (event.keyCode == 32 ||event.keyCode == 13) {
+		if (event.keyCode == 32 || event.keyCode == 13) {
 			//2.获取到文本框的内容,注意去空格
 			alert("按下空格");
 			var title = $.trim($("#s").val());
@@ -329,6 +333,6 @@
 				}
 			}
 		});
-	}))	
+	}))
 </script>
 </html>
