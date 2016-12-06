@@ -105,6 +105,7 @@ public class UserInfoController {
 			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
 			session.setAttribute("userInfo_tags", jsonObject);
 			// 等一下再打印
+			System.out.println(jsonObject);
 			return "home";
 		} else {
 			return "login";
