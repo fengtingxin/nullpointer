@@ -51,7 +51,6 @@
 								</c:if><b class="caret"></b></a>
 							<ul class="dropdown-menu" role="menu" style="text-align: center;">
 								<li><a href="${ctx}/home">我的主页</a></li>
-								<li><a href="${ctx}/home-question.jsp">信息管理</a></li>
 								<li><a href="${ctx}/accountSetting.jsp">账号设置</a></li>
 								<li><a href="${ctx}/contact">建议反馈</a></li>
 							</ul></li>

@@ -78,4 +78,14 @@ public class QuestionServiceImpl {
 		return this.questionDaoImpl.getQuestion(questionId);
 		
 	}
+	/**
+	 * @function 更新问题
+	 * @author tangwenru
+	 * @param q
+	 */
+	@Transactional(readOnly=false)
+	public void updateQuestion(Question q){
+		this.questionDaoImpl.updateQuestion(q);
+		
+	}
 }

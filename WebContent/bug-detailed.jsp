@@ -53,7 +53,7 @@ xmlhttp.send();
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -118,118 +118,179 @@ xmlhttp.send();
 			<p>${bug.bugReason }</p>
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>
-
-			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+<!-- 隐藏域，获取bugId,loginUserId -->
+<input type="hidden" id="bugId" value="${bug.bugId }" />
+			</section> <footer>
 			<div class="container" style="margin-top: 25px;">
-				<a href="${ctx }/bug/like?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
-					<div class="col-md-6 column thumbs"
-						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+				<a href="javascript:void(0);" onclick="like()">
+					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
 						<c:if test="${likeStatus==1 }">
-						<div class="haveen">
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
-							赞
-						</div>
-						</div>
+							<div id="likeOutSide" class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"	style="text-align: center; padding-bottom: 10px;">
+									<p id="bugLikeNumber" style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
 						<c:if test="${likeStatus==null }">
-						<div>
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">
-							
-							${bug.bugLikeNum }
-							
-							</p>
-							赞
-						</div>
-						</div>
+							<div id="likeOutSide">
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p id="bugLikeNumber" style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
-							<c:if test="${likeStatus==0}">
-						<div>
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">
-							
-							${bug.bugLikeNum }
-							
-							</p>
-							赞
-						</div>
-						</div>
+						<c:if test="${likeStatus==0}">
+							<div id="likeOutSide">
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p id="bugLikeNumber" style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
-						
-						
-
 					</div>
-				</a><a href="${ctx }/bug/hate?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
-
+				</a>
+				<a href="javascript:void(0);" onclick="hate()">
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
 						<c:if test="${hateStatus==1 }">
-						<div class="haveen">
-						<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
-                       </div>
-                       </c:if>
-					
-					<c:if test="${hateStatus==null }">
-					<div>
-					<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
+							<div id="hateOutSide" class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p id="bugHateNumber" style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
+
+						<c:if test="${hateStatus==null }">
+							<div id="hateOutSide">
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p id="bugHateNumber" style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${hateStatus==0 }">
+							<div id="hateOutSide">
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p id="bugHateNumber" style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
 					</div>
-					</c:if>
-					<c:if test="${hateStatus==0 }">
-					<div>
-					<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
-					</div>
-					</c:if>
-			   </div>
-					
+
 				</a>
 			</div>
-			<c:if test="${not empty adviceReminder }">
-					<!-- 提示部分！ -->
-					<script type="text/javascript">
-	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
-										icon : 'bell', //定义图标
-										fade : 'true',
-										type : 'primary', // 定义颜色主题
+<script type="text/javascript">
+		function like(){
+			$.ajax({
+				url : "like",
+				type: "POST",
+				method: "post",
+				data : {
+					bugId : $("#bugId").val(),
+				},
+				success : function(data, status) {
+					if(data == "likeOk"){ //成功点赞
+						$('#likeOutSide').addClass("haveen");
+						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())+1);
+						console.log($("#bugLikeNumber").html());
+					}else if(data=="cancelLike"){
+						$('#likeOutSide').removeClass("haveen");
+						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())-1);
+						console.log($("#bugLikeNumber").html());
+					}else if(data=="not ok"){
+						new $.zui.Messager('还没有登录哦！', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+					}else if(data == "onHate"){
+						new $.zui.Messager('取消踩后才可以赞哦！', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+					}
+				},
+				error:function(e){
+					new $.zui.Messager('服务器出问题了，请刷新试试！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'danger', // 定义颜色主题
+					}).show(); 
+				} 
+			});
+		}
+		function hate(){
+			$.ajax({
+				url : "hate",
+				type: "POST",
+				method: "post",
+				data : {
+					bugId : $("#bugId").val(),
+				},
+				success : function(data, status) {
+					if(data == "hateOk"){ //成功点赞
+						$('#hateOutSide').addClass("haveen");
+						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())+1);
+						console.log($("#bugHateNumber").html());
+					}else if(data=="cancelHate"){
+						$('#hateOutSide').removeClass("haveen");
+						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())-1);
+						console.log($("#bugHateNumber").html());
+					}else if(data=="not ok"){
+						new $.zui.Messager('还没有登录哦！', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+					}else if(data == "onLike"){
+						new $.zui.Messager('取消踩后才可以赞哦！', {
+							icon : 'bell', //定义图标
+							fade : 'true',
+							type : 'primary', // 定义颜色主题
+						}).show();
+					}
+				},
+				error:function(e){
+					new $.zui.Messager('服务器出问题了，请刷新试试！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'danger', // 定义颜色主题
+					}).show(); 
+				} 
+			});
+		}
+</script>
 
-									}).show();
-						}
-					</script>
-				</c:if>
+			
+			
+			
 			<!--评论内容开始-->
 			<div class="comments">
 				<header>

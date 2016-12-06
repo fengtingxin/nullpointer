@@ -64,17 +64,13 @@
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
 						<li class="active"><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-question-sign"></i> 我的问题<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-question-sign"></i> 我的问题</a></li>
 						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-reply"></i> 我的回答<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-reply"></i> 我的回答</a></li>
 						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-comments"></i> 我的评论<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-comments"></i> 我的评论</a></li>
 						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
-								class="icon icon-share"></i> 我的分享<span
-								class="label label-badge label-success">4</span></a></li>
+								class="icon icon-share"></i> 我的分享</a></li>
 					</ul>
 					</nav>
 				</div>

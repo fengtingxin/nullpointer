@@ -75,4 +75,18 @@ public class AnswerDaoImpl extends BaseDao<Answer, Integer> {
 			return null;
 		}
 	}
+	/**
+	 * @function 更新回答
+	 * @author tangwenru
+	 * @param answer
+	 */
+	public void updateAnswer(Answer answer){
+		try {
+			this.update(answer);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

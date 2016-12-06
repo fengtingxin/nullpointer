@@ -1,11 +1,11 @@
-package com.exp.bugHateRecord.service;
+package com.exp.bug.bugHateRecord.service;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.exp.bugHateRecord.dao.BugHateRecordDaoImpl;
+import com.exp.bug.bugHateRecord.dao.BugHateRecordDaoImpl;
 import com.exp.entity.BugHateRecord;
 
 @Service
@@ -29,7 +29,7 @@ public class BugHateRecordServiceImpl {
 	 * @return
 	 */
 	public BugHateRecord findBugHateRecord(Integer bugId,Integer userInfoId){
-		return this.bugHateRecordDaoImpl.findBugHaterecord(bugId, userInfoId);
+		return this.bugHateRecordDaoImpl.findBugHateRecord(bugId, userInfoId);
 		
 	}
 	/**

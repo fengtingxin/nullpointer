@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name="bug_like_record")
 public class BugLikeRecord {
 	private Integer bugLikeRecordId;//Bug点赞记录表id
-	private Date buglikeTime;//点赞时间
+	private Date bugLikeTime;//点赞时间
 	private Integer  bugLikeStatus;//该用户是否点赞
 	private UserInfo userInfo;
 	private Bug bug;
@@ -29,14 +29,15 @@ public class BugLikeRecord {
 	public void setBugLikeRecordId(Integer bugLikeRecordId) {
 		this.bugLikeRecordId = bugLikeRecordId;
 	}
-	public Date getBuglikeTime() {
-		return buglikeTime;
-	}
-	public void setBuglikeTime(Date buglikeTime) {
-		this.buglikeTime = buglikeTime;
-	}
 	
 	
+	
+	public Date getBugLikeTime() {
+		return bugLikeTime;
+	}
+	public void setBugLikeTime(Date bugLikeTime) {
+		this.bugLikeTime = bugLikeTime;
+	}
 	public Integer getBugLikeStatus() {
 		return bugLikeStatus;
 	}

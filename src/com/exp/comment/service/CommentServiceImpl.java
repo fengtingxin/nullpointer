@@ -67,5 +67,23 @@ public class CommentServiceImpl {
 	public void deleteComment(int commentId) {
 		this.commentDaoImpl.deleteComment(commentId);
 	}
+	/**
+	 * @function 更新评论
+	 * @author tangwenru
+	 * @param comment
+	 */
+	@Transactional(readOnly=false)
+	public void updateComment(Comment comment){
+		this.updateComment(comment);
+	}
+	/**
+	 * @function 根据commentId查询单个评论
+	 * @author tangwenru
+	 * @param commentId
+	 * @return
+	 */
+	public Comment getComment(Integer commentId){
+		return this.commentDaoImpl.getComment(commentId);
+	}
 
 }

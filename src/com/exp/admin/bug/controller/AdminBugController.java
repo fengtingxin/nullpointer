@@ -162,7 +162,14 @@ public class AdminBugController {
 		session.setAttribute("allBugNoAudit", bug);
 		return "admin/bug_review";
 	}
-	
+	/**
+	 * 功能：
+	 * 跳转到未经审核的bug详情页面
+	 * @param bugId
+	 * @param request
+	 * @return
+	 * @author fengtingxin
+	 */
 	@RequestMapping(value = "bugReview/{bugId}",method=RequestMethod.GET)
 	public String toOneNoAuditedBug(@PathVariable("bugId") Integer bugId,HttpServletRequest request){
 		Bug bug=this.bugServiceImpl.getOneBug(bugId);
@@ -174,6 +181,13 @@ public class AdminBugController {
 		return "admin/bug_review_detail";
 	}
 	
+	/**
+	 * 功能：
+	 * 同意用户发布bug,更改状态
+	 * @param bugId
+	 * @return
+	 * @author fengtingxin
+	 */
 	@RequestMapping(value = "bugReview/agreeBugPublish",method=RequestMethod.POST)
 	@ResponseBody
 	public String passShareBugByUser(@RequestParam(name="bugId")Integer bugId){
@@ -189,6 +203,13 @@ public class AdminBugController {
 		}
 		
 	}
+	/**
+	 * 功能：
+	 * 拒绝用户分享bug页面,更改状态
+	 * @param bugId
+	 * @return
+	 * @author fengtingxin
+	 */
 	@RequestMapping(value = "bugReview/denyBugPublish",method=RequestMethod.POST)
 	@ResponseBody
 	public String denyShareBugByUser(@RequestParam(name="bugId")Integer bugId){

@@ -55,10 +55,24 @@ public class AnswerServiceImpl {
 	         e.printStackTrace();
 		}
 	}
+	/**
+	 * @function 根据answerId查询单个回答
+	 * @author tangwenru
+	 * @param answerId
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public Answer getAnswer(int answerId){
 		return this.answerDaoImpl.getAnser(answerId);
 		
 	}
-	
+	/**
+	 * @function 更新回答
+	 * @author tangwenru
+	 * @param answer
+	 */
+	@Transactional(readOnly=false)
+	public void updateAnswer(Answer answer){
+		this.answerDaoImpl.updateAnswer(answer);
+	}
 }
