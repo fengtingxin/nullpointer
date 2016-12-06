@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name="answer_hate_record")
 public class AnswerHateRecord {
 	private Integer answerHateRecordId;
-	private Integer anserHateStatus;
+	private Integer answerHateStatus;
 	private Date answerHateTime;
 	private UserInfo userInfo;
 	private Answer answer;
@@ -33,11 +33,11 @@ public class AnswerHateRecord {
 	public void setAnswerHateRecordId(Integer answerHateRecordId) {
 		this.answerHateRecordId = answerHateRecordId;
 	}
-	public Integer getAnserHateStatus() {
-		return anserHateStatus;
+	public Integer getAnswerHateStatus() {
+		return answerHateStatus;
 	}
-	public void setAnserHateStatus(Integer anserHateStatus) {
-		this.anserHateStatus = anserHateStatus;
+	public void setAnswerHateStatus(Integer answerHateStatus) {
+		this.answerHateStatus = answerHateStatus;
 	}
 	public Date getAnswerHateTime() {
 		return answerHateTime;
