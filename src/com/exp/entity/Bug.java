@@ -18,7 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
@@ -57,6 +60,7 @@ public class Bug {
 	}
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getBugTitle() {
 		return bugTitle;
 	}
@@ -66,6 +70,7 @@ public class Bug {
 	}
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getBugDescribe() {
 		return bugDescribe;
 	}
@@ -75,6 +80,7 @@ public class Bug {
 	}
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getBugReason() {
 		return bugReason;
 	}

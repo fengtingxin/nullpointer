@@ -278,7 +278,7 @@
 			//alert("按了一个键");
 			var title = $("#s").val();
 			//3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("${ctx}/hibernateSearch/findBugByValue", {
+			$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
 				"title" : title
 			}, function(data) {
 				if (title == "") {
