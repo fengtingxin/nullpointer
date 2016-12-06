@@ -1,13 +1,11 @@
-package com.exp.product.dao;
+package com.exp.hibernateSearch.dao;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.ChineseAnalyzer;
 import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.hibernate.Query;
@@ -24,9 +22,14 @@ import com.exp.entity.Bug;
 import com.framework.BaseDao;
 
 @Repository
-public class ProductDaoImpl extends BaseDao<Bug, String> {
+public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
+	/**
+	 * @author Ray_1 功能：用hibernateSearch 获取不分页的bug
+	 * @param search
+	 * @return
+	 */
 
-	public List<Bug> search(String search) {
+	public List<Bug> searchBug(String search) {
 
 		Session session = super.getSession();
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
@@ -46,7 +49,7 @@ public class ProductDaoImpl extends BaseDao<Bug, String> {
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
 			// 集关键字高亮的实现代码
-			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font color='red'>", "</font>");
+			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font style='font-weight:bold;'>", "</font>");
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
@@ -76,4 +79,5 @@ public class ProductDaoImpl extends BaseDao<Bug, String> {
 		}
 		return list;
 	}
+
 }

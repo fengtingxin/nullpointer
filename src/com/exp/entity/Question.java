@@ -17,6 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
+
 @Entity
 @Table(name = "question")
 public class Question {
@@ -41,7 +47,7 @@ public class Question {
 	public void setQuestionId(Integer questionId) {
 		this.questionId = questionId;
 	}
-
+	
 	public String getQuestionTitle() {
 		return questionTitle;
 	}

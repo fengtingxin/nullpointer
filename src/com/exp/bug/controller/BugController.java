@@ -93,10 +93,10 @@ public class BugController {
 					String bugtitle = bug.getBugTitle();
 					System.out.println(bugtitle);
 					if (bugtitle.length() > 100){
-						sb.append("<li>" + bugtitle.substring(0, 100) + "</li>");
+						sb.append("<li class='showdetail'><a>" + bugtitle.substring(0, 100) + "</a></li>");
 						}
 					else{
-						sb.append("<li>" + bugtitle + "</li>");
+						sb.append("<li><a>" + bugtitle + "</a></li>");
 					}
 				}
 				
