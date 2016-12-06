@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tag")
-public class Tag {
+public class Tag implements java.io.Serializable{
 
 	// 属性
 	private Integer tagId; // id //主键

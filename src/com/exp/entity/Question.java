@@ -16,8 +16,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 @Entity
+@Indexed
 @Table(name = "question")
 public class Question {
 
@@ -41,7 +49,9 @@ public class Question {
 	public void setQuestionId(Integer questionId) {
 		this.questionId = questionId;
 	}
-
+	
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getQuestionTitle() {
 		return questionTitle;
 	}
@@ -50,7 +60,8 @@ public class Question {
 		this.questionTitle = questionTitle;
 	}
 
-
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getQuestionDescribe() {
 		return questionDescribe;
 	}

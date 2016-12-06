@@ -17,7 +17,12 @@
 <title>nullpointer</title>
 <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
 <!-- Style Sheet-->
-
+<!-- 没有登录就跳出 -->
+<c:if test="${empty loginUser}">
+		<%
+			response.sendRedirect("../login.jsp");
+		%>
+	</c:if>
 
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui-theme.css">
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
@@ -39,54 +44,56 @@
 	<!-- Start of Search Wrapper -->
 	<div style="padding-top: 30px; background-color: #f3f3f3; padding-bottom: 30px;">
 	
-		<div class="search-area container" style="background-color: white; padding: 30px 0px 0px 0px">
-		<div class="col-md-8 column">
-			<div class="example">
-				<form class="form-horizontal">
-					<div class="form-group">
-						<label for="exampleInputAccount4" class="col-sm-2">标题</label>
-						<div class="col-md-6 col-sm-10">
-							<input type="text" name="bugTitle" class="form-control" id="bugTitle" placeholder="问题标题">
+		<div class="search-area container" style="background-color: white; padding: 0px 0px 0px 0px">
+		
+			<div class="col-md-8 column">
+				<h2 style="margin-top:15px;" class="header-dividing">Bug分享</h2>
+				<div class="example">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="exampleInputAccount4" class="col-sm-2">标题</label>
+							<div class="col-md-6 col-sm-10">
+								<input type="text" name="bugTitle" class="form-control" id="bugTitle" placeholder="问题标题">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputAccount4" class="col-sm-2">类别选择</label>
-						<div class="col-md-6">
-							<select data-placeholder="选择问题类型..."
-								class="chosen-select form-control" tabindex="-1" multiple="">
-								<c:forEach	var="tt" items="${tags}">
-									<option value="${tt.tagName }">${tt.tagName }</option>
-								</c:forEach>
-							</select>
+						<div class="form-group">
+							<label for="exampleInputAccount4" class="col-sm-2">类别选择</label>
+							<div class="col-md-6">
+								<select data-placeholder="选择问题类型..."
+									class="chosen-select form-control" tabindex="-1" multiple="">
+									<c:forEach	var="tt" items="${tags}">
+										<option value="${tt.tagName }">${tt.tagName }</option>
+									</c:forEach>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputAccount4" class="col-sm-2">bug描述</label>
-						<div class="col-md-8 col-sm-10">
-							<textarea id="bugDescribe" name="bugDescribe" class="form-control kindeditor" style="height: 200px;"></textarea>
+						<div class="form-group">
+							<label for="exampleInputAccount4" class="col-sm-2">bug描述</label>
+							<div class="col-md-8 col-sm-10">
+								<textarea id="bugDescribe" name="bugDescribe" class="form-control kindeditor" style="height: 200px;"></textarea>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputAccount4" class="col-sm-2">产生原因</label>
-						<div class="col-md-8 col-sm-10">
-							<textarea id="bugReason" name="bugReason" class="form-control kindeditor" style="height: 200px;"></textarea>
+						<div class="form-group">
+							<label for="exampleInputAccount4" class="col-sm-2">产生原因</label>
+							<div class="col-md-8 col-sm-10">
+								<textarea id="bugReason" name="bugReason" class="form-control kindeditor" style="height: 200px;"></textarea>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputAccount4" class="col-sm-2">解决方法</label>
-						<div class="col-md-8 col-sm-10">
-							<textarea id="bugMethod" name="bugMethod"
-								class="form-control kindeditor" style="height: 300px;"></textarea>
+						<div class="form-group">
+							<label for="exampleInputAccount4" class="col-sm-2">解决方法</label>
+							<div class="col-md-8 col-sm-10">
+								<textarea id="bugMethod" name="bugMethod"
+									class="form-control kindeditor" style="height: 300px;"></textarea>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" onclick="submitForm()" class="btn btn-lg btn-success">提交</button>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="button" onclick="submitForm()" class="btn btn-lg btn-success">提交</button>
+							</div>
 						</div>
-					</div>
-				</form>
-			</div>
-			</div>
+					</form>
+				</div>
+				</div>
 				<div class="col-md-4 column">
 					<section class="widget">
 					<h3 class="title">问题推荐</h3>
