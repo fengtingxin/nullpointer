@@ -120,7 +120,7 @@
 	<script type='text/javascript' src='${ctx}/js/jquery-1.8.3.min.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.easing.1.3.js'></script>
 	<script type='text/javascript'
-		src='js/prettyphoto/jquery.prettyPhoto.js'></script>
+		src='${ctx}/js/prettyphoto/jquery.prettyPhoto.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jflickrfeed.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.liveSearch.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.form.js'></script>

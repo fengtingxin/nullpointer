@@ -84,4 +84,27 @@ public class AdviceServiceImpl {
 		}
 	}
 	
+	/**
+	 * 功能：
+	 * 更新advice是否查看
+	 * @param advice
+	 * @author fengtingxin
+	 */
+	@Transactional(readOnly = false)
+	public void updateAdvice(Advice advice){
+		try {
+			this.adviceDaoImpl.update(advice);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("update advice error");
+			try {
+				this.adviceDaoImpl.excuteBySql("update advice set visable=? where adviceId=? ", new Object[]{advice.getAdviceId(),advice.isVisable()});
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				System.out.println("update advice error by sql");
+				e1.printStackTrace();
+			}
+		}
+	}
 }

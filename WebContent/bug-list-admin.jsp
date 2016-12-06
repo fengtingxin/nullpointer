@@ -129,6 +129,38 @@
 			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
+					<i class="icon icon-comments icon-2x"></i>快来看这里
+				</h2>
+				<c:if test="${not empty loginUser }">
+				<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
+						type="button" >我也要分享</button></a>
+				</c:if>
+				<c:if test="${empty loginUser }">
+					<a data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
+						type="button" onclick="verificate()">我也要分享</button></a>
+<!-- 点击分享之后 -->
+<script type="text/javascript">
+function verificate(){
+		new $.zui.Messager('您还没有登录哦！', {
+		    icon: 'heart',
+		    placement: 'top',// 定义显示位置
+		    type:'warning',
+		}).show();
+}
+	
+</script>
+				</c:if>
+				
+<script type="text/javascript">
+window.onload = function(){
+	//你需要手动初始化工具提示
+	$('[data-toggle="tooltip"]').tooltip();
+	$('#share').tooltip('hide');
+}
+</script>
+			</div>
+			<div class="col-md-12" style="margin-top: 20px;">
+				<h2>
 					<i class="icon icon-align-left"></i> Tag
 				</h2>
 				<div class="tagcloud">

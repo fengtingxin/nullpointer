@@ -26,8 +26,7 @@
 <script type="text/javascript"
 	src="${ctx }/resources/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${ctx }/resources/js/md5.js"></script>
-<script type="text/javascript"
-	src="${ctx }/resources/js/page_login.js?lang=zh"></script>
+<script type="text/javascript"	src="${ctx }/resources/js/page_login.js?lang=zh" id="url" data="<%= request.getHeader("REFERER")%>"></script>
 </head>
 <!--[if IE]>
   <script src="resources/js/html5.js"></script>
@@ -41,8 +40,8 @@
 <body class="loginbody">
 	<div class="dataEye">
 		<div>
-			<img src="${ctx }/resources/images/logo_touming.gif" width="240px"
-				height="60px" />
+			<a href="${ctx }/index"><img src="${ctx }/resources/images/logo_touming.gif" width="240px"
+				height="60px" /></a>
 		</div>
 		<div class="loginbox">
 			<div id="bug-manager">
@@ -66,10 +65,7 @@
 						<label class="field">验证码</label> <input type="text"
 							class="input-text-user input-click" name="codeValue"
 							id="codeValue" style="width: 120px; float: left"> <img
-
-
 							src="${ctx }/MakeCodeServlet" width="150px" height="40px"
-
 							style="float: left" />
 					</div>
 					<div class="row btnArea">

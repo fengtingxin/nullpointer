@@ -126,6 +126,8 @@ function login(validate, remeberUser) {
 		var md5 = new MD5();
 		var f = "......" == $("#password").val() ? "" : md5.MD5($("#password")
 				.val());
+		var url = document.getElementById('url').getAttribute('data');
+		console.log(url);
 		$.post({
 			url : "loginUser/login",
 			data : {
@@ -141,7 +143,7 @@ function login(validate, remeberUser) {
 				$('.loading').hide();
 				if (data == "0") {
 					// 登录成功
-					window.location.href = "index";
+					window.location.href = url;
 				}else if(data=="-1"){
 					//验证码错误
 					$(".login-error").show();

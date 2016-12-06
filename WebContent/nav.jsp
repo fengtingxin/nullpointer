@@ -20,8 +20,9 @@
 							class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
 					<!-- 品牌名称或logo -->
-					<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"
-						style="margin-top: 3px;">
+					<a href="${ctx }/">
+						<img src="${ctx}/images/logo.png" alt="nullpointer" width="200"	style="margin-top: 3px;">
+					</a>
 				</div>
 				<!-- 导航项目 -->
 				<div class="collapse navbar-collapse navbar-collapse-example">
@@ -32,7 +33,7 @@
 						<li><a href="${ctx}/question/list_new">技术问答</a></li>
 						<li><a href="${ctx}/contact">帮助</a></li>
 						<c:if test="${loginUser==null}">
-							<li><a href="${ctx}/login.jsp">登陆/注册</a></li>
+							<li><a href="${ctx}/login.jsp">登录/注册</a></li>
 						</c:if>
 						<c:if test="${loginUser!=null}">
 							<li><a href="${ctx}/logOut">退出</a></li>

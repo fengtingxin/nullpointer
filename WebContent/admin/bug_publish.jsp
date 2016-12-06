@@ -330,7 +330,7 @@ function submitForm(){
 				alert("bug发布成功！");
 				window.location.href = "bug_publish";
 			}else {
-				if(date=="1"){
+				if(data=="1"){
 				alert("服务器出现问题，请程序员尽快调试！")
 				}else{
 					alert("您的填写有误！");

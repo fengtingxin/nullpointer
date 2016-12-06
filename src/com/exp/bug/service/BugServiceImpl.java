@@ -81,7 +81,15 @@ public class BugServiceImpl {
 	 * @author fengtingxin
 	 */
 	public List<Bug> getAllBug(){
-		return this.bugDaoImpl.findBugRecommend();
+		return this.bugDaoImpl.getAllBug();
+	}
+	/**
+	 * 功能：得到所有未经审核的bug
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<Bug> getAllBugNoAudit(){
+		return this.bugDaoImpl.getAllBugNoAudit();
 	}
 	/**
 	 * 功能：

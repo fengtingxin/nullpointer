@@ -1,8 +1,9 @@
 package com.exp.bug.controller;
 
 import java.util.Date;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.bug.service.BugServiceImpl;
 import com.exp.bugHateRecord.service.BugHateRecordServiceImpl;
@@ -23,8 +25,10 @@ import com.exp.entity.BugHateRecord;
 import com.exp.entity.BugLikeRecord;
 import com.exp.entity.Comment;
 import com.exp.entity.LoginUser;
+import com.exp.entity.Question;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
+import com.exp.question.service.QuestionServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
@@ -45,6 +49,8 @@ public class BugController {
 	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
 	@Resource
 	private BugHateRecordServiceImpl bugHateRecordServiceImpl;
+	@Resource
+	private QuestionServiceImpl questionServiceImpl;
 
 	/**
 	 * @function 分页查询官方发布的bug,每页8个
@@ -350,4 +356,64 @@ public class BugController {
 
 	}
 
+	@RequestMapping(value = "bugShareByUser", method = RequestMethod.GET)
+	public String toBugUserShare(HttpServletRequest request){
+		List<Tag> tags = this.tagServiceImpl.findAllTag();
+		List<Question> questionList=this.questionServiceImpl.findQuestionRecommend().subList(0, 6);
+		request.setAttribute("questionList", questionList);
+		request.setAttribute("tags", tags);
+		return "bug_user_share";
+	}
+	
+	/**
+	 * 功能：
+	 * 用户分享bug
+	 * 使用ajax提交，返回字符串
+	 * 1代表有错误
+	 * ok代表成功
+	 * not ok表示信息错误
+	 * @param bugTitle
+	 * @param bugReason
+	 * @param bugMethod
+	 * @param tags
+	 * @param bugDescribe
+	 * @param session
+	 * @return
+	 * @author fengtingxin
+	 */
+	@RequestMapping(value = "bugShareByUser",method=RequestMethod.POST)
+	@ResponseBody
+	public String publishBugByUser(@RequestParam(name="bugTitle") String bugTitle,@RequestParam(name="bugReason") String bugReason,@RequestParam(name="bugMethod") String bugMethod,
+			@RequestParam(name="tags") String tags,@RequestParam(name="bugDescribe") String bugDescribe,HttpSession session ){
+		if(tags==null||bugTitle==null||bugReason==null||bugMethod==null||bugDescribe==null){
+			return "not ok";
+		}
+		
+		String [] tagArray= tags.split(",");  //将获取的tag分拆
+		Bug bug=new Bug();
+		bug.setBugTitle(bugTitle);
+		bug.setBugDescribe(bugDescribe);
+		bug.setBugHateNum(0);
+		bug.setBugLikeNum(0);
+		bug.setBugMethod(bugMethod);
+		bug.setBugPageviews(0);
+		bug.setBugAudited(false);
+		bug.setBugPublishTime(new Date());
+		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
+		bug.setUserInfo(loginUser.getUserInfo());
+		bug.setBugReason(bugReason);
+		Set<Tag> bugTags=new HashSet<Tag>();
+		
+		try {
+			for(int i=0;i<tagArray.length;i++){
+				bugTags.add(this.tagServiceImpl.getOneTagByName(tagArray[i]));
+			}
+			bug.setTags(bugTags);
+			this.bugServiceImpl.saveOneBug(bug);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "1";
+		}
+		return "ok";
+	}
 }

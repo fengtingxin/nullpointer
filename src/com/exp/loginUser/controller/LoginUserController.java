@@ -137,25 +137,5 @@ public class LoginUserController {
 		}
 		return result;
 	}
-    /**
-     * @function 管理员登录
-     * @author tangwenru
-     * @param loginName
-     * @param password
-     * @param session
-     * @return
-     */
-	@RequestMapping("loginAdmin")
-	public String loginAdmin(@RequestParam(name = "loginName") String loginName,
-			@RequestParam(name = "password") String password,
-			HttpSession session) {
-		
-		String result = this.userServiceImpl.loginVerify(loginName, password);
-		if (result.equals("0")) {
-			// 输入正确
-			LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName, password);
-			session.setAttribute("loginUser", loginUser);
-		}
-		return "admin/index";
-	}
+    
 }

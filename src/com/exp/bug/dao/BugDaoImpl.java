@@ -20,7 +20,7 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	public List<Bug> findBugRecommend() {
 		Session session = super.getSession();
 		// 按照赞的数量排序
-		Query query = session.createQuery("from Bug order by bugPublishTime DESC,bugLikeNum DESC ");
+		Query query = session.createQuery("from Bug where bugAudited=true and bugAuditPass=true order by bugPublishTime DESC,bugLikeNum DESC ");
 		return query.list();
 	}
 	
@@ -35,11 +35,11 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	public Page<Bug> findAdminBug(int pageNum, int pageSize,Object[] params){
 		String hql;
 		if(params!=null && params.length>0){
-			hql="from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=1 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+			hql="from Bug b where b.bugAudited=true and bugAuditPass=true and b.bugTitle like ? and b.userInfo.loginUser.role.roleId=1 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
 			params[0]="%"+params[0]+"%";
 			
 		}else{
-			hql="from Bug b where b.userInfo.loginUser.role.roleId=1 order by bugPublishTime DESC,bugLikeNum DESC,comments.size desc";
+			hql="from Bug b where b.bugAudited=true and bugAuditPass=true and b.userInfo.loginUser.role.roleId=1 order by bugPublishTime DESC,bugLikeNum DESC,comments.size desc";
 		}
 		try {
 			Page<Bug> page=new Page<Bug>();
@@ -63,11 +63,11 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	public Page<Bug> findUserBug(int pageNum, int pageSize,Object[] params){
 		String hql;
 		if(params!=null && params.length>0){
-			hql="from Bug b where b.bugTitle like ? and b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+			hql="from Bug b where b.bugAudited=true and bugAuditPass=true and b.bugTitle like ? and b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
 			params[0]="%"+params[0]+"%";
 			
 		}else{
-			hql="from Bug b where b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
+			hql="from Bug b where b.bugAudited=true and bugAuditPass=true and b.userInfo.loginUser.role.roleId=2 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
 		}
 		try {
 			Page<Bug> page=new Page<Bug>();
@@ -87,7 +87,7 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 */
 	public Integer getAdminBugNum(){
 		Session session = super.getSession();
-		Query query = session.createQuery("from Bug b where b.userInfo.loginUser.role.roleId=1 ");
+		Query query = session.createQuery("from Bug b where b.bugAudited=true and b.bugAuditPass=true and b.userInfo.loginUser.role.roleId=1 ");
 		return query.list().size();
 	}
 	/**
@@ -97,7 +97,7 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 */
 	public Integer getUserBugNum(){
 		Session session = super.getSession();
-		Query query = session.createQuery("from Bug b where b.userInfo.loginUser.role.roleId=2");
+		Query query = session.createQuery("from Bug b where b.bugAudited=true and b.bugAuditPass=true and b.userInfo.loginUser.role.roleId=2");
 		return query.list().size();
 	}
 	/**
@@ -123,6 +123,15 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 */
 	public List<Bug> getAllBug(){
 		return this.getSession().createQuery("from Bug").list();
+	}
+	/**
+	 * 功能：
+	 * 找到所有未经审核的bug
+	 * @return
+	 * @author fengtingxin
+	 */
+	public List<Bug> getAllBugNoAudit(){
+		return this.getSession().createQuery("from Bug where bugAudited=false").list();
 	}
 	/**
 	 * @function 更新bug

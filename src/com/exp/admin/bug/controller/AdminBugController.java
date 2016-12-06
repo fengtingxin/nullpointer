@@ -144,4 +144,63 @@ public class AdminBugController {
 		}
 		return "ok";
 	}
+	/**
+	 * 功能：
+	 * 得到所有没有审核的bug
+	 * @param session
+	 * @return
+	 * @author fengtingxin
+	 */
+	@RequestMapping(value = "bug_review",method=RequestMethod.GET)
+	public String toBugReview(HttpSession session){
+		List<Bug> bug=this.bugServiceImpl.getAllBugNoAudit();
+		if(bug==null){
+			session.setAttribute("allBugNoAudit", null);
+			System.out.println("is null");
+		}
+		System.out.println("not null");
+		session.setAttribute("allBugNoAudit", bug);
+		return "admin/bug_review";
+	}
+	
+	@RequestMapping(value = "bugReview/{bugId}",method=RequestMethod.GET)
+	public String toOneNoAuditedBug(@PathVariable("bugId") Integer bugId,HttpServletRequest request){
+		Bug bug=this.bugServiceImpl.getOneBug(bugId);
+		if(bug==null){
+			//若是空，则跳转到建议的列表页
+			return "redirect:/admin/bug_review";
+		}
+		request.setAttribute("oneBug", bug);
+		return "admin/bug_review_detail";
+	}
+	
+	@RequestMapping(value = "bugReview/agreeBugPublish",method=RequestMethod.POST)
+	@ResponseBody
+	public String passShareBugByUser(@RequestParam(name="bugId")Integer bugId){
+		try {
+			Bug bug=this.bugServiceImpl.getOneBug(bugId);
+			bug.setBugAudited(true);
+			bug.setBugAuditPass(true);
+			this.bugServiceImpl.updateBug(bug);
+			return "ok";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "not ok";
+		}
+		
+	}
+	@RequestMapping(value = "bugReview/denyBugPublish",method=RequestMethod.POST)
+	@ResponseBody
+	public String denyShareBugByUser(@RequestParam(name="bugId")Integer bugId){
+		try {
+			Bug bug=this.bugServiceImpl.getOneBug(bugId);
+			bug.setBugAudited(true);
+			bug.setBugAuditPass(false);
+			this.bugServiceImpl.updateBug(bug);
+			return "ok";
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "not ok";
+		}
+	}
 }
