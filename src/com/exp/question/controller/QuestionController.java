@@ -1,7 +1,6 @@
 package com.exp.question.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +27,7 @@ import com.exp.entity.UserInfo;
 import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
 import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
@@ -50,6 +49,8 @@ public class QuestionController {
 	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
 	@Resource
 	private TagServiceImpl tagServiceImpl;
+	@Resource
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 
 	// 设置每页有5条数据
 	private Integer pageSize = 5;

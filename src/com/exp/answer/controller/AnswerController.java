@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 
@@ -23,6 +24,8 @@ import com.exp.entity.BugLikeRecord;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.UserInfo;
+import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
+import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.Page;
@@ -36,6 +39,10 @@ public class AnswerController {
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
+	@Resource
+	private QuestionLikeRecordServiceImpl questionLikeRecordServiceImpl;
 	@Resource
 	private AnswerHateRecordServiceImpl answerHateRecordServiceImpl;
 	@Resource
@@ -68,22 +75,29 @@ public class AnswerController {
 	 */
 	@RequestMapping(value = "delete")
 	public String delete(@RequestParam("answerId") int answerId,
-			@RequestParam(name = "questionId", required = false) int questionId, HttpServletRequest request) {
+			@RequestParam(name = "questionId", required = false) int questionId, HttpServletRequest request,HttpSession session) {
+		LoginUser loginUser=(LoginUser) session.getAttribute("loginUser");
 		this.answerServiceImpl.deleteAnswer(answerId);
-		return "redirect:findone?questionId=" + questionId;
+		return "redirect:findone?questionId=" + questionId+"&userInfoId="+loginUser.getLoginUserId();
 	}
 
 	/**
-	 * @function 删除一条评论后调用的方法
+	 * @function 删除一条回答后调用的方法
 	 * @author tangwenru
-	 * @param bugId
+	 * @param questionId
 	 * @param request
 	 * @return q_a_detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getBug(Integer questionId, HttpServletRequest request) {
+	public String getQuestion(Integer questionId,Integer userInfoId,HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
 		request.setAttribute("question", question);
+		if(this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId)!=null){
+			request.setAttribute("hateStatus", this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus());
+		}
+		if(this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId)!=null){
+			request.setAttribute("likeStatus", this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus());
+		}
 		return "q_a_detailed";
 	}
     /**

@@ -32,6 +32,13 @@ public class QuestionHateRecordServiceImpl {
 	public void saveQuestionHateRecord(QuestionHateRecord q){
 		this.questionHateRecordDaoImpl.saveQuestionHateRecord(q);
 	}
+	/**
+	 * @function 根据questionId,userInfoId查询单个问题被踩记录
+	 * @author tangwenru
+	 * @param questionId
+	 * @param userInfoId
+	 * @return
+	 */
 	public QuestionHateRecord findQuestionHateRecord(Integer questionId,Integer userInfoId){
 		return this.questionHateRecordDaoImpl.findQuestionHateRecord(questionId, userInfoId);
 		
