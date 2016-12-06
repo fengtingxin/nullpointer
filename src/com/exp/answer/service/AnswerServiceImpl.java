@@ -1,6 +1,8 @@
 package com.exp.answer.service;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -8,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.exp.answer.dao.AnswerDaoImpl;
 import com.exp.entity.Answer;
-import com.exp.entity.Comment;
 import com.framework.Page;
 
 @Service
@@ -55,10 +56,34 @@ public class AnswerServiceImpl {
 	         e.printStackTrace();
 		}
 	}
+	/**
+	 * @function 根据answerId查询单个回答
+	 * @author tangwenru
+	 * @param answerId
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public Answer getAnswer(int answerId){
 		return this.answerDaoImpl.getAnser(answerId);
 		
 	}
-	
+	/**
+	 * @function 更新回答
+	 * @author tangwenru
+	 * @param answer
+	 */
+	@Transactional(readOnly=false)
+	public void updateAnswer(Answer answer){
+		this.answerDaoImpl.updateAnswer(answer);
+	}
+	/**
+	 * @function 根据userInfoId,questionId查询回答
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param questionId
+	 * @return
+	 */
+	public List<Answer> findAnswer(Integer userInfoId,Integer questionId){
+		return this.answerDaoImpl.findAnswer(userInfoId, questionId);
+	}
 }

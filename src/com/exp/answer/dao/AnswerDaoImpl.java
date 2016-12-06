@@ -1,14 +1,16 @@
 package com.exp.answer.dao;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import com.exp.entity.Answer;
-import com.exp.entity.Bug;
 import com.framework.BaseDao;
 import com.framework.Page;
 //汤文茹删除了不必要引入的包
@@ -75,4 +77,32 @@ public class AnswerDaoImpl extends BaseDao<Answer, Integer> {
 			return null;
 		}
 	}
+	/**
+	 * @function 更新回答
+	 * @author tangwenru
+	 * @param answer
+	 */
+	public void updateAnswer(Answer answer){
+		try {
+			this.update(answer);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * @function 根据userInfoId,questionId查询回答
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param questionId
+	 * @return
+	 */
+	public List<Answer> findAnswer(Integer userInfoId,Integer questionId) {
+		Session session = super.getSession();
+		Query query = session.createQuery("from Answer a where a.userInfo.userInfoId=? and a.question.questionId=?");
+		query.setInteger(0, userInfoId);
+		query.setInteger(1, questionId);
+		return query.list();
+	}
+	
 }

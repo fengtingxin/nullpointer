@@ -133,5 +133,19 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 //	public TestSearch(){
 //		
 //	}
+	/**
+	 * @function 更新问题
+	 * @author tangwenru
+	 * @param q
+	 */
+	public void updateQuestion(Question q){
+		try {
+			this.update(q);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

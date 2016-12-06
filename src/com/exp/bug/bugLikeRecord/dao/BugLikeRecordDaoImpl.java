@@ -1,4 +1,4 @@
-package com.exp.bugLikeRecord.dao;
+package com.exp.bug.bugLikeRecord.dao;
 
 import org.springframework.stereotype.Repository;
 

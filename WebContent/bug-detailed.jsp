@@ -53,7 +53,7 @@ xmlhttp.send();
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -119,107 +119,97 @@ xmlhttp.send();
 			<h2>Bug解决方法</h2>
 			<p>${bug.bugMethod }</p>
 
-			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+			</section> <footer>
 			<div class="container" style="margin-top: 25px;">
-				<a href="${ctx }/bug/like?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
+				<a
+					href="${ctx }/bug/like?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
 						<c:if test="${likeStatus==1 }">
-						<div class="haveen">
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
-							赞
-						</div>
-						</div>
+							<div class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
 						<c:if test="${likeStatus==null }">
-						<div>
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">
-							
-							${bug.bugLikeNum }
-							
-							</p>
-							赞
-						</div>
-						</div>
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
-							<c:if test="${likeStatus==0}">
-						<div>
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">
-							
-							${bug.bugLikeNum }
-							
-							</p>
-							赞
-						</div>
-						</div>
+						<c:if test="${likeStatus==0}">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugLikeNum }</p>
+									赞
+								</div>
+							</div>
 						</c:if>
-						
-						
-
 					</div>
-				</a><a href="${ctx }/bug/hate?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
-
+				</a><a
+					href="${ctx }/bug/hate?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}">
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
 						<c:if test="${hateStatus==1 }">
-						<div class="haveen">
-						<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
-                       </div>
-                       </c:if>
-					
-					<c:if test="${hateStatus==null }">
-					<div>
-					<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
+							<div class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
+
+						<c:if test="${hateStatus==null }">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${hateStatus==0 }">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
 					</div>
-					</c:if>
-					<c:if test="${hateStatus==0 }">
-					<div>
-					<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${bug.bugHateNum }</p>
-							踩
-						</div>
-					</div>
-					</c:if>
-			   </div>
-					
+
 				</a>
 			</div>
 			<c:if test="${not empty adviceReminder }">
-					<!-- 提示部分！ -->
-					<script type="text/javascript">
+				<!-- 提示部分！ -->
+				<script type="text/javascript">
 	window.onload=function(){
 		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
 										icon : 'bell', //定义图标
@@ -229,8 +219,7 @@ xmlhttp.send();
 									}).show();
 						}
 					</script>
-				</c:if>
-			<!--评论内容开始-->
+			</c:if> <!--评论内容开始-->
 			<div class="comments">
 				<header>
 
@@ -339,7 +328,8 @@ function focusAndChangeStatus(comentId){
 		<!-- 提示部分！ -->
 		<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>
+			', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题

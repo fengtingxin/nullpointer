@@ -79,7 +79,7 @@
 								<div class="item-heading">
 									<h2 class="post-title">
 										<a
-											href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
+											href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}">${question.questionTitle }</a>
 									</h2>
 								</div>
 								<div class="item-content">
@@ -146,26 +146,12 @@
 				<h2>
 					<i class="icon icon-align-left icon-2x"></i> Tag
 				</h2>
-				<div class="tagcloud" style="margin-top: 20px;">
-					<a href="#" class="btn btn-primary">C++</a> <a href="#"
-						class="btn btn-primary">C语言</a> <a href="#"
-						class="btn btn-primary">server</a> <a href="#"
-						class="btn btn-primary">html</a> <a href="#"
-						class="btn btn-primary">css</a> <a href="#"
-						class="btn btn-primary">date</a> <a href="#"
-						class="btn btn-primary">design</a> <a href="#"
-						class="btn btn-primary">files</a> <a href="#"
-						class="btn btn-primary">format</a> <a href="#"
-						class="btn btn-primary">header</a> <a href="#"
-						class="btn btn-primary">images</a> <a href="#"
-						class="btn btn-primary">plugins</a> <a href="#"
-						class="btn btn-primary">setting</a> <a href="#"
-						class="btn btn-primary">templates</a> <a href="#"
-						class="btn btn-primary">theme</a> <a href="#"
-						class="btn btn-primary">time</a> <a href="#"
-						class="btn btn-primary">videos</a> <a href="#"
-						class="btn btn-primary">website</a> <a href="#"
-						class="btn btn-primary">wordpress</a>
+				<div class="tagcloud">
+					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
+					<c:forEach var="tt" items="${tag}">
+						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
+							class="btn btn-primary">${tt.tagName}</a>
+					</c:forEach>
 				</div>
 
 			</div>

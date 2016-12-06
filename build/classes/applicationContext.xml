@@ -83,7 +83,7 @@
 				<prop key="hibernate.search.default.directory_provider">
 					org.hibernate.search.store.impl.FSDirectoryProvider
 				</prop>
-				<prop key="hibernate.search.default.indexBase">D:/index</prop>
+				<prop key="hibernate.search.default.indexBase">C:/index</prop>
 			</props>
 		</property>
 	</bean>

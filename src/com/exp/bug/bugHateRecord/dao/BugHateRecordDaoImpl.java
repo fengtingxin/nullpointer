@@ -1,4 +1,4 @@
-package com.exp.bugHateRecord.dao;
+package com.exp.bug.bugHateRecord.dao;
 
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +25,7 @@ public class BugHateRecordDaoImpl  extends BaseDao<BugHateRecord, String>{
 	 * @param userInfoId
 	 * @return
 	 */
-	public BugHateRecord findBugHaterecord(Integer bugId,Integer userInfoId){
+	public BugHateRecord findBugHateRecord(Integer bugId,Integer userInfoId){
 		try {
 			return super.findOne("from BugHateRecord b where b.bug.bugId=? and b.userInfo.userInfoId=?",new Object[] { bugId, userInfoId });
 		} catch (Exception e) {

@@ -3,8 +3,9 @@ package com.exp.bug.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
-
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +20,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.bug.service.BugServiceImpl;
-import com.exp.bugHateRecord.service.BugHateRecordServiceImpl;
-import com.exp.bugLikeRecord.service.BugLikeRecordServiceImpl;
+import com.exp.bug.bugHateRecord.service.BugHateRecordServiceImpl;
+import com.exp.bug.bugLikeRecord.service.BugLikeRecordServiceImpl;
 import com.exp.comment.service.CommentServiceImpl;
 import com.exp.entity.Bug;
 import com.exp.entity.BugHateRecord;
 import com.exp.entity.BugLikeRecord;
 import com.exp.entity.Comment;
 import com.exp.entity.LoginUser;
+import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
+import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
@@ -49,6 +52,8 @@ public class BugController {
 	private BugLikeRecordServiceImpl bugLikeRecordServiceImpl;
 	@Resource
 	private BugHateRecordServiceImpl bugHateRecordServiceImpl;
+	@Resource
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 
 	/**
 	 * @author Ray_1功能：搜索下来框
@@ -240,6 +245,288 @@ public class BugController {
 			comment.setUserInfo(loginUser.getUserInfo());
 			this.commentServiceImpl.saveComment(comment);
 		}
-		return "redirect:findone?bugId=" + bugId;
+		//增加社区属性
+		Set<Tag> tags=bug.getTags();
+		Iterator<Tag> iterator=tags.iterator();
+		while(iterator.hasNext()){
+			Tag tag=iterator.next();
+			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+				R_Tag_UserInfo r=new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			}else{
+				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+				r.setTagNumber(r.getTagNumber()+1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
+		return "redirect:findone?bugId=" + bugId+"&userInfoId="+loginUser.getLoginUserId();
 	}
+
+
+	/**
+	 * @function 对bug进行点赞、取消赞
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param bugId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "like", method = RequestMethod.GET)
+	public String bugLike(@RequestParam(name = "userInfoId") Integer userInfoId,
+			@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
+		Bug bug = this.bugServiceImpl.getBug(bugId);
+		// 判断用户是否登录
+		if (userInfoId == null) {
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("bug", bug);
+			request.setAttribute("remindMsg", "请登录！");
+			return "bug-detailed";
+
+		} else {// 用户已登录
+			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser = userInfo.getLoginUser();
+			if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) == null) {
+				// 未踩
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) == null) {
+					// 未赞
+					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugLikeRecord bugLikeRecord = new BugLikeRecord();
+					bugLikeRecord.setBug(bug);
+					bugLikeRecord.setUserInfo(userInfo);
+					bugLikeRecord.setBugLikeStatus(1);
+					bugLikeRecord.setBugLikeTime(new Date());
+					this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+						&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 0) {
+					// 赞失效
+					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
+					bugLikeRecord.setBugLikeStatus(1);
+					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+						&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 1) {
+					// 赞有效
+					bug.setBugLikeNum(bug.getBugLikeNum() - 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
+					bugLikeRecord.setBugLikeStatus(0);
+					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+			}
+			if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+					&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 0) {
+				// 踩失效
+				request.setAttribute("hateStatus", 0);
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) == null) {
+					// 未赞
+					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugLikeRecord bugLikeRecord = new BugLikeRecord();
+					bugLikeRecord.setBug(bug);
+					bugLikeRecord.setUserInfo(userInfo);
+					bugLikeRecord.setBugLikeStatus(1);
+					bugLikeRecord.setBugLikeTime(new Date());
+					this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+						&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 0) {
+					// 赞失效
+					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
+					bugLikeRecord.setBugLikeStatus(1);
+					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+						&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 1) {
+					// 赞有效
+					bug.setBugLikeNum(bug.getBugLikeNum() - 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
+					bugLikeRecord.setBugLikeStatus(0);
+					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					request.setAttribute("likeStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				return "bug-detailed";
+
+			} else {
+				// 踩有效
+				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+						&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 0) {
+					request.setAttribute("likeStatus", 0);
+				}
+				request.setAttribute("hateStatus", 1);
+				request.setAttribute("loginUser", loginUser);
+				request.setAttribute("bug", bug);
+				request.setAttribute("adviceReminder", "ok");
+				request.setAttribute("remindMsg", "取消踩后才可以赞哦！");
+				return "bug-detailed";
+			}
+
+		}
+
+	}
+
+	/**
+	 * @function @function 对bug进行踩、取消踩
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param bugId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "hate", method = RequestMethod.GET)
+	public String bugHate(@RequestParam(name = "userInfoId") Integer userInfoId,
+			@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
+		Bug bug = this.bugServiceImpl.getBug(bugId);
+		// 判断用户是否登录
+		if (userInfoId == null) {
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("bug", bug);
+			request.setAttribute("remindMsg", "请登录！");
+			return "bug-detailed";
+
+		} else {// 用户已登录
+			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser = userInfo.getLoginUser();
+			if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) == null) {
+				// 赞的记录为空
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) == null) {
+					// 踩的记录为空
+					bug.setBugHateNum(bug.getBugHateNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugHateRecord bugHateRecord = new BugHateRecord();
+					bugHateRecord.setBug(bug);
+					bugHateRecord.setUserInfo(userInfo);
+					bugHateRecord.setBugHateStatus(1);
+					bugHateRecord.setBugHateTime(new Date());
+					this.bugHateRecordServiceImpl.saveBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+						&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 0) {
+					// 踩失效
+					BugHateRecord bugHateRecord = this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId);
+					bugHateRecord.setBugHateStatus(1);
+					bug.setBugHateNum(bug.getBugHateNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					this.bugHateRecordServiceImpl.updateBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+						&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 1) {
+					// 踩有效
+					bug.setBugHateNum(bug.getBugHateNum() - 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugHateRecord bugHateRecord = this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId);
+					bugHateRecord.setBugHateStatus(0);
+					this.bugHateRecordServiceImpl.updateBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+			}
+			if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
+					&& this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus() == 0) {
+				// 赞已失效
+				request.setAttribute("likeStatus", 0);
+
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) == null) {
+					// 踩的记录为空
+					bug.setBugHateNum(bug.getBugHateNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugHateRecord bugHateRecord = new BugHateRecord();
+					bugHateRecord.setBug(bug);
+					bugHateRecord.setUserInfo(userInfo);
+					bugHateRecord.setBugHateStatus(1);
+					bugHateRecord.setBugHateTime(new Date());
+					this.bugHateRecordServiceImpl.saveBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+						&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 0) {
+					// 踩失效
+					BugHateRecord bugHateRecord = this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId);
+					bugHateRecord.setBugHateStatus(1);
+					bug.setBugHateNum(bug.getBugHateNum() + 1);
+					this.bugServiceImpl.updateBug(bug);
+					this.bugHateRecordServiceImpl.updateBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+						&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 1) {
+					// 踩有效
+					bug.setBugHateNum(bug.getBugHateNum() - 1);
+					this.bugServiceImpl.updateBug(bug);
+					BugHateRecord bugHateRecord = this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId);
+					bugHateRecord.setBugHateStatus(0);
+					this.bugHateRecordServiceImpl.updateBugHateRecord(bugHateRecord);
+					request.setAttribute("hateStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("bug", bug);
+					return "bug-detailed";
+				}
+				return "bug-detailed";
+			} else {
+				//赞有效
+				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null
+						&& this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus() == 0) {
+					request.setAttribute("hateStatus", 0);
+				}
+				request.setAttribute("likeStatus", 1);
+				request.setAttribute("loginUser", loginUser);
+				request.setAttribute("bug", bug);
+				request.setAttribute("adviceReminder", "ok");
+				request.setAttribute("remindMsg", "取消赞后才可以踩哦！");
+				return "bug-detailed";
+			}
+
+		}
+
+	}
+
+
 }

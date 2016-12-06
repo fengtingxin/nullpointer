@@ -1,6 +1,6 @@
 package com.exp.entity;
 
-import javax.annotation.Generated;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

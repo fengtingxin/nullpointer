@@ -86,9 +86,14 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
+<<<<<<< HEAD
 											<a
 												href="${ctx }/question/findone?questionId=${question.questionId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
+=======
+											<a href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}" data-toggle="tooltip"
+												title="${question.questionTitle}">
+>>>>>>> 7f90002f6aa9db6dfe892c686f2719d6b3427083
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
 											</a>

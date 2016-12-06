@@ -30,7 +30,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -79,55 +79,123 @@
 						</c:if>
 
 					</c:forEach>
-					<!-- <span
-						class="label label-warning">网页设计</span> <span
-						class="label label-info">W3C</span> <span
-						class="label label-danger"><i class="icon-eye-open"></i>
-						235</span> -->
 				</dd>
 			</dl>
 			<section class="abstract">
-			<p>
-				
-			</p>
-			</section></header>
-			 <section class="content">
-			 <h2>问题描述：</h2>
-				<c:if test="${question.questionDescribe==null }">暂无</c:if>
-				<c:if test="${question.questionDescribe!=null }">${question.questionDescribe }</c:if>
-			 </section>
-		     <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
+			<p></p>
+			</section></header> <section class="content">
+			<h2>问题描述：</h2>
+			<c:if test="${question.questionDescribe==null }">暂无</c:if> <c:if
+				test="${question.questionDescribe!=null }">${question.questionDescribe }</c:if>
+			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
 			<div class="container" style="margin-top: 25px;">
-				<a href="跳转到控制器即可.html">
+				<a
+					href="${ctx }/question/like?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}">
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
-						<div class="container">
-							<i class="icon icon-angle-up icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${question.questionLikeNum }</p>
-							点赞
-						</div>
+						<c:if test="${likeStatus==1 }">
+							<div class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionLikeNum }</p>
+									赞
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${likeStatus==null }">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionLikeNum }
+
+									</p>
+									赞
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${likeStatus==0}">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-up icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionLikeNum }
+
+									</p>
+									赞
+								</div>
+							</div>
+						</c:if>
+
+
 
 					</div>
-				</a> <a href="">
+				</a><a
+					href="${ctx }/question/hate?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}">
 
 					<div class="col-md-6 column thumbs"
 						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
-						<div class="container">
-							<i class="icon icon-angle-down icon-3x"></i>
-						</div>
-						<div class="container"
-							style="text-align: center; padding-bottom: 10px;">
-							<p style="margin-bottom: 0px">${question.questionHateNum }</p>
-							踩
-						</div>
+						<c:if test="${hateStatus==1 }">
+							<div class="haveen">
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
 
+						<c:if test="${hateStatus==null }">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
+						<c:if test="${hateStatus==0 }">
+							<div>
+								<div class="container">
+									<i class="icon icon-angle-down icon-3x"></i>
+								</div>
+								<div class="container"
+									style="text-align: center; padding-bottom: 10px;">
+									<p style="margin-bottom: 0px">${question.questionHateNum }</p>
+									踩
+								</div>
+							</div>
+						</c:if>
 					</div>
+
 				</a>
 			</div>
-			<!--评论内容开始-->
+			<c:if test="${not empty adviceReminder }">
+				<!-- 提示部分！ -->
+				<script type="text/javascript">
+	window.onload=function(){
+		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
+										icon : 'bell', //定义图标
+										fade : 'true',
+										type : 'primary', // 定义颜色主题
+
+									}).show();
+						}
+					</script>
+			</c:if> <!--评论内容开始-->
 			<div class="comments">
 				<header>
 
@@ -204,6 +272,7 @@
 						<div class="form-group">
 							<textarea id="content_submit" name="content"
 								class="form-control kindeditor"></textarea>
+
 						</div>
 						<input type="hidden" id="commentIdInput" name="answerId" value="" />
 						<div class="form-group comment-user">
@@ -213,6 +282,7 @@
 							</div>
 						</div>
 					</form>
+					
 				</div>
 				</footer>
 			</div>
@@ -221,22 +291,23 @@
 	</div>
 	<!--文章完成-->
 	<script type="text/javascript">
-/*
- * 当点击回复时，修改anserId为点击回复的值
- 同时滚动到输入框的div
- */
-function focusAndChangeStatus(answerId){
-	document.getElementById("commentIdInput").value=answerId; //修改ID
-    $('html, body').animate({  
-        scrollTop: $("#commentReplyForm2").offset().top
-    }, 1000);
-}
-</script>
+	/*
+	 * 当点击回复时，修改anserId为点击回复的值
+	 同时滚动到输入框的div
+	 */
+	function focusAndChangeStatus(answerId){
+		document.getElementById("commentIdInput").value=answerId; //修改ID
+	    $('html, body').animate({  
+	        scrollTop: $("#commentReplyForm2").offset().top
+	    }, 1000);
+	}
+	</script>
 	<c:if test="${not empty bug_detailed_judge }">
 		<!-- 提示部分！ -->
 		<script type="text/javascript">
 	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>', {
+		new $.zui.Messager('<%=request.getAttribute("bug_detailed_bell")%>
+			', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题

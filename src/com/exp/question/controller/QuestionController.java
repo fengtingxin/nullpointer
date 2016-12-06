@@ -1,6 +1,9 @@
 package com.exp.question.controller;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-
-import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
+import com.exp.entity.QuestionHateRecord;
+import com.exp.entity.QuestionLikeRecord;
+import com.exp.entity.R_Tag_UserInfo;
+import com.exp.entity.Tag;
+import com.exp.entity.LoginUser;
+import com.exp.entity.UserInfo;
+import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
+import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
 //删除了不必要引用的包
@@ -29,6 +40,14 @@ public class QuestionController {
 	private QuestionServiceImpl questionServiceImpl;//将questionserviceimpl改成questionServiceImpl
 	@Resource 
 	private AnswerServiceImpl answerServiceImpl;
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private QuestionLikeRecordServiceImpl questionLikeRecordServiceImpl;
+	@Resource
+	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
+	@Resource
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 	// 设置每页有5条数据
 	private Integer pageSize = 5;
 
@@ -95,19 +114,29 @@ public class QuestionController {
 	 * @return q_a_detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getQuestion(@RequestParam("questionId") Integer questionId,@RequestParam(name="bug_detailed_bell",required=false) String bug_detailed_bell,
+	public String getQuestion(@RequestParam("questionId") Integer questionId,
+			@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
+			@RequestParam(name="question_detailed_bell",required=false) String question_detailed_bell,
 			HttpServletRequest request){
 		Question question=this.questionServiceImpl.getQuestion(questionId);
+		if (userInfoId != null & this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null) {
+			request.setAttribute("likeStatus",
+					this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus());
+		}
+		if (userInfoId != null & this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null) {
+			request.setAttribute("hateStatus",
+					this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus());
+		}
 		request.setAttribute("question",question);
-		if(bug_detailed_bell!=null){
-			if(bug_detailed_bell.substring(bug_detailed_bell.length()-1).equals("1")){
-				bug_detailed_bell="请输入内容";
+		if(question_detailed_bell!=null){
+			if(question_detailed_bell.substring(question_detailed_bell.length()-1).equals("1")){
+				question_detailed_bell="请输入内容";
 			}
-			if(bug_detailed_bell.substring(bug_detailed_bell.length()-1).equals("2")){
-				bug_detailed_bell="请登录";
+			if(question_detailed_bell.substring(question_detailed_bell.length()-1).equals("2")){
+				question_detailed_bell="请登录";
 			}
-			request.setAttribute("bug_detailed_bell", bug_detailed_bell);
-			request.setAttribute("bug_detailed_judge", "ok");
+			request.setAttribute("question_detailed_bell", question_detailed_bell);
+			request.setAttribute("question_detailed_judge", "ok");
 		}
 		return "q_a_detailed";
 		
@@ -118,13 +147,13 @@ public class QuestionController {
 			@RequestParam(name = "answerId", required = false) Integer answerId,HttpServletRequest request,HttpSession session) {
 		if(content==null||content.trim().length()==0){
 			//内容为空
-			return "redirect:findone?questionId=" + questionId+"&bug_detailed_bell="+1;
+			return "redirect:findone?questionId=" + questionId+"&question_detailed_bell="+1;
 		}
 		System.out.println("answer id"+answerId);
 		LoginUser loginUser=(LoginUser) session.getAttribute("loginUser");
 		if(loginUser==null){
 			//没有登录
-			return "redirect:findone?questionId=" + questionId+"&bug_detailed_bell="+2;
+			return "redirect:findone?questionId=" + questionId+"&question_detailed_bell="+2;
 		}
 		//code转换
 		content=EncodingTool.encodeStr(content);
@@ -141,6 +170,7 @@ public class QuestionController {
 			answer.setUserInfo(loginUser.getUserInfo());
 			question.getAnswers().add(answer);
 			this.answerServiceImpl.saveAnswer(answer);
+		
 		}else{
 			Answer answer=new Answer();
 			answer.setQuestion(question);
@@ -149,7 +179,285 @@ public class QuestionController {
 			answer.setParentAnswer(this.answerServiceImpl.getAnswer(answerId));
 			answer.setUserInfo(loginUser.getUserInfo());
 			this.answerServiceImpl.saveAnswer(answer);
+			
 		}
-		return "redirect:findone?questionId=" + questionId;
+		Set<Tag> tags=question.getTags();
+		Iterator<Tag> iterator=tags.iterator();
+		while(iterator.hasNext()){
+			Tag tag=iterator.next();
+			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+				R_Tag_UserInfo r=new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			}else{
+				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+				r.setTagNumber(r.getTagNumber()+1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
+		return "redirect:findone?questionId=" + questionId+"&userInfoId="+loginUser.getLoginUserId();
 	}
+	/**
+	 * @function 对问题进行赞、取消赞
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param questionId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "like", method = RequestMethod.GET)
+	public String questionLike(@RequestParam(name = "userInfoId") Integer userInfoId,
+			@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
+		Question question = this.questionServiceImpl.getQuestion(questionId);
+		// 判断用户是否登录
+		if (userInfoId == null) {
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("question", question);
+			request.setAttribute("remindMsg", "请登录！");
+			return "q_a_detailed";
+
+		} else {// 用户已登录
+			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser = userInfo.getLoginUser();
+			if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) == null) {
+				// 未踩
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) == null) {
+					// 未赞
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = new QuestionLikeRecord();
+					questionLikeRecord.setQuestion(question);
+					questionLikeRecord.setUserInfo(userInfo);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					questionLikeRecord.setQuestionLikeTime(new Date());
+					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 0) {
+					// 赞失效
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 1) {
+					// 赞有效
+					question.setQuestionLikeNum(question.getQuestionLikeNum() - 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(0);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+			}
+			if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+					&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 0) {
+				// 踩失效
+				request.setAttribute("hateStatus", 0);
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) == null) {
+					// 未赞
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = new QuestionLikeRecord();
+					questionLikeRecord.setQuestion(question);
+					questionLikeRecord.setUserInfo(userInfo);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					questionLikeRecord.setQuestionLikeTime(new Date());
+					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 0) {
+					// 赞失效
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(1);
+					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 1) {
+					// 赞有效
+					question.setQuestionLikeNum(question.getQuestionLikeNum() - 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionLikeRecord questionLikeRecord = this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId);
+					questionLikeRecord.setQuestionLikeStatus(0);
+					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					request.setAttribute("likeStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				return "q_a_detailed";
+
+			} else {
+				// 踩有效
+				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+						&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 0) {
+					request.setAttribute("likeStatus", 0);
+				}
+				request.setAttribute("hateStatus", 1);
+				request.setAttribute("loginUser", loginUser);
+				request.setAttribute("question", question);
+				request.setAttribute("adviceReminder", "ok");
+				request.setAttribute("remindMsg", "取消踩后才可以赞哦！");
+				return "q_a_detailed";
+			}
+
+		}
+
+	}
+	/**
+	 * @function 对问题进行踩，取消踩
+	 * @author tangwenru
+	 * @param userInfoId
+	 * @param questionId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "hate", method = RequestMethod.GET)
+	public String questionHate(@RequestParam(name = "userInfoId") Integer userInfoId,
+			@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
+		Question question = this.questionServiceImpl.getQuestion(questionId);
+		// 判断用户是否登录
+		if (userInfoId == null) {
+			request.setAttribute("adviceReminder", "ok");
+			request.setAttribute("question", question);
+			request.setAttribute("remindMsg", "请登录！");
+			return "q_a_detailed";
+
+		} else {// 用户已登录
+			UserInfo userInfo = this.userInfoServiceImpl.findById(userInfoId);
+			LoginUser loginUser = userInfo.getLoginUser();
+			if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) == null) {
+				// 赞的记录为空
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) == null) {
+					// 踩的记录为空
+					question.setQuestionHateNum(question.getQuestionHateNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionHateRecord questionHateRecord = new QuestionHateRecord();
+					questionHateRecord.setQuestion(question);
+					questionHateRecord.setUserInfo(userInfo);
+					questionHateRecord.setQuestionHateStatus(1);
+					questionHateRecord.setQuestionHateTime(new Date());
+					this.questionHateRecordServiceImpl.saveQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+						&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 0) {
+					// 踩失效
+					QuestionHateRecord questionHateRecord = this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId);
+					questionHateRecord.setQuestionHateStatus(1);
+					question.setQuestionHateNum(question.getQuestionHateNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					this.questionHateRecordServiceImpl.updateQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+						&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 1) {
+					// 踩有效
+					question.setQuestionHateNum(question.getQuestionHateNum() - 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionHateRecord questionHateRecord = this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId);
+					questionHateRecord.setQuestionHateStatus(0);
+					this.questionHateRecordServiceImpl.updateQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+			}
+			if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
+					&& this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId).getQuestionLikeStatus() == 0) {
+				// 赞已失效
+				request.setAttribute("likeStatus", 0);
+
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) == null) {
+					// 踩的记录为空
+					question.setQuestionHateNum(question.getQuestionHateNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionHateRecord questionHateRecord = new QuestionHateRecord();
+					questionHateRecord.setQuestion(question);
+					questionHateRecord.setUserInfo(userInfo);
+					questionHateRecord.setQuestionHateStatus(1);
+					questionHateRecord.setQuestionHateTime(new Date());
+					this.questionHateRecordServiceImpl.saveQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+						&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 0) {
+					// 踩失效
+					QuestionHateRecord questionHateRecord = this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId);
+					questionHateRecord.setQuestionHateStatus(1);
+					question.setQuestionHateNum(question.getQuestionHateNum() + 1);
+					this.questionServiceImpl.updateQuestion(question);
+					this.questionHateRecordServiceImpl.updateQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 1);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+						&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 1) {
+					// 踩有效
+					question.setQuestionHateNum(question.getQuestionHateNum() - 1);
+					this.questionServiceImpl.updateQuestion(question);
+					QuestionHateRecord questionHateRecord = this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId);
+					questionHateRecord.setQuestionHateStatus(0);
+					this.questionHateRecordServiceImpl.updateQuestionHateRecord(questionHateRecord);
+					request.setAttribute("hateStatus", 0);
+					request.setAttribute("loginUser", loginUser);
+					request.setAttribute("question", question);
+					return "q_a_detailed";
+				}
+				return "q_a_detailed";
+			} else {
+				//赞有效
+				if (this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId) != null
+						&& this.questionHateRecordServiceImpl.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus() == 0) {
+					request.setAttribute("hateStatus", 0);
+				}
+				request.setAttribute("likeStatus", 1);
+				request.setAttribute("loginUser", loginUser);
+				request.setAttribute("question", question);
+				request.setAttribute("adviceReminder", "ok");
+				request.setAttribute("remindMsg", "取消赞后才可以踩哦！");
+				return "q_a_detailed";
+			}
+
+		}
+
+	}
+
 }
