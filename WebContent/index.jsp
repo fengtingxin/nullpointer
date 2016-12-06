@@ -86,14 +86,10 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
-<<<<<<< HEAD
-											<a
-												href="${ctx }/question/findone?questionId=${question.questionId}"
+											< <a
+												href="${ctx }/question/findone?questionId=${question.questionId}
+											&userInfoId=${loginUser.loginUserId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
-=======
-											<a href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}" data-toggle="tooltip"
-												title="${question.questionTitle}">
->>>>>>> 7f90002f6aa9db6dfe892c686f2719d6b3427083
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
 											</a>
@@ -278,38 +274,37 @@
 
 	$(document).ready(
 	//1.页面加载之后，找到文本框的内容对它触发一个事件
-	$("#s").keyup(function() {		
-			//2.获取到文本框的内容,注意去空格
-			//alert("按了一个键");
-			var title = $("#s").val();
-			//3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
-				"title" : title
-			}, function(data) {
-				if (title == "") {
+	$("#s").keyup(function() {
+		//2.获取到文本框的内容,注意去空格
+		//alert("按了一个键");
+		var title = $("#s").val();
+		//3.获取到输入的内容之后，就要通过ajax传给后台
+		$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
+			"title" : title
+		}, function(data) {
+			if (title == "") {
+				$("#dtitles").hide();
+			} else {
+				//显示展示div,把它清空
+				$("#dtitles").show().html("");
+				if (data == "") {
 					$("#dtitles").hide();
 				} else {
-					//显示展示div,把它清空
-					$("#dtitles").show().html("");
-					if (data == "") {
-						$("#dtitles").hide();
-					} else {
-						$("#dtitles").append(data);
-						//4.鼠标移上去之后，加一个背景
-						$("li").hover(function() {
-							//alert("鼠标移上去");
-							$(this).addClass("li1");
-						}, function() {
-							$(this).removeClass("li1");
-						});
-						// 点击后显示在框里
-						$("li").click(function() {
-							$("#s").val($(this).text());
-						});
-					}
+					$("#dtitles").append(data);
+					//4.鼠标移上去之后，加一个背景
+					$("li").hover(function() {
+						//alert("鼠标移上去");
+						$(this).addClass("li1");
+					}, function() {
+						$(this).removeClass("li1");
+					});
+					// 点击后显示在框里
+					$("li").click(function() {
+						$("#s").val($(this).text());
+					});
 				}
-			});
-		}
-	));
+			}
+		});
+	}));
 </script>
 </html>
