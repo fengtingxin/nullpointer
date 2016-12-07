@@ -60,7 +60,9 @@
 				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
 				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
 				<div>
-					<ul id="dtitles"></ul>
+					<ul id="dtitles">
+
+					</ul>
 				</div>
 				<div id="search-error-container"></div>
 			</form>
@@ -85,7 +87,7 @@
 									<li class="article-entry standard">
 										<h4>
 											<a
-												href="${ctx }/question/findone?questionId=${question.questionId}&userInfoId=${loginUser.loginUserId}"
+												href="${ctx }/question/findone?questionId=${question.questionId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
@@ -117,8 +119,7 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a
-												href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
+											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
 												${fn:substring(bug.bugTitle, 0, 50)} <c:if
 													test="${fn:length(bug.bugTitle)>50}">...</c:if>
@@ -269,48 +270,14 @@
 	window.open = "${ctx}/index";
 
 	// 搜索框js @author Ray
-	$(document).ready($("#s").keydown(function(event) {
-		//  按空格建或者enter键 触发查询事件
-		if (event.keyCode == 32 || event.keyCode == 13) {
-			//2.获取到文本框的内容,注意去空格
-			alert("按下空格");
-			var title = $.trim($("#s").val());
-			//3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("${ctx}/bug/findBugByValue", {
-				"title" : title
-			}, function(data) {
-
-				if (title == "") {
-					$("#dtitles").hide();
-				} else {
-					//显示展示div,把它清空
-					$("#dtitles").show().html("");
-					if (data == "") {
-						$("#dtitles").hide();
-					} else {
-						$("#dtitles").append(data);
-						//4.鼠标移上去之后，加一个背景
-						$("li").hover(function() {
-							//alert("鼠标移上去");
-							$(this).addClass("li1");
-						}, function() {
-							$(this).removeClass("li1");
-						});
-					}
-				}
-			});
-		}
-	}))
 	$(document).ready(
 	//1.页面加载之后，找到文本框的内容对它触发一个事件
 	$("#s").keyup(function() {
 		//2.获取到文本框的内容,注意去空格
-		//alert("按完");
-		var title = $.trim($("#s").val());
-		title = encodeURI(encodeURI(title));
-		console.log(title);
+		//alert("按了一个键");
+		var title = $("#s").val();
 		//3.获取到输入的内容之后，就要通过ajax传给后台
-		$.post("${ctx}/bug/findBugByValue", {
+		$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
 			"title" : title
 		}, function(data) {
 			if (title == "") {
@@ -325,14 +292,17 @@
 					//4.鼠标移上去之后，加一个背景
 					$("li").hover(function() {
 						//alert("鼠标移上去");
-
 						$(this).addClass("li1");
 					}, function() {
 						$(this).removeClass("li1");
 					});
+					// 点击后显示在框里
+					$("li").click(function() {
+						$("#s").val($(this).text());
+					});
 				}
 			}
 		});
-	}))
+	}));
 </script>
 </html>

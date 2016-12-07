@@ -42,7 +42,7 @@
 		<div class="search-area container"
 			style="background-color: white; padding: 30px 80px 30px 60px">
 			<form class="form-horizontal"
-				action="${ctx}/question/questionRelease">
+				action="${ctx}/question/questionRelease" method="post">
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">标题</label>
 					<div class="col-md-6 col-sm-10">
@@ -143,7 +143,7 @@
 	<script type='text/javascript' src='${ctx}/js/jquery-1.8.3.min.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.easing.1.3.js'></script>
 	<script type='text/javascript'
-		src='js/prettyphoto/jquery.prettyPhoto.js'></script>
+		src='${ctx}/js/prettyphoto/jquery.prettyPhoto.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jflickrfeed.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.liveSearch.js'></script>
 	<script type='text/javascript' src='${ctx}/js/jquery.form.js'></script>

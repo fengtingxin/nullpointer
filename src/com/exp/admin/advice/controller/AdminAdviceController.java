@@ -67,6 +67,8 @@ public class AdminAdviceController {
 			//若是空，则跳转到建议的列表页
 			return "redirect:/admin/advice";
 		}
+		advice.setVisable(true);
+		this.adviceServiceImpl.updateAdvice(advice);
 		request.setAttribute("oneAdvice", advice);
 		return "admin/advice_detail";
 	}

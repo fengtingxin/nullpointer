@@ -278,7 +278,7 @@
 		
 																<td>
 																	<a href="bug/${oneBug.bugId }">${fn:substring(oneBug.bugTitle , 0, 10)} <c:if
-													test="${fn:length(oneBug.bugTitle )>10}">...</c:if></a>
+													test="${fn:length(oneBug.bugTitle )>15}">...</c:if></a>
 																</td>
 																<td><fmt:formatDate	value="${oneBug.bugPublishTime}" pattern="yyyy-MM-dd" /></td>
 																<td class="hidden-480">${oneBug.bugLikeNum }</td>

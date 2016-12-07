@@ -246,7 +246,7 @@
 													${fn:substring(oneAdvice.adviceTheme, 0, 10)} <c:if
 													test="${fn:length(oneAdvice.adviceTheme)>10}">...</c:if>
 												</a></td>
-												<td><fmt:formatDate	value="${oneAdvice.adviceTime}" pattern="yyyy-MM-dd" /></td>
+												<td><fmt:formatDate	value="${oneAdvice.adviceTime}" pattern="yyyy-MM-dd HH:mm" /></td>
 	
 												<td class="hidden-480"><span
 													class="label label-sm label-warning">${oneAdvice.visable}</span></td>

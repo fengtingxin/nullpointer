@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.entity.Bug;
-import com.exp.entity.TbGoods;
+
 import com.exp.product.service.ProductServiceImpl;
 
 @Controller

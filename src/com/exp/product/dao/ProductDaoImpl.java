@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.ReflectionUtils;
 
 import com.exp.entity.Bug;
-import com.exp.entity.TbGoods;
 import com.framework.BaseDao;
 
 @Repository
@@ -46,7 +45,7 @@ public class ProductDaoImpl extends BaseDao<Bug, String> {
 					.onFields("bugTitle", "bugDescribe", "bugReason").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
-			// 上面是搜索功能的代码，下面是结果集关键字高亮的实现代码
+			// 集关键字高亮的实现代码
 			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font color='red'>", "</font>");
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
