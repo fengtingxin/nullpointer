@@ -18,10 +18,9 @@
 <title>nullpointer</title>
 <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
 <!-- Style Sheet-->
-
+<link rel="stylesheet" type="text/css" href="${ctx}/css/searchKuang.css">
 <link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui.lite.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/searchKuang.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui-theme.css">
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
@@ -56,9 +55,10 @@
 				action="#" autocomplete="off" novalidate="novalidate">
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
-					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
+					style="height: 43px;" /><a><img id="clear" alt="清除按钮"
+					src="${ctx}/images/cuohao.jpg"></a>
+				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
 				<div>
 					<ul id="dtitles">
 
@@ -86,8 +86,9 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/question/findone?questionId=${question.questionId}" data-toggle="tooltip"
-												title="${question.questionTitle}">
+											<a
+												href="${ctx }/question/findone?questionId=${question.questionId}"
+												data-toggle="tooltip" title="${question.questionTitle}">
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
 											</a>
@@ -120,8 +121,8 @@
 										<h4>
 											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
-												${fn:substring(bug.bugTitle, 0, 50)}
-												 <c:if test="${fn:length(bug.bugTitle)>50}">...</c:if>
+												${fn:substring(bug.bugTitle, 0, 50)} <c:if
+													test="${fn:length(bug.bugTitle)>50}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"> <fmt:formatDate
 												value="${bug.bugPublishTime}" pattern="yyyy-MM-dd" /> <c:set
@@ -162,7 +163,7 @@
 					<div class="tagcloud">
 						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/bug-list-admin.jsp&tagName = ${tt.tagName}"
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:forEach>
 					</div>
@@ -267,41 +268,69 @@
 <script type="text/javascript">
 	$('[data-toggle="tooltip"]').tooltip();
 	window.open = "${ctx}/index";
-	// 搜索框js @author Ray
 
+	// 搜索框js @author Ray
+	//修改
+	// 显示搜索内容
+	$(document).ready(
+			$("#s").keypress(function(e){
+				if(e.keyCode==13||e.keyCode==32){
+					var title = $("#s").val();
+					//3.获取到输入的内容之后，就要通过ajax传给后台
+					$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
+						"title" : title
+					}, function(data) {
+						if (title == "") {
+							$("#dtitles").hide();
+						} else {
+							//显示展示div,把它清空
+							$("#dtitles").show().html("");
+							if (data == "") {
+								$("#dtitles").hide();
+							} else {
+								$("#dtitles").append(data);
+								//4.鼠标移上去之后，加一个背景
+								$("li").hover(function() {
+									//alert("鼠标移上去");
+									$(this).addClass("li1");
+								}, function() {
+									$(this).removeClass("li1");
+								});
+								// 点击后显示在框里
+								$("li").click(function() {
+									$("#s").val($(this).text());
+									$("#dtitles").hide();
+									if($("#s").val()!=""||$("#s").val()==null){
+										$("#clear").show();
+									}
+								});
+							}
+						}
+					});
+					
+				}
+			})
+	
+	);
+	
+
+
+	// 搜索框js @author Ray
+	//修改 红叉
 	$(document).ready(
 	//1.页面加载之后，找到文本框的内容对它触发一个事件
 	$("#s").keyup(function() {
-		//2.获取到文本框的内容,注意去空格
-		//alert("按了一个键");
-		var title = $("#s").val();
-		//3.获取到输入的内容之后，就要通过ajax传给后台
-		$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
-			"title" : title
-		}, function(data) {
-			if (title == "") {
-				$("#dtitles").hide();
-			} else {
-				//显示展示div,把它清空
-				$("#dtitles").show().html("");
-				if (data == "") {
-					$("#dtitles").hide();
-				} else {
-					$("#dtitles").append(data);
-					//4.鼠标移上去之后，加一个背景
-					$("li").hover(function() {
-						//alert("鼠标移上去");
-						$(this).addClass("li1");
-					}, function() {
-						$(this).removeClass("li1");
-					});
-					// 点击后显示在框里
-					$("li").click(function() {
-						$("#s").val($(this).text());
-					});
-				}
-			}
-		});
+		if($("#s").val()!=""||$("#s").val()!=null){
+			$("#clear").show();
+		}
+		if($("#s").val()==""||$("#s").val()==null){
+			$("#clear").hide();
+			$("#dtitles").hide();
+		}
+		$("#clear").click(function(){
+			$("#s").val("");
+			$("#clear").hide();  
+		})
 	}));
 </script>
 </html>

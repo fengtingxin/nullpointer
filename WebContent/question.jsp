@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -41,33 +40,40 @@
 		style="padding-top: 30px; background-color: #f3f3f3; padding-bottom: 30px;">
 		<div class="search-area container"
 			style="background-color: white; padding: 30px 80px 30px 60px">
-			<form class="form-horizontal">
+			<form class="form-horizontal"
+				action="${ctx}/question/questionRelease" method="post">
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">标题</label>
 					<div class="col-md-6 col-sm-10">
 						<input type="text" class="form-control" id="exampleInputAccount4"
-							placeholder="问题标题">
+							placeholder="问题标题" name="questionTitle">
 					</div>
 				</div>
+				<c:set var="tagList" value="${sessionScope.tagList}"></c:set>
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">类别选择</label>
 					<div class="col-md-6">
 						<select data-placeholder="选择问题类型..."
-							class="chosen-select form-control" tabindex="-1" multiple="">
-							<option value="strawberries">JAVA</option>
-							<option value="apple">C++</option>
-							<option value="orange">hibernate</option>
-							<option value="cherry">C语言</option>
-							<option value="banana">html</option>
-							<option value="figs">php</option>
+							class="chosen-select form-control" tabindex="-1" multiple=""
+							name="questionTag">
+							<c:forEach var="tag" items="${tagList}">
+								<option value="${tag.tagName}">${tag.tagName}</option>
+							</c:forEach>
 						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputAccount4" class="col-sm-2">问题描述</label>
+					<div class="col-md-6 col-sm-10">
+						<input type="text" class="form-control" id="exampleInputAccount4"
+							placeholder="问题描述..." name="questionDescribe">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">详细内容</label>
 					<div class="col-md-8 col-sm-10">
-						<textarea id="content" name="content"
-							class="form-control kindeditor" style="height: 300px;"></textarea>
+						<textarea id="content" class="form-control kindeditor"
+							style="height: 300px;" name="questionDetailed"></textarea>
 					</div>
 				</div>
 
@@ -77,7 +83,7 @@
 					</div>
 				</div>
 
-				<form>
+			</form>
 		</div>
 	</div>
 	<!-- end of #footer -->
@@ -109,12 +115,28 @@
 			</div>
 		</div>
 	</div>
-	<!-- End of Footer Bottom -->
-
-	</footer>
-	<!-- End of Footer -->
 
 	<a href="#top" id="scroll-top"></a>
+	<!-- 提示内容 -->
+	<c:set var="message" value="${requestScope.warning}"></c:set>
+	<script type='text/javascript'>
+		window.onload = function() {
+			var message = "${message}";
+			if (message != "" && message != "No" && message.length != 0) {
+				new $.zui.Messager('${message}', {
+					icon : 'warning-sign',
+					type : 'warning' // 定义颜色主题
+				}).show();
+			}
+			if (message == "No") {
+				//发表成功
+				new $.zui.Messager('发表成功', {
+					icon : 'ok-sign',
+					type : 'success' // 定义颜色主题
+				}).show();
+			}
+		}
+	</script>
 
 	<!-- script -->
 	<script type='text/javascript' src='${ctx}/js/jquery-1.8.3.min.js'></script>
@@ -141,8 +163,9 @@
 	<script src="${ctx}/js/kindeditor/kindeditor.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			var ctx = "http://localhost:8080/nullpointer";
 			KindEditor.create('textarea.kindeditor', {
-				basePath : 'js/kindeditor/',
+				basePath : ctx + '/js/kindeditor/',
 				allowFileManager : true,
 				bodyClass : 'article-content'
 			});

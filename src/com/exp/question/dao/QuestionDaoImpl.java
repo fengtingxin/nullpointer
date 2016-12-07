@@ -95,8 +95,9 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 
 	/**
 	 * @author zhang zhao lin
-	 * @param currentPageNum 当前页
-	 * @param pageSize 
+	 * @param currentPageNum
+	 *            当前页
+	 * @param pageSize
 	 * @return 查询尚未解决的问题
 	 */
 	public Page<Question> findQuestion_noOne(Integer currentPageNum, Integer pageSize) {
@@ -110,15 +111,16 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 		}
 		return page;
 	}
+
 	/**
 	 * @function 根据question的id查询单个Question
 	 * @author tangwenru
 	 * @param questionId
 	 * @return
 	 */
-	public Question getQuestion(int questionId){
+	public Question getQuestion(int questionId) {
 		try {
-			Question question=this.get(questionId);
+			Question question = this.get(questionId);
 			return question;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -126,26 +128,39 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 			return null;
 		}
 	}
+
 	/**
-	 *测试搜索框下面内容
-	 *@author Ray_1
+	 * 测试搜索框下面内容
+	 * 
+	 * @author Ray_1
 	 */
-//	public TestSearch(){
-//		
-//	}
+	// public TestSearch(){
+	//
+	// }
 	/**
 	 * @function 更新问题
 	 * @author tangwenru
 	 * @param q
 	 */
-	public void updateQuestion(Question q){
+	public void updateQuestion(Question q) {
 		try {
 			this.update(q);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
+	/**
+	 * 
+	 */
+	public void saveQuestion(Question q) {
+		try {
+			this.save(q);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

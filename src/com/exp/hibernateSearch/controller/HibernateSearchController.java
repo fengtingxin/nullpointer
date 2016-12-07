@@ -26,11 +26,20 @@ public class HibernateSearchController {
 	@Resource
 	private HibernateSearchServiceImpl hibernateSearchServiceImpl;
 
+	/**
+	 * @author Ray_1
+	 * @功能 搜索下拉框，查询bug或者question，显示4条，不分页。
+	 * @param search
+	 * @param request
+	 * @param model
+	 * @param response
+	 * @param session
+	 */
 	@RequestMapping(value = "/findBugAndQuestionByValue", method = RequestMethod.POST)
 	public void searchAll(@RequestParam(name = "title", defaultValue = "") String search, HttpServletRequest request,
 			Model model, HttpServletResponse response, HttpSession session) {
 		System.out.println("searchParam为" + search);
-		search = EncodingTool.encodeStr(search);
+		//search = EncodingTool.encodeStr(search);
 		if (search == "" || search.length() == 0) {
 			return;
 		}
@@ -46,12 +55,12 @@ public class HibernateSearchController {
 		bugs = hibernateSearchServiceImpl.searchBug(search);
 		List<Question> questions = null;
 		questions = hibernateSearchServiceImpl.searchQuestion(search);
-		
+
 		// 打印
 		if (bugs != null)
-			System.out.println("BUG"+bugs);
+			System.out.println("BUG" + bugs);
 		if (questions != null)
-			System.out.println("Question"+questions);
+			System.out.println("Question" + questions);
 		// System.out.println("list长度为" + bugs.size());
 
 		if (bugs == null && questions == null) {
@@ -82,7 +91,6 @@ public class HibernateSearchController {
 							sb.append("<li><a>" + bugtitle + "</a></li>");
 						}
 					}
-
 					for (Question question : questions) {
 						String questiontitle = question.getQuestionTitle();
 						System.out.println(questiontitle);
@@ -110,7 +118,7 @@ public class HibernateSearchController {
 							}
 						}
 					}
-					if (questions.size() > 4 || bugs.size() > 4) {
+					if (bugs.size() > 4) {
 						for (int i = 0; i < 4; i++) {
 							if (bugs.get(i).getBugTitle().length() >= 120) {
 								sb.append("<li><a>" + bugs.get(i).getBugTitle().substring(0, 120) + "</a></li>");

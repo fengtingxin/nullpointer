@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,12 +67,10 @@ public class LoginUserController {
 			String result = this.userServiceImpl.register(loginUser);
 			if (result == "0") {
 				// 这里是迫不得已才改成的自动跳转，本来想的是自动关闭页面，但是由于google浏览器的限制，没有实现该功能！
-				String content = "<h4> <small>本页面将于10秒内自动跳转到登录！<a href='../login.jsp'>立即跳转</a></small></h4>";
 				String welcome = "您的注册邮箱为：" + email + ",注册奖励&nbsp;<b>10</b>&nbsp;荣誉值，已经存入您的账户，快去邮箱激活账户吧！";
 				session.setAttribute("regiserWelcome", welcome);
 				session.setAttribute("registerTitle", "注册成功");
 				session.setAttribute("registerEmail", email);
-				session.setAttribute("registerContent", content);
 				return result;
 			}
 			return result;
@@ -137,5 +137,5 @@ public class LoginUserController {
 		}
 		return result;
 	}
-    
+
 }
