@@ -86,8 +86,9 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
-											<a href="${ctx }/question/findone?questionId=${question.questionId}" data-toggle="tooltip"
-												title="${question.questionTitle}">
+											<a
+												href="${ctx }/question/findone?questionId=${question.questionId}"
+												data-toggle="tooltip" title="${question.questionTitle}">
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
 											</a>
@@ -120,8 +121,8 @@
 										<h4>
 											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
-												${fn:substring(bug.bugTitle, 0, 50)}
-												 <c:if test="${fn:length(bug.bugTitle)>50}">...</c:if>
+												${fn:substring(bug.bugTitle, 0, 50)} <c:if
+													test="${fn:length(bug.bugTitle)>50}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"> <fmt:formatDate
 												value="${bug.bugPublishTime}" pattern="yyyy-MM-dd" /> <c:set
@@ -162,7 +163,7 @@
 					<div class="tagcloud">
 						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/bug-list-admin.jsp&tagName = ${tt.tagName}"
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:forEach>
 					</div>
@@ -267,8 +268,8 @@
 <script type="text/javascript">
 	$('[data-toggle="tooltip"]').tooltip();
 	window.open = "${ctx}/index";
-	// 搜索框js @author Ray
 
+	// 搜索框js @author Ray
 	$(document).ready(
 	//1.页面加载之后，找到文本框的内容对它触发一个事件
 	$("#s").keyup(function() {

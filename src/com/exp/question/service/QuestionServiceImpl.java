@@ -20,7 +20,7 @@ import com.framework.Page;
 public class QuestionServiceImpl {
 
 	@Resource
-	private QuestionDaoImpl questionDaoImpl;//将questiondaoimpl改成questionDaoImpl
+	private QuestionDaoImpl questionDaoImpl;// 将questiondaoimpl改成questionDaoImpl
 
 	/**
 	 * @author Ray_1 功能 按时间将用户的所有问题查询出来
@@ -68,24 +68,35 @@ public class QuestionServiceImpl {
 	public Page<Question> findQuestion_noOne(Integer currentPageNum, Integer pageSize) {
 		return questionDaoImpl.findQuestion_noOne(currentPageNum, pageSize);
 	}
+
 	/**
 	 * @function 通过qustion的id获取单个Question
 	 * @author tangwenru
 	 * @param questionId
 	 * @return
 	 */
-	public Question getQuestion(Integer questionId){
+	public Question getQuestion(Integer questionId) {
 		return this.questionDaoImpl.getQuestion(questionId);
-		
+
 	}
+
 	/**
 	 * @function 更新问题
 	 * @author tangwenru
 	 * @param q
 	 */
-	@Transactional(readOnly=false)
-	public void updateQuestion(Question q){
+	@Transactional(readOnly = false)
+	public void updateQuestion(Question q) {
 		this.questionDaoImpl.updateQuestion(q);
-		
+
+	}
+
+	/**
+	 * 
+	 * 
+	 */
+	@Transactional(readOnly = false)
+	public void saveQuestion(Question q) {
+		this.questionDaoImpl.saveQuestion(q);
 	}
 }
