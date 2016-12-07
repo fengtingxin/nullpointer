@@ -143,6 +143,14 @@ function login(validate, remeberUser) {
 				$('.loading').hide();
 				if (data == "0") {
 					// 登录成功
+					if(url.indexOf("registerSure")>=0){
+						console.log(url.substring(0, url.indexOf("registerSure")));
+						url=url.substring(0, url.indexOf("registerSure"));
+					}
+					if(url.indexOf("activeLoginUser")>=0){
+						console.log(url.substring(0, url.indexOf("loginUser/activeLoginUser")));
+						url=url.substring(0, url.indexOf("loginUser/activeLoginUser"));
+					}
 					window.location.href = url;
 				}else if(data=="-1"){
 					//验证码错误

@@ -304,8 +304,14 @@ xmlhttp.send();
 					<c:if test="${ct.parentComment == null }">
 						<div class="comment">
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
-							<a href="###" class="avatar"> <i
-								class="icon-camera-retro icon-2x"></i>
+							<a href="###" class="avatar"> 
+								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+														class="img-circle" />
+												</c:if> <c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
+														width="40px" height="40px" class="img-circle" />
+												</c:if>
 							</a>
 							<div class="content">
 								<div class="pull-right text-muted">
@@ -318,6 +324,8 @@ xmlhttp.send();
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
 									<a href="javascript:focusAndChangeStatus(${ct.commentId })">回复</a>
+									<a class="" href="##"><i  class="icon icon-thumbs-o-up thumbs">赞</i></a>
+									<a href="##"><i class="icon icon-thumbs-o-down thumbs">踩</i></a>
 								</div>
 							</div>
 
@@ -328,8 +336,14 @@ xmlhttp.send();
 									<c:if
 										test="${cts.parentComment != null && cts.parentComment.commentId == parentId}">
 										<div class="comment">
-											<a href="###" class="avatar"> <i
-												class="icon-user icon-2x"></i>
+											<a href="###" class="avatar"> 
+												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+														class="img-circle" />
+												</c:if> <c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
+														width="40px" height="40px" class="img-circle" />
+												</c:if>
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
@@ -360,9 +374,18 @@ xmlhttp.send();
 					</c:if>
 				</c:forEach> </section>
 				<footer>
-
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
+					<a href="###" class="avatar">
+						<c:if test="${loginUser==null}">
+									<img src="${ctx}/imgUp/default.jpg" width="35px" height="35px"
+										class="img-circle" />
+								</c:if> <c:if test="${loginUser!=null}">
+
+									<img
+										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+										width="40px" height="40px" class="img-circle" />
+								</c:if>
+					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">

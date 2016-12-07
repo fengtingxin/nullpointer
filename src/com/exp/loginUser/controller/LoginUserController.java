@@ -88,7 +88,7 @@ public class LoginUserController {
 	 * @author fengtingxin
 	 */
 	@RequestMapping(value = "activeLoginUser", method = RequestMethod.GET)
-	public String activeLoginUser(@RequestParam(name = "loginName") String loginName, HttpSession session) {
+	public String activeLoginUser(@RequestParam(name = "loginName") String loginName, HttpSession session,HttpServletRequest request) {
 		loginName = EncodingTool.encodeStr(loginName);
 		LoginUser loginUser = this.userServiceImpl.findByName(loginName);
 		if (loginUser == null) {
@@ -99,7 +99,7 @@ public class LoginUserController {
 		userInfo.setUserInfoHeadPortrait("default.jpg"); // 设置用户的默认头像
 		loginUser.setUserInfo(userInfo);
 		this.userServiceImpl.updateLoginUser(loginUser); // 更新
-		String content = "<h4> <small>本页面将于10秒内自动跳转到登录！<a href='http://localhost:8080/nullpointer/login.jsp'>立即跳转</a></small></h4>";
+		String content = "<h4> <small>本页面将于10秒内自动跳转到登录！<a href='"+request.getContextPath()+"/login.jsp'>立即跳转</a></small></h4>";
 		session.setAttribute("regiserWelcome",
 				"您的注册邮箱为:" + loginUser.getLoginEmail() + ",恭喜您激活成功，快去体验nullpointer的美好吧！");
 		session.setAttribute("registerTitle", "激活成功");
