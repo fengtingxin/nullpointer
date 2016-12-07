@@ -1,22 +1,24 @@
 a:hover {
 	cursor: pointer;
 }
-ul li a{
-	color:#000;
+
+ul li a {
+	color: #000;
 }
+
 #dtitles  li {
 	padding-top: 10px;
 	height: 40px;
 	list-style: none;
 	padding-left: 15px;
-	padding-bottom:15px;
+	padding-bottom: 15px;
 }
 
 #dtitles {
-	background:#fff;
+	background: #fff;
 	width: 835px;
 	max-height: 160px;
-	min-height:40px;
+	min-height: 40px;
 	border: solid 1px #CCCCCC;
 	display: none;
 	font-size: 16px;
@@ -25,3 +27,27 @@ ul li a{
 .li1 {
 	background: #F0F0F0;
 }
+
+#clear{
+	position: absolute;
+	margin-left:-40px;
+	margin-top:10px;
+	display:none;
+	cursor:pointer;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
