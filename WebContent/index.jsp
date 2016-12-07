@@ -86,9 +86,8 @@
 								<c:forEach var="question" items="${questionHonorList}">
 									<li class="article-entry standard">
 										<h4>
-											< <a
-												href="${ctx }/question/findone?questionId=${question.questionId}
-											&userInfoId=${loginUser.loginUserId}"
+											<a
+												href="${ctx }/question/findone?questionId=${question.questionId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
 												${fn:substring(question.questionTitle,0,50)} <c:if
 													test="${fn:length(question.questionTitle) >50}">...</c:if>
@@ -120,8 +119,7 @@
 								<c:forEach items="${bugHonorList}" var="bug">
 									<li class="article-entry standard">
 										<h4>
-											<a
-												href="${ctx }/bug/findone?bugId=${bug.bugId}&userInfoId=${loginUser.loginUserId}"
+											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
 												${fn:substring(bug.bugTitle, 0, 50)} <c:if
 													test="${fn:length(bug.bugTitle)>50}">...</c:if>
@@ -165,7 +163,7 @@
 					<div class="tagcloud">
 						<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 						<c:forEach var="tt" items="${tag}">
-							<a href="${ctx}/bug-list-admin.jsp&tagName = ${tt.tagName}"
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:forEach>
 					</div>
@@ -316,6 +314,9 @@
 	);
 	
 
+
+	// 搜索框js @author Ray
+	//修改 红叉
 	$(document).ready(
 	//1.页面加载之后，找到文本框的内容对它触发一个事件
 	$("#s").keyup(function() {
@@ -330,9 +331,6 @@
 			$("#s").val("");
 			$("#clear").hide();  
 		})
-		
-		
-		
 	}));
 </script>
 </html>

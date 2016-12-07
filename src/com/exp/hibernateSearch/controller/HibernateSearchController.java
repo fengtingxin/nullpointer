@@ -39,7 +39,7 @@ public class HibernateSearchController {
 	public void searchAll(@RequestParam(name = "title", defaultValue = "") String search, HttpServletRequest request,
 			Model model, HttpServletResponse response, HttpSession session) {
 		System.out.println("searchParam为" + search);
-		search = EncodingTool.encodeStr(search);
+		//search = EncodingTool.encodeStr(search);
 		if (search == "" || search.length() == 0) {
 			return;
 		}

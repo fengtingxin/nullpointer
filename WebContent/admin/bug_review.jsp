@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>所有用户  --nullpointer</title>
+<title>查看未审核的bug --nullpointer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- basic styles -->
@@ -22,6 +22,7 @@
 <!-- 网站logo缩略图 -->
 <link rel="shortcut icon" href="${ctx }/images/favicon.png" />
 <link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
+<!-- 条件 -->
 <c:if test="${empty loginUser }">
 		<%
 			response.sendRedirect("login.jsp");
@@ -79,7 +80,6 @@
 
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-						
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 
@@ -93,7 +93,6 @@
 							</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								
 								<li>
 									<a href="${ctx }/admin/logOut">
 										<i class="icon-off"></i>
@@ -146,8 +145,9 @@
 								<span class="menu-text"> 用户建议 </span>
 							</a>
 						</li>
-						<li>
-							<a href="#" class="dropdown-toggle">
+
+						<li class="active open">
+							<a href="" class="dropdown-toggle">
 								<i class="icon-edit"></i>
 								<span class="menu-text"> bug管理 </span>
 
@@ -156,13 +156,13 @@
 
 							<ul class="submenu">
 								<li>
-									<a href="${ctx }/admin/bug">
+									<a href="${ctx }/admin/bug" class="active">
 										<i class="icon-double-angle-right"></i>
 										查询bug
 									</a>
 								</li>
 
-								<li>
+								<li class="active">
 									<a href="${ctx }/admin/bug_review">
 										<i class="icon-double-angle-right"></i>
 										bug审核
@@ -177,7 +177,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="active open">
+						<li>
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-list"></i>
 								<span class="menu-text"> 用户管理 </span>
@@ -186,7 +186,7 @@
 							</a>
 
 							<ul class="submenu">
-								<li class="active">
+								<li>
 									<a href="${ctx }/admin/users">
 										<i class="icon-double-angle-right"></i>
 										用户详情
@@ -214,14 +214,15 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="icon-home home-icon"></i>
-								<a href="${ctx }/admin/advice">首页</a>
+								<a href="${ctx }/admin/advice.jsp">首页</a>
 							</li>
 
 							<li>
-								<a href="${ctx }/admin/users">用户管理</a>
+								<a href="">bug管理</a>
 							</li>
 							
 						</ul><!-- .breadcrumb -->
+
 					</div>
 
 					<div class="page-content">
@@ -229,11 +230,12 @@
 
 								<!--<div class="hr hr-18 dotted hr-double"></div>-->
 
+
 								<div class="row">
 									<div class="col-xs-12">
-										<h3 class="header smaller lighter blue">用户详情</h3>
+										<h3 class="header smaller lighter blue">bug管理</h3>
 										<div class="table-header">
-											结果来自用户表
+											结果来自bug表
 										</div>
 
 										<div class="table-responsive">
@@ -246,69 +248,87 @@
 																<span class="lbl"></span>
 															</label>
 														</th>
-														<th>用户名</th>
-														<th>用户邮箱</th>
-														<th class="hidden-480">荣誉值</th>
+														<th>标题</th>
+														<th>发布时间</th>
+														<th class="hidden-480">bug描述</th>
 
 														<th>
 															<i class="icon-time bigger-110 hidden-480"></i>
-															用户注册时间
+															bug原因
 														</th>
-														<th class="hidden-480">是否激活</th>
+														<th class="hidden-480">bug标签</th>
 
 														<th></th>
 													</tr>
 												</thead>
 
 												<tbody>
-												<c:if test="${empty allUsers }">
+												<c:if test="${empty allBugNoAudit }">
 													<tr>暂无</tr>
 												</c:if>
-												<c:if test="${not empty allUsers }">
-													<c:forEach items="${allUsers }" var="oneUser">
-														<tr>
-															<td class="center">
-															<label> 
-															<input	type="checkbox" class="ace" /> <span class="lbl"></span>
-															</label>
-															</td>
-															<td><a href="user/${oneUser.loginUserId }">${oneUser.loginName }</a> </td>
-															<td>${oneUser.loginEmail }</td>
-															<td class="hidden-480">
-																${oneUser.userInfo.userInfoHonorCount }
-															</td>
-															<td><fmt:formatDate	value="${oneUser.userInfo.userInfoRegistTime}" pattern="yyyy-MM-dd HH:mm" /></td>
-				
-															<td class="hidden-480"><span
-																class="label label-sm label-warning">${oneUser.loginActive}</span></td>
-				
-															<td>
-																<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-																	<a class="blue" href="user/${oneUser.loginUserId }"> <i
-																		class="icon-zoom-in bigger-130"></i>
-																	</a> 
-																</div>
-				
-																<div class="visible-xs visible-sm hidden-md hidden-lg">
-																	<div class="inline position-relative">
-																		<button class="btn btn-minier btn-yellow dropdown-toggle"
-																			data-toggle="dropdown">
-																			<i class="icon-caret-down icon-only bigger-120"></i>
-																		</button>
-				
-																		<ul	class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-																			<li><a href="user/${oneUser.loginUserId }" class="tooltip-info"
-																				data-rel="tooltip" title="View"> <span class="blue">
-																						<i class="icon-zoom-in bigger-120"></i>
-																				</span>
-																			</a></li>
-																		</ul>
+												<c:if test="${not empty allBugNoAudit }">
+													<c:forEach items="${allBugNoAudit }" var="oneBug">
+															<tr>
+																<td class="center">
+																	<label>
+																		<input type="checkbox" class="ace" />
+																		<span class="lbl"></span>
+																	</label>
+																</td>
+																<td>
+																	<a href="${ctx }/admin/bugReview/${oneBug.bugId }">${fn:substring(oneBug.bugTitle , 0, 10)} <c:if
+													test="${fn:length(oneBug.bugTitle )>10}">...</c:if></a>
+																</td>
+																<td><fmt:formatDate	value="${oneBug.bugPublishTime}" pattern="yyyy-MM-dd HH:mm" /></td>
+																<td class="hidden-480">${fn:substring(oneBug.bugDescribe , 0, 10)} <c:if
+													test="${fn:length(oneBug.bugDescribe )>10}">...</c:if></td>
+																<td>${fn:substring(oneBug.bugReason , 0, 10)} <c:if
+													test="${fn:length(oneBug.bugReason )>10}">...</c:if></td>
+																<td class="hidden-480">
+																	<c:forEach var="tt" items="${oneBug.tags }" varStatus="i">
+																		<c:if test="${i.count%3==1 }">
+																			<span class="label label-sm label-success">${tt.tagName }</span>
+																			<br/>
+																		</c:if>
+																		<c:if test="${i.count%3==2 }">
+																			<span class="label label-sm label-warning">${tt.tagName }</span>
+																			<br/>
+																		</c:if>
+																		<c:if test="${i.count%3==0}">
+																			<span class="label label-sm label-info">${tt.tagName }</span>
+																			<br/>
+																		</c:if>
+												
+																	</c:forEach>
+																</td>
+																<td>
+																	<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+																		<a class="blue" href="${ctx }/admin/bugReview/${oneBug.bugId }">
+																			<i class="icon-zoom-in bigger-130"></i>
+																		</a>
 																	</div>
-																</div>
-															</td>
-														</tr>
-													</c:forEach>
-												</c:if>
+		
+																	<div class="visible-xs visible-sm hidden-md hidden-lg">
+																		<div class="inline position-relative">
+																			<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+																				<i class="icon-caret-down icon-only bigger-120"></i>
+																			</button>
+		
+																			<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+																				<li>
+																					<a href="${ctx }/admin/bugReview/${oneBug.bugId }" class="tooltip-info" data-rel="tooltip" title="View">
+																						<span class="blue">
+																							<i class="icon-zoom-in bigger-120"></i>
+																						</span>
+																					</a>
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																</td>
+															</tr>
+														</c:forEach>
+													</c:if>
 												</tbody>
 											</table>
 										</div>
@@ -334,20 +354,19 @@
 									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
 								</select>
 							</div>
-							<span>&nbsp; Choose Skin</span>
+							<span>&nbsp; 选择皮肤</span>
 						</div>
 
-
+						
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
-							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+							<label class="lbl" for="ace-settings-rtl"> 右向左 (rtl)</label>
 						</div>
 
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
 							<label class="lbl" for="ace-settings-add-container">
-								Inside
-								<b>.container</b>
+								中间位置 <b>.包含</b>
 							</label>
 						</div>
 					</div>

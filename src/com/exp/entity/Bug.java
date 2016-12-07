@@ -43,7 +43,11 @@ public class Bug {
 	private Integer bugHateNum;// bug被踩数量
 	private Integer bugPageviews;// bug浏览量
 	private UserInfo userInfo;// bug对应的用户
-	private Bug_Like bug_likes; // 一个bug对应一个bug_like类 -- 统计有多少赞和有哪些人点赞
+	private boolean bugAudited; //bug是否被审核
+	private boolean bugAuditPass; //bug审核是否通过      
+	//逻辑为：bugAudited为false,bugAuditPass为false，未被审核
+	//bugAudited为true,bugAuditPass为false，审核未通过
+	//bugAudited为true,bugAuditPass为true，审核通过
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	private Set<Tag> tags = new HashSet<Tag>(0);
 	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
@@ -159,15 +163,6 @@ public class Bug {
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
-
-	@OneToOne(targetEntity = Bug_Like.class, mappedBy = "bug")
-	public Bug_Like getBug_likes() {
-		return bug_likes;
-	}
-
-	public void setBug_likes(Bug_Like bug_likes) {
-		this.bug_likes = bug_likes;
-	}
 	/**
 	 * @author tangwenru
 	 * @return
@@ -180,6 +175,22 @@ public class Bug {
 	public void setBugLikeRecords(Set<BugLikeRecord> bugLikeRecords) {
 		this.bugLikeRecords = bugLikeRecords;
 	}
-	
 
+	public boolean isBugAudited() {
+		return bugAudited;
+	}
+
+	public void setBugAudited(boolean bugAudited) {
+		this.bugAudited = bugAudited;
+	}
+
+	public boolean isBugAuditPass() {
+		return bugAuditPass;
+	}
+
+	public void setBugAuditPass(boolean bugAuditPass) {
+		this.bugAuditPass = bugAuditPass;
+	}
+	
+	
 }
