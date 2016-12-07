@@ -3,6 +3,7 @@ package com.exp.question.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ import com.exp.entity.Answer;
 import com.exp.entity.Question;
 import com.exp.entity.QuestionHateRecord;
 import com.exp.entity.QuestionLikeRecord;
+import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
@@ -135,6 +137,23 @@ public class QuestionController {
 		question.setQuestionDetailed(questionDetailed);
 		question.setQuestionPublishTime(questionPublishTime);
 		this.questionServiceImpl.saveQuestion(question);
+		//增加社区属性
+		Set<Tag> tagss=question.getTags();
+		Iterator<Tag> iterator=tagss.iterator();
+		while(iterator.hasNext()){
+			Tag tag=iterator.next();
+			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+				R_Tag_UserInfo r=new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			}else{
+				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+				r.setTagNumber(r.getTagNumber()+1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
 		request.setAttribute("warning", "No");
 		return "question";
 	}
@@ -302,6 +321,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping(value = "like", method = RequestMethod.POST)
+	@ResponseBody
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
