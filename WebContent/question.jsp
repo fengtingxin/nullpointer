@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -125,14 +124,14 @@
 			var message = "${message}";
 			if (message != "" && message != "No" && message.length != 0) {
 				new $.zui.Messager('${message}', {
-					icon: 'warning-sign',
+					icon : 'warning-sign',
 					type : 'warning' // 定义颜色主题
 				}).show();
 			}
-			if(message =="No"){
+			if (message == "No") {
 				//发表成功
 				new $.zui.Messager('发表成功', {
-					icon: 'ok-sign',
+					icon : 'ok-sign',
 					type : 'success' // 定义颜色主题
 				}).show();
 			}
