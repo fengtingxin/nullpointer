@@ -2,9 +2,11 @@ package com.exp.question.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
+import com.exp.entity.Bug;
 import com.exp.entity.Question;
 import com.exp.entity.QuestionHateRecord;
 import com.exp.entity.QuestionLikeRecord;
@@ -142,20 +145,21 @@ public class QuestionController {
 		question.setQuestionDetailed(questionDetailed);
 		question.setQuestionPublishTime(questionPublishTime);
 		this.questionServiceImpl.saveQuestion(question);
-		//增加社区属性
-		Set<Tag> tagss=question.getTags();
-		Iterator<Tag> iterator=tagss.iterator();
-		while(iterator.hasNext()){
-			Tag tag=iterator.next();
-			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
-				R_Tag_UserInfo r=new R_Tag_UserInfo();
+		// 增加社区属性
+		Set<Tag> tagss = question.getTags();
+		Iterator<Tag> iterator = tagss.iterator();
+		while (iterator.hasNext()) {
+			Tag tag = iterator.next();
+			if (this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId()) == null) {
+				R_Tag_UserInfo r = new R_Tag_UserInfo();
 				r.setUserInfo(loginUser.getUserInfo());
 				r.setTag(tag);
 				r.setTagNumber(1);
 				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
-			}else{
-				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
-				r.setTagNumber(r.getTagNumber()+1);
+			} else {
+				R_Tag_UserInfo r = this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(),
+						tag.getTagId());
+				r.setTagNumber(r.getTagNumber() + 1);
 				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
 			}
 		}
@@ -181,7 +185,7 @@ public class QuestionController {
 		// 如果没有用户信息，需要进行登陆
 		if (loginUser == null) {
 			try {
-				response.sendRedirect("login.jsp");
+				response.sendRedirect("http://localhost:8080/nullpointer/login.jsp");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -202,10 +206,36 @@ public class QuestionController {
 	 */
 	@RequestMapping("list_new")
 	public String questionList_theNew(@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
-			HttpSession session) {
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_new";
+		}
 		page = questionServiceImpl.findQuestion_theNew(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
+		session.setAttribute("tagList", tagList);
 		return "q_a_list_new";
 	}
 
@@ -217,8 +247,34 @@ public class QuestionController {
 	 */
 	@RequestMapping("list_answer")
 	public String questionList_theMostAnswerCount(
-			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum, HttpSession session) {
+			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_answer";
+		}
 		page = questionServiceImpl.findQuestion_theMostAnswerCount(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
 		return "q_a_list_answer";
@@ -226,8 +282,34 @@ public class QuestionController {
 
 	@RequestMapping("list_noone")
 	public String questionList_noOneAnswer(
-			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum, HttpSession session) {
+			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_noOne";
+		}
 		page = questionServiceImpl.findQuestion_noOne(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
 		return "q_a_list_noOne";
@@ -339,7 +421,7 @@ public class QuestionController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "like",method=RequestMethod.POST)
+	@RequestMapping(value = "like", method = RequestMethod.POST)
 	@ResponseBody
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");

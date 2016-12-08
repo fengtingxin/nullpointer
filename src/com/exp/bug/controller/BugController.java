@@ -141,6 +141,12 @@ public class BugController {
 		Page<Bug> page = new Page<Bug>();
 		Tag tag = null;
 		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// 获取tag属性 -- ID
 		if (!tagName.equals("")) {
 			tag = this.tagServiceImpl.getOneTagByName(tagName);
@@ -182,13 +188,39 @@ public class BugController {
 	 */
 	@RequestMapping(value = "listuser", method = RequestMethod.GET)
 	public String listUser(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-			@RequestParam(name = "searchParam", defaultValue = "") String searchParam, HttpServletRequest request,
+			@RequestParam(name = "searchParam", defaultValue = "") String searchParam,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpServletRequest request,
 			HttpSession session) {
-		Page<Bug> page;
+		Page<Bug> page = new Page<Bug>();
+		Tag tag = null;
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Bug> hashset = tag.getBugs();
+			List<Bug> bugList = new ArrayList<Bug>(0);
+			Iterator<Bug> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(pageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("userBugNum", hashset.size());
+			session.setAttribute("page", page);
+			return "bug-list-user";
+		}
 		page = this.bugServiceImpl.listUserBug(pageNum, 8, null);
 		request.setAttribute("userBugNum", this.bugServiceImpl.getUserBugNum());
 		request.setAttribute("page", page);
-		List<Tag> tagList = tagServiceImpl.findAllTag();
 		session.setAttribute("tagList", tagList);
 		return "bug-list-user";
 
@@ -574,23 +606,24 @@ public class BugController {
 			// TODO: handle exception
 			return "1";
 		}
-		//增加社区属性
-				Set<Tag> tagss=bug.getTags();
-				Iterator<Tag> iterator=tagss.iterator();
-				while(iterator.hasNext()){
-					Tag tag=iterator.next();
-					if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
-						R_Tag_UserInfo r=new R_Tag_UserInfo();
-						r.setUserInfo(loginUser.getUserInfo());
-						r.setTag(tag);
-						r.setTagNumber(1);
-						this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
-					}else{
-						R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
-						r.setTagNumber(r.getTagNumber()+1);
-						this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
-					}
-				}
+		// 增加社区属性
+		Set<Tag> tagss = bug.getTags();
+		Iterator<Tag> iterator = tagss.iterator();
+		while (iterator.hasNext()) {
+			Tag tag = iterator.next();
+			if (this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId()) == null) {
+				R_Tag_UserInfo r = new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			} else {
+				R_Tag_UserInfo r = this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(),
+						tag.getTagId());
+				r.setTagNumber(r.getTagNumber() + 1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
+		}
 		return "ok";
 	}
 }
