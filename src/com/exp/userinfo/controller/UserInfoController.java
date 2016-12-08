@@ -29,10 +29,12 @@ import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.R_Tag_UserInfo;
+import com.exp.entity.SignInRecord;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
 import com.exp.entity.ZuiData;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.signInRecord.service.SignInRecordServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 
@@ -49,6 +51,8 @@ public class UserInfoController {
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private TagServiceImpl tagServiceImpl;
+	@Resource
+	private SignInRecordServiceImpl signInRecordServiceImpl;
 
 	/**
 	 * @zhangzhaolin
@@ -106,6 +110,10 @@ public class UserInfoController {
 			session.setAttribute("userInfo_tags", jsonObject);
 			// 等一下再打印
 			System.out.println(jsonObject);
+			SignInRecord temp = this.signInRecordServiceImpl.findSignInRecord(loginUser.getLoginUserId());
+			if(temp!=null){
+			request.setAttribute("signDay", temp.getSignNumber().intValue());
+			}
 			return "home";
 		} else {
 			return "login";

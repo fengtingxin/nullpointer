@@ -70,28 +70,35 @@
 						<p>这家伙很懒 什么都没有留下</p>
 					</c:if>
 					<p>${loginUser.userInfo.userInfoDescribe}</p>
+					<a href="${ctx }/sign"><button onclick="getDay()" class="btn btn-sm btn-success" type="button"><i class="icon icon-edit"></i>&nbsp;签到
+					<c:if test="${empty signDay}">
+					：0天
+					</c:if>
+					<c:if test="${not empty signDay}">
+					：${signDay }天
+					</c:if>
+					</button></a>
 				</div>
-
 				<div class="col-md-12">
 					<nav class="menu" data-toggle="menu"
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li class="active"><a href="${ctx }/home.jsp"><i
+						<li class="active"><a href="${ctx }/home"><i
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
 						<li><a
-							href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/question/findQuestionByTime"><i
 								class="icon icon-question-sign"></i> 我的问题</a></li>
 						<li><a
-							href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/answer/findAnswerByTime"><i
 								class="icon icon-reply"></i> 我的回答</a></li>
 						<li><a
-							href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/comment/findCommentByTime"><i
 								class="icon icon-comments"></i> 我的评论</a></li>
 						<li><a
-							href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/share/shareByTime"><i
 								class="icon icon-share"></i> 我的分享</a></li>
 					</ul>
 					</nav>
@@ -315,7 +322,7 @@
 						//console.log(userInfoTag_data);
 						if (userInfoTag_data.length == 0) {
 							userInfoTag_data = [ {
-								lable : "暂无",
+								label: "暂无数据，默认为",
 								value : 1,
 								color : '#E5E5E5'
 							} ];

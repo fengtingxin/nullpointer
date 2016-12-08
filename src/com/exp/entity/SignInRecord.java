@@ -3,14 +3,30 @@ package com.exp.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name="sign_up_record")
+@Entity
+@Table(name="sign_in_record")
 public class SignInRecord {
+	private Integer signId;
 	private UserInfo userInfo;
 	private Date lastTime;
 	private Integer signNumber;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getSignId() {
+		return signId;
+	}
+	public void setSignId(Integer signId) {
+		this.signId = signId;
+	}
+	@OneToOne  
+	@JoinColumn(name="userInfoId",insertable=true,unique=true)  
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}

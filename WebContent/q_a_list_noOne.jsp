@@ -150,7 +150,7 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
+						<a href="${ctx}/question/list_noone?tagName = ${tt.tagName}"
 							class="btn btn-primary">${tt.tagName}</a>
 					</c:forEach>
 				</div>

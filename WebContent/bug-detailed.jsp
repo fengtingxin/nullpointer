@@ -102,11 +102,6 @@ xmlhttp.send();
 						</c:if>
 
 					</c:forEach>
-					<!-- <span
-						class="label label-warning">网页设计</span> <span
-						class="label label-info">W3C</span> <span
-						class="label label-danger"><i class="icon-eye-open"></i>
-						235</span> -->
 				</dd>
 			</dl>
 			<section class="abstract">
@@ -218,11 +213,9 @@ xmlhttp.send();
 					if(data == "likeOk"){ //成功点赞
 						$('#likeOutSide').addClass("haveen");
 						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())+1);
-						console.log($("#bugLikeNumber").html());
 					}else if(data=="cancelLike"){
 						$('#likeOutSide').removeClass("haveen");
 						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())-1);
-						console.log($("#bugLikeNumber").html());
 					}else if(data=="not ok"){
 						new $.zui.Messager('还没有登录哦！', {
 							icon : 'bell', //定义图标
@@ -258,11 +251,9 @@ xmlhttp.send();
 					if(data == "hateOk"){ //成功点赞
 						$('#hateOutSide').addClass("haveen");
 						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())+1);
-						console.log($("#bugHateNumber").html());
 					}else if(data=="cancelHate"){
 						$('#hateOutSide').removeClass("haveen");
 						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())-1);
-						console.log($("#bugHateNumber").html());
 					}else if(data=="not ok"){
 						new $.zui.Messager('还没有登录哦！', {
 							icon : 'bell', //定义图标
@@ -270,7 +261,7 @@ xmlhttp.send();
 							type : 'primary', // 定义颜色主题
 						}).show();
 					}else if(data == "onLike"){
-						new $.zui.Messager('取消踩后才可以赞哦！', {
+						new $.zui.Messager('取消赞后才可以踩哦！', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题
@@ -326,8 +317,6 @@ xmlhttp.send();
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
 									<a href="javascript:focusAndChangeStatus(${ct.commentId })">回复</a>
-									<a class="" href="##"><i  class="icon icon-thumbs-o-up thumbs">赞</i></a>
-									<a href="##"><i class="icon icon-thumbs-o-down thumbs">踩</i></a>
 								</div>
 							</div>
 
@@ -349,7 +338,6 @@ xmlhttp.send();
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
-
 													<fmt:formatDate value="${cts.commentPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -359,10 +347,8 @@ xmlhttp.send();
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
-													<c:if
-														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
-														<a
-															href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
+													<c:if test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
 													</c:if>
 
 												</div>

@@ -2,9 +2,11 @@ package com.exp.question.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -141,20 +143,24 @@ public class QuestionController {
 		question.setQuestionDetailed(questionDetailed);
 		question.setQuestionPublishTime(questionPublishTime);
 		this.questionServiceImpl.saveQuestion(question);
-		//增加社区属性
-		Set<Tag> tagss=question.getTags();
-		Iterator<Tag> iterator=tagss.iterator();
-		while(iterator.hasNext()){
-			Tag tag=iterator.next();
-			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
-				R_Tag_UserInfo r=new R_Tag_UserInfo();
+		//发布问题荣誉值加1
+		userInfo.setUserInfoHonorCount(userInfo.getUserInfoHonorCount()+1);
+		this.userInfoServiceImpl.updateUserInfo(userInfo);
+		// 增加社区属性
+		Set<Tag> tagss = question.getTags();
+		Iterator<Tag> iterator = tagss.iterator();
+		while (iterator.hasNext()) {
+			Tag tag = iterator.next();
+			if (this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId()) == null) {
+				R_Tag_UserInfo r = new R_Tag_UserInfo();
 				r.setUserInfo(loginUser.getUserInfo());
 				r.setTag(tag);
 				r.setTagNumber(1);
 				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
-			}else{
-				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
-				r.setTagNumber(r.getTagNumber()+1);
+			} else {
+				R_Tag_UserInfo r = this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(),
+						tag.getTagId());
+				r.setTagNumber(r.getTagNumber() + 1);
 				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
 			}
 		}
@@ -172,24 +178,26 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
-			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,
+	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request,
 			HttpServletResponse response) {
 		// 获取用户信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		// 如果没有用户信息，需要进行登陆
 		if (loginUser == null) {
 			try {
-				response.sendRedirect("login.jsp");
+				response.sendRedirect(request.getContextPath()+"/login.jsp");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 		Page<Question> page;
-		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userInfoId });
-		session.setAttribute("page", page);
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
+		if(page==null){
+			request.setAttribute("page", null);
+		}else{
+			request.setAttribute("page", page);
+		}
 		return "home-question";
 	}
 
@@ -201,10 +209,36 @@ public class QuestionController {
 	 */
 	@RequestMapping("list_new")
 	public String questionList_theNew(@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
-			HttpSession session) {
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_new";
+		}
 		page = questionServiceImpl.findQuestion_theNew(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
+		session.setAttribute("tagList", tagList);
 		return "q_a_list_new";
 	}
 
@@ -216,8 +250,34 @@ public class QuestionController {
 	 */
 	@RequestMapping("list_answer")
 	public String questionList_theMostAnswerCount(
-			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum, HttpSession session) {
+			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_answer";
+		}
 		page = questionServiceImpl.findQuestion_theMostAnswerCount(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
 		return "q_a_list_answer";
@@ -225,8 +285,34 @@ public class QuestionController {
 
 	@RequestMapping("list_noone")
 	public String questionList_noOneAnswer(
-			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum, HttpSession session) {
+			@RequestParam(name = "currentPageNum", defaultValue = "1") Integer currentPageNum,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpSession session) {
 		Page<Question> page = new Page<Question>();
+		Tag tag = new Tag();
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+			Set<Question> hashset = tag.getQuestions();
+			List<Question> bugList = new ArrayList<Question>(0);
+			Iterator<Question> it = hashset.iterator();
+			while (it.hasNext()) {
+				bugList.add(it.next());
+			}
+
+			page.setCurrentPageNum(currentPageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("questionPage", page);
+			return "q_a_list_noOne";
+		}
 		page = questionServiceImpl.findQuestion_noOne(currentPageNum, pageSize);
 		session.setAttribute("questionPage", page);
 		return "q_a_list_noOne";
@@ -244,6 +330,9 @@ public class QuestionController {
 			@RequestParam(name = "question_detailed_bell", required = false) String question_detailed_bell,
 			HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
+		if(question==null){
+			return "redirect:list_new"; //若是没有找到这个问题，跳转到问题列表页，防止产生内容为空
+		}
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;
 		if (loginUser == null) {
@@ -338,11 +427,13 @@ public class QuestionController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "like",method=RequestMethod.POST)
+	@RequestMapping(value = "like", method = RequestMethod.POST)
 	@ResponseBody
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Question question = this.questionServiceImpl.getQuestion(questionId);
+		//获取问题的作者
+		UserInfo author=question.getUserInfo();
 		// 判断用户是否登录
 		if (loginUser == null) {
 			return "not ok";
@@ -361,6 +452,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -373,6 +467,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -385,6 +482,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消赞，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 			}
@@ -403,6 +503,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -415,6 +518,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -427,6 +533,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 				return "likeOk";

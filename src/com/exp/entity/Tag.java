@@ -29,6 +29,7 @@ public class Tag implements java.io.Serializable {
 	private String tagName; // 标签名
 	private Set<Question> questions = new HashSet<Question>(0);
 	private Set<R_Tag_UserInfo> r_tag_userInfo = new HashSet<R_Tag_UserInfo>(0);
+	private Set<Bug> bugs = new HashSet<Bug>(0);
 
 	// get/set方法
 	@Id
@@ -66,6 +67,15 @@ public class Tag implements java.io.Serializable {
 
 	public void setR_tag_userInfo(Set<R_Tag_UserInfo> r_tag_userInfo) {
 		this.r_tag_userInfo = r_tag_userInfo;
+	}
+
+	@ManyToMany(mappedBy = "tags")
+	public Set<Bug> getBugs() {
+		return bugs;
+	}
+
+	public void setBugs(Set<Bug> bugs) {
+		this.bugs = bugs;
 	}
 
 }

@@ -20,7 +20,9 @@ import com.exp.bug.service.BugServiceImpl;
 import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Tag;
+import com.exp.entity.UserInfo;
 import com.exp.tag.service.TagServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 
 @Controller
 @RequestMapping("admin")
@@ -30,6 +32,8 @@ public class AdminBugController {
 	private BugServiceImpl bugServiceImpl;
 	@Resource
 	private TagServiceImpl tagServiceImpl;
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
 	
 	/**
 	 * 功能：
@@ -196,6 +200,10 @@ public class AdminBugController {
 			bug.setBugAudited(true);
 			bug.setBugAuditPass(true);
 			this.bugServiceImpl.updateBug(bug);
+			UserInfo author=bug.getUserInfo();
+			//分享bug审核通过，作者荣誉值+5
+			author.setUserInfoHonorCount(author.getUserInfoHonorCount()+5);
+			this.userInfoServiceImpl.updateUserInfo(author);
 			return "ok";
 		} catch (Exception e) {
 			// TODO: handle exception

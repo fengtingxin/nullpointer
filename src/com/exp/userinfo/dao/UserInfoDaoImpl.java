@@ -58,4 +58,5 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
 		u.setUserInfoHeadPortrait(url);
 		updateUserInfo(u);
 	}
+	
 }
