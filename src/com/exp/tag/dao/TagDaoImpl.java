@@ -15,6 +15,7 @@ public class TagDaoImpl extends BaseDao<Tag, String> {
 
 	/**
 	 * 查询所有标签信息
+	 * 
 	 * @zhangzhaolin
 	 * @return
 	 */
@@ -22,5 +23,19 @@ public class TagDaoImpl extends BaseDao<Tag, String> {
 		Session session = super.getSession();
 		Query query = session.createQuery("from Tag");
 		return query.list();
+	}
+
+	/**
+	 * 通过tag的名字来查找Tag
+	 * 
+	 * @author zhang zhao lin
+	 * @return
+	 */
+	public Tag findTagIdByTagName(String tagName) {
+		Session session = super.getSession();
+		Query query = session.createQuery("from Tag where tagName = ?");
+		query.setParameter(0, tagName);
+		Tag tag = (Tag) query.uniqueResult();
+		return tag;
 	}
 }

@@ -126,7 +126,7 @@ function login(validate, remeberUser) {
 		var md5 = new MD5();
 		var f = "......" == $("#password").val() ? "" : md5.MD5($("#password")
 				.val());
-		var url = document.getElementById('url').getAttribute('data');
+		var url = document.getElementById('url').getAttribute('data') + "";
 		console.log(url);
 		$.post({
 			url : "loginUser/login",
@@ -166,7 +166,7 @@ function login(validate, remeberUser) {
 					$(".login-error").show();
 					$(".login-error").html($.i18n.prop("您的网络有问题")); //正如大多数公司干的，如果是服务器遇到问题，就说是网络问题
 				}else if (data == "2") {
-					// 参数传递失败
+					// 参数传g递失败
 					$(".login-error").show();
 					$(".login-error").html($.i18n.prop("请刷新重写"));
 				} else if (data == "14") {
@@ -177,7 +177,7 @@ function login(validate, remeberUser) {
 				} else if (data =="19") {
 					// 登录失败[需要重新输入密码]
 					$(".login-error").show();
-					$(".login-error").html(
+					$(".loin-error").html(
 							$.i18n.prop("登录失败[密码错误]"));
 				} else if (data == "16") {
 					// 邮箱未激活
@@ -195,17 +195,6 @@ function login(validate, remeberUser) {
 }
 var Utils = function() {
 };
-
-// Utils.prototype.loadProperties = function(lang) {
-// jQuery.i18n.properties({// 加载资浏览器语言对应的资源文件
-// name : 'ApplicationResources',
-// language : lang,
-// path : 'resources/i18n/',
-// mode : 'map',
-// callback : function() {// 加载成功后设置显示内容
-// }
-// });
-// };
 
 Utils.prototype.getScriptArgs = function() {// 获取多个参数
 	var scripts = document.getElementsByTagName("script"),
@@ -238,22 +227,6 @@ RemeberUser.prototype.SetPwdAndChk = function() {
 	var usr = $("#email").val();
 	// 将最后一个用户信息写入到Cookie
 	this.SetLastUser(usr);
-	// 如果记住密码选项被选中
-	// var chk = $("#remeber").attr("checked");
-	// if(chk == "checked")
-	// {
-	// //取密码值
-	// var pwd = $("#password").val();
-	// var expdate = new Date();
-	// expdate.setTime(expdate.getTime() + 14 * (24 * 60 * 60 * 1000));
-	// //将用户名和密码写入到Cookie
-	// this.SetCookie(usr,pwd, expdate);
-	// }
-	// else
-	// {
-	// //如果没有选中记住密码,则立即过期
-	// this.ResetCookie();
-	// }
 };
 // 设置初始用户名
 RemeberUser.prototype.SetLastUser = function(usr) {
