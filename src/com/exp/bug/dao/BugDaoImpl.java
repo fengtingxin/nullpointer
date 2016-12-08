@@ -63,7 +63,7 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	 *            参数
 	 * @return
 	 */
-	public Page<Bug> findAdminBug(int pageNum, int pageSize, Object[] params) {
+	public Page<Bug> findAdminBug(int pageNum, int pageSize,Object[] params) {
 		String hql;
 		if(params!=null && params.length>0){
 			hql="from Bug b where b.bugAudited=true and bugAuditPass=true and b.bugTitle like ? and b.userInfo.loginUser.role.roleId=1 order by b.bugPublishTime desc,b.bugLikeNum desc,b.comments.size desc";
