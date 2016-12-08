@@ -29,7 +29,7 @@
 <body class="loginbody">
 <div class="dataEye">
     <div>
-         <img src="${ctx }/resources/images/logo_touming.gif" width="240px" height="60px" />
+         <a href="${ctx }/index"><img src="${ctx }/resources/images/logo_touming.gif" width="240px" height="60px" /></a>
     </div>
     <div class="loginbox registbox">
         <div id="bug-manager">

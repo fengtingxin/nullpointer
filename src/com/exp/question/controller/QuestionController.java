@@ -323,11 +323,12 @@ public class QuestionController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "like", method = RequestMethod.POST)
+
+	@RequestMapping(value = "like",method=RequestMethod.POST)
 	@ResponseBody
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
-		Question question = this.questionServiceImpl.getQuestion(questionId);
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
+		Question question = this.questionServiceImpl.getQuestion(questionId);
 		// 判断用户是否登录
 		if (loginUser == null) {
 			return "not ok";
@@ -441,7 +442,6 @@ public class QuestionController {
 		// 判断用户是否登录
 		if (loginUser == null) {
 			return "not ok";
-
 		} else {// 用户已登录
 			UserInfo userInfo = loginUser.getUserInfo();
 			Integer userInfoId = userInfo.getUserInfoId();
