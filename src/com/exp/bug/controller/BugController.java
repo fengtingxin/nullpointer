@@ -150,13 +150,16 @@ public class BugController {
 		// 获取tag属性 -- ID
 		if (!tagName.equals("")) {
 			tag = this.tagServiceImpl.getOneTagByName(tagName);
+
 			Set<Bug> hashset = tag.getBugs();
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				bugList.add(it.next());
+				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
+					bugList.add(it.next());
+				}
 			}
-
+			System.out.println(bugList.size());
 			page.setCurrentPageNum(pageNum);
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
@@ -194,6 +197,7 @@ public class BugController {
 		Page<Bug> page = new Page<Bug>();
 		Tag tag = null;
 		List<Tag> tagList = tagServiceImpl.findAllTag();
+		System.out.println("tagName:" + tagName);
 		try {
 			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
 		} catch (UnsupportedEncodingException e) {
@@ -202,13 +206,15 @@ public class BugController {
 		}
 		if (!tagName.equals("")) {
 			tag = this.tagServiceImpl.getOneTagByName(tagName);
+
 			Set<Bug> hashset = tag.getBugs();
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				bugList.add(it.next());
+				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
+					bugList.add(it.next());
+				}
 			}
-
 			page.setCurrentPageNum(pageNum);
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());

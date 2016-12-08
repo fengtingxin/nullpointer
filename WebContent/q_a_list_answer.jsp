@@ -38,7 +38,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 
 	<!--导航栏完成-->
 	<!--搜索框-->
@@ -103,14 +103,14 @@
 							<c:forEach begin="1" end="${questionPage.totalPageNum }"
 								var="pageNum">
 								<c:if test="${pageNum ==questionPage.currentPageNum }">
-								<li class="active"><a
-									href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li class="active"><a
+										href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
 								<c:if test="${pageNum !=questionPage.currentPageNum }">
-								<li><a
-									href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li><a
+										href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
-								
+
 							</c:forEach>
 							<li class="next"><a
 								href="${ctx}/question/list_answer?currentPageNum=${questionPage.nextPageNum}">»</a></li>
@@ -149,8 +149,15 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/question/list_answer?tagName=${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 
