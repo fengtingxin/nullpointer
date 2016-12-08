@@ -27,6 +27,11 @@
 	<!-- Start of Header -->
 	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
+	<c:if test="${empty loginUser}">
+		<%
+			response.sendRedirect("../login.jsp");
+		%>
+	</c:if>
 	<!-- End of Header -->
 	<div class="container" style="padding-top: 20px;">
 		<div class="col-md-3 column">
@@ -55,21 +60,21 @@
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li><a href="${ctx}/home.jsp"><i class="icon icon-home"></i>
+						<li><a href="${ctx}/home"><i class="icon icon-home"></i>
 								我的主页</a></li>
 						<li><a href="${ctx}/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
 						<li><a
-							href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/question/findQuestionByTime"><i
 								class="icon icon-question-sign"></i> 我的问题</a></li>
 						<li><a
-							href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/answer/findAnswerByTime"><i
 								class="icon icon-reply"></i> 我的回答</a></li>
 						<li><a
-							href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/comment/findCommentByTime"><i
 								class="icon icon-comments"></i> 我的评论</a></li>
 						<li class="active"><a
-							href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
+							href="${ctx }/share/shareByTime"><i
 								class="icon icon-share"></i> 我的分享</a></li>
 					</ul>
 					</nav>
@@ -89,6 +94,10 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我的分享</h2>
+				<c:if test="${empty pagesShare.list}">
+					<h4>暂时没有数据</h4>
+				</c:if>
+				<c:if test="${not empty pagesShare.list}">
 				<c:forEach items="${pagesShare.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
@@ -131,10 +140,9 @@
 					<li class="next"><a
 						href="${ctx}/share/shareByTime?pageNum=${pagesShare.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
 				</ul>
+				</c:if>
 			</div>
-
 		</div>
-
 	</div>
 
 

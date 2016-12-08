@@ -241,7 +241,7 @@
 							type : 'primary', // 定义颜色主题
 						}).show();
 					}else if(data == "onLike"){
-						new $.zui.Messager('取消踩后才可以赞哦！', {
+						new $.zui.Messager('取消赞后才可以踩哦！', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题
@@ -275,7 +275,7 @@
 							<c:set var="parentId" value="${ct.answerId }"></c:set>
 							<a href="###" class="avatar"> 
 								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px" class="img-circle" />
+									<img src="${ctx}/imgUp/default.jpg" width="35px" height="35px" class="img-circle" />
 								</c:if>
 								<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
 									<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="35px" height="35px" class="img-circle" />
@@ -343,7 +343,7 @@
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar">
 						<c:if test="${empty loginUser}">
-									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px" class="img-circle" />
+									<img src="${ctx}/imgUp/default.jpg" width="35px" height="35px" class="img-circle" />
 								</c:if>
 								<c:if test="${not empty loginUser}">
 									<img src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"	width="35px" height="35px" class="img-circle" />

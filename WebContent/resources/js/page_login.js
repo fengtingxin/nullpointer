@@ -151,6 +151,11 @@ function login(validate, remeberUser) {
 						console.log(url.substring(0, url.indexOf("loginUser/activeLoginUser")));
 						url=url.substring(0, url.indexOf("loginUser/activeLoginUser"));
 					}
+					if(url.indexOf("upload")>=0){
+						console.log(url.substring(0, url.indexOf("userimg/upload")));
+						url=url.substring(0, url.indexOf("userimg/upload"));
+						url=url+"/home";
+					}
 					window.location.href = url;
 				}else if(data=="-1"){
 					//验证码错误

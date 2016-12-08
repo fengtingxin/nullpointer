@@ -152,11 +152,15 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
-			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session) {
+	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,HttpServletRequest request,HttpSession session) {
+		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
 		Page<Question> page;
-		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userInfoId });
-		session.setAttribute("page", page);
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
+		if(page==null){
+			request.setAttribute("page", null);
+		}else{
+			request.setAttribute("page", page);
+		}
 		return "home-question";
 	}
 

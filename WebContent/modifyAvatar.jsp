@@ -2,10 +2,20 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<%
+	request.setCharacterEncoding("utf-8");
+%>
+<c:if test="${empty loginUser}">
+		<%
+			response.sendRedirect("../login.jsp");
+		%>
+</c:if>
 <html lang="en-gb" dir="ltr" class="uk-notouch"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- 网站缩略图 -->
+        <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
         <!-- 头像上传  -->
         <link href="css/main.css" rel="stylesheet" type="text/css" />
         <link href="css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
