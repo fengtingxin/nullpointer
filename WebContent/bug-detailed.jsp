@@ -102,11 +102,6 @@ xmlhttp.send();
 						</c:if>
 
 					</c:forEach>
-					<!-- <span
-						class="label label-warning">网页设计</span> <span
-						class="label label-info">W3C</span> <span
-						class="label label-danger"><i class="icon-eye-open"></i>
-						235</span> -->
 				</dd>
 			</dl>
 			<section class="abstract">
@@ -218,11 +213,9 @@ xmlhttp.send();
 					if(data == "likeOk"){ //成功点赞
 						$('#likeOutSide').addClass("haveen");
 						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())+1);
-						console.log($("#bugLikeNumber").html());
 					}else if(data=="cancelLike"){
 						$('#likeOutSide').removeClass("haveen");
 						$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())-1);
-						console.log($("#bugLikeNumber").html());
 					}else if(data=="not ok"){
 						new $.zui.Messager('还没有登录哦！', {
 							icon : 'bell', //定义图标
@@ -258,11 +251,9 @@ xmlhttp.send();
 					if(data == "hateOk"){ //成功点赞
 						$('#hateOutSide').addClass("haveen");
 						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())+1);
-						console.log($("#bugHateNumber").html());
 					}else if(data=="cancelHate"){
 						$('#hateOutSide').removeClass("haveen");
 						$("#bugHateNumber").html(parseInt($("#bugHateNumber").html())-1);
-						console.log($("#bugHateNumber").html());
 					}else if(data=="not ok"){
 						new $.zui.Messager('还没有登录哦！', {
 							icon : 'bell', //定义图标
@@ -270,7 +261,7 @@ xmlhttp.send();
 							type : 'primary', // 定义颜色主题
 						}).show();
 					}else if(data == "onLike"){
-						new $.zui.Messager('取消踩后才可以赞哦！', {
+						new $.zui.Messager('取消赞后才可以踩哦！', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题
@@ -304,8 +295,16 @@ xmlhttp.send();
 					<c:if test="${ct.parentComment == null }">
 						<div class="comment">
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
-							<a href="###" class="avatar"> <i
-								class="icon-camera-retro icon-2x"></i>
+							<a href="###" class="avatar"> 
+
+								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+														class="img-circle" />
+												</c:if> <c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
+														width="40px" height="40px" class="img-circle" />
+												</c:if>
+
 							</a>
 							<div class="content">
 								<div class="pull-right text-muted">
@@ -328,12 +327,17 @@ xmlhttp.send();
 									<c:if
 										test="${cts.parentComment != null && cts.parentComment.commentId == parentId}">
 										<div class="comment">
-											<a href="###" class="avatar"> <i
-												class="icon-user icon-2x"></i>
+											<a href="###" class="avatar"> 
+												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px"
+														class="img-circle" />
+												</c:if> <c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
+														width="40px" height="40px" class="img-circle" />
+												</c:if>
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
-
 													<fmt:formatDate value="${cts.commentPublishTime }"
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
@@ -343,10 +347,8 @@ xmlhttp.send();
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
-													<c:if
-														test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
-														<a
-															href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
+													<c:if test="${cts.userInfo.loginUser.loginUserId==loginUser.loginUserId}">
+														<a href="${ctx }/comment/delete?commentId=${cts.commentId}&bugId=${bug.bugId}">删除</a>
 													</c:if>
 
 												</div>
@@ -360,9 +362,19 @@ xmlhttp.send();
 					</c:if>
 				</c:forEach> </section>
 				<footer>
-
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
+					<a href="###" class="avatar"> 
+					<c:if test="${loginUser==null }">
+					<img
+										src="${ctx}/imgUp/default.jpg"
+										width="40px" height="40px" class="img-circle" />
+					</c:if>
+					<c:if test="${loginUser!=null }">
+					<img
+										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+										width="40px" height="40px" class="img-circle"/>
+					</c:if>
+</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">

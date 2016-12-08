@@ -80,17 +80,17 @@
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li><a href="${ctx }/home.jsp"><i
+						<li><a href="${ctx }/home"><i
 								class="icon icon-home"></i> 我的主页</a></li>
 						<li class="active"><a href="${ctx }/accountSetting.jsp"><i
 								class="icon-user"></i> 账号设置</a></li>
-						<li><a href="${ctx }/question/findQuestionByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a href="${ctx }/question/findQuestionByTime"><i
 								class="icon icon-question-sign"></i> 我的问题</a></li>
-						<li><a href="${ctx }/answer/findAnswerByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a href="${ctx }/answer/findAnswerByTime"><i
 								class="icon icon-reply"></i> 我的回答</a></li>
-						<li><a href="${ctx }/comment/findCommentByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a href="${ctx }/comment/findCommentByTime"><i
 								class="icon icon-comments"></i> 我的评论</a></li>
-						<li><a href="${ctx }/share/shareByTime?userInfoId=${loginUser.loginUserId}"><i
+						<li><a href="${ctx }/share/shareByTime"><i
 								class="icon icon-share"></i> 我的分享</a></li>
 					</ul>
 					</nav>

@@ -74,7 +74,18 @@ public class CommentServiceImpl {
 	 */
 	@Transactional(readOnly=false)
 	public void updateComment(Comment comment){
-		this.updateComment(comment);
+		try {
+			this.commentDaoImpl.update(comment);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			try {
+				this.commentDaoImpl.update(comment);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				System.out.println("update comment error ");
+				e1.printStackTrace();
+			}
+		}
 	}
 	/**
 	 * @function 根据commentId查询单个评论

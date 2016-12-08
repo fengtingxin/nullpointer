@@ -47,11 +47,14 @@ public class UploadAction {
 			@RequestParam("h") String h, @RequestParam("image_file") MultipartFile image_file, HttpSession session,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
+		if(loginUser==null){
+			return "redirect:index";
+		}
 		if (null == session.getAttribute("loginUser") || session.getAttribute("loginUser").equals("null")) {
 			request.getRequestDispatcher("loginUser/login").forward(request, response);
 		}
 		UserInfo userInfo = loginUser.getUserInfo();
-		String realpath = System.getProperty("b2cweb.root") + "\\imgUp";
+		String realpath = System.getProperty("b2cweb.root") + "imgUp";
 		System.out.println(realpath);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 		if (image_file.getOriginalFilename() != null) {
@@ -67,6 +70,8 @@ public class UploadAction {
 
 			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// L图片格式String，如png
 			savefile.getPath();
+			System.out.println("realPath:"+realpath);
+			System.out.println("fileName:"+filename);
 			new File(new File(realpath), filename).getPath();
 			ImageUtil.parseCutedImage(x1, y1, w, h, imageContentType, savefile.getPath(),
 					new File(new File(realpath), filename).getPath());
@@ -76,6 +81,7 @@ public class UploadAction {
 			userInfo.setUserInfoHeadPortrait(filename);
 			loginUser.setUserInfo(userInfo);
 			session.setAttribute("loginUser", loginUser);
+			this.userInfoServiceImpl.updateImgUrl(loginUser.getLoginUserId(), filename);
 		}
 		return "accountSetting";
 	}
@@ -87,7 +93,7 @@ public class UploadAction {
 	 * @return
 	 */
 	public String rename(MultipartFile f, String name) {
-		File f1 = new File(System.getProperty("b2cweb.root") + "\\imgUp\\" + name);
+		File f1 = new File(System.getProperty("b2cweb.root") + "imgUp\\" + name);
 		try {
 			f.transferTo(f1);
 		} catch (IllegalStateException e) {

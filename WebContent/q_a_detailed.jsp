@@ -87,7 +87,7 @@
 <input type="hidden" id="questionId" value="${question.questionId }" />
 			</section></header> <section class="content">
 			<h2>详细信息</h2>
-			<c:if test="${question.questionDetailed!=null }">${question.questionDetailed }</c:if>
+			${question.questionDetailed }
 			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
 			<div class="container" style="margin-top: 25px;">
 				<a href="javascript:void(0);" onclick="like()">
@@ -241,7 +241,7 @@
 							type : 'primary', // 定义颜色主题
 						}).show();
 					}else if(data == "onLike"){
-						new $.zui.Messager('取消踩后才可以赞哦！', {
+						new $.zui.Messager('取消赞后才可以踩哦！', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题
@@ -273,8 +273,15 @@
 					<c:if test="${ct.parentAnswer == null }">
 						<div class="comment">
 							<c:set var="parentId" value="${ct.answerId }"></c:set>
-							<a href="###" class="avatar"> <i
-								class="icon-camera-retro icon-2x"></i>
+
+							<a href="###" class="avatar"> 
+								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+									<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
+								</c:if>
+								<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+									<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
+								</c:if>
+
 							</a>
 							<div class="content">
 								<div class="pull-right text-muted">
@@ -298,8 +305,14 @@
 									<c:if
 										test="${cts.parentAnswer != null && cts.parentAnswer.answerId == parentId}">
 										<div class="comment">
-											<a href="###" class="avatar"> <i
-												class="icon-user icon-2x"></i>
+
+											<a href="###" class="avatar">
+												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
+												</c:if>
+												<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
+												</c:if>
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
@@ -331,7 +344,14 @@
 				</c:forEach> </section>
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
+					<a href="###" class="avatar">
+						<c:if test="${empty loginUser}">
+									<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
+								</c:if>
+								<c:if test="${not empty loginUser}">
+									<img src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
+								</c:if>
+					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/question/${question.questionId}">
 						<div class="form-group">
@@ -387,8 +407,8 @@
 			<div class="row">
 				<div class="col-md-6 column">
 					<p class="copyright">
-						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="旋风小组" target="_blank">EXP小组</a>
+						Copyright © 2016. All Rights Reserved by KnowledgeBase.Collect
+						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
 					</p>
 				</div>
 				<div class="col-md-6 column">

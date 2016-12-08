@@ -2,6 +2,7 @@ package com.exp.bug.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -63,7 +64,7 @@ public class BugController {
 	@Resource
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
-	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
+	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl;
 	/**
 	 * @author Ray_1功能：搜索下拉框
 	 * @param pageNum
@@ -77,8 +78,8 @@ public class BugController {
 	public void list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
 			@RequestParam(name = "title", defaultValue = "") String searchParam, HttpServletRequest request,
 			Model model, HttpServletResponse response) {
-		
-			System.out.println("searchParam为" + searchParam);
+
+		System.out.println("searchParam为" + searchParam);
 		try {
 			// 这里不设置编码会有乱码
 			response.setContentType("text/html;charset=utf-8");
@@ -98,22 +99,21 @@ public class BugController {
 		request.setAttribute("searchParam", searchParam);
 		try {
 			StringBuilder sb = new StringBuilder();
-			//System.out.println("触发controller");
+			// System.out.println("触发controller");
 			if (page != null) {
 				System.out.println("查询内容不为空");
-				
+
 				List<Bug> bugs = page.getList();
 				for (Bug bug : bugs) {
 					String bugtitle = bug.getBugTitle();
 					System.out.println(bugtitle);
-					if (bugtitle.length() > 100){
+					if (bugtitle.length() > 100) {
 						sb.append("<li class='showdetail'><a>" + bugtitle.substring(0, 100) + "</a></li>");
-						}
-					else{
+					} else {
 						sb.append("<li><a>" + bugtitle + "</a></li>");
 					}
 				}
-				
+
 				System.out.println(sb.toString());
 				response.getWriter().write(sb.toString());
 			}
@@ -126,6 +126,7 @@ public class BugController {
 	/**
 	 * @function 分页查询官方发布的bug,每页8个
 	 * @author tangwenru
+	 * @author zhang zhao lin 通过标签获取相应标签的bug
 	 * @param pageNum
 	 * @param searchParam
 	 * @param request
@@ -133,13 +134,46 @@ public class BugController {
 	 * @return
 	 */
 	@RequestMapping(value = "listadmin", method = RequestMethod.GET)
-	public String listAdmin(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request,
+	public String listAdmin(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpServletRequest request,
 			HttpSession session) {
-		Page<Bug> page;
+		Page<Bug> page = new Page<Bug>();
+		Tag tag = null;
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// 获取tag属性 -- ID
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+
+			Set<Bug> hashset = tag.getBugs();
+			List<Bug> bugList = new ArrayList<Bug>(0);
+			Iterator<Bug> it = hashset.iterator();
+			while (it.hasNext()) {
+				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
+					bugList.add(it.next());
+				}
+			}
+			System.out.println(bugList.size());
+			page.setCurrentPageNum(pageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("adminBugNum", hashset.size());
+			session.setAttribute("page", page);
+			return "bug-list-admin";
+		}
+
 		page = this.bugServiceImpl.listAdminBug(pageNum, 8, null);
+
 		session.setAttribute("adminBugNum", this.bugServiceImpl.getAdminBugNum());
 		session.setAttribute("page", page);
-		List<Tag> tagList = tagServiceImpl.findAllTag();
+
 		session.setAttribute("tagList", tagList);
 		return "bug-list-admin";
 
@@ -156,13 +190,42 @@ public class BugController {
 	 */
 	@RequestMapping(value = "listuser", method = RequestMethod.GET)
 	public String listUser(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-			@RequestParam(name = "searchParam", defaultValue = "") String searchParam, HttpServletRequest request,
+			@RequestParam(name = "searchParam", defaultValue = "") String searchParam,
+			@RequestParam(name = "tagName", defaultValue = "") String tagName, HttpServletRequest request,
 			HttpSession session) {
-		Page<Bug> page;
+		Page<Bug> page = new Page<Bug>();
+		Tag tag = null;
+		List<Tag> tagList = tagServiceImpl.findAllTag();
+		System.out.println("tagName:" + tagName);
+		try {
+			tagName = new String(tagName.getBytes("iso-8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!tagName.equals("")) {
+			tag = this.tagServiceImpl.getOneTagByName(tagName);
+
+			Set<Bug> hashset = tag.getBugs();
+			List<Bug> bugList = new ArrayList<Bug>(0);
+			Iterator<Bug> it = hashset.iterator();
+			while (it.hasNext()) {
+				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
+					bugList.add(it.next());
+				}
+			}
+			page.setCurrentPageNum(pageNum);
+			page.setPageSize(8);
+			page.setTotalCount(hashset.size());
+			page.setList(bugList);
+			session.setAttribute("tagList", tagList);
+			session.setAttribute("userBugNum", hashset.size());
+			session.setAttribute("page", page);
+			return "bug-list-user";
+		}
 		page = this.bugServiceImpl.listUserBug(pageNum, 8, null);
 		request.setAttribute("userBugNum", this.bugServiceImpl.getUserBugNum());
 		request.setAttribute("page", page);
-		List<Tag> tagList = tagServiceImpl.findAllTag();
 		session.setAttribute("tagList", tagList);
 		return "bug-list-user";
 
@@ -177,25 +240,25 @@ public class BugController {
 	 * @return bug-detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-
 	public String getBug(@RequestParam(name = "bugId") Integer bugId,
 			@RequestParam(name = "bug_detailed_bell", required = false) String bug_detailed_bell,
 			HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
+		if(bug==null){
+			return "redirect:listadmin"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到listadmin页面
+		}
 		LoginUser loginUser =(LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;
-		if(loginUser==null){
-			 userInfoId =null;
-		}else{
-			userInfoId =loginUser.getLoginUserId();
-		}
-		if (userInfoId != null & this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null) {
-			request.setAttribute("likeStatus",
-					this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
-		}
-		if (userInfoId != null & this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null) {
-			request.setAttribute("hateStatus",
-					this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+		if(loginUser !=null){
+			userInfoId=loginUser.getLoginUserId();
+			if(this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId)!=null){
+				request.setAttribute("likeStatus",
+						this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+			}
+			if(this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null){
+				request.setAttribute("hateStatus",
+						this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+			}
 		}
 		request.setAttribute("bug", bug);
 		if (bug_detailed_bell != null) {
@@ -260,26 +323,26 @@ public class BugController {
 			comment.setUserInfo(loginUser.getUserInfo());
 			this.commentServiceImpl.saveComment(comment);
 		}
-		//增加社区属性
-		Set<Tag> tags=bug.getTags();
-		Iterator<Tag> iterator=tags.iterator();
-		while(iterator.hasNext()){
-			Tag tag=iterator.next();
-			if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
-				R_Tag_UserInfo r=new R_Tag_UserInfo();
+		// 增加社区属性
+		Set<Tag> tags = bug.getTags();
+		Iterator<Tag> iterator = tags.iterator();
+		while (iterator.hasNext()) {
+			Tag tag = iterator.next();
+			if (this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId()) == null) {
+				R_Tag_UserInfo r = new R_Tag_UserInfo();
 				r.setUserInfo(loginUser.getUserInfo());
 				r.setTag(tag);
 				r.setTagNumber(1);
 				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
-			}else{
-				R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
-				r.setTagNumber(r.getTagNumber()+1);
+			} else {
+				R_Tag_UserInfo r = this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(),
+						tag.getTagId());
+				r.setTagNumber(r.getTagNumber() + 1);
 				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
 			}
 		}
-		return "redirect:findone?bugId=" + bugId+"&userInfoId="+loginUser.getLoginUserId();
+		return "redirect:findone?bugId=" + bugId + "&userInfoId=" + loginUser.getLoginUserId();
 	}
-
 
 	/**
 	 * @function 对bug进行点赞、取消赞
@@ -291,8 +354,7 @@ public class BugController {
 	 */
 	@RequestMapping(value = "like", method = RequestMethod.POST)
 	@ResponseBody
-	public String bugLike(
-			@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
+	public String bugLike(@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		// 判断用户是否登录
@@ -301,7 +363,7 @@ public class BugController {
 
 		} else {// 用户已登录
 			UserInfo userInfo = loginUser.getUserInfo();
-			Integer userInfoId=userInfo.getUserInfoId();
+			Integer userInfoId = userInfo.getUserInfoId();
 			if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) == null) {
 				// 未踩
 				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) == null) {
@@ -394,8 +456,7 @@ public class BugController {
 	 */
 	@RequestMapping(value = "hate", method = RequestMethod.POST)
 	@ResponseBody
-	public String bugHate(
-			@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
+	public String bugHate(@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		// 判断用户是否登录
@@ -404,7 +465,7 @@ public class BugController {
 
 		} else {// 用户已登录
 			UserInfo userInfo = loginUser.getUserInfo();
-			Integer userInfoId=userInfo.getUserInfoId();
+			Integer userInfoId = userInfo.getUserInfoId();
 			if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) == null) {
 				// 赞的记录为空
 				if (this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) == null) {
@@ -479,36 +540,33 @@ public class BugController {
 				}
 				return "hateOk";
 			} else {
-				//赞有效
+				// 赞有效
 				return "onLike";
 			}
 
 		}
 
 	}
+
 	/**
-	 * 功能：
-	 * 跳转到用户分享的列表页
+	 * 功能： 跳转到用户分享的列表页
+	 * 
 	 * @param request
 	 * @return
 	 * @author fengtingxin
 	 */
 	@RequestMapping(value = "bugShareByUser", method = RequestMethod.GET)
-	public String toBugUserShare(HttpServletRequest request){
+	public String toBugUserShare(HttpServletRequest request) {
 		List<Tag> tags = this.tagServiceImpl.findAllTag();
-		List<Question> questionList=this.questionServiceImpl.findQuestionRecommend().subList(0, 6);
+		List<Question> questionList = this.questionServiceImpl.findQuestionRecommend().subList(0, 6);
 		request.setAttribute("questionList", questionList);
 		request.setAttribute("tags", tags);
 		return "bug_user_share";
 	}
-	
+
 	/**
-	 * 功能：
-	 * 用户分享bug
-	 * 使用ajax提交，返回字符串
-	 * 1代表有错误
-	 * ok代表成功
-	 * not ok表示信息错误
+	 * 功能： 用户分享bug 使用ajax提交，返回字符串 1代表有错误 ok代表成功 not ok表示信息错误
+	 * 
 	 * @param bugTitle
 	 * @param bugReason
 	 * @param bugMethod
@@ -518,16 +576,18 @@ public class BugController {
 	 * @return
 	 * @author fengtingxin
 	 */
-	@RequestMapping(value = "bugShareByUser",method=RequestMethod.POST)
+	@RequestMapping(value = "bugShareByUser", method = RequestMethod.POST)
 	@ResponseBody
-	public String publishBugByUser(@RequestParam(name="bugTitle") String bugTitle,@RequestParam(name="bugReason") String bugReason,@RequestParam(name="bugMethod") String bugMethod,
-			@RequestParam(name="tags") String tags,@RequestParam(name="bugDescribe") String bugDescribe,HttpSession session ){
-		if(tags==null||bugTitle==null||bugReason==null||bugMethod==null||bugDescribe==null){
+	public String publishBugByUser(@RequestParam(name = "bugTitle") String bugTitle,
+			@RequestParam(name = "bugReason") String bugReason, @RequestParam(name = "bugMethod") String bugMethod,
+			@RequestParam(name = "tags") String tags, @RequestParam(name = "bugDescribe") String bugDescribe,
+			HttpSession session) {
+		if (tags == null || bugTitle == null || bugReason == null || bugMethod == null || bugDescribe == null) {
 			return "not ok";
 		}
-		
-		String [] tagArray= tags.split(",");  //将获取的tag分拆
-		Bug bug=new Bug();
+
+		String[] tagArray = tags.split(","); // 将获取的tag分拆
+		Bug bug = new Bug();
 		bug.setBugTitle(bugTitle);
 		bug.setBugDescribe(bugDescribe);
 		bug.setBugHateNum(0);
@@ -536,13 +596,13 @@ public class BugController {
 		bug.setBugPageviews(0);
 		bug.setBugAudited(false);
 		bug.setBugPublishTime(new Date());
-		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
+		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		bug.setUserInfo(loginUser.getUserInfo());
 		bug.setBugReason(bugReason);
-		Set<Tag> bugTags=new HashSet<Tag>();
-		
+		Set<Tag> bugTags = new HashSet<Tag>();
+
 		try {
-			for(int i=0;i<tagArray.length;i++){
+			for (int i = 0; i < tagArray.length; i++) {
 				bugTags.add(this.tagServiceImpl.getOneTagByName(tagArray[i]));
 			}
 			bug.setTags(bugTags);
@@ -550,6 +610,24 @@ public class BugController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			return "1";
+		}
+		// 增加社区属性
+		Set<Tag> tagss = bug.getTags();
+		Iterator<Tag> iterator = tagss.iterator();
+		while (iterator.hasNext()) {
+			Tag tag = iterator.next();
+			if (this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId()) == null) {
+				R_Tag_UserInfo r = new R_Tag_UserInfo();
+				r.setUserInfo(loginUser.getUserInfo());
+				r.setTag(tag);
+				r.setTagNumber(1);
+				this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+			} else {
+				R_Tag_UserInfo r = this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(),
+						tag.getTagId());
+				r.setTagNumber(r.getTagNumber() + 1);
+				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+			}
 		}
 		return "ok";
 	}
