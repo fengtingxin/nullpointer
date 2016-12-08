@@ -273,8 +273,13 @@
 					<c:if test="${ct.parentAnswer == null }">
 						<div class="comment">
 							<c:set var="parentId" value="${ct.answerId }"></c:set>
-							<a href="###" class="avatar"> <i
-								class="icon-camera-retro icon-2x"></i>
+							<a href="###" class="avatar"> 
+								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px" class="img-circle" />
+								</c:if>
+								<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+									<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="35px" height="35px" class="img-circle" />
+								</c:if>
 							</a>
 							<div class="content">
 								<div class="pull-right text-muted">
@@ -298,8 +303,13 @@
 									<c:if
 										test="${cts.parentAnswer != null && cts.parentAnswer.answerId == parentId}">
 										<div class="comment">
-											<a href="###" class="avatar"> <i
-												class="icon-user icon-2x"></i>
+											<a href="###" class="avatar">
+												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px" class="img-circle" />
+												</c:if>
+												<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
+													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="35px" height="35px" class="img-circle" />
+												</c:if>
 											</a>
 											<div class="content">
 												<div class="pull-right text-muted">
@@ -331,7 +341,14 @@
 				</c:forEach> </section>
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
+					<a href="###" class="avatar">
+						<c:if test="${empty loginUser}">
+									<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px" class="img-circle" />
+								</c:if>
+								<c:if test="${not empty loginUser}">
+									<img src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"	width="35px" height="35px" class="img-circle" />
+								</c:if>
+					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/question/${question.questionId}">
 						<div class="form-group">
