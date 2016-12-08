@@ -104,7 +104,10 @@ public class QuestionController {
 		String[] questionTags = null;
 
 		try {
+			questionTitle = new String(questionTitle.getBytes("iso-8859-1"), "utf-8");
 			questionTag = new String(questionTag.getBytes("iso-8859-1"), "utf-8");
+			questionDescribe = new String(questionDescribe.getBytes("iso-8859-1"), "utf-8");
+			questionDetailed = new String(questionDetailed.getBytes("iso-8859-1"), "utf-8");
 			questionTags = questionTag.split(",");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

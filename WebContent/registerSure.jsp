@@ -1,5 +1,5 @@
-<%@ page language="java"  import="java.util.*" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*"
+	contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page errorPage="error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
@@ -43,71 +43,21 @@
 <script type="text/javascript" language="javascript">
 	$(function() {
 		$().popover('show');
-		 window.setTimeout("CloseWebPage()",10000);
+		window.setTimeout("CloseWebPage()", 10000);
 	})
-	function CloseWebPage(){
-       console.log("wuwuwuuw");
-       quitBox('quit');
-     }
-	function quitBox(cmd) 
-	{   
-	    /*if (cmd=='quit')
-	    {
-	    	open(' ', '_self').close();
-	    }
-	    return false;*/
-		// ==UserScript==
-		// @name        window.close demo
-		// @include     http://YOUR_SERVER.COM/YOUR_PATH/*
-		// @grant       GM_addStyle
-		// ==/UserScript==
+	function CloseWebPage() {
+		console.log("wuwuwuuw");
+		quitBox('quit');
+	}
+	function quitBox(cmd) {
+
 		var win = window.open("${ctx}/login.jsp", "_self");
 		win.close();
 	}
 </script>
 </head>
 <body>
-	<nav class="navbar navbar-inverse" role="navigation"
-		style="margin-bottom: 0px;">
-	<div class="center-block">
-		<div class="container">
-			<!-- 导航头部 -->
-			<div class="navbar-header">
-				<!-- 移动设备上的导航切换按钮 -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse-example">
-					<span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<!-- 品牌名称或logo -->
-				<img src="${ctx }/images/logo.png" alt="nullpointer" width="200"
-					style="margin-top: 3px;">
-			</div>
-			<!-- 导航项目 -->
-			<div class="collapse navbar-collapse navbar-collapse-example">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="current-menu-item"><a href="index.html">主页</a></li>
-					<li><a href="bug-list-admin.html">BUGS</a></li>
-					<li><a href="q_a_list.html">技术问答</a></li>
-					<li><a href="contact.html">帮助</a></li>
-					<li><a href="login.html">登陆/注册</a></li>
-					<!-- 导航中的下拉菜单 -->
-					<li class="dropdown"><a href="your/nice/url"
-						class="dropdown-toggle" data-toggle="dropdown"><img
-							src="images/touxiang.jpg" width="20px" height="20px"
-							class="img-circle" /> <b class="caret"></b></a>
-						<ul class="dropdown-menu" role="menu" style="text-align: center;">
-							<li><a href="home.html">我的主页</a></li>
-							<li><a href="home-question.html">信息管理</a></li>
-							<li><a href="page.html">账号设置</a></li>
-							<li><a href="contact.html">建议反馈</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	</nav>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<div class="container">
 		<div class="row clearfix">
@@ -128,10 +78,12 @@
 					Welcome to nullpointer <small>You will love here!</small>
 				</h2>
 
-				<h3 class="popover-title">
-					${regiserWelcome }
-				</h3>
-				<div class="popover-content">${registerContent }</div>
+				<h3 class="popover-title">${regiserWelcome }</h3>
+				<div class="popover-content">
+					<h4>
+						<small>本页面将于10秒内自动跳转到登录！<a href='${ctx}/login.jsp'>立即跳转</a></small>
+					</h4>
+				</div>
 			</div>
 
 		</div>
@@ -144,31 +96,26 @@
 			<section class="abstract">
 			<p>
 				<strong>简介：</strong> <br /> 项目名称：nullpointer-bug管理系统
-				
 			<hr />
-					项目的提出方：EXP项目小组
-				  <hr />
-					项目目标：为程序员提供更好的学习和交流的平台
-					</p>
-			    </section>
-		  		</header>
-		   <blockquote>
-			<section class="abstract">
-		      <p>
-					<strong>项目成员简介：</strong>
-		      <br />
-		      	PM：冯廷鑫
-		      	
+			项目的提出方：EXP项目小组
+			<hr />
+			项目目标：为程序员提供更好的学习和交流的平台
+			</p>
+			</section> </header>
+			<blockquote>
+				<section class="abstract">
+				<p>
+					<strong>项目成员简介：</strong> <br /> PM：冯廷鑫
 				<hr />
-		      	产品经理：张肇霖
-		      	<hr />
-		      	用户体验、测试工程师：颜荣恩、汤文茹
-		      	<hr />
-		      	开发工程师：冯廷鑫、张肇霖、颜荣恩、汤文茹
+				产品经理：张肇霖
+				<hr />
+				用户体验、测试工程师：颜荣恩、汤文茹
+				<hr />
+				开发工程师：冯廷鑫、张肇霖、颜荣恩、汤文茹
 				</p>
-		    </section>
-		    </blockquote>
-		</article>
+				</section>
+			</blockquote>
+			</article>
 		</div>
 	</div>
 
@@ -205,7 +152,7 @@
 
 </body>
 <!-- script -->
-				<script src="${ctx }/js/jquery.min.js"></script>
+<script src="${ctx }/js/jquery.min.js"></script>
 <script src="${ctx }/assets/jquery.js"></script>
 <script src="${ctx }/assets/less/less.min.js"></script>
 

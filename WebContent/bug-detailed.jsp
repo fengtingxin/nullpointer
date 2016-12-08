@@ -306,7 +306,7 @@ xmlhttp.send();
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
 							<a href="###" class="avatar"> 
 									<img
-										src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
+										src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}" class="img-circle"
 										width="40px" height="40px"/>
 							</a>
 							<div class="content">
@@ -332,7 +332,7 @@ xmlhttp.send();
 										<div class="comment">
 											<a href="###" class="avatar"> 
 									<img
-										src="${ctx}/imgUp/${cts.userInfo.userInfoHeadPortrait}"
+										src="${ctx}/imgUp/${cts.userInfo.userInfoHeadPortrait}" class="img-circle"
 										width="40px" height="40px" />
 								
 											</a>
@@ -367,9 +367,18 @@ xmlhttp.send();
 				<footer>
 
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"> <img
+					<a href="###" class="avatar"> 
+					<c:if test="${loginUser==null }">
+					<img
+										src="${ctx}/imgUp/default.jpg"
+										width="40px" height="40px" class="img-circle" />
+					</c:if>
+					<c:if test="${loginUser!=null }">
+					<img
 										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="40px" height="40px" /></a>
+										width="40px" height="40px" class="img-circle"/>
+					</c:if>
+					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">
