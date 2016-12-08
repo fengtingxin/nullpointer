@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-import com.exp.entity.Bug;
 import com.exp.entity.Question;
 import com.exp.entity.QuestionHateRecord;
 import com.exp.entity.QuestionLikeRecord;
@@ -40,8 +39,6 @@ import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
-
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 //删除了不必要引用的包
 @Controller
@@ -177,24 +174,26 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "userInfoId", required = false) Integer userInfoId,
-			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,
+	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request,
 			HttpServletResponse response) {
 		// 获取用户信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		// 如果没有用户信息，需要进行登陆
 		if (loginUser == null) {
 			try {
-				response.sendRedirect("http://localhost:8080/nullpointer/login.jsp");
+				response.sendRedirect(request.getContextPath()+"/login.jsp");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
 		Page<Question> page;
-		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userInfoId });
-		session.setAttribute("page", page);
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
+		if(page==null){
+			request.setAttribute("page", null);
+		}else{
+			request.setAttribute("page", page);
+		}
 		return "home-question";
 	}
 
@@ -327,6 +326,9 @@ public class QuestionController {
 			@RequestParam(name = "question_detailed_bell", required = false) String question_detailed_bell,
 			HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
+		if(question==null){
+			return "redirect:list_new"; //若是没有找到这个问题，跳转到问题列表页，防止产生内容为空
+		}
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;
 		if (loginUser == null) {

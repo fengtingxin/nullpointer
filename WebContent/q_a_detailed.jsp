@@ -241,7 +241,7 @@
 							type : 'primary', // 定义颜色主题
 						}).show();
 					}else if(data == "onLike"){
-						new $.zui.Messager('取消踩后才可以赞哦！', {
+						new $.zui.Messager('取消赞后才可以踩哦！', {
 							icon : 'bell', //定义图标
 							fade : 'true',
 							type : 'primary', // 定义颜色主题
@@ -344,18 +344,13 @@
 				</c:forEach> </section>
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar"> 
-					<c:if test="${loginUser==null }">
-					<img
-										src="${ctx}/imgUp/default.jpg"
-										width="40px" height="40px"class="img-circle" />
-					</c:if>
-					<c:if test="${loginUser!=null }">
-					<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="40px" height="40px" class="img-circle" />
-					</c:if>
-
+					<a href="###" class="avatar">
+						<c:if test="${empty loginUser}">
+									<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
+								</c:if>
+								<c:if test="${not empty loginUser}">
+									<img src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
+								</c:if>
 					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/question/${question.questionId}">
@@ -412,8 +407,8 @@
 			<div class="row">
 				<div class="col-md-6 column">
 					<p class="copyright">
-						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="旋风小组" target="_blank">EXP小组</a>
+						Copyright © 2016. All Rights Reserved by KnowledgeBase.Collect
+						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
 					</p>
 				</div>
 				<div class="col-md-6 column">

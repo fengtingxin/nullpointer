@@ -65,7 +65,6 @@ public class BugController {
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl;
-
 	/**
 	 * @author Ray_1功能：搜索下来框
 	 * @param pageNum
@@ -241,25 +240,25 @@ public class BugController {
 	 * @return bug-detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-
 	public String getBug(@RequestParam(name = "bugId") Integer bugId,
 			@RequestParam(name = "bug_detailed_bell", required = false) String bug_detailed_bell,
 			HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
-		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
+		if(bug==null){
+			return "redirect:listadmin"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到listadmin页面
+		}
+		LoginUser loginUser =(LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;
-		if (loginUser == null) {
-			userInfoId = null;
-		} else {
-			userInfoId = loginUser.getLoginUserId();
-		}
-		if (userInfoId != null & this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null) {
-			request.setAttribute("likeStatus",
-					this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
-		}
-		if (userInfoId != null & this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null) {
-			request.setAttribute("hateStatus",
-					this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+		if(loginUser !=null){
+			userInfoId=loginUser.getLoginUserId();
+			if(this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId)!=null){
+				request.setAttribute("likeStatus",
+						this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId).getBugLikeStatus());
+			}
+			if(this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId) != null){
+				request.setAttribute("hateStatus",
+						this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
+			}
 		}
 		request.setAttribute("bug", bug);
 		if (bug_detailed_bell != null) {

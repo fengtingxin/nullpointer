@@ -65,19 +65,6 @@ public class CommentDaoImpl extends BaseDao<Comment, String> {
 		}
 	}
 	/**
-	 * @function 更新评论
-	 * @author tangwenru
-	 * @param comment
-	 */
-	public void updateComment(Comment comment){
-		try {
-			this.update(comment);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	/**
 	 * @fucntion 根据commentId查询单个评论
 	 * @author tangwenru
 	 * @param commentId
