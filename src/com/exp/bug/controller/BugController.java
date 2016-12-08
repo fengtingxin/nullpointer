@@ -574,6 +574,23 @@ public class BugController {
 			// TODO: handle exception
 			return "1";
 		}
+		//增加社区属性
+				Set<Tag> tagss=bug.getTags();
+				Iterator<Tag> iterator=tagss.iterator();
+				while(iterator.hasNext()){
+					Tag tag=iterator.next();
+					if(this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId())==null){
+						R_Tag_UserInfo r=new R_Tag_UserInfo();
+						r.setUserInfo(loginUser.getUserInfo());
+						r.setTag(tag);
+						r.setTagNumber(1);
+						this.r_Tag_UserInfoServiceImpl.saveR_Tag_UserInfo(r);
+					}else{
+						R_Tag_UserInfo r=this.r_Tag_UserInfoServiceImpl.findR_Tag_UserInfo(loginUser.getLoginUserId(), tag.getTagId());
+						r.setTagNumber(r.getTagNumber()+1);
+						this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
+					}
+				}
 		return "ok";
 	}
 }

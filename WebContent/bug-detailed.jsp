@@ -305,6 +305,7 @@ xmlhttp.send();
 						<div class="comment">
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
 							<a href="###" class="avatar"> 
+
 								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
 													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
 														class="img-circle" />
@@ -312,6 +313,7 @@ xmlhttp.send();
 													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
 														width="40px" height="40px" class="img-circle" />
 												</c:if>
+
 							</a>
 							<div class="content">
 								<div class="pull-right text-muted">
@@ -338,7 +340,7 @@ xmlhttp.send();
 										<div class="comment">
 											<a href="###" class="avatar"> 
 												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
-													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
+													<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px"
 														class="img-circle" />
 												</c:if> <c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
 													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"
@@ -375,17 +377,18 @@ xmlhttp.send();
 				</c:forEach> </section>
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
-					<a href="###" class="avatar">
-						<c:if test="${loginUser==null}">
-									<img src="${ctx}/imgUp/default.jpg" width="35px" height="35px"
-										class="img-circle" />
-								</c:if> <c:if test="${loginUser!=null}">
-
-									<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+					<a href="###" class="avatar"> 
+					<c:if test="${loginUser==null }">
+					<img
+										src="${ctx}/imgUp/default.jpg"
 										width="40px" height="40px" class="img-circle" />
-								</c:if>
-					</a>
+					</c:if>
+					<c:if test="${loginUser!=null }">
+					<img
+										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
+										width="40px" height="40px" class="img-circle"/>
+					</c:if>
+</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">
