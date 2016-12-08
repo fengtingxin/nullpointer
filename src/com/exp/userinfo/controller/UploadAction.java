@@ -52,7 +52,6 @@ public class UploadAction {
 		}
 		if (null == session.getAttribute("loginUser") || session.getAttribute("loginUser").equals("null")) {
 			request.getRequestDispatcher("loginUser/login").forward(request, response);
-			;
 		}
 		UserInfo userInfo = loginUser.getUserInfo();
 		String realpath = System.getProperty("b2cweb.root") + "imgUp";
@@ -69,7 +68,7 @@ public class UploadAction {
 				savefile.getParentFile().mkdirs();
 			filename = "cuted_" + filename;// 重命名剪裁后的图片
 
-			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// 获取图片格式String，如png
+			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// L图片格式String，如png
 			savefile.getPath();
 			System.out.println("realPath:"+realpath);
 			System.out.println("fileName:"+filename);
