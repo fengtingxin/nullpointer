@@ -65,7 +65,7 @@ public class BugController {
 	@Resource
 	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl; 
 	/**
-	 * @author Ray_1功能：搜索下来框
+	 * @author Ray_1功能：搜索下拉框
 	 * @param pageNum
 	 * @param searchParam
 	 * @param request

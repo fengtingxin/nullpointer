@@ -57,8 +57,8 @@
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
 					style="height: 43px;" /><a><img id="clear" alt="清除按钮"
 					src="${ctx}/images/cuohao.jpg"></a>
-				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
+				<button type="button" id="bugSearch" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" id="questionSearch" class="btn btn-primary btn-lg">问题搜索</button>
 				<div>
 					<ul id="dtitles">
 
@@ -271,6 +271,18 @@
 
 	// 搜索框js @author Ray
 	//修改
+	$("#bugSearch").click(function(){
+	//	alert("点击事件");
+	var s = $("#s").val();
+	window.location= "${ctx}/hibernateSearch/findBugByPage?s="+s;
+	
+	})
+	$("#questionSearch").click(function(){
+	//	alert("点击事件");
+	var s = $("#s").val();
+	window.location= "${ctx}/hibernateSearch/findQuestionByPage?s="+s;
+	
+	})
 	// 显示搜索内容
 	$(document).ready(
 			$("#s").keypress(function(e){

@@ -68,7 +68,7 @@
 				</h3>
 				</header>
 				<div class="items items-hover">
-					<c:forEach items="${page.list }" var="bug">
+					<c:forEach items="${bugpages.list }" var="bug">
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
@@ -96,20 +96,20 @@
 				<!--分页实现-->
 				<ul class="pager pager-loose">
 					<li class="previous"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.prePageNum}">«</a></li>
-					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-					<c:if test="${pageNum ==page.currentPageNum}">
+						href="${ctx}/hibernateSearch/findBugByPage?pageBugNum=${bugpages.prePageNum}">«</a></li>
+					<c:forEach begin="1" end="${bugpages.totalPageNum }" var="pageNum">
+					<c:if test="${pageNum ==bugpages.currentPageNum}">
 						<li class="active"><a name="pagen"
 							href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:if>
-					<c:if test="${pageNum !=page.currentPageNum}">
+					<c:if test="${pageNum !=bugpages.currentPageNum}">
 					<li><a name="pagen"
-							href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+							href="${ctx }/hibernateSearch/findBugByPage?pageBugNum=${pageNum}">${pageNum }</a></li>
 					</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/hibernateSearch/findBugByPage?pageBugNum=${bugpages.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 
