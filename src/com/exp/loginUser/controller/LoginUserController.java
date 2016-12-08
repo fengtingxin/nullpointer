@@ -123,7 +123,7 @@ public class LoginUserController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestParam(name = "loginName") String loginName,
-			@RequestParam(name = "password") String password, @RequestParam(name = "codeValue") String codeValue,
+			@RequestParam(name = "password") String password, @RequestParam(name = "codeValue",defaultValue="") String codeValue,
 			HttpSession session) {
 		String code = (String) session.getAttribute("post_validate_code");
 		if (!code.equalsIgnoreCase(codeValue)) {
