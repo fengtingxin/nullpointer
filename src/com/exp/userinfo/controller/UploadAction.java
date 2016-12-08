@@ -49,7 +49,6 @@ public class UploadAction {
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		if (null == session.getAttribute("loginUser") || session.getAttribute("loginUser").equals("null")) {
 			request.getRequestDispatcher("loginUser/login").forward(request, response);
-			;
 		}
 		UserInfo userInfo = loginUser.getUserInfo();
 		String realpath = System.getProperty("b2cweb.root") + "\\imgUp";
@@ -66,7 +65,7 @@ public class UploadAction {
 				savefile.getParentFile().mkdirs();
 			filename = "cuted_" + filename;// 重命名剪裁后的图片
 
-			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// 获取图片格式String，如png
+			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// L图片格式String，如png
 			savefile.getPath();
 			new File(new File(realpath), filename).getPath();
 			ImageUtil.parseCutedImage(x1, y1, w, h, imageContentType, savefile.getPath(),

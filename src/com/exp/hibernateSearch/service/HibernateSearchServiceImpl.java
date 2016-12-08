@@ -20,19 +20,24 @@ public class HibernateSearchServiceImpl {
 
 	/**
 	 * @author Ray_1
-	 * @功能：hibernateSearch查询不分页的bug
+	 * @功能：用hibernateSearch 获取4条bug，并用高亮显示。
+	 * @param search
+	 * @return
 	 */
 	public List<Bug> searchBug(String search) {
 		return hibernateSearchDaoImpl.searchBug(search);
 	}
 
 	/**
-	 * @author Ray_1 @功能： 查询question
+	 * @author Ray_1
+	 * @功能：用hibernateSearch查询4条 question，并用高亮显示。
 	 * @param search
 	 * @return
 	 */
 	public List<Question> searchQuestion(String search) {
 		return hibernateSearchDaoImpl.searchQuestion(search);
 	}
+	
+	
 
 }
