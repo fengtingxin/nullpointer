@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+<%
+	request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -119,7 +122,7 @@
 				<div class="form-group">
 					<label for="exampleInputAccount4" class="col-sm-2">用户名：</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" name="loginName"
+						<input type="text" id="loginName" class="form-control" name="loginName"
 							value="${loginUser.getLoginName() }"
 							placeholder="${loginUser.getLoginName() } ">
 					</div>
@@ -127,17 +130,37 @@
 				<div class="form-group">
 					<label for="exampleInputPassword4" class="col-sm-2">个性签名:</label>
 					<div class="col-sm-10">
-						<textarea type="text" name="describe" class="form-control">${loginUser.userInfo.userInfoDescribe }</textarea>
+						<textarea type="text" id="describe" name="describe" class="form-control">${loginUser.userInfo.userInfoDescribe }</textarea>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="exampleInputPassword4" class="col-sm-2">性别:</label> <label
-						class="radio-inline-3"> <input type="radio" name="sex"
-						value="男"> 男
-					</label> <label class="radio-inline-3"> <input type="radio"
-						name="sex" value="女"> 女
-					</label>
-
+					<label for="exampleInputPassword4" class="col-sm-2">性别:</label>
+					<c:if test="${not empty loginUser.userInfo.userInfoSex}">
+						<c:if test="${loginUser.userInfo.userInfoSex=='男'}">
+							<label class="radio-inline-3">
+								<input id="sex" type="radio" name="sex" value="男" checked="checked"/> 男
+							</label>
+							<label class="radio-inline-3">
+								<input id="sex" type="radio" name="sex" value="女"/> 女
+							</label>
+						</c:if>
+						<c:if test="${loginUser.userInfo.userInfoSex=='女'}">
+							<label class="radio-inline-3">
+								<input id="sex" type="radio" name="sex" value="男" /> 男
+							</label>
+							<label class="radio-inline-3">
+								<input id="sex" type="radio" name="sex" value="女" checked="checked"/> 女
+							</label>
+						</c:if>
+					</c:if>
+					<c:if test="${empty loginUser.userInfo.userInfoSex}">
+						<label class="radio-inline-3"> 
+							<input id="sex" type="radio" name="sex" value="男"/> 男
+						</label>
+						<label class="radio-inline-3">
+							<input id="sex" type="radio" name="sex" value="女"/> 女
+						</label>
+					</c:if>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputPassword4" class="col-sm-2">出生日期:</label>
@@ -154,13 +177,73 @@
 
 				<div class="form-group" style="margin-top: 30px;">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary">更新信息</button>
+						<button type="button" onclick="updateUserInfo()" class="btn btn-primary">更新信息</button>
 					</div>
 				</div>
 			</form>
 		</div>
-
 	</div>
+<script type="text/javascript">
+function updateUserInfo(){
+	var  loginName=$("#loginName").val();
+	var  sex=$('input:radio[name="sex"]:checked').val();
+	var  describe=$("#describe").val();
+	var  birthday=$("#birthday").val();
+	
+	if(loginName.replace(/(^s*)|(s*$)/g, "").length==0 || null == loginName || "" == loginName){
+		new $.zui.Messager('用户名不能为空哦！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+	}else{
+		$.ajax({
+			url : "edit",
+			type: "POST",
+			method: "post",
+			data : {
+				loginName : loginName,
+				sex:sex,
+				describe:describe,
+				birthday:birthday,
+			},
+			success : function(data, status) {
+				if(data == "updateOk"){ //成功点赞
+					window.location.href = "home";
+				}else if(data=="cancelLike"){
+					$('#likeOutSide').removeClass("haveen");
+					$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())-1);
+				}else if(data=="encodeError"){
+					new $.zui.Messager('您的输入有误，请刷新重试！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'primary', // 定义颜色主题
+					}).show();
+				}else if(data == "loginNameUsed"){
+					new $.zui.Messager('用户名已经存在了哦，请换一个换好的！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'primary', // 定义颜色主题
+					}).show();
+				}else if(data == "dateError"){
+					new $.zui.Messager('您的输入有误！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'primary', // 定义颜色主题
+					}).show();
+				}
+			},
+			error:function(e){
+				new $.zui.Messager('服务器出问题了，请刷新试试！', {
+					icon : 'bell', //定义图标
+					fade : 'true',
+					type : 'danger', // 定义颜色主题
+				}).show(); 
+			} 
+		});
+	}
+}
+</script>
 	<!-- Footer Bottom -->
 	<div id="footer-bottom-wrapper">
 		<div id="footer-bottom" class="container">
@@ -201,7 +284,6 @@
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
 
-<script src="${ctx}/js/jquery.min.js"></script>
 <script src="${ctx}/js/jquery.Jcrop.min.js"></script>
 <script src="${ctx}/js/script.js"></script>
 

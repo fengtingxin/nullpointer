@@ -364,17 +364,13 @@ xmlhttp.send();
 				<footer>
 				<div class="reply-form" id="commentReplyForm2">
 					<a href="###" class="avatar"> 
-					<c:if test="${loginUser==null }">
-					<img
-										src="${ctx}/imgUp/default.jpg"
-										width="40px" height="40px" class="img-circle" />
-					</c:if>
-					<c:if test="${loginUser!=null }">
-					<img
-										src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"
-										width="40px" height="40px" class="img-circle"/>
-					</c:if>
-</a>
+						<c:if test="${loginUser==null }">
+							<img src="${ctx}/imgUp/default.jpg"	width="40px" height="40px" class="img-circle" />
+						</c:if>
+						<c:if test="${loginUser!=null }">
+							<img src="${ctx}/imgUp/${loginUser.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle"/>
+						</c:if>
+					</a>
 					<form id="comment_form_submit" class="form" method="post"
 						action="${ctx }/bug/${bug.bugId}">
 						<div class="form-group">

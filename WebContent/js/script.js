@@ -1,4 +1,4 @@
-preview/**
+/**
  *
  * HTML5 Image uploader with Jcrop
  *

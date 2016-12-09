@@ -4,12 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.bug.service.BugServiceImpl;
 import com.exp.entity.Bug;
@@ -32,12 +29,12 @@ import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
 import com.exp.entity.ZuiData;
+import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 @Controller
 public class UserInfoController {
@@ -49,6 +46,8 @@ public class UserInfoController {
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private TagServiceImpl tagServiceImpl;
+	@Resource
+	private LoginUserServiceImpl loginUserServiceImpl;
 
 	/**
 	 * @zhangzhaolin
@@ -185,25 +184,28 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
+	@ResponseBody
 	public String edit(@RequestParam(value = "id", required = false) Integer id,
 			@RequestParam(value = "loginName", required = false, defaultValue = "") String loginName,
 			@RequestParam(value = "birthday", required = false, defaultValue = "") String birthday,
 			@RequestParam(value = "sex", required = false, defaultValue = "") String sex,
-			@RequestParam(value = "describe", required = false, defaultValue = "") String describe,
-			HttpServletRequest request, HttpSession session) {
+			@RequestParam(value = "describe", required = false, defaultValue = "") String describe,HttpSession session) {
 		// 防止中文乱码
 		try {
-			sex = new String(sex.getBytes("iso-8859-1"), "utf-8");
-			describe = new String(describe.getBytes("iso-8859-1"), "utf-8");
-			loginName = new String(loginName.getBytes("iso-8859-1"), "utf-8");
+			sex = new String(sex.getBytes(), "utf-8");
+			describe = new String(describe.getBytes(), "utf-8");
+			loginName = new String(loginName.getBytes(), "utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "encodeError";
 		}
-
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
+		LoginUser lu =this.loginUserServiceImpl.findByName(loginName);
+		if(lu!=null && lu.getLoginUserId()!= loginUser.getLoginUserId()){
+			return "loginNameUsed";
+		}
 		UserInfo u = loginUser.getUserInfo();
-
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		if (!birthday.equals("")) {
@@ -211,6 +213,7 @@ public class UserInfoController {
 				date = sdf.parse(birthday);
 			} catch (ParseException e) {
 				e.printStackTrace();
+				return "dateError";
 			}
 		}
 		u.getLoginUser().setLoginName(loginName);
@@ -218,9 +221,8 @@ public class UserInfoController {
 		u.setUserInfoSex(sex);
 		u.setUserInfoDescribe(describe);
 		loginUser.setUserInfo(u);
-
 		this.userInfoServiceImpl.editUserInfo(u);
-		return "redirect:home";
+		return "updateOk";
 	}
 
 	/**

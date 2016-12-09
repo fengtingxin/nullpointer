@@ -51,6 +51,9 @@ public class CommentContoller {
 	@RequestMapping("findCommentByTime")
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,HttpServletRequest request,HttpSession session) {
 		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
+		if(loginUser==null){
+			return "login";
+		}
 		Page<Comment> page;
 		page = this.commentServiceImpl.findCommentByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
 		if(page==null){
