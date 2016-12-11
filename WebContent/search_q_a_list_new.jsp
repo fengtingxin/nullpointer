@@ -62,9 +62,9 @@
 		<div class="col-md-8 column"
 			style="border: 1px solid #ddd; padding: 20px;">
 			<ul class="nav nav-tabs">
-				<li><a href="${ctx }/question/list_new"
+				<li><a class="active" href="${ctx }/question/list_new"
 					data-target="#tab2Content1">最新发布</a></li>
-				<li><a class="active" href="${ctx }/question/list_answer"
+				<li><a href="${ctx }/question/list_answer"
 					data-target="#tab2Content2">最多人回答</a></li>
 				<li><a href="${ctx }/question/list_noone"
 					data-target="#tab2Content3">尚未解决</a></li>
@@ -73,7 +73,7 @@
 				<div class="tab-pane fade active in" id="tab2Content1">
 					<div class="items items-hover">
 						<!--标签1内容开始-->
-						<c:set var="questionList_theNew" value="${questionPage.list}"></c:set>
+						<c:set var="questionList_theNew" value="${questionpages.list}"></c:set>
 						<c:forEach var="question" items="${ questionList_theNew}">
 							<div class="item">
 								<div class="item-heading">
@@ -87,7 +87,7 @@
 								</div>
 								<div class="item-footer">
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
-										${question.questionAnswerCount}</a> &nbsp; <a href="#"
+										${fn:length(question.answers)}</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
 										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"
@@ -99,21 +99,21 @@
 						<!--分页实现-->
 						<ul class="pager pager-loose">
 							<li class="previous"><a
-								href="${ctx}/question/list_answer?currentPageNum=${questionPage.prePageNum}">«</a></li>
-							<c:forEach begin="1" end="${questionPage.totalPageNum }"
+								href="${ctx}/hibernateSearch/findQuestionByPage?pageQuestionNum=${questionpages.prePageNum}">«</a></li>
+							<c:forEach begin="1" end="${questionpages.totalPageNum }"
 								var="pageNum">
-								<c:if test="${pageNum ==questionPage.currentPageNum }">
-									<li class="active"><a
-										href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+								<c:if test="${pageNum ==questionpages.currentPageNum}">
+									<li class="active"><a name="pagen"
+										href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
-								<c:if test="${pageNum !=questionPage.currentPageNum }">
-									<li><a
-										href="${ctx }/question/list_answer?currentPageNum=${pageNum }">${pageNum }</a></li>
+								<c:if test="${pageNum!=questionpages.currentPageNum}">
+									<li><a name="pagen"
+										href="${ctx }/hibernateSearch/findQuestionByPage?pageQuestionNum=${pageNum}">${pageNum }</a></li>
 								</c:if>
-
 							</c:forEach>
+
 							<li class="next"><a
-								href="${ctx}/question/list_answer?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+								href="${ctx}/hibernateSearch/findQuestionByPage?pageQuestionNum=${questionpages.nextPageNum}">»</a></li>
 						</ul>
 					</div>
 					<!--标签1内容结束-->
@@ -137,8 +137,8 @@
 				<h2>
 					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
 				</h2>
-				<a href="question.jsp"><button class="btn btn-success btn-lg"
-						type="button">向大哲们提问</button></a>
+				<a href="${ctx }/question.jsp"><button
+						class="btn btn-success btn-lg" type="button">向大哲们提问</button></a>
 
 			</div>
 
@@ -149,15 +149,8 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<c:if test="${tt.tagName =='C++'}">
-							<a href="${ctx}/question/list_answer?tagName=C%2B%2B"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:if>
-						<c:if test="${tt.tagName !='C++'}">
-							<a href="${ctx}/question/list_answer?tagName=${tt.tagName}"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:if>
-
+						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
+							class="btn btn-primary">${tt.tagName}</a>
 					</c:forEach>
 				</div>
 

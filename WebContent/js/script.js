@@ -54,7 +54,12 @@ function fileSelectHandler() {
         $('.error').html('支持jpg和png格式的文件！').show();
         return;
     }
-
+    //check for image name (not Chinese)
+    var patrn=/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/gi; 
+    if( patrn.exec( oFile.name) ) {
+    	 $('.error').html('图片名不能包括中文！').show();
+    	 return ;
+    }
     // check for file size
     if (oFile.size > 250 * 1024) {
         $('.error').html('请选择不超过250kB的文件').show();

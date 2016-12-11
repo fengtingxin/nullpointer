@@ -46,5 +46,14 @@ public class UserInfoServiceImpl{
 	public void updateImgUrl(int id,String url) {
     	userInfoDaoImpl.updateImgUrl(id,url);
     }
+    /**
+     * @function 修改用户信息
+     * @author tangwenru
+     * @param userInfo
+     */
+    @Transactional(readOnly=false)
+    public void updateUserInfo(UserInfo userInfo){
+    	this.userInfoDaoImpl.updateUserInfo(userInfo);
+    }
         
 }

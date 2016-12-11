@@ -9,7 +9,6 @@
 <body>
 	<div class="col-md-12">
 
-
 		<nav class="menu" data-toggle="menu"
 			style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 		<ul class="nav nav-primary">

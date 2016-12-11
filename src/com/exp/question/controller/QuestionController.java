@@ -38,6 +38,7 @@ import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
 
+
 //删除了不必要引用的包
 @Controller
 @RequestMapping("question")
@@ -140,6 +141,9 @@ public class QuestionController {
 		question.setQuestionDetailed(questionDetailed);
 		question.setQuestionPublishTime(questionPublishTime);
 		this.questionServiceImpl.saveQuestion(question);
+		//发布问题荣誉值加1
+		userInfo.setUserInfoHonorCount(userInfo.getUserInfoHonorCount()+1);
+		this.userInfoServiceImpl.updateUserInfo(userInfo);
 		// 增加社区属性
 		Set<Tag> tagss = question.getTags();
 		Iterator<Tag> iterator = tagss.iterator();
@@ -420,6 +424,8 @@ public class QuestionController {
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Question question = this.questionServiceImpl.getQuestion(questionId);
+		//获取问题的作者
+		UserInfo author=question.getUserInfo();
 		// 判断用户是否登录
 		if (loginUser == null) {
 			return "not ok";
@@ -438,6 +444,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -450,6 +459,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -462,6 +474,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消赞，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 			}
@@ -480,6 +495,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -492,6 +510,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -504,6 +525,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 				return "likeOk";

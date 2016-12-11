@@ -38,7 +38,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -99,14 +99,14 @@
 					<li class="previous"><a
 						href="${ctx}/bug/listuser?pageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-							<c:if test="${pageNum ==page.currentPageNum}">
-						<li class="active"><a name="pagen"
-							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
-					</c:if>
-					<c:if test="${pageNum !=page.currentPageNum}">
-					<li><a name="pagen"
-							href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
-					</c:if>
+						<c:if test="${pageNum ==page.currentPageNum}">
+							<li class="active"><a name="pagen"
+								href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+						</c:if>
+						<c:if test="${pageNum !=page.currentPageNum}">
+							<li><a name="pagen"
+								href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
+						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
@@ -132,32 +132,33 @@
 					<i class="icon icon-comments icon-2x"></i>快来看这里
 				</h2>
 				<c:if test="${not empty loginUser }">
-				<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
-						type="button" >我也要分享</button></a>
+					<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip"
+						data-placement="right" id="share" title="分享需要经过管理员审核哦！"><button
+							class="btn btn-success btn-lg" type="button">我也要分享</button></a>
 				</c:if>
 				<c:if test="${empty loginUser }">
-					<a data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
-						type="button" onclick="verificate()">我也要分享</button></a>
-<!-- 点击分享之后 -->
-<script type="text/javascript">
-function verificate(){
-		new $.zui.Messager('您还没有登录哦！', {
-		    icon: 'heart',
-		    placement: 'top',// 定义显示位置
-		    type:'warning',
-		}).show();
-}
-	
-</script>
+					<a data-toggle="tooltip" data-placement="right" id="share"
+						title="分享需要经过管理员审核哦！"><button class="btn btn-success btn-lg"
+							type="button" onclick="verificate()">我也要分享</button></a>
+					<!-- 点击分享之后 -->
+					<script type="text/javascript">
+						function verificate() {
+							new $.zui.Messager('您还没有登录哦！', {
+								icon : 'heart',
+								placement : 'top',// 定义显示位置
+								type : 'warning',
+							}).show();
+						}
+					</script>
 				</c:if>
-				
-<script type="text/javascript">
-window.onload = function(){
-	//你需要手动初始化工具提示
-	$('[data-toggle="tooltip"]').tooltip();
-	$('#share').tooltip('hide');
-}
-</script>
+
+				<script type="text/javascript">
+					window.onload = function() {
+						//你需要手动初始化工具提示
+						$('[data-toggle="tooltip"]').tooltip();
+						$('#share').tooltip('hide');
+					}
+				</script>
 			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
@@ -166,8 +167,15 @@ window.onload = function(){
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/bug/listuser?tagName=${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/bug/listuser?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/bug/listuser?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 
@@ -180,32 +188,7 @@ window.onload = function(){
 	<!-- end of #footer -->
 
 	<!-- Footer Bottom -->
-	<div id="footer-bottom-wrapper">
-		<div id="footer-bottom" class="container">
-			<div class="row">
-				<div class="col-md-6 column">
-					<p class="copyright">
-						Copyright © 2016. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
-					</p>
-				</div>
-				<div class="col-md-6 column">
-					<!-- Social Navigation -->
-					<ul class="social-nav clearfix">
-						<li class="linkedin"><a target="_blank" href="#"></a></li>
-						<li class="stumble"><a target="_blank" href="#"></a></li>
-						<li class="google"><a target="_blank" href="#"></a></li>
-						<li class="deviantart"><a target="_blank" href="#"></a></li>
-						<li class="flickr"><a target="_blank" href="#"></a></li>
-						<li class="skype"><a target="_blank" href="skype:#?call"></a></li>
-						<li class="rss"><a target="_blank" href="#"></a></li>
-						<li class="twitter"><a target="_blank" href="#"></a></li>
-						<li class="facebook"><a target="_blank" href="#"></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%@ include file="footer.jsp"%>
 
 </body>
 <!-- script -->
