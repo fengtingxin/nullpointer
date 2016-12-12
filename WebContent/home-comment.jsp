@@ -92,18 +92,27 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我的评论</h2>
-				<c:if test="${empty pagesShare.list}">
+				<c:if test="${empty pageComment.list}">
 					<h4>暂时没有数据</h4>
 				</c:if>
-				<c:if test="${not empty pagesShare.list}">
+				<c:if test="${not empty pageComment.list}">
 				<c:forEach items="${pageComment.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
 							<c:set value="${p.bug}" var="bug"></c:set>
-
-							<c:forEach var="bb" items="${bug.tags}">
-							<div class="pull-right label label-success">${bb.tagName}</div>
-							</c:forEach>
+							<dd class="pull-right">
+								<c:forEach var="tt" items="${bug.tags}" varStatus="i">
+									<c:if test="${i.count%3==1 }">
+										<span class="label label-success">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==2 }">
+										<span class="label label-warning">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==0}">
+										<span class="label label-info">${tt.tagName}</span>
+									</c:if>
+								</c:forEach>
+							</dd>
 							<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${bug.bugTitle}</a>
 							
 						</div>
@@ -123,20 +132,20 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${pageComment.totalPageNum }" var="pageNum">
 						<c:if test="${pageNum ==pageComment.currentPageNum}">
 						<li class="active"><a name="pagen"
-							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=pageComment.currentPageNum}">
 						<li><a name="pagen"
-							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/comment/findCommentByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
+						href="${ctx}/comment/findCommentByTime?pageNum=${pageComment.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>

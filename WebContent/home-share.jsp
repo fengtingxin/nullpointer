@@ -101,10 +101,26 @@
 				<c:forEach items="${pagesShare.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
+							<!-- 如果未通过审核显示未通过审核 -->
+							<c:if test=""></c:if>
+							<!-- 如果通过审核显示通过审核 -->
+							<c:if test=""></c:if>
+							<!-- 如果未通过审核显示未审核 -->
+							<c:if test=""></c:if>
 							<c:set var="tags" value="${p.tags}"></c:set>
-							<c:forEach var="t" items="${tags}">
-								<div class="pull-right label label-success">${t.tagName}</div>
-							</c:forEach>
+							<dd class="pull-right">
+								<c:forEach var="tt" items="${tags}" varStatus="i">
+									<c:if test="${i.count%3==1 }">
+										<span class="label label-success">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==2 }">
+										<span class="label label-warning">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==0}">
+										<span class="label label-info">${tt.tagName}</span>
+									</c:if>
+								</c:forEach>
+							</dd>
 							<h4>
 								<a href="${ctx }/bug/findone?bugId=${p.bugId}">${p.bugTitle}</a>
 							</h4>
@@ -124,21 +140,21 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/share/shareByTime?pageNum=${pagesShare.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+						href="${ctx}/share/shareByTime?pageNum=${pagesShare.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${pagesShare.totalPageNum }"
 						var="pageNum">
 						<c:if test="${pageNum ==pagesShare.currentPageNum}">
 							<li class="active"><a name="pagen"
-								href="${ctx }/share/shareByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+								href="${ctx }/share/shareByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=pagesShare.currentPageNum}">
 							<li><a name="pagen"
-								href="${ctx }/share/shareByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+								href="${ctx }/share/shareByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/share/shareByTime?pageNum=${pagesShare.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
+						href="${ctx}/share/shareByTime?pageNum=${pagesShare.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>

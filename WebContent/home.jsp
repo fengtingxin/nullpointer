@@ -108,7 +108,7 @@ function signIn(){
 					fade : 'true',
 					type : 'primary', // 定义颜色主题
 				}).show();
-				$("#signDay").text($("#signDay").text()+1);
+				$("#signDay").text(parseInt($("#signDay").text())+1);
 			}
 		},
 		error:function(e){

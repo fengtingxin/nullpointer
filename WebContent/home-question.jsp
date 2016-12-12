@@ -27,9 +27,10 @@
 	<!-- Start of Header -->
 	<!-- Start of Header -->
 	<c:if test="${empty loginUser}">
-		<%
-			response.sendRedirect("../login.jsp");
-		%>
+		<script type="text/javascript">
+			alert("wwuwuuwuwu");
+			window.location="${ctx}/login.jsp";
+		</script>
 	</c:if>
 	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
@@ -89,17 +90,27 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我提问的问题：</h2>
-				<c:if test="${empty pagesShare.list}">
+				<c:if test="${empty page.list}">
 					<h4>暂时没有数据</h4>
 				</c:if>
-				<c:if test="${not empty pagesShare.list}">
+				<c:if test="${not empty page.list}">
 				<c:forEach items="${page.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
 							<c:set var="tag" value="${p.tags }"></c:set>
-							<c:forEach var="tt" items="${tag}">
-								<div class="pull-right label label-success">${tt.tagName }</div>
-							</c:forEach>
+							<dd class="pull-right">
+								<c:forEach var="tt" items="${tag}" varStatus="i">
+									<c:if test="${i.count%3==1 }">
+										<span class="label label-success">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==2 }">
+										<span class="label label-warning">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==0}">
+										<span class="label label-info">${tt.tagName}</span>
+									</c:if>
+								</c:forEach>
+							</dd>
 							<h4>
 								<a href="${ctx}/question/findone?questionId=${p.questionId}">${p.questionTitle }</a>
 							</h4>
@@ -120,20 +131,20 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/question/findQuestionByTime?pageNum=${page.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+						href="${ctx}/question/findQuestionByTime?pageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum}" var="pageNum">
 						<c:if test="${pageNum ==page.currentPageNum}">
 						<li class="active"><a name="pagen"
-							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=page.currentPageNum}">
 						<li><a name="pagen"
-							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/question/findQuestionByTime?pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/question/findQuestionByTime?pageNum=${page.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
+						href="${ctx}/question/findQuestionByTime?pageNum=${page.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>
