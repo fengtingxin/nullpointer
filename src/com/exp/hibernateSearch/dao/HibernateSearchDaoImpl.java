@@ -47,8 +47,8 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Bug> list = null;
 		try {
 			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.5f)
-					.onFields("bugTitle", "bugDescribe", "bugReason").matching(search).createQuery();
+			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.8f).onFields("bugTitle")
+					.matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
 			// 集关键字高亮的实现代码
@@ -56,7 +56,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "bugTitle", "bugDescribe", "bugReason" };
+			String[] fieldNames = { "bugTitle" };
 			for (Bug q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
@@ -105,8 +105,8 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Question> list = null;
 		try {
 			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.5f)
-					.onFields("questionTitle", "questionDescribe").matching(search).createQuery();
+			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.8f)
+					.onFields("questionTitle").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
 			// 集关键字高亮的实现代码
@@ -114,7 +114,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "questionTitle", "questionDescribe" };
+			String[] fieldNames = { "questionTitle" };
 			for (Question q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
@@ -167,7 +167,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Bug> list = null;
 		try {
 			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.3f)
+			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.8f)
 					.onFields("bugTitle", "bugDescribe", "bugReason").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
@@ -205,7 +205,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		//
 		// 获取查询总数。
 		if (list != null) {
-			System.out.println("按条件查询"+list);
+			System.out.println("按条件查询" + list.size());
 			long total = list.size();
 			Page<Bug> page = new Page<Bug>(pageNum, pageSize);
 			page.setTotalCount((int) total);
@@ -214,7 +214,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @author Ray_1
 	 * @desc 分页查询question，结果用高亮显示，并且存放到page对象中。
@@ -241,24 +241,24 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Question> list = null;
 		try {
 			// 模糊查询
-						org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.5f)
-								.onFields("questionTitle", "questionDescribe").matching(search).createQuery();
-						Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
-						hibQuery.setFirstResult((pageNum - 1) * pageSize);
-						hibQuery.setMaxResults(pageSize);
-						list = hibQuery.list();
+			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
+					.onFields("questionTitle", "questionDescribe").matching(search).createQuery();
+			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
+			hibQuery.setFirstResult((pageNum - 1) * pageSize);
+			hibQuery.setMaxResults(pageSize);
+			list = hibQuery.list();
 
 			// 集关键字高亮的实现代码
 			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font color='red';>", "</font>");
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "questionTitle", "questionDescribe"};
+			String[] fieldNames = { "questionTitle", "questionDescribe" };
 			for (Question q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
 					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
+							.invokeMethod(BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
@@ -279,7 +279,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		//
 		// 获取查询总数。
 		if (list != null) {
-			System.out.println("按条件查询"+list);
+			System.out.println("按条件查询" + list);
 			long total = list.size();
 			Page<Question> page = new Page<Question>(pageNum, pageSize);
 			page.setTotalCount((int) total);
@@ -288,6 +288,5 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		}
 		return null;
 	}
-
 
 }
