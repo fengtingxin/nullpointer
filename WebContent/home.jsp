@@ -70,15 +70,58 @@
 						<p>这家伙很懒 什么都没有留下</p>
 					</c:if>
 					<p>${loginUser.userInfo.userInfoDescribe}</p>
-					<a href="${ctx }/sign"><button onclick="getDay()" class="btn btn-sm btn-success" type="button"><i class="icon icon-edit"></i>&nbsp;签到
+					<button onclick="signIn()" class="btn btn-sm btn-success" type="button"><i class="icon icon-edit"></i>&nbsp;签到
 					<c:if test="${empty signDay}">
-					：0天
+					：<span id="signDay">0</span>天
 					</c:if>
 					<c:if test="${not empty signDay}">
-					：${signDay }天
+					：<span id="signDay">${signDay }</span>天
 					</c:if>
-					</button></a>
+					</button>
 				</div>
+				
+<script type="text/javascript">
+function signIn(){
+	$.ajax({
+		url : "sign",
+		type: "POST",
+		method: "post",
+		data : {
+		},
+		success : function(data, status) {
+			if(data == "theFirst"){ //第一次签到
+				new $.zui.Messager('第一次签到成功！', {
+					icon : 'bell', //定义图标
+					fade : 'true',
+					type : 'primary', // 定义颜色主题
+				}).show();
+			$("#signDay").text(1);
+			}else if(data=="signed"){
+				new $.zui.Messager('您已经签过到了！', {
+					icon : 'bell', //定义图标
+					fade : 'true',
+					type : 'primary', // 定义颜色主题
+				}).show();
+			}else if(data=="signOk"){
+				new $.zui.Messager('签到成功！', {
+					icon : 'bell', //定义图标
+					fade : 'true',
+					type : 'primary', // 定义颜色主题
+				}).show();
+				$("#signDay").text($("#signDay").text()+1);
+			}
+		},
+		error:function(e){
+			new $.zui.Messager('服务器出问题了，请刷新试试！', {
+				icon : 'bell', //定义图标
+				fade : 'true',
+				type : 'danger', // 定义颜色主题
+			}).show(); 
+		} 
+	});
+}
+</script>
+
 				<div class="col-md-12">
 					<nav class="menu" data-toggle="menu"
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
@@ -269,32 +312,7 @@
 
 
 	<!-- Footer Bottom -->
-	<div id="footer-bottom-wrapper">
-		<div id="footer-bottom" class="container">
-			<div class="row">
-				<div class="col-md-6 column">
-					<p class="copyright">
-						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="EXP" target="_blank">EXP小组</a>
-					</p>
-				</div>
-				<div class="col-md-6 column">
-					<!-- Social Navigation -->
-					<ul class="social-nav clearfix">
-						<li class="linkedin"><a target="_blank" href="#"></a></li>
-						<li class="stumble"><a target="_blank" href="#"></a></li>
-						<li class="google"><a target="_blank" href="#"></a></li>
-						<li class="deviantart"><a target="_blank" href="#"></a></li>
-						<li class="flickr"><a target="_blank" href="#"></a></li>
-						<li class="skype"><a target="_blank" href="skype:#?call"></a></li>
-						<li class="rss"><a target="_blank" href="#"></a></li>
-						<li class="twitter"><a target="_blank" href="#"></a></li>
-						<li class="facebook"><a target="_blank" href="#"></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%@ include file="footer.jsp"%>
 	<c:set var="userInfo_tags" value="${sessionScope.userInfo_tags }"></c:set>
 
 </body>

@@ -67,7 +67,6 @@ public class UploadAction {
 			if (!savefile.getParentFile().exists())
 				savefile.getParentFile().mkdirs();
 			filename = "cuted_" + filename;// 重命名剪裁后的图片
-
 			String imageContentType = filename.substring(filename.indexOf(".") + 1, filename.length());// L图片格式String，如png
 			savefile.getPath();
 			System.out.println("realPath:"+realpath);

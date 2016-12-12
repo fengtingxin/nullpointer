@@ -30,6 +30,9 @@ public class ShareController {
 	@RequestMapping("/shareByTime")
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request,HttpSession session) {
 		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
+		if(loginUser==null){
+			return "login";
+		}
 		Page<Bug> pages;
 		pages = this.shareServiceImpl.findBugByTime(pageNum, 4, new Object[] {loginUser.getLoginUserId() });
 		if(pages==null){

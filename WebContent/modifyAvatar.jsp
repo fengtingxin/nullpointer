@@ -6,9 +6,7 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <c:if test="${empty loginUser}">
-		<%
-			response.sendRedirect("../login.jsp");
-		%>
+		window.close();
 </c:if>
 <html lang="en-gb" dir="ltr" class="uk-notouch"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <head>
@@ -17,8 +15,8 @@
         <!-- 网站缩略图 -->
         <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
         <!-- 头像上传  -->
-        <link href="css/main.css" rel="stylesheet" type="text/css" />
-        <link href="css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+        <link href="${ctx}/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="${ctx}/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div>
@@ -59,7 +57,7 @@
         </div>
 </body>
 
-         <script src="js/jquery.min.js"></script>
-         <script src="js/jquery.Jcrop.min.js"></script>
-         <script src="js/script.js"></script>
+         <script src="${ctx}/js/jquery.min.js"></script>
+         <script src="${ctx}/js/jquery.Jcrop.min.js"></script>
+         <script src="${ctx}/js/script.js"></script>
 </html>

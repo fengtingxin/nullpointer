@@ -1,6 +1,6 @@
 # nullpointer
 >>Ver:1.0
-![nullpointer](http://www.fengtingxin.cn/images/black_logo.png)
+![nullpointer](http://www.fengtingxin.cn/nullpointer/images/black_logo.png)
 ***
 ##项目特色
 >	*该项目主要是为了聚集程序中经常出现的bug

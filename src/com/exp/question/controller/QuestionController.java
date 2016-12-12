@@ -1,6 +1,5 @@
 package com.exp.question.controller;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -178,18 +176,12 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request,
-			HttpServletResponse response) {
+	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request) {
 		// 获取用户信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		// 如果没有用户信息，需要进行登陆
 		if (loginUser == null) {
-			try {
-				response.sendRedirect(request.getContextPath()+"/login.jsp");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return "login";
 		}
 		Page<Question> page;
 		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });

@@ -34,7 +34,13 @@ public class UserInfoServiceImpl{
      */
     @Transactional(readOnly = false)
 	public void editUserInfo(UserInfo u) {
-		this.userInfoDaoImpl.editUserInfo(u);
+		try {
+			this.userInfoDaoImpl.updateUserInfo(u);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("editUserInfo error !");
+			e.printStackTrace();
+		}
     }
     @Transactional(readOnly = false)
 	public void updateImgUrl(int id,String url) {
