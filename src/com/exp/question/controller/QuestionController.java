@@ -1,6 +1,5 @@
 package com.exp.question.controller;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -39,6 +37,7 @@ import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
+
 
 //删除了不必要引用的包
 @Controller
@@ -142,6 +141,9 @@ public class QuestionController {
 		question.setQuestionDetailed(questionDetailed);
 		question.setQuestionPublishTime(questionPublishTime);
 		this.questionServiceImpl.saveQuestion(question);
+		//发布问题荣誉值加1
+		userInfo.setUserInfoHonorCount(userInfo.getUserInfoHonorCount()+1);
+		this.userInfoServiceImpl.updateUserInfo(userInfo);
 		// 增加社区属性
 		Set<Tag> tagss = question.getTags();
 		Iterator<Tag> iterator = tagss.iterator();
@@ -174,18 +176,12 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTime")
-	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request,
-			HttpServletResponse response) {
+	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,HttpServletRequest request) {
 		// 获取用户信息
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		// 如果没有用户信息，需要进行登陆
 		if (loginUser == null) {
-			try {
-				response.sendRedirect(request.getContextPath()+"/login.jsp");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return "login";
 		}
 		Page<Question> page;
 		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
@@ -428,6 +424,8 @@ public class QuestionController {
 	public String questionLike(@RequestParam(name = "questionId") Integer questionId, HttpServletRequest request) {
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Question question = this.questionServiceImpl.getQuestion(questionId);
+		//获取问题的作者
+		UserInfo author=question.getUserInfo();
 		// 判断用户是否登录
 		if (loginUser == null) {
 			return "not ok";
@@ -446,6 +444,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -458,6 +459,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -470,6 +474,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消赞，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 			}
@@ -488,6 +495,9 @@ public class QuestionController {
 					questionLikeRecord.setQuestionLikeStatus(1);
 					questionLikeRecord.setQuestionLikeTime(new Date());
 					this.questionLikeRecordServiceImpl.saveQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -500,6 +510,9 @@ public class QuestionController {
 					question.setQuestionLikeNum(question.getQuestionLikeNum() + 1);
 					this.questionServiceImpl.updateQuestion(question);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被点赞，提问问题者荣誉值+1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()+1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.questionLikeRecordServiceImpl.findQuestionLikeRecord(questionId, userInfoId) != null
@@ -512,6 +525,9 @@ public class QuestionController {
 							.findQuestionLikeRecord(questionId, userInfoId);
 					questionLikeRecord.setQuestionLikeStatus(0);
 					this.questionLikeRecordServiceImpl.updateQuestionLikeRecord(questionLikeRecord);
+					//问题被取消，提问问题者荣誉值-1
+					author.setUserInfoHonorCount(author.getUserInfoHonorCount()-1);
+					this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 				return "likeOk";

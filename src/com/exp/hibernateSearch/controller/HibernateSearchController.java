@@ -19,6 +19,7 @@ import com.exp.entity.Bug;
 import com.exp.entity.Question;
 import com.exp.hibernateSearch.service.HibernateSearchServiceImpl;
 import com.framework.EncodingTool;
+import com.framework.Page;
 
 @Controller
 @RequestMapping("hibernateSearch")
@@ -179,4 +180,59 @@ public class HibernateSearchController {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @author Ray_1
+	 * @desc  实现hibernate Search 查询分页bug
+	 * @param search
+	 * @param pageNum
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/findBugByPage")
+	public String listbug(@RequestParam("s") String search,
+			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
+		Page<Bug> page;
+		search=EncodingTool.encodeStr(search);
+		System.out.println("到了controller"+"search"+search);
+		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
+		session.setAttribute("bugpages", page);
+		return "search_bug_list_admin";
+	}
+	
+	/**
+	 * @author Ray_1
+	 * @desc  实现hibernate Search 查询分页question
+	 * @param search
+	 * @param pageNum
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/findQuestionByPage")
+	public String listquestion(@RequestParam("s") String search,
+			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
+		Page<Question> page;
+		search=EncodingTool.encodeStr(search);
+		System.out.println("到了controller"+"search"+search);
+		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
+		session.setAttribute("questionpages", page);
+		return "search_q_a_list_new";
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

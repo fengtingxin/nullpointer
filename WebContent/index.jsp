@@ -57,8 +57,8 @@
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
 					style="height: 43px;" /><a><img id="clear" alt="清除按钮"
 					src="${ctx}/images/cuohao.jpg"></a>
-				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
+				<button type="button" id="bugSearch" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" id="questionSearch" class="btn btn-primary btn-lg">问题搜索</button>
 				<div>
 					<ul id="dtitles">
 
@@ -233,32 +233,7 @@
 	<!-- end of #footer -->
 
 	<!-- Footer Bottom -->
-	<div id="footer-bottom-wrapper">
-		<div id="footer-bottom" class="container">
-			<div class="row">
-				<div class="col-md-6 column">
-					<p class="copyright">
-						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
-						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
-					</p>
-				</div>
-				<div class="col-md-6 column">
-					<!-- Social Navigation -->
-					<ul class="social-nav clearfix">
-						<li class="linkedin"><a target="_blank" href="#"></a></li>
-						<li class="stumble"><a target="_blank" href="#"></a></li>
-						<li class="google"><a target="_blank" href="#"></a></li>
-						<li class="deviantart"><a target="_blank" href="#"></a></li>
-						<li class="flickr"><a target="_blank" href="#"></a></li>
-						<li class="skype"><a target="_blank" href="skype:#?call"></a></li>
-						<li class="rss"><a target="_blank" href="#"></a></li>
-						<li class="twitter"><a target="_blank" href="#"></a></li>
-						<li class="facebook"><a target="_blank" href="#"></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	<%@ include file="footer.jsp"%>
 
 </body>
 <!-- script -->
@@ -278,6 +253,18 @@
 
 	// 搜索框js @author Ray
 	//修改
+	$("#bugSearch").click(function(){
+	//	alert("点击事件");
+	var s = $("#s").val();
+	window.location= "${ctx}/hibernateSearch/findBugByPage?s="+s;
+	
+	})
+	$("#questionSearch").click(function(){
+	//	alert("点击事件");
+	var s = $("#s").val();
+	window.location= "${ctx}/hibernateSearch/findQuestionByPage?s="+s;
+	
+	})
 	// 显示搜索内容
 	$(document).ready($("#s").keypress(function(e) {
 		if (e.keyCode == 13 || e.keyCode == 32) {

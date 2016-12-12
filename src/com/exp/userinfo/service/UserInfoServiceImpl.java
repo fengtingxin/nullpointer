@@ -34,11 +34,26 @@ public class UserInfoServiceImpl{
      */
     @Transactional(readOnly = false)
 	public void editUserInfo(UserInfo u) {
-		this.userInfoDaoImpl.editUserInfo(u);
+		try {
+			this.userInfoDaoImpl.updateUserInfo(u);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("editUserInfo error !");
+			e.printStackTrace();
+		}
     }
     @Transactional(readOnly = false)
 	public void updateImgUrl(int id,String url) {
     	userInfoDaoImpl.updateImgUrl(id,url);
+    }
+    /**
+     * @function 修改用户信息
+     * @author tangwenru
+     * @param userInfo
+     */
+    @Transactional(readOnly=false)
+    public void updateUserInfo(UserInfo userInfo){
+    	this.userInfoDaoImpl.updateUserInfo(userInfo);
     }
         
 }

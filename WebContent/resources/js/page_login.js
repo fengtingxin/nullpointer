@@ -189,6 +189,12 @@ function login(validate, remeberUser) {
 				$(".login-error").show();
 				$(".login-error").html($.i18n.prop("未知异常！关闭浏览器后重试"));
 				}
+			},
+			error :function(){
+				// 登录异常
+				$('.loading').hide();
+				$(".login-error").show();
+				$(".login-error").html($.i18n.prop("您的网络有问题，请刷新试试"));
 			}
 		});
 	}

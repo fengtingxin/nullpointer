@@ -28,24 +28,19 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
      */
 	public void updateUserInfo(UserInfo u) {
 		try {
-			this.update(u);
+			this.excuteBySql("update userinfo set userInfoBirthday=?, userInfoDescribe=?, userInfoHeadPortrait=?, userInfoHonorCount=?, userInfoRegistTime=?, userInfoSex=? where userInfoId=?",
+					new Object[]{u.getUserInfoBirthday(),u.getUserInfoDescribe(),u.getUserInfoHeadPortrait(),u.getUserInfoHonorCount(),u.getUserInfoRegistTime(),u.getUserInfoSex(),u.getUserInfoId()});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				this.excuteBySql("update userinfo set userInfoBirthday=?, userInfoDescribe=?, userInfoHeadPortrait=?, userInfoHonorCount=?, userInfoRegistTime=?, userInfoSex=? where userInfoId=?",
+						new Object[]{u.getUserInfoBirthday(),u.getUserInfoDescribe(),u.getUserInfoHeadPortrait(),u.getUserInfoHonorCount(),u.getUserInfoRegistTime(),u.getUserInfoSex(),u.getUserInfoId()});
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-	}
-	/**
-	 * @function 编辑用户信息
-	 * @author tangwenru
-	 * @param id
-	 * @return
-	 */
-	public void editUserInfo(UserInfo u) {
-		u.getLoginUser().setLoginName(u.getLoginUser().getLoginName());
-		u.setUserInfoBirthday(u.getUserInfoBirthday());
-		u.setUserInfoSex(u.getUserInfoSex());
-		u.setUserInfoDescribe(u.getUserInfoDescribe());
-		this.updateUserInfo(u);
 	}
 
 	/**
@@ -58,4 +53,5 @@ public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
 		u.setUserInfoHeadPortrait(url);
 		updateUserInfo(u);
 	}
+	
 }

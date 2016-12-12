@@ -66,7 +66,7 @@ public class BugController {
 	@Resource
 	private R_Tag_UserInfoServiceImpl r_Tag_UserInfoServiceImpl;
 	/**
-	 * @author Ray_1功能：搜索下来框
+	 * @author Ray_1功能：搜索下拉框
 	 * @param pageNum
 	 * @param searchParam
 	 * @param request
@@ -323,6 +323,9 @@ public class BugController {
 			comment.setUserInfo(loginUser.getUserInfo());
 			this.commentServiceImpl.saveComment(comment);
 		}
+		//评论荣誉值+1
+		loginUser.getUserInfo().setUserInfoHonorCount(loginUser.getUserInfo().getUserInfoHonorCount()+1);
+		this.userInfoServiceImpl.updateUserInfo(loginUser.getUserInfo());
 		// 增加社区属性
 		Set<Tag> tags = bug.getTags();
 		Iterator<Tag> iterator = tags.iterator();
@@ -356,6 +359,8 @@ public class BugController {
 	@ResponseBody
 	public String bugLike(@RequestParam(name = "bugId") Integer bugId, HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
+		//获取bug的作者
+		UserInfo author=bug.getUserInfo();
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		// 判断用户是否登录
 		if (loginUser == null) {
@@ -376,6 +381,9 @@ public class BugController {
 					bugLikeRecord.setBugLikeStatus(1);
 					bugLikeRecord.setBugLikeTime(new Date());
 					this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
+					//bug被点赞，作者荣誉值+2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()+2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
@@ -383,9 +391,12 @@ public class BugController {
 					// 赞失效
 					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
 					bugLikeRecord.setBugLikeStatus(1);
-					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
+					bug.setBugLikeNum(bug.getBugLikeNum() + 2);
 					this.bugServiceImpl.updateBug(bug);
 					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					//bug被点赞，作者荣誉值+2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()+2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
@@ -396,6 +407,9 @@ public class BugController {
 					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
 					bugLikeRecord.setBugLikeStatus(0);
 					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					//bug被取消赞，作者荣誉值-2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()-2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 			}
@@ -413,6 +427,9 @@ public class BugController {
 					bugLikeRecord.setBugLikeStatus(1);
 					bugLikeRecord.setBugLikeTime(new Date());
 					this.bugLikeRecordServiceImpl.saveBugLikeRecord(bugLikeRecord);
+					//bug被点赞，作者荣誉值+2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()+2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
@@ -423,6 +440,9 @@ public class BugController {
 					bug.setBugLikeNum(bug.getBugLikeNum() + 1);
 					this.bugServiceImpl.updateBug(bug);
 					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					//bug被点赞，作者荣誉值+2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()+2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "likeOk";
 				}
 				if (this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId) != null
@@ -433,6 +453,9 @@ public class BugController {
 					BugLikeRecord bugLikeRecord = this.bugLikeRecordServiceImpl.findBugLikeRecord(bugId, userInfoId);
 					bugLikeRecord.setBugLikeStatus(0);
 					this.bugLikeRecordServiceImpl.updateBugLikeRecord(bugLikeRecord);
+					//bug被取消赞，作者荣誉值-2
+			        author.setUserInfoHonorCount(author.getUserInfoHonorCount()-2);
+			        this.userInfoServiceImpl.updateUserInfo(author);
 					return "cancelLike";
 				}
 				return "likeOk";

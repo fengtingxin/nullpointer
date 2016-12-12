@@ -38,7 +38,8 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp"%>
+	<%@ include file="nav.jsp" %>
+
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<div class="search-area-wrapper">
@@ -50,8 +51,8 @@
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
 					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
+				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
 				<div id="search-error-container"></div>
 			</form>
 		</div>
@@ -59,21 +60,20 @@
 	<!--搜索框完成-->
 
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
-
 		<div class="col-md-8 column">
 			<div class="example">
 				<header>
 				<h3>
-					<i class="icon-list-ul"></i> 用户BUG查询 <small> 共${userBugNum }条</small>
+					<i class="icon-list-ul"></i> 官方BUG查询 <small> 共${adminBugNum }条</small>
 				</h3>
 				</header>
 				<div class="items items-hover">
-					<c:forEach items="${page.list }" var="bug">
+					<c:forEach items="${bugpages.list }" var="bug">
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
-										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,100)}
+										<c:if test="${fn:length(bug.bugTitle) >100}">...</c:if>
 									</a>
 								</h2>
 							</div>
@@ -88,7 +88,6 @@
 									class="text-muted"><i class="icon-thumbs-o-up"></i>
 									${bug.bugLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
 										value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
-								</span>
 							</div>
 						</div>
 
@@ -97,20 +96,20 @@
 				<!--分页实现-->
 				<ul class="pager pager-loose">
 					<li class="previous"><a
-						href="${ctx}/bug/listuser?pageNum=${page.prePageNum}">«</a></li>
-					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<c:if test="${pageNum ==page.currentPageNum}">
-							<li class="active"><a name="pagen"
-								href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
-						</c:if>
-						<c:if test="${pageNum !=page.currentPageNum}">
-							<li><a name="pagen"
-								href="${ctx }/bug/listuser?pageNum=${pageNum }">${pageNum }</a></li>
-						</c:if>
+						href="${ctx}/hibernateSearch/findBugByPage?pageBugNum=${bugpages.prePageNum}">«</a></li>
+					<c:forEach begin="1" end="${bugpages.totalPageNum }" var="pageNum">
+					<c:if test="${pageNum ==bugpages.currentPageNum}">
+						<li class="active"><a name="pagen"
+							href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+					</c:if>
+					<c:if test="${pageNum !=bugpages.currentPageNum}">
+					<li><a name="pagen"
+							href="${ctx }/hibernateSearch/findBugByPage?pageBugNum=${pageNum}">${pageNum }</a></li>
+					</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/bug/listuser?pageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/hibernateSearch/findBugByPage?pageBugNum=${bugpages.nextPageNum}">»</a></li>
 				</ul>
 			</div>
 
@@ -123,8 +122,8 @@
 					<i class="icon icon-align-left"></i> 分类管理
 				</h2>
 				<ul class="nav nav-stacked nav-primary" style="margin-top: 20px;">
-					<li><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
-					<li class="active"><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
+					<li class="active"><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
+					<li><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
 				</ul>
 			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
@@ -132,33 +131,32 @@
 					<i class="icon icon-comments icon-2x"></i>快来看这里
 				</h2>
 				<c:if test="${not empty loginUser }">
-					<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip"
-						data-placement="right" id="share" title="分享需要经过管理员审核哦！"><button
-							class="btn btn-success btn-lg" type="button">我也要分享</button></a>
+				<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
+						type="button" >我也要分享</button></a>
 				</c:if>
 				<c:if test="${empty loginUser }">
-					<a data-toggle="tooltip" data-placement="right" id="share"
-						title="分享需要经过管理员审核哦！"><button class="btn btn-success btn-lg"
-							type="button" onclick="verificate()">我也要分享</button></a>
-					<!-- 点击分享之后 -->
-					<script type="text/javascript">
-						function verificate() {
-							new $.zui.Messager('您还没有登录哦！', {
-								icon : 'heart',
-								placement : 'top',// 定义显示位置
-								type : 'warning',
-							}).show();
-						}
-					</script>
+					<a data-toggle="tooltip" data-placement="right" id="share" title="分享需要经过管理员审核哦！" ><button class="btn btn-success btn-lg"
+						type="button" onclick="verificate()">我也要分享</button></a>
+<!-- 点击分享之后 -->
+<script type="text/javascript">
+function verificate(){
+		new $.zui.Messager('您还没有登录哦！', {
+		    icon: 'heart',
+		    placement: 'top',// 定义显示位置
+		    type:'warning',
+		}).show();
+}
+	
+</script>
 				</c:if>
-
-				<script type="text/javascript">
-					window.onload = function() {
-						//你需要手动初始化工具提示
-						$('[data-toggle="tooltip"]').tooltip();
-						$('#share').tooltip('hide');
-					}
-				</script>
+				
+<script type="text/javascript">
+window.onload = function(){
+	//你需要手动初始化工具提示
+	$('[data-toggle="tooltip"]').tooltip();
+	$('#share').tooltip('hide');
+}
+</script>
 			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
@@ -167,15 +165,8 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<c:if test="${tt.tagName =='C++'}">
-							<a href="${ctx}/bug/listuser?tagName=C%2B%2B"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:if>
-						<c:if test="${tt.tagName !='C++'}">
-							<a href="${ctx}/bug/listuser?tagName=${tt.tagName}"
-								class="btn btn-primary">${tt.tagName}</a>
-						</c:if>
-
+						<a href="${ctx}/listadmin?tagName=${tt.tagName}"
+							class="btn btn-primary">${tt.tagName}</a>
 					</c:forEach>
 				</div>
 
@@ -188,7 +179,32 @@
 	<!-- end of #footer -->
 
 	<!-- Footer Bottom -->
-	<%@ include file="footer.jsp"%>
+	<div id="footer-bottom-wrapper">
+		<div id="footer-bottom" class="container">
+			<div class="row">
+				<div class="col-md-6 column">
+					<p class="copyright">
+						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
+						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
+					</p>
+				</div>
+				<div class="col-md-6 column">
+					<!-- Social Navigation -->
+					<ul class="social-nav clearfix">
+						<li class="linkedin"><a target="_blank" href="#"></a></li>
+						<li class="stumble"><a target="_blank" href="#"></a></li>
+						<li class="google"><a target="_blank" href="#"></a></li>
+						<li class="deviantart"><a target="_blank" href="#"></a></li>
+						<li class="flickr"><a target="_blank" href="#"></a></li>
+						<li class="skype"><a target="_blank" href="skype:#?call"></a></li>
+						<li class="rss"><a target="_blank" href="#"></a></li>
+						<li class="twitter"><a target="_blank" href="#"></a></li>
+						<li class="facebook"><a target="_blank" href="#"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 <!-- script -->

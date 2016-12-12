@@ -50,6 +50,9 @@ public class AnswerController {
 	@RequestMapping("/findAnswerByTime")
 	public String list(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request,HttpSession session) {
 		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
+		if(loginUser==null){ //若是在loginUser为空的情况下，客户端访问该控制器，应该让控制器返回登录界面
+			return "login";
+		}
 		Page<Answer> pages;
 		pages = this.answerServiceImpl.findAnswerByTime(pageNum, 6, new Object[] { loginUser.getLoginUserId() });
 		if(pages==null){
@@ -73,7 +76,7 @@ public class AnswerController {
 			@RequestParam(name = "questionId", required = false) int questionId, HttpServletRequest request,HttpSession session) {
 		LoginUser loginUser=(LoginUser) session.getAttribute("loginUser");
 		this.answerServiceImpl.deleteAnswer(answerId);
-		return "redirect:findone?questionId=" + questionId+"&userInfoId="+loginUser.getLoginUserId();
+		return "redirect:findone?questionId=" + questionId;
 	}
 
 	/**
