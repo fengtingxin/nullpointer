@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
+import com.exp.entity.UserInfo;
 import com.exp.share.service.ShareServiceImpl;
+import com.exp.userinfo.controller.UserInfoController;
 import com.framework.Page;
 //汤文茹删除了不必要的导入的包
 @Controller
@@ -33,6 +35,14 @@ public class ShareController {
 		if(loginUser==null){
 			return "login";
 		}
+		UserInfo userInfo = loginUser.getUserInfo();
+
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
 		Page<Bug> pages;
 		pages = this.shareServiceImpl.findBugByTime(pageNum, 4, new Object[] {loginUser.getLoginUserId() });
 		if(pages==null){
