@@ -27,10 +27,17 @@ public class SignInRecordDaoImpl extends BaseDao<SignInRecord,String>{
 	 */
 	public void updateSignInRecord(SignInRecord signInRecord){
 		try {
-			this.update(signInRecord);
+			this.excuteBySql("update sign_in_record set lastTime=?,signNumber=? where signId=?", new Object[]{signInRecord.getLastTime(),signInRecord.getSignNumber(),signInRecord.getSignId()});
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			try {
+				this.excuteBySql("update sign_in_record set lastTime=?,signNumber=? where signId=?", new Object[]{signInRecord.getLastTime(),signInRecord.getSignNumber(),signInRecord.getSignId()});
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.out.println("update SignInRecord error !!!!");
+			}
 		}
 	}
 	/**

@@ -34,6 +34,7 @@ import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.r_tag_userInfo.service.R_Tag_UserInfoServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
+import com.exp.userinfo.controller.UserInfoController;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 import com.framework.Page;
@@ -184,6 +185,14 @@ public class QuestionController {
 		if (loginUser == null) {
 			return "login";
 		}
+		UserInfo userInfo = loginUser.getUserInfo();
+
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
 		Page<Question> page;
 		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
 		if (page == null) {

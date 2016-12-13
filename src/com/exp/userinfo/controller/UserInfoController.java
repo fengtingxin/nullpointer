@@ -90,7 +90,7 @@ public class UserInfoController {
 		if (session.getAttribute("loginUser") != null && session.getAttribute("loginUser") != "") {
 			UserInfo userInfo = loginUser.getUserInfo();
 
-			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到session范围
+			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
 			long array[] = UserInfoController.differ(userInfo);
 			session.setAttribute("day", array[0]);
 			session.setAttribute("hour", array[1]);

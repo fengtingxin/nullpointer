@@ -20,7 +20,6 @@
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
-<link rel="stylesheet" type="text/css" href="${ctx}/css/paging.css">
 <style id="themeStyle"></style>
 
 </head>
@@ -92,18 +91,27 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我回答的问题</h2>
-				<c:if test="${empty pagesShare.list}">
+				<c:if test="${empty pages.list}">
 					<h4>暂时没有数据</h4>
 				</c:if>
-				<c:if test="${not empty pagesShare.list}">
+				<c:if test="${not empty pages.list}">
 				<c:forEach items="${pages.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
 							<c:set var="qa" value="${p.question.tags}"></c:set>
-
-							<c:forEach var="tt" items="${qa}">
-								<div class="pull-right label label-success">${tt.tagName }</div>
-							</c:forEach>
+							<dd class="pull-right">
+								<c:forEach var="tt" items="${qa}" varStatus="i">
+									<c:if test="${i.count%3==1 }">
+										<span class="label label-success">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==2 }">
+										<span class="label label-warning">${tt.tagName}</span>
+									</c:if>
+									<c:if test="${i.count%3==0}">
+										<span class="label label-info">${tt.tagName}</span>
+									</c:if>
+								</c:forEach>
+							</dd>
 							<c:set var="qb" value="${p.question.questionTitle}"></c:set>
 							<a href="${ctx }/question/findone?questionId=${p.question.questionId}">${qb}</a>
 						</div>
@@ -119,21 +127,21 @@
 				</c:forEach>
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.prePageNum}&userInfoId=${loginUser.loginUserId}">«</a></li>
+						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${pages.totalPageNum }" var="pageNum">
 					<c:if test="${pageNum ==pages.currentPageNum}">
 					<li class="active"><a name="pagen"
-							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:if>
 					<c:if test="${pageNum !=pages.currentPageNum}">
 					<li><a name="pagen"
-							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }&userInfoId=${loginUser.loginUserId}">${pageNum }</a></li>
+							href="${ctx }/answer/findAnswerByTime?pageNum=${pageNum }">${pageNum }</a></li>
 					</c:if>
 						
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.nextPageNum}&userInfoId=${loginUser.loginUserId}">»</a></li>
+						href="${ctx}/answer/findAnswerByTime?pageNum=${pages.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>
@@ -154,21 +162,5 @@
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
 
-<script type="text/javascript" src="${ctx}/js/query.js"></script>
-<script type="text/javascript" src="${ctx}/js/paging.js"></script>
-<script>
-	$('#pageTool').Paging({
-		pagesize : 10,
-		count : 100,
-		callback : function(page, size, count) {
-			console.log(arguments)
-		}
-	});
-	$('#pageToolbar').Paging({
-		pagesize : 10,
-		count : 85,
-		toolbar : true
-	});
-</script>
 
 </html>
