@@ -213,7 +213,7 @@
 						<h3 class="title">最新消息</h3>
 						<div id="twitter_update_list">
 							<ul>
-								<li>呵呵哒</li>
+								<li>nullpointer_ver1.0更新与2016年12月</li>
 							</ul>
 						</div>
 
@@ -222,8 +222,10 @@
 
 				<div class="col-md-3 column">
 					<section class="widget">
-						<h3 class="title">Flickr Photos</h3>
-						<div class="flickr-photos" id="basicuse"></div>
+						<h3 class="title">项目小组</h3>
+						<ul>
+							<li>EXP项目小组</li>
+						</ul>
 					</section>
 				</div>
 

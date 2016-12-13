@@ -240,9 +240,7 @@ public class BugController {
 	 * @return bug-detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getBug(@RequestParam(name = "bugId") Integer bugId,
-			@RequestParam(name = "bug_detailed_bell", required = false) String bug_detailed_bell,
-			HttpServletRequest request) {
+	public String getBug(@RequestParam(name = "bugId") Integer bugId,HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
 		if(bug==null){
 			return "redirect:listadmin"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到listadmin页面
@@ -261,13 +259,9 @@ public class BugController {
 			}
 		}
 		request.setAttribute("bug", bug);
+		String bug_detailed_bell =(String) request.getSession().getAttribute("bug_detailed_bell");
 		if (bug_detailed_bell != null) {
-			if (bug_detailed_bell.substring(bug_detailed_bell.length() - 1).equals("1")) {
-				bug_detailed_bell = "请输入内容";
-			}
-			if (bug_detailed_bell.substring(bug_detailed_bell.length() - 1).equals("2")) {
-				bug_detailed_bell = "请登录";
-			}
+			request.getSession().removeAttribute("bug_detailed_bell");
 			request.setAttribute("bug_detailed_bell", bug_detailed_bell);
 			request.setAttribute("bug_detailed_judge", "ok");
 		}
@@ -290,14 +284,16 @@ public class BugController {
 	public String submitComment(@PathVariable("bugId") Integer bugId, @RequestParam(name = "content") String content,
 			@RequestParam(name = "commentId", required = false) Integer commentId, HttpServletRequest request,
 			HttpSession session) {
-		if (content == null || content.trim().length() == 0) {
-			// 内容为空
-			return "redirect:findone?bugId=" + bugId + "&bug_detailed_bell=" + 1;
-		}
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			// 没有登录
-			return "redirect:findone?bugId=" + bugId + "&bug_detailed_bell=" + 2;
+			session.setAttribute("bug_detailed_bell", "请登录");
+			return "redirect:findone?bugId=" + bugId;
+		}
+		if (content == null || content.trim().length() == 0) {
+			// 内容为空
+			session.setAttribute("bug_detailed_bell", "请输入内容");
+			return "redirect:findone?bugId=" + bugId;
 		}
 		// code转换
 		content = EncodingTool.encodeStr(content);

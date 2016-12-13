@@ -131,6 +131,51 @@ function submitForm(){
 	for(var i=0;i<b.length;i++){
 		bugList[i]=b[i].firstChild.innerHTML;
 	}
+	//bugTItle
+	if($("#bugTitle").val()=="" || $("#bugTitle").val()== null || $("#bugTitle").val().length>200){
+		new $.zui.Messager('标题不符合格式要求！', {
+		    type: 'warning', // 定义颜色主题
+		    placement: 'top', // 定义显示位置
+		    icon: 'bell',
+		}).show();
+		return ;
+	}
+	//bugTags
+	if(bugList=="" || bugList== null || bugList.length>4 ){
+		new $.zui.Messager('标签不符合格式！', {
+		    type: 'warning', // 定义颜色主题
+		    placement: 'top', // 定义显示位置
+		    icon: 'bell',
+		}).show();
+		return ;
+	}
+	//bugDescribe
+	if($("#bugDescribe").val()=="" || $("#bugDescribe").val()== null ){
+		new $.zui.Messager('bug描述不能为空！', {
+		    type: 'warning', // 定义颜色主题
+		    placement: 'top', // 定义显示位置
+		    icon: 'bell',
+		}).show();
+		return ;
+	}
+	//bugReason
+	if($("#bugReason").val()=="" || $("#bugReason").val()== null ){
+		new $.zui.Messager('bug原因不能为空！', {
+		    type: 'warning', // 定义颜色主题
+		    placement: 'top', // 定义显示位置
+		    icon: 'bell',
+		}).show();
+		return ;
+	}
+	//bugMethod
+	if($("#bugMethod").val()=="" || $("#bugMethod").val()== null ){
+		new $.zui.Messager('bug解决方法不能为空！', {
+		    type: 'warning', // 定义颜色主题
+		    placement: 'top', // 定义显示位置
+		    icon: 'bell',
+		}).show();
+		return ;
+	}
 	$.ajax({
 		url : "bugShareByUser",
 		type: "POST",
@@ -168,7 +213,11 @@ function submitForm(){
 			
 		},
 		error:function(e){
-		    alert("错误");
+			new $.zui.Messager('系统出现错误，请刷新试试！', {
+			    type: 'success', // 定义颜色主题
+			    placement: 'top', // 定义显示位置
+			    icon: 'bell',
+			}).show();
 		} 
 	});
 }

@@ -4,8 +4,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline;
-  outline: none;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
@@ -111,42 +109,6 @@ body {
     -o-animation-fill-mode: forwards;
     -ms-animation: main .8s 1;
     -ms-animation-fill-mode: forwards;
-}
-#main #header h1 {
-    position: relative;
-    display: block;
-    font: 72px 'TeXGyreScholaBold', Arial, sans-serif;
-    color: #0061a5;
-    text-shadow: 2px 2px #f7f7f7;
-    text-align: center;
-}
-#main #header h1 span.sub {
-    position: relative;
-    font-size: 21px;
-    top: -20px;
-    padding: 0 10px;
-    font-style: italic;
-}
-#main #header h1 span.icon {
-    position: relative;
-    display: inline-block;
-    top: -6px;
-    margin: 0 10px 5px 0;
-    background: #0061a5;
-    width: 50px;
-    height: 50px;
-    -moz-box-shadow: 1px 2px white;
-    -webkit-box-shadow: 1px 2px white;
-    box-shadow: 1px 2px white;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    color: #dfdfdf;
-    font-size: 46px;
-    line-height: 48px;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 0 0;
 }
 #main #content {
     position: relative;

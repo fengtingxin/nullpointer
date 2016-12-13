@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -327,9 +328,7 @@ public class QuestionController {
 	 * @return q_a_detailed.jsp页面
 	 */
 	@RequestMapping(value = "findone", method = RequestMethod.GET)
-	public String getQuestion(@RequestParam("questionId") Integer questionId,
-			@RequestParam(name = "question_detailed_bell", required = false) String question_detailed_bell,
-			HttpServletRequest request) {
+	public String getQuestion(@RequestParam("questionId") Integer questionId,HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
 		if(question==null){
 			return "redirect:list_new"; //若是没有找到这个问题，跳转到问题列表页，防止产生内容为空
@@ -352,13 +351,9 @@ public class QuestionController {
 					.findQuestionHateRecord(questionId, userInfoId).getQuestionHateStatus());
 		}
 		request.setAttribute("question", question);
+		String question_detailed_bell=(String) request.getSession().getAttribute("question_detailed_bell");
 		if (question_detailed_bell != null) {
-			if (question_detailed_bell.substring(question_detailed_bell.length() - 1).equals("1")) {
-				question_detailed_bell = "请输入内容";
-			}
-			if (question_detailed_bell.substring(question_detailed_bell.length() - 1).equals("2")) {
-				question_detailed_bell = "请登录";
-			}
+			request.getSession().removeAttribute("question_detailed_bell");
 			request.setAttribute("question_detailed_bell", question_detailed_bell);
 			request.setAttribute("question_detailed_judge", "ok");
 		}
@@ -382,16 +377,18 @@ public class QuestionController {
 			@RequestParam(name = "content") String content,
 			@RequestParam(name = "answerId", required = false) Integer answerId, HttpServletRequest request,
 			HttpSession session) {
-		if (content == null || content.trim().length() == 0) {
-			// 内容为空
-			return "redirect:findone?questionId=" + questionId + "&question_detailed_bell=" + 1;
-		}
-		System.out.println("answer id" + answerId);
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		if (loginUser == null) {
 			// 没有登录
-			return "redirect:findone?questionId=" + questionId + "&question_detailed_bell=" + 2;
+			session.setAttribute("question_detailed_bell", "请登录!");
+			return "redirect:findone?questionId=" + questionId;
 		}
+		if (content == null || content.trim().length() == 0) {
+			session.setAttribute("question_detailed_bell", "请输入内容!");
+			// 内容为空
+			return "redirect:findone?questionId=" + questionId;
+		}
+		System.out.println("answer id" + answerId);
 		// code转换
 		content = EncodingTool.encodeStr(content);
 		Question question = this.questionServiceImpl.getQuestion(questionId);

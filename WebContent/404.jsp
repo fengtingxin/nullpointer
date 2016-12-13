@@ -11,7 +11,6 @@
 <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
 <link rel="stylesheet" type="text/css" href="${ctx}/css/error_style/main.css">
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Style Sheet-->
 <link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui.lite.css">
@@ -36,12 +35,7 @@
 	<!--导航栏完成-->
 	<div class="container" style="margin-bottom: 100px;">
 		<div id="main" style="margin-top: 0px; paddgin-top: 0px;">
-			<header id="header">
-				<h1>
-					<span class="icon">!</span>404<span class="sub">page not
-						found</span>
-				</h1>
-			</header>
+			<img alt="404_error.png" src="${ctx}/css/error_style/404_error.png" style="margin-top:3.2em;"/>
 			<div id="content">
 				<h2>您打开的这个的页面不存在！</h2>
 				<p>当您看到这个页面,表示您的访问出错,这个错误是您打开的页面不存在,请确认您输入的地址是正确的,如果是在本站点击后出现这个页面,请联系nullpointer进行处理,或者请通过下边的搜索重新查找资源,nullpointer感谢您的支持!</p>

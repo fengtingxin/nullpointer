@@ -89,7 +89,7 @@
 															<input type="password" id="password" class="form-control" name="password" placeholder="Password" />
 															<i class="icon-lock"></i>
 															<c:if test="${not empty loginError }">
-																<span  class="help-inline col-xs-12 col-sm-7" >
+																<span  id="loginErrorSpan" class="help-inline col-xs-12 col-sm-7" >
 																	<span class="text-warning bigger-110 orange">${loginError }</span>
 																</span>
 															</c:if>
@@ -116,6 +116,14 @@ function validate (){
 			.val());
 	 $('#password').val(f);
 	 $('#adminLogin').submit();
+}
+window.onload = function(){
+	$("#name").focus(function(){
+		  $("#loginErrorSpan").css("display","none");
+	});
+	$("#password").focus(function(){
+		$("#loginErrorSpan").css("display","none");
+	});
 }
 </script>
 
