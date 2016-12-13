@@ -92,10 +92,10 @@
 
 			<div class="items">
 				<h2 class="header-dividing">我的评论</h2>
-				<c:if test="${empty pagesShare.list}">
+				<c:if test="${empty pageComment.list}">
 					<h4>暂时没有数据</h4>
 				</c:if>
-				<c:if test="${not empty pagesShare.list}">
+				<c:if test="${not empty pageComment.list}">
 				<c:forEach items="${pageComment.list}" var="p">
 					<div class="item">
 						<div class="item-heading">
