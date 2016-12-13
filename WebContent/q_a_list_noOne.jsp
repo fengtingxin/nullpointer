@@ -38,7 +38,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<%@include file="search-area.jsp"%>
@@ -69,8 +69,6 @@
 								</div>
 								<div class="item-content">
 									<div class="text">${question.questionDescribe }</div>
-									/
-									<!--  -->
 								</div>
 								<div class="item-footer">
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
@@ -90,14 +88,14 @@
 							<c:forEach begin="1" end="${questionPage.totalPageNum }"
 								var="pageNum">
 								<c:if test="${pageNum ==questionPage.currentPageNum }">
-								<li class="active"><a
-									href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li class="active"><a
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
 								<c:if test="${pageNum !=questionPage.currentPageNum }">
-								<li><a
-									href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li><a
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
-								
+
 							</c:forEach>
 							<li class="next"><a
 								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}">»</a></li>
@@ -120,14 +118,46 @@
 
 		</div>
 		<div class="col-md-4 column" style="margin-top: 30px;">
-			<div class="col-md-12" style="margin-top: 20px;">
-				<h2>
-					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
-				</h2>
-				<a href="question.jsp"><button class="btn btn-success btn-lg"
-						type="button">向大哲们提问</button></a>
+			<!-- 如果用户没有登陆 提示登陆 -->
+			<c:if test="${empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a data-toggle="tooltip" data-placement="right" id="share"><button
+							class="btn btn-success btn-lg" type="button"
+							onclick="verificate()">向大哲们提问</button></a>
 
-			</div>
+				</div>
+				<!-- 点击分享之后 -->
+				<script type="text/javascript">
+					function verificate() {
+						new $.zui.Messager('您还没有登录哦！', {
+							icon : 'heart',
+							placement : 'top',// 定义显示位置
+							type : 'warning',
+						}).show();
+					}
+				</script>
+			</c:if>
+			<!-- 如果用户已经登陆 -->
+			<c:if test="${not empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a href="${ctx }/question.jsp"><button
+							class="btn btn-success btn-lg" type="button">向大哲们提问</button></a>
+
+				</div>
+			</c:if>
+			<script type="text/javascript">
+				window.onload = function() {
+					//你需要手动初始化工具提示
+					$('[data-toggle="tooltip"]').tooltip();
+					$('#share').tooltip('hide');
+				}
+			</script>
 
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>

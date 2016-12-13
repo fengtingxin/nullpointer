@@ -119,14 +119,46 @@
 
 		</div>
 		<div class="col-md-4 column" style="margin-top: 30px;">
-			<div class="col-md-12" style="margin-top: 20px;">
-				<h2>
-					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
-				</h2>
-				<a href="${ctx }/question.jsp"><button class="btn btn-success btn-lg"
-						type="button">向大哲们提问</button></a>
+			<!-- 如果用户没有登陆 提示登陆 -->
+			<c:if test="${empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a data-toggle="tooltip" data-placement="right" id="share"><button
+							class="btn btn-success btn-lg" type="button"
+							onclick="verificate()">向大哲们提问</button></a>
 
-			</div>
+				</div>
+				<!-- 点击分享之后 -->
+				<script type="text/javascript">
+					function verificate() {
+						new $.zui.Messager('您还没有登录哦！', {
+							icon : 'heart',
+							placement : 'top',// 定义显示位置
+							type : 'warning',
+						}).show();
+					}
+				</script>
+			</c:if>
+			<!-- 如果用户已经登陆 -->
+			<c:if test="${not empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a href="${ctx }/question.jsp"><button
+							class="btn btn-success btn-lg" type="button">向大哲们提问</button></a>
+
+				</div>
+			</c:if>
+			<script type="text/javascript">
+				window.onload = function() {
+					//你需要手动初始化工具提示
+					$('[data-toggle="tooltip"]').tooltip();
+					$('#share').tooltip('hide');
+				}
+			</script>
 
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
