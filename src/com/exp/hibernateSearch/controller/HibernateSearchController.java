@@ -40,7 +40,6 @@ public class HibernateSearchController {
 	public void searchAll(@RequestParam(name = "title", defaultValue = "") String search, HttpServletRequest request,
 			Model model, HttpServletResponse response, HttpSession session) {
 		System.out.println("searchParam为" + search);
-		//search = EncodingTool.encodeStr(search);
 		if (search == "" || search.length() == 0) {
 			return;
 		}
@@ -194,7 +193,8 @@ public class HibernateSearchController {
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
 		Page<Bug> page;
 		search=EncodingTool.encodeStr(search);
-		System.out.println("到了controller"+"search"+search);
+		System.out.println("search:" + search );
+		//System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
 		session.setAttribute("bugpages", page);
 		return "search_bug_list_admin";

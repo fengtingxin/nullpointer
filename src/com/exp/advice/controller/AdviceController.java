@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.advice.service.AdviceServiceImpl;
 import com.exp.entity.Advice;
@@ -65,7 +66,8 @@ public class AdviceController {
 	 * @author fengtingxin
 	 */
 	@RequestMapping(value = "advice", method = RequestMethod.POST)
-	public String adviceSubmit(@RequestParam(name="name")String adviceUserName,@RequestParam(name="email")String adviceUserEmail,@RequestParam(name="theme")String adviceTheme,@RequestParam(name="advice")String adviceContent,HttpServletRequest request){
+	@ResponseBody
+	public String adviceSubmit(@RequestParam(name="name",defaultValue="")String adviceUserName,@RequestParam(name="email",defaultValue="")String adviceUserEmail,@RequestParam(name="theme",defaultValue="")String adviceTheme,@RequestParam(name="advice",defaultValue="")String adviceContent,HttpServletRequest request){
 		//code
 		try {
 		adviceUserName=EncodingTool.encodeStr(adviceUserName);
@@ -80,13 +82,13 @@ public class AdviceController {
 		advice.setAdviceUserName(adviceUserName);
 		//保存
 			this.adviceServiceImpl.saveAdvice(advice);
-			request.setAttribute("adviceReminder", "ok");
-			request.setAttribute("remindMsg", "感谢您对nullpointer的支持！");
+//			request.setAttribute("adviceReminder", "ok");
+//			request.setAttribute("remindMsg", "感谢您对nullpointer的支持！");
 		} catch (Exception e) {
 			// TODO: handle exception
-			request.setAttribute("remindMsg", "服务器开小差，您辛苦了！");
-			return "contact";
+			//request.setAttribute("remindMsg", "服务器开小差，您辛苦了！");
+			return "not ok";
 		}
-		return "contact";
+		return "adviceOk";
 	}
 }

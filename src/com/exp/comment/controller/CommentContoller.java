@@ -22,6 +22,7 @@ import com.exp.entity.CommentHateRecord;
 import com.exp.entity.CommentLikeRecord;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
+import com.exp.userinfo.controller.UserInfoController;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.Page;
 
@@ -54,6 +55,14 @@ public class CommentContoller {
 		if(loginUser==null){
 			return "login";
 		}
+		UserInfo userInfo = loginUser.getUserInfo();
+
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
 		Page<Comment> page;
 		page = this.commentServiceImpl.findCommentByTime(pageNum, 4, new Object[] { loginUser.getLoginUserId() });
 		if(page==null){

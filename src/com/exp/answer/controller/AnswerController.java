@@ -22,6 +22,7 @@ import com.exp.entity.UserInfo;
 import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
 import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.userinfo.controller.UserInfoController;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.Page;
 
@@ -53,6 +54,14 @@ public class AnswerController {
 		if(loginUser==null){ //若是在loginUser为空的情况下，客户端访问该控制器，应该让控制器返回登录界面
 			return "login";
 		}
+		UserInfo userInfo = loginUser.getUserInfo();
+
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
 		Page<Answer> pages;
 		pages = this.answerServiceImpl.findAnswerByTime(pageNum, 6, new Object[] { loginUser.getLoginUserId() });
 		if(pages==null){

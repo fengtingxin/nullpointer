@@ -129,7 +129,7 @@ function login(validate, remeberUser) {
 		var url = document.getElementById('url').getAttribute('data') + "";
 		console.log(url);
 		$.post({
-			url : "loginUser/login",
+			url : "/nullpointer/loginUser/login",
 			data : {
 				password : f,
 				loginName : $("#loginName").val(),

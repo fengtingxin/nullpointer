@@ -75,16 +75,16 @@
 					</article>
 
 					<div class="example" style="margin-top: 20px;">
-						<form class="form-horizontal" action="advice" method="post">
+						<form class="form-horizontal">
 							<div class="form-group">
 								<label for="exampleInputAccount4" class="col-sm-2 required">账号</label>
 								<div class="col-md-6 col-sm-10">
 								<c:if test="${not empty loginUser }">
-									<input type="text" class="form-control" name="name" id="exampleReadonlyInput" placeholder="${loginUser.loginName }" value="${loginUser.loginName }" readonly/>
+									<input type="text" class="form-control" name="name" id="name" placeholder="${loginUser.loginName }" value="${loginUser.loginName }" readonly/>
 								</c:if>
 								<c:if test="${empty loginUser }">
 								<input type="text" class="form-control"
-										id="exampleInputAccount4" name="name" placeholder="用户名">
+										id="name" name="name" placeholder="用户名">
 								</c:if>
 								</div>
 							</div>
@@ -94,11 +94,11 @@
 								<c:if test="${not empty loginUser }">
 								
 									<input type="text" class="form-control"
-										id="exampleInputAccount4" name="email" placeholder="${loginUser.loginEmail}" value="${loginUser.loginEmail}" readonly/>
+										id="email" name="email" placeholder="${loginUser.loginEmail}" value="${loginUser.loginEmail}" readonly/>
 								</c:if>
 								<c:if test="${empty loginUser }">
 								<input type="text" class="form-control"
-										id="exampleInputAccount4" name="email" placeholder="邮箱地址">
+										id="email" name="email" placeholder="邮箱地址">
 								</c:if>
 								</div>
 							</div>
@@ -106,41 +106,131 @@
 								<label for="exampleInputAccount4" class="col-sm-2 required">主题</label>
 								<div class="col-md-6 col-sm-10">
 									<input type="text" class="form-control"
-										id="exampleInputAccount4" name="theme" placeholder="主题">
+										id="theme" name="theme" placeholder="主题">
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="exampleInputAccount4" class="col-sm-2 required">您的意见</label>
 								<div class="col-md-6 col-sm-10">
 									<textarea type="text" class="form-control" rows="5"
-										id="exampleInputAccount4" name="advice" placeholder="意见"></textarea>
+										id="advice" name="advice" placeholder="意见"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-primary">提交</button>
+									<button type="button" onclick="submitAdvice()" class="btn btn-primary">提交</button>
 								</div>
 							</div>
 						</form>
 					</div>
-
 				</div>
 				<!-- end of page content -->
-
-
-				<c:if test="${not empty adviceReminder }">
-					<!-- 提示部分！ -->
-					<script type="text/javascript">
-	window.onload=function(){
-		new $.zui.Messager('<%=request.getAttribute("remindMsg")%>', {
-										icon : 'bell', //定义图标
-										fade : 'true',
-										type : 'primary', // 定义颜色主题
-
-							}).show();
-						}
-					</script>
-				</c:if>
+<script type="text/javascript">
+function submitAdvice(){
+	//userName
+	if($("#name").val() ==null || $("#name").val().replace(/(^s*)|(s*$)/g, "").length ==0){
+		new $.zui.Messager('用户名为空！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	if($("#name").val().length>200){
+		new $.zui.Messager('用户名过长！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	//email
+	if($("#email").val() == null){
+		new $.zui.Messager('email不能为空！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	if($("#email").val().length>200 ){
+		new $.zui.Messager('email不符合格式!', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	//theme
+	if($("#theme").val() ==null ||$("#theme").val() =="" ){
+		new $.zui.Messager('theme不能为空！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	if($("#theme").val().length>400){
+		new $.zui.Messager('theme不符合格式!', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	//advice
+	if($("#advice").val() ==null || $("#advice").val().replace(/(^s*)|(s*$)/g, "").length ==0){
+		new $.zui.Messager('建议内容不能为空！', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+	if($("#advice").val().length>400){
+		new $.zui.Messager('建议内容过长!', {
+			icon : 'bell', //定义图标
+			fade : 'true',
+			type : 'primary', // 定义颜色主题
+		}).show();
+		return ;
+	}
+		$.ajax({
+			url : "/nullpointer/advice",
+			type: "POST",
+			method: "post",
+			data : {
+				name : $("#name").val(),
+				email : $("#email").val(),
+				theme : $("#theme").val(),
+				advice : $("#advice").val(),
+			},
+			success : function(data, status) {
+				if(data == "adviceOk"){ //成功提建议
+					new $.zui.Messager('感谢您对nullpointer的支持！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'primary', // 定义颜色主题
+					}).show();
+				}else if(data=="not ok"){
+					new $.zui.Messager('服务器开小差，您辛苦了！', {
+						icon : 'bell', //定义图标
+						fade : 'true',
+						type : 'primary', // 定义颜色主题
+					}).show();
+				}
+			},
+			error:function(e){
+				new $.zui.Messager('服务器出问题了，请刷新试试！', {
+					icon : 'bell', //定义图标
+					fade : 'true',
+					type : 'danger', // 定义颜色主题
+				}).show();
+			} 
+		});
+}
+</script>
 				<!-- start of sidebar -->
 				<div class="col-md-4 column">
 

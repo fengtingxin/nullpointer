@@ -1,3 +1,8 @@
 /applicationContext.xml
 /com/
+<<<<<<< HEAD
+/q_a_list_noOne.jsp
+/ehcache.xml
+=======
 /dbinfo.properties
+>>>>>>> c18a42968cbae203710b7e4573e3ec15e829d210
