@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<c:set var="ctx" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
 <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
@@ -18,10 +18,8 @@
 <title>nullpointer</title>
 <link rel="shortcut icon" href="${ctx}/images/favicon.png" />
 <!-- Style Sheet-->
-
-<link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/searchKuang.css">
-
+<link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui.lite.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui-theme.css">
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
@@ -40,128 +38,110 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp"%>
-
+	<%@ include file="nav.jsp" %>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<%@include file="search-area.jsp"%>
 	<!--搜索框完成-->
-
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
-		<div class="col-md-8 column">
-			<div class="example">
-				<header>
-				<h3>
-					<i class="icon-list-ul"></i> 官方BUG查询 <small> 共${adminBugNum }条</small>
-				</h3>
-				</header>
-				<div class="items items-hover">
-					<c:forEach items="${page.list }" var="bug">
-						<div class="item">
-							<div class="item-heading">
-								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
-										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
-									</a>
-								</h2>
-							</div>
-							<div class="item-content">
-								<div class="text">${fn:substring(bug.bugDescribe,0,100)}
-									<c:if test="${fn:length(bug.bugDescribe) >100}">...</c:if>
+		<div class="col-md-8 column"
+			style="border: 1px solid #ddd; padding: 20px;">
+			<ul class="nav nav-tabs">
+				<li><a href="${ctx }/question/list_new"
+					data-target="#tab2Content1">最新发布</a></li>
+				<li><a href="${ctx }/question/list_answer"
+					data-target="#tab2Content2">最多人回答</a></li>
+				<li><a class="active" href="${ctx }/question/list_noone"
+					data-target="#tab2Content3">尚未解决</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade active in" id="tab2Content1">
+					<div class="items items-hover">
+						<!--标签1内容开始-->
+						<c:set var="questionList_theNew" value="${questionPage.list}"></c:set>
+						<c:forEach var="question" items="${ questionList_theNew}">
+							<div class="item">
+								<div class="item-heading">
+									<h2 class="post-title">
+										<a
+											href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
+									</h2>
+								</div>
+								<div class="item-content">
+									<div class="text">${question.questionDescribe }</div>
+									/
+									<!--  -->
+								</div>
+								<div class="item-footer">
+									<a href="#" class="text-muted"><i class="icon-comments"></i>
+										${fn:length(bug.comments)}</a> &nbsp; <a href="#"
+										class="text-muted"><i class="icon-thumbs-o-up"></i>
+										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
+										<fmt:formatDate value="${question.questionPublishTime }"
+											pattern="yyyy-MM-dd HH:mm" />
+									</span>
 								</div>
 							</div>
-							<div class="item-footer">
-								<a href="#" class="text-muted"><i class="icon-comments"></i>
-									${fn:length(bug.comments)}</a> &nbsp; <a href="#"
-									class="text-muted"><i class="icon-thumbs-o-up"></i>
-									${bug.bugLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
-										value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
-							</div>
-						</div>
-
-					</c:forEach>
+						</c:forEach>
+						<!--分页实现-->
+						<ul class="pager pager-loose">
+							<li class="previous"><a
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.prePageNum}">«</a></li>
+							<c:forEach begin="1" end="${questionPage.totalPageNum }"
+								var="pageNum">
+								<c:if test="${pageNum ==questionPage.currentPageNum }">
+								<li class="active"><a
+									href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+								</c:if>
+								<c:if test="${pageNum !=questionPage.currentPageNum }">
+								<li><a
+									href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+								</c:if>
+								
+							</c:forEach>
+							<li class="next"><a
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+						</ul>
+					</div>
+					<!--标签1内容结束-->
 				</div>
-				<!--分页实现-->
-				<ul class="pager pager-loose">
-					<li class="previous"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.prePageNum}">«</a></li>
-					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
-						<c:if test="${pageNum ==page.currentPageNum}">
-							<li class="active"><a name="pagen"
-								href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
-						</c:if>
-						<c:if test="${pageNum !=page.currentPageNum}">
-							<li><a name="pagen"
-								href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
-						</c:if>
-					</c:forEach>
+				<div class="tab-pane fade" id="tab2Content2">
+					<!--<p>标签2的内容。</p>-->
 
-					<li class="next"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.nextPageNum}">»</a></li>
-				</ul>
+					<!--标签2内容结束-->
+				</div>
+				<div class="tab-pane fade" id="tab2Content3">
+					<!--<p>这是标签3的内容。</p>-->
+
+					<!--标签3内容结束-->
+				</div>
 			</div>
 
 
 		</div>
 		<div class="col-md-4 column" style="margin-top: 30px;">
-
-			<div class="col-md-8">
-				<h2>
-					<i class="icon icon-align-left"></i> 分类管理
-				</h2>
-				<ul class="nav nav-stacked nav-primary" style="margin-top: 20px;">
-					<li class="active"><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
-					<li><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
-				</ul>
-			</div>
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
-					<i class="icon icon-comments icon-2x"></i>快来看这里
+					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
 				</h2>
-				<c:if test="${not empty loginUser }">
-					<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip"
-						data-placement="right" id="share" title="分享需要经过管理员审核哦！"><button
-							class="btn btn-success btn-lg" type="button">我也要分享</button></a>
-				</c:if>
-				<c:if test="${empty loginUser }">
-					<a data-toggle="tooltip" data-placement="right" id="share"
-						title="分享需要经过管理员审核哦！"><button class="btn btn-success btn-lg"
-							type="button" onclick="verificate()">我也要分享</button></a>
-					<!-- 点击分享之后 -->
-					<script type="text/javascript">
-						function verificate() {
-							new $.zui.Messager('您还没有登录哦！', {
-								icon : 'heart',
-								placement : 'top',// 定义显示位置
-								type : 'warning',
-							}).show();
-						}
-					</script>
-				</c:if>
+				<a href="question.jsp"><button class="btn btn-success btn-lg"
+						type="button">向大哲们提问</button></a>
 
-				<script type="text/javascript">
-					window.onload = function() {
-						//你需要手动初始化工具提示
-						$('[data-toggle="tooltip"]').tooltip();
-						$('#share').tooltip('hide');
-					}
-				</script>
 			</div>
+
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
-					<i class="icon icon-align-left"></i> Tag
+					<i class="icon icon-align-left icon-2x"></i> Tag
 				</h2>
 				<div class="tagcloud">
-
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
-
 					<c:forEach var="tt" items="${tag}">
 						<c:if test="${tt.tagName =='C++'}">
-							<a href="${ctx}/bug/listadmin?tagName=C%2B%2B"
+							<a href="${ctx}/question/list_noone?tagName=C%2B%2B"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:if>
 						<c:if test="${tt.tagName !='C++'}">
-							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
+							<a href="${ctx}/question/list_noone?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:if>
 
@@ -177,7 +157,32 @@
 	<!-- end of #footer -->
 
 	<!-- Footer Bottom -->
-	<%@ include file="footer.jsp"%>
+	<div id="footer-bottom-wrapper">
+		<div id="footer-bottom" class="container">
+			<div class="row">
+				<div class="col-md-6 column">
+					<p class="copyright">
+						Copyright © 2013. All Rights Reserved by KnowledgeBase.Collect
+						from <a href="#" title="EXP小组" target="_blank">EXP小组</a>
+					</p>
+				</div>
+				<div class="col-md-6 column">
+					<!-- Social Navigation -->
+					<ul class="social-nav clearfix">
+						<li class="linkedin"><a target="_blank" href="#"></a></li>
+						<li class="stumble"><a target="_blank" href="#"></a></li>
+						<li class="google"><a target="_blank" href="#"></a></li>
+						<li class="deviantart"><a target="_blank" href="#"></a></li>
+						<li class="flickr"><a target="_blank" href="#"></a></li>
+						<li class="skype"><a target="_blank" href="skype:#?call"></a></li>
+						<li class="rss"><a target="_blank" href="#"></a></li>
+						<li class="twitter"><a target="_blank" href="#"></a></li>
+						<li class="facebook"><a target="_blank" href="#"></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 <!-- script -->
