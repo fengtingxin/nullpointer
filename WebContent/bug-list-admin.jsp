@@ -20,6 +20,8 @@
 <!-- Style Sheet-->
 
 <link href="${ctx}/docs/css/zui.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="${ctx}/css/searchKuang.css">
+
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui.lite.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/zui-theme.css">
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
@@ -42,21 +44,7 @@
 
 	<!--导航栏完成-->
 	<!--搜索框-->
-	<div class="search-area-wrapper">
-		<div class="search-area container">
-			<h3 class="search-header">今天你遇到什么技术难点了吗？</h3>
-			<p class="search-tag-line">请在下方搜索您所遇到的问题吧！</p>
-			<form id="search-form" class="search-form clearfix" method="get"
-				action="#" autocomplete="off" novalidate="novalidate">
-				<input class="search-term required" type="text" id="s" name="s"
-					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
-					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg">问题搜索</button>
-				<div id="search-error-container"></div>
-			</form>
-		</div>
-	</div>
+	<%@include file="search-area.jsp"%>
 	<!--搜索框完成-->
 
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
@@ -203,4 +191,78 @@
 <!-- 增强文档插件 -->
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
+<script type="text/javascript">
+	// 搜索框js @author Ray
+	//修改
+	$("#bugSearch").click(function() {
+		//	alert("点击事件");
+		var s = $("#s").val();
+		window.location = "${ctx}/findBugByPage?s=" + s;
+
+	})
+	$("#questionSearch").click(function() {
+		//	alert("点击事件");
+		var s = $("#s").val();
+		window.location = "${ctx}/findQuestionByPage?s=" + s;
+
+	})
+	// 显示搜索内容
+	$(document).ready($("#s").keypress(function(e) {
+		if (e.keyCode == 13 || e.keyCode == 32) {
+			var title = $("#s").val();
+			//3.获取到输入的内容之后，就要通过ajax传给后台
+			$.post("${ctx}/findBugAndQuestionByValue", {
+				"title" : title
+			}, function(data) {
+				if (title == "") {
+					$("#dtitles").hide();
+				} else {
+					//显示展示div,把它清空
+					$("#dtitles").show().html("");
+					if (data == "") {
+						$("#dtitles").hide();
+					} else {
+						$("#dtitles").append(data);
+						//4.鼠标移上去之后，加一个背景
+						$("li").hover(function() {
+							//alert("鼠标移上去");
+							$(this).addClass("li1");
+						}, function() {
+							$(this).removeClass("li1");
+						});
+						// 点击后显示在框里
+						$("li").click(function() {
+							$("#s").val($(this).text());
+							$("#dtitles").hide();
+							if ($("#s").val() != "" || $("#s").val() == null) {
+								$("#clear").show();
+							}
+						});
+					}
+				}
+			});
+
+		}
+	})
+
+	);
+
+	// 搜索框js @author Ray
+	//修改 红叉
+	$(document).ready(
+	//1.页面加载之后，找到文本框的内容对它触发一个事件
+	$("#s").keyup(function() {
+		if ($("#s").val() != "" || $("#s").val() != null) {
+			$("#clear").show();
+		}
+		if ($("#s").val() == "" || $("#s").val() == null) {
+			$("#clear").hide();
+			$("#dtitles").hide();
+		}
+		$("#clear").click(function() {
+			$("#s").val("");
+			$("#clear").hide();
+		})
+	}));
+</script>
 </html>

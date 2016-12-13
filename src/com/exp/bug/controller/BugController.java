@@ -340,7 +340,7 @@ public class BugController {
 				this.r_Tag_UserInfoServiceImpl.updateR_Tag_UserInfo(r);
 			}
 		}
-		return "redirect:findone?bugId=" + bugId + "&userInfoId=" + loginUser.getLoginUserId();
+		return "redirect:findone?bugId=" + bugId;
 	}
 
 	/**

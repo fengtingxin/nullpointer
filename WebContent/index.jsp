@@ -46,29 +46,9 @@
 	<%@ include file="nav.jsp"%>
 
 	<!--导航栏完成-->
-	<!--搜索框-->
-	<div class="search-area-wrapper">
-		<div class="search-area container">
-			<h3 class="search-header">今天你遇到什么技术难点了吗？</h3>
-			<p class="search-tag-line">请在下方搜索您所遇到的问题吧！</p>
-			<form id="search-form" class="search-form clearfix" method="get"
-				action="#" autocomplete="off" novalidate="novalidate">
-				<input class="search-term required" type="text" id="s" name="s"
-					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
-					style="height: 43px;" /><a><img id="clear" alt="清除按钮"
-					src="${ctx}/images/cuohao.jpg"></a>
-				<button type="button" id="bugSearch" class="btn btn-primary btn-lg">BUG搜索</button>
-				<button type="button" id="questionSearch" class="btn btn-primary btn-lg">问题搜索</button>
-				<div>
-					<ul id="dtitles">
-
-					</ul>
-				</div>
-				<div id="search-error-container"></div>
-			</form>
-		</div>
-	</div>
-	<!--搜索框完成-->
+	<!-- 搜索栏开始 -->
+	<%@include file="search-area.jsp"%>
+	<!-- 搜索栏完成 -->
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
 		<div class="row clearfix">
 			<!-- start of page content -->
@@ -250,29 +230,26 @@
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
 <script type="text/javascript">
-	$('[data-toggle="tooltip"]').tooltip();
-	window.open = "${ctx}/index";
-
 	// 搜索框js @author Ray
 	//修改
-	$("#bugSearch").click(function(){
-	//	alert("点击事件");
-	var s = $("#s").val();
-	window.location= "${ctx}/hibernateSearch/findBugByPage?s="+s;
-	
+	$("#bugSearch").click(function() {
+		//	alert("点击事件");
+		var s = $("#s").val();
+		window.location = "${ctx}/findBugByPage?s=" + s;
+
 	})
-	$("#questionSearch").click(function(){
-	//	alert("点击事件");
-	var s = $("#s").val();
-	window.location= "${ctx}/hibernateSearch/findQuestionByPage?s="+s;
-	
+	$("#questionSearch").click(function() {
+		//	alert("点击事件");
+		var s = $("#s").val();
+		window.location = "${ctx}/findQuestionByPage?s=" + s;
+
 	})
 	// 显示搜索内容
 	$(document).ready($("#s").keypress(function(e) {
 		if (e.keyCode == 13 || e.keyCode == 32) {
 			var title = $("#s").val();
 			//3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("${ctx}/hibernateSearch/findBugAndQuestionByValue", {
+			$.post("${ctx}/findBugAndQuestionByValue", {
 				"title" : title
 			}, function(data) {
 				if (title == "") {
