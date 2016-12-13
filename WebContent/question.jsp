@@ -34,7 +34,6 @@
 
 	<%@ include file="nav.jsp"%>
 	<!-- End of Header -->
-
 	<!-- Start of Search Wrapper -->
 	<div
 		style="padding-top: 30px; background-color: #f3f3f3; padding-bottom: 30px;">
