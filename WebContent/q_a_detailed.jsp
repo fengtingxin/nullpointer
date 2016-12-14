@@ -363,7 +363,7 @@
 						<div class="form-group comment-user">
 							<div class="col-md-2 pull-right">
 								<button type="submit" class="btn btn-block btn-primary"
-									onclick="formValidation()">提交评论</button>
+									onclick="formValidation()">提交回答</button>
 							</div>
 						</div>
 					</form>
