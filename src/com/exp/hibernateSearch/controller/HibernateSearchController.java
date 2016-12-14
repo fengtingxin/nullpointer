@@ -22,7 +22,7 @@ import com.framework.EncodingTool;
 import com.framework.Page;
 
 @Controller
-@RequestMapping("hibernateSearch")
+//@RequestMapping("hibernateSearch")
 public class HibernateSearchController {
 	@Resource
 	private HibernateSearchServiceImpl hibernateSearchServiceImpl;

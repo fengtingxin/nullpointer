@@ -38,8 +38,7 @@
 </head>
 
 <body>
-	<%@ include file="nav.jsp" %>
-
+	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
 	<!--搜索框-->
 	<%@include file="search-area.jsp"%>
@@ -48,11 +47,11 @@
 		<div class="col-md-8 column"
 			style="border: 1px solid #ddd; padding: 20px;">
 			<ul class="nav nav-tabs">
-				<li><a class="active" href="${ctx }/question/list_new"
+				<li><a href="${ctx }/question/list_new"
 					data-target="#tab2Content1">最新发布</a></li>
 				<li><a href="${ctx }/question/list_answer"
 					data-target="#tab2Content2">最多人回答</a></li>
-				<li><a href="${ctx }/question/list_noone"
+				<li><a class="active" href="${ctx }/question/list_noone"
 					data-target="#tab2Content3">尚未解决</a></li>
 			</ul>
 			<div class="tab-content">
@@ -73,7 +72,7 @@
 								</div>
 								<div class="item-footer">
 									<a href="#" class="text-muted"><i class="icon-comments"></i>
-										${fn:length(question.answers)}</a> &nbsp; <a href="#"
+										${fn:length(bug.comments)}</a> &nbsp; <a href="#"
 										class="text-muted"><i class="icon-thumbs-o-up"></i>
 										${question.questionLikeNum } </a> &nbsp; <span class="text-muted">
 										<fmt:formatDate value="${question.questionPublishTime }"
@@ -85,21 +84,21 @@
 						<!--分页实现-->
 						<ul class="pager pager-loose">
 							<li class="previous"><a
-								href="${ctx}/question/list_new?currentPageNum=${questionPage.prePageNum}">«</a></li>
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.prePageNum}">«</a></li>
 							<c:forEach begin="1" end="${questionPage.totalPageNum }"
 								var="pageNum">
 								<c:if test="${pageNum ==questionPage.currentPageNum }">
-								<li class="active"><a
-									href="${ctx }/question/list_new?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li class="active"><a
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
 								<c:if test="${pageNum !=questionPage.currentPageNum }">
-								<li><a
-									href="${ctx }/question/list_new?currentPageNum=${pageNum }">${pageNum }</a></li>
+									<li><a
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
 								</c:if>
-								
+
 							</c:forEach>
 							<li class="next"><a
-								href="${ctx}/question/list_new?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}">»</a></li>
 						</ul>
 					</div>
 					<!--标签1内容结束-->
@@ -168,11 +167,11 @@
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
 						<c:if test="${tt.tagName =='C++'}">
-							<a href="${ctx}/question/list_new?tagName=C%2B%2B"
+							<a href="${ctx}/question/list_noone?tagName=C%2B%2B"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:if>
 						<c:if test="${tt.tagName !='C++'}">
-							<a href="${ctx}/question/list_new?tagName=${tt.tagName}"
+							<a href="${ctx}/question/list_noone?tagName=${tt.tagName}"
 								class="btn btn-primary">${tt.tagName}</a>
 						</c:if>
 
