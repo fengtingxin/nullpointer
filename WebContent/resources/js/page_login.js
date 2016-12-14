@@ -66,8 +66,10 @@ $(document).ready(
 																.prop("Form.PasswordFormatMax"))
 											},
 											codeValue : {
-												required : $.i18n
-														.prop("您输入的验证码有误")
+												required : function(){
+													$(".login-error").show();
+													$(".login-error").html($.i18n.prop("您的验证码有误"));
+												}
 											},
 											loginName : {
 												required : $.i18n
@@ -87,6 +89,7 @@ $(document).ready(
 						$("#password").prev().fadeOut();
 					}
 					$("#codeValue").focus(function() {
+						$(".login-error").show();
 						$(this).prev().fadeOut();
 					});
 					$("#codeValue").blur(function() {

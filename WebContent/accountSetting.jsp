@@ -76,7 +76,10 @@
 						test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
 						<p>这家伙很懒 什么都没有留下</p>
 					</c:if>
-					<p>${loginUser.userInfo.userInfoDescribe}</p>
+					<p>
+					${fn:substring(loginUser.userInfo.userInfoDescribe,0,15)}
+									<c:if test="${fn:length(loginUser.userInfo.userInfoDescribe) >15}">...</c:if>
+					</p>
 				</div>
 				<div class="col-md-12">
 					<nav class="menu" data-toggle="menu"
@@ -198,7 +201,7 @@ function updateUserInfo(){
 		}).show();
 	}else{
 		$.ajax({
-			url : "edit",
+			url : "/nullpointer/edit",
 			type: "POST",
 			method: "post",
 			data : {
@@ -209,7 +212,7 @@ function updateUserInfo(){
 			},
 			success : function(data, status) {
 				if(data == "updateOk"){ //成功点赞
-					window.location.href = "home";
+					window.location.href = "/nullpointer/home";
 				}else if(data=="cancelLike"){
 					$('#likeOutSide').removeClass("haveen");
 					$("#bugLikeNumber").html(parseInt($("#bugLikeNumber").html())-1);

@@ -35,7 +35,7 @@
 	<!--导航栏完成-->
 	<div class="container" style="margin-bottom: 100px;">
 		<div id="main" style="margin-top: 0px; paddgin-top: 0px;">
-			<img alt="404_error.png" src="${ctx}/css/error_style/500_error.png" style="margin-top:3.2em;"/>
+			<img alt="404_error.png" src="${ctx}/css/error_style/error_500.png" style="margin-top:3.2em;"/>
 			<div id="content">
 				<h2>服务器出现异常了！</h2>
 				<p>当您看到这个页面,表示您的访问出错,这个错误服务器产生的,请确认您的操作的正确性,如果是在本站点击后出现这个页面,请联系nullpointer进行处理,或者请通过下边的搜索重新查找资源,nullpointer感谢您的支持!</p>

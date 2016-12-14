@@ -53,7 +53,10 @@
 						test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
 						<p>这家伙很懒 什么都没有留下</p>
 					</c:if>
-					<p>${loginUser.userInfo.userInfoDescribe}</p>
+					<p>
+					${fn:substring(loginUser.userInfo.userInfoDescribe,0,15)}
+									<c:if test="${fn:length(loginUser.userInfo.userInfoDescribe) >15}">...</c:if>
+					</p>
 				</div>
 				<div class="col-md-12">
 
