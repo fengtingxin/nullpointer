@@ -1,6 +1,8 @@
 package com.exp.userinfo.service;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -54,6 +56,14 @@ public class UserInfoServiceImpl{
     @Transactional(readOnly=false)
     public void updateUserInfo(UserInfo userInfo){
     	this.userInfoDaoImpl.updateUserInfo(userInfo);
+    }
+    /**
+     * @function 荣誉榜
+     * @author tangwenru
+     * @return
+     */
+    public List<UserInfo> order(){
+    	return this.userInfoDaoImpl.order();
     }
         
 }

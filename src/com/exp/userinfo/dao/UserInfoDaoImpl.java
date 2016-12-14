@@ -1,5 +1,11 @@
 package com.exp.userinfo.dao;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import com.exp.entity.UserInfo;
@@ -7,6 +13,20 @@ import com.framework.BaseDao;
 
 @Repository
 public class UserInfoDaoImpl extends BaseDao<UserInfo, Integer> {
+	@Resource
+	private SessionFactory sessionFactory;
+	/**
+	 * @function 荣誉榜
+	 * @author tangwenru
+	 * @return
+	 */
+	public List<UserInfo> order(){
+		Query query =this.sessionFactory.getCurrentSession().createQuery("from UserInfo u where"
+				+ " u.loginUser.role.roleId=2 and u.loginUser.loginActive = 1 order by u.userInfoHonorCount desc");
+		  query.setFirstResult(0); //开始记录 
+		  query.setMaxResults(5);  //查询出来的记录数 
+		return query.list();
+	}
 	/**
 	 * @function 根据id查询单个UserInfo
 	 * @author tangwenru

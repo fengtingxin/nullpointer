@@ -69,7 +69,9 @@ public class UserInfoController {
 		session.setAttribute("questionHonorList", questionList);
 		// 所有标签信息
 		List<Tag> tagList = tagServiceImpl.findAllTag();
+		List<UserInfo> userInfoList=userInfoServiceImpl.order();
 		session.setAttribute("tagList", tagList);
+		session.setAttribute("userList", userInfoList);
 		return "index";
 	}
 

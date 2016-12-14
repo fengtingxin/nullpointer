@@ -1,4 +1,4 @@
-package com.exp.signInRecord;
+package com.exp.signInRecord.controller;
 
 import java.util.Date;
 
