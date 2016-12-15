@@ -172,6 +172,7 @@ public class QuestionController {
 	 * @author Ray_1 按时间顺序分页查询个人所提问题的问题 个人主页部分
 	 * @param userInfoId
 	 * @author tangwenru 新增参数userInfoId 动态获取此时用户的id
+	 * @author fengtingxin 通过session获取userInfoId
 	 * @param pageNum
 	 *            一页有多少
 	 * @param request
@@ -202,6 +203,35 @@ public class QuestionController {
 			request.setAttribute("page", page);
 		}
 		return "home-question";
+	}
+	/**
+	 * @function 查找他的问题
+	 * @author tangwenru
+	 * @param pageNum
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("findQuestionByTimeTwo")
+	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,
+			HttpServletRequest request) {
+		// 获取用户信息
+		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
+		Page<Question> page;
+		page = this.questionServiceImpl.findQuestionByTime(pageNum, 4, new Object[] { userInfo.getUserInfoId() });
+		if (page == null) {
+			request.setAttribute("page", null);
+		} else {
+			request.setAttribute("page", page);
+		}
+		return "hishome-question";
 	}
 
 	/**
