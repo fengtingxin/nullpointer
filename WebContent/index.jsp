@@ -247,13 +247,14 @@
 	$("#bugSearch").click(function() {
 		//	alert("点击事件");
 		var s = $("#s").val();
+		alert("框里的内容"+s);
 		window.location = "${ctx}/findBugByPage?s=" + s;
 
 	})
 	$("#questionSearch").click(function() {
 		//	alert("点击事件");
-		var s = $("#s").val();
-		window.location = "${ctx}/findQuestionByPage?s=" + s;
+		var ss = $("#s").val();
+		window.location = "${ctx}/findQuestionByPage?s=" + ss;
 
 	})
 	// 显示搜索内容
@@ -284,7 +285,7 @@
 						$("li").click(function() {
 							$("#s").val($(this).text());
 							$("#dtitles").hide();
-							if ($("#s").val() != "" || $("#s").val() == null) {
+							if ($("#s").val() != "" || $("#s").val() != null) {
 								$("#clear").show();
 							}
 						});

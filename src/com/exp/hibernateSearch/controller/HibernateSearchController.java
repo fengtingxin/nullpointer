@@ -194,14 +194,13 @@ public class HibernateSearchController {
 		Page<Bug> page;
 		search=EncodingTool.encodeStr(search);
 		System.out.println("search:" + search );
-		//System.out.println("到了controller"+"search"+search);
+		System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
-		System.out.println("一共多少条："+page.getTotalCount());
+		//System.out.println("一共多少条："+page.getTotalCount());
 		session.setAttribute("bugpageCount", page.getTotalCount());
 		session.setAttribute("bugpages", page);
 		return "search_bug_list_admin";
 	}
-	
 	/**
 	 * @author Ray_1
 	 * @desc  实现hibernate Search 查询分页question
@@ -218,6 +217,7 @@ public class HibernateSearchController {
 		System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
+		session.setAttribute("questionpageCount", page.getTotalCount());
 		return "search_q_a_list_new";
 	}
 
