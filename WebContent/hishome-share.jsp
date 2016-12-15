@@ -44,7 +44,7 @@
 
 					<h3>${userInfo.loginUser.loginName}</h3>
 					<c:if
-						test="${ loginUser.userInfo.userInfoDescribe == null || loginUser.userInfo.userInfoDescribe == ''}">
+						test="${ userInfo.userInfoDescribe == null || userInfo.userInfoDescribe == ''}">
 						<p>这家伙很懒 什么都没有留下</p>
 					</c:if>
 					<p>

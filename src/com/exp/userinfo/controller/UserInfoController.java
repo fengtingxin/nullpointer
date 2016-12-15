@@ -120,7 +120,7 @@ public class UserInfoController {
 			request.setAttribute("signDay", temp.getSignNumber().intValue());
 			}
 			session.setAttribute("userInfo", userInfo);
-			if(loginUser.getLoginUserId()==userInfo.getUserInfoId()){
+			if(loginUser!=null&&loginUser.getLoginUserId()==userInfo.getUserInfoId()){
 				return "home";
 			}
 			return "hishome";
