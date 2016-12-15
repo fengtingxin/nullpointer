@@ -15,6 +15,7 @@ import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ReflectionUtils;
 
@@ -64,9 +65,11 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
+					System.out.println("未高亮"+fieldValue);
 						// 获得高亮关键字
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
+						System.out.println("高亮"+hightLightFieldValue);
 					}
 					// 这个判断很关键，否则如果标题或内容中没有关键字的话，就会出现不显示的问题。
 					if (hightLightFieldValue != null) {
@@ -173,6 +176,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
 			hibQuery.setMaxResults(pageSize);
 			list = hibQuery.list();
+			
 
 			// 集关键字高亮的实现代码
 			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font color='red'>", "</font>");

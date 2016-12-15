@@ -1073,7 +1073,7 @@ input[type=text].error,
 }
 
 #footer-bottom-wrapper {
-  background-color: #353c41;
+  /* background-color: #353c41;*/
   width: 100%;
 }
 #footer-bottom-wrapper > #footer-bottom {

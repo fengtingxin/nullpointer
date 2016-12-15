@@ -196,6 +196,8 @@ public class HibernateSearchController {
 		System.out.println("search:" + search );
 		//System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
+		System.out.println("一共多少条："+page.getTotalCount());
+		session.setAttribute("bugpageCount", page.getTotalCount());
 		session.setAttribute("bugpages", page);
 		return "search_bug_list_admin";
 	}

@@ -75,7 +75,7 @@
 									${fn:length(bug.comments)}</a> &nbsp; <a href="#"
 									class="text-muted"><i class="icon-thumbs-o-up"></i>
 									${bug.bugLikeNum }</a> &nbsp; <span class="text-muted"> <fmt:formatDate
-										value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" />
+										value="${bug.bugPublishTime }" pattern="yyyy-MM-dd" /></span>
 							</div>
 						</div>
 
