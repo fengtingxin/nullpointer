@@ -72,7 +72,34 @@ public class CommentContoller {
 		}//pagecom改成pageComment
 		return "home-comment";
 	}
+	/**
+	 * @function 查找他的评论
+	 * @author tangwenru
+	 * @param pageNum
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("findCommentByTimeTwo")
+	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,HttpServletRequest request,HttpSession session) {
+		UserInfo userInfo =(UserInfo) session.getAttribute("userInfo");
+		
 
+		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+		long array[] = UserInfoController.differ(userInfo);
+		request.setAttribute("day", array[0]);
+		request.setAttribute("hour", array[1]);
+		request.setAttribute("min", array[2]);
+		request.setAttribute("second", array[3]);
+		Page<Comment> page;
+		page = this.commentServiceImpl.findCommentByTime(pageNum, 4, new Object[] { userInfo.getUserInfoId() });
+		if(page==null){
+			request.setAttribute("pageComment", null);
+		}else{
+			request.setAttribute("pageComment", page);
+		}//pagecom改成pageComment
+		return "hishome-comment";
+	}
 	/**
 	 * @function 根据commentId删除评论
 	 * @author tangwenru

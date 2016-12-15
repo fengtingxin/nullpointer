@@ -274,7 +274,7 @@
 						<div class="comment">
 							<c:set var="parentId" value="${ct.answerId }"></c:set>
 
-							<a href="###" class="avatar"> 
+							<a href="${ctx }/hishome?userInfoId=${ct.userInfo.userInfoId}" class="avatar"> 
 								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
 									<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
 								</c:if>
@@ -306,12 +306,12 @@
 										test="${cts.parentAnswer != null && cts.parentAnswer.answerId == parentId}">
 										<div class="comment">
 
-											<a href="###" class="avatar">
+											<a href="${ctx }/hishome?userInfoId=${cts.userInfo.userInfoId}" class="avatar">
 												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
 													<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px" class="img-circle" />
 												</c:if>
 												<c:if test="${not empty ct.userInfo.userInfoHeadPortrait}">
-													<img src="${ctx}/imgUp/${ct.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
+													<img src="${ctx}/imgUp/${cts.userInfo.userInfoHeadPortrait}"	width="40px" height="40px" class="img-circle" />
 												</c:if>
 											</a>
 											<div class="content">
@@ -321,8 +321,8 @@
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
 												<div>
-													<a href="###"><strong>${cts.userInfo.loginUser.loginName }</strong></a>
-													<span class="text-muted">回复</span> <a href="###">${ct.userInfo.loginUser.loginName }</a>
+													<a href="${ctx }/hishome?userInfoId=${cts.userInfo.userInfoId}"><strong>${cts.userInfo.loginUser.loginName }</strong></a>
+													<span class="text-muted">回复</span> <a href="${ctx }/hishome?userInfoId=${ct.userInfo.userInfoId}">${ct.userInfo.loginUser.loginName }</a>
 												</div>
 												<div class="text">${cts.answerContent}</div>
 												<div class="actions">

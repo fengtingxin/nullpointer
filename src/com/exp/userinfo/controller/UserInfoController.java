@@ -78,11 +78,54 @@ public class UserInfoController {
 	/**
 	 * @function 根据用户的id查找用户，返回home.jsp页面
 	 * @author tangwenru
-	 * @author zhang zhao lin 实现社区属性 tag以及个人tag获取
-	 * @param id
+	 * @param userInfo
 	 * @param request
 	 * @return
 	 */
+	@RequestMapping(value = "hishome", method = RequestMethod.GET)
+
+	public String findByIdTwo(@RequestParam(value = "userInfoId", required = false) Integer userInfoId, HttpServletRequest request,
+			HttpSession session, HttpServletResponse response) {
+		// 获取用户的id信息
+		LoginUser loginUser=(LoginUser)session.getAttribute("loginUser");
+		UserInfo userInfo=null;
+		    if(userInfoId==null){
+		    	userInfo=(UserInfo)session.getAttribute("userInfo");
+		    }else{
+			userInfo = this.userInfoServiceImpl.findById(userInfoId);
+		    }
+
+			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
+			long array[] = UserInfoController.differ(userInfo);
+			session.setAttribute("day", array[0]);
+			session.setAttribute("hour", array[1]);
+			session.setAttribute("min", array[2]);
+			session.setAttribute("second", array[3]);
+			ArrayList<ZuiData> zuiData_List = new ArrayList<ZuiData>();
+			Set<R_Tag_UserInfo> userInfo_tags = userInfo.getR_tag_userInfo();
+			for (R_Tag_UserInfo it : userInfo_tags) {
+				ZuiData zuiData = new ZuiData();
+				String tagName = it.getTag().getTagName();
+				zuiData.setLabel(tagName);
+				Integer tagNumber = it.getTagNumber();
+				zuiData.setValue(tagNumber);
+				zuiData_List.add(zuiData);
+			}
+			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			session.setAttribute("userInfo_tags", jsonObject);
+			// 等一下再打印
+			System.out.println(jsonObject);
+			SignInRecord temp = this.signInRecordServiceImpl.findSignInRecord(userInfo.getUserInfoId());
+			if(temp!=null){
+			request.setAttribute("signDay", temp.getSignNumber().intValue());
+			}
+			session.setAttribute("userInfo", userInfo);
+			if(loginUser!=null&&loginUser.getLoginUserId()==userInfo.getUserInfoId()){
+				return "home";
+			}
+			return "hishome";
+		
+	}
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 
 	public String findById(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
