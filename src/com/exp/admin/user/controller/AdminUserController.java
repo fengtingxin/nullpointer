@@ -50,7 +50,7 @@ public class AdminUserController {
 			return "admin/login";
 		}
 		
-		LoginUser loginUser =this.userServiceImpl.findLoginUser(loginName, password);
+		LoginUser loginUser =this.userServiceImpl.findLoginUser(loginName);
 		if(loginUser.getRole().getRoleId()!=1){
 			//管理员roleid为1
 			request.setAttribute("loginError", "没有权限");

@@ -247,7 +247,7 @@
 	$("#bugSearch").click(function() {
 		//	alert("点击事件");
 		var s = $("#s").val();
-		alert("框里的内容"+s);
+		//alert("框里的内容"+s);
 		window.location = "${ctx}/findBugByPage?s=" + s;
 
 	})

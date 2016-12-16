@@ -6,8 +6,7 @@ import java.util.regex.Pattern;
 
 public class EncodingTool {
 	/**
-	 * @author Ray_1
-	 * 编码格式
+	 * @author Ray_1 编码格式
 	 * @param str
 	 * @return
 	 */
@@ -19,16 +18,16 @@ public class EncodingTool {
 			return null;
 		}
 	}
-	public static boolean isEmail(String email){
+
+	public static boolean isEmail(String email) {
 		/**
-		 * @fengtingxin
-		 * 判断是否为email
+		 * @fengtingxin 判断是否为email
 		 */
-	   	 if (null==email || "".equals(email)) 
-	   		 return false;
-//	      Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}"); //简单匹配
-	        Pattern p =  Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
-	        Matcher m = p.matcher(email);
-	        return m.matches();
-	   }
+		if (null == email || "".equals(email))
+			return false;
+		// Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}"); //简单匹配
+		Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");// 复杂匹配
+		Matcher m = p.matcher(email);
+		return m.matches();
+	}
 }

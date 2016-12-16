@@ -187,10 +187,11 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
 					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
+							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
+						System.out.println("bug 高亮"+fieldValue);
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
 					}
@@ -198,7 +199,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 					if (hightLightFieldValue != null) {
 						// 运用反射设置结果集中的关键字高亮
 						ReflectionUtils.invokeMethod(
-								BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getWriteMethod(), q,
+								BeanUtils.getPropertyDescriptor(Question.class, fieldName).getWriteMethod(), q,
 								hightLightFieldValue);
 					}
 				}

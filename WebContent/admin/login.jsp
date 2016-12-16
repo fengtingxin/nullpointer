@@ -100,12 +100,13 @@
 																										
 													<div class="clearfix">
 														
-														<button type="reset" class="width-35 pull-left btn btn-sm btn-primary">
-															重置
-														</button>
+														
 														<button type="button" onclick="validate()" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="icon-key"></i>
 															登录
+														</button>
+														<button type="reset" class="width-35 pull-left btn btn-sm btn-primary">
+															重置
 														</button>
 
 <!-- 登录用 -->												
