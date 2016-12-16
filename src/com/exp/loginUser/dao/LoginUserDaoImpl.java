@@ -44,6 +44,7 @@ public class LoginUserDaoImpl extends BaseDao<LoginUser, String> {
 			Query query =this.sessionFactory.getCurrentSession().createQuery("from LoginUser where loginName='"+loginName+"'");
 			return (LoginUser) query.uniqueResult();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

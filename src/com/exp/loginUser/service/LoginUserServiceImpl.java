@@ -143,8 +143,12 @@ public class LoginUserServiceImpl {
 	 * @return 返回用户信息 Loginuser
 	 */
 	public LoginUser findLoginUser(String loginName) {
-		LoginUser t1 = this.loginUserDaoImpl.findByLoginName(loginName);
-		return t1;
+
+	    LoginUser t1=this.loginUserDaoImpl.findByEmail(loginName);
+	    if(t1==null){
+	    	t1=this.loginUserDaoImpl.findByLoginName(loginName);
+	    }
+	    return t1;
 	}
 
 	/**

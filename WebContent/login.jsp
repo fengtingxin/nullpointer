@@ -52,7 +52,7 @@
 				<form id="signupForm">
 					<div class="login-error"></div>
 					<div class="row">
-						<label class="field">用户名</label> <input type="text"
+						<label class="field">用户名/电子邮箱</label> <input type="text"
 							class="input-text-user input-click" name="loginName"
 							id="loginName">
 					</div>
