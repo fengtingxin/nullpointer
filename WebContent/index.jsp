@@ -69,8 +69,8 @@
 											<a
 												href="${ctx }/question/findone?questionId=${question.questionId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
-												${fn:substring(question.questionTitle,0,35)} <c:if
-													test="${fn:length(question.questionTitle) >35}">...</c:if>
+												${fn:substring(question.questionTitle,0,20)} <c:if
+													test="${fn:length(question.questionTitle) >20}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"><fmt:formatDate
 												value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
@@ -85,8 +85,6 @@
 							</ul>
 						</div>
 					</div>
-
-
 				</div>
 				<div class="col-md-6 column">
 					<div class="panel panel-success">
@@ -101,8 +99,8 @@
 										<h4>
 											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
-												${fn:substring(bug.bugTitle, 0, 35)} <c:if
-													test="${fn:length(bug.bugTitle)>35}">...</c:if>
+												${fn:substring(bug.bugTitle, 0,20)} <c:if
+													test="${fn:length(bug.bugTitle)>20}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"> <fmt:formatDate
 												value="${bug.bugPublishTime}" pattern="yyyy-MM-dd" /> <c:set
@@ -128,9 +126,6 @@
 
 			<!-- start of sidebar -->
 			<aside class="col-md-4 column">
-
-				<section class="widget"></section>
-
 				<section class="widget">
 					<div class="quick-links-widget">
 						<h3 class="title"><img alt="${ctx }/images/honor.png" src="${ctx }/images/honor.png">&nbsp;&nbsp;荣&nbsp;誉&nbsp;榜</h3>
@@ -140,7 +135,13 @@
 								<c:forEach items="${userList}" var="userInfo" varStatus="status">
 								 <li>
 						    <span class="label label-warning">${status.count }</span>&nbsp;&nbsp;
-						    <a href="${ctx }/hishome?userInfoId=${userInfo.userInfoId}"><img alt="" src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}" width="30px" height="30px" class="img-circle"> ${userInfo.loginUser.loginName }</a>
+						    <c:if test="${loginUser!=null}">
+						       <a href="${ctx }/hishome?userInfoId=${userInfo.userInfoId}">
+						    </c:if>
+						     <c:if test="${loginUser==null}">
+						       <a href="${ctx }/login.jsp">
+						    </c:if>
+						    <img alt="" src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}" width="30px" height="30px" class="img-circle"> ${userInfo.loginUser.loginName }</a>
 						    &nbsp;&nbsp;<span class="label label-badge">${ userInfo.userInfoHonorCount}&nbsp;积分</span>
 						    </li>
 								</c:forEach>

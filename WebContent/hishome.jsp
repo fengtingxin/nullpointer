@@ -69,18 +69,7 @@
 					${fn:substring(userInfo.userInfoDescribe,0,15)}
 									<c:if test="${fn:length(userInfo.userInfoDescribe) >15}">...</c:if>
 					</p>
-					<button  class="btn btn-sm btn-success" ><i class="icon icon-edit"></i>&nbsp;签到
-					<c:if test="${empty signDay}">
-					：<span id="signDay">0</span>天
-					</c:if>
-					<c:if test="${not empty signDay}">
-					：<span id="signDay">${signDay }</span>天
-					</c:if>
-					</button>
 				</div>
-				
-
-
 				<div class="col-md-12">
 					<nav class="menu" data-toggle="menu"
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">

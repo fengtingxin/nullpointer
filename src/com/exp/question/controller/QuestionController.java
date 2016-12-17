@@ -45,7 +45,7 @@ import com.framework.Page;
 @RequestMapping("question")
 public class QuestionController {
 	@Resource
-	private QuestionServiceImpl questionServiceImpl;// 将questionserviceimpl改成questionServiceImpl
+	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private AnswerServiceImpl answerServiceImpl;
 	@Resource
