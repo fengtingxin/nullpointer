@@ -65,9 +65,10 @@ $(document).ready(function() {
 			$("#clear").hide();
 			$("#dtitles").hide();
 		}
-		$("#clear").click(function() {
-			$("#s").val("");
-			$("#clear").hide();
-		})
+	});
+	$("#clear").click(function() {
+		$("#s").val("");
+		$("#clear").hide();
+		$("#dtitles").hide();
 	});
 });

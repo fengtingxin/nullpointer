@@ -20,7 +20,7 @@ public class BugDaoImpl extends BaseDao<Bug, String> {
 	public List<Bug> findBugRecommend() {
 		Session session = super.getSession();
 		// 按照赞的数量排序
-		Query query = session.createQuery("from Bug where bugAudited=true and bugAuditPass=true order by bugPublishTime DESC,bugLikeNum DESC ");
+		Query query = session.createQuery("from Bug where bugAudited=true and bugAuditPass=true order by bugLikeNum DESC,bugPublishTime DESC");
 		return query.list();
 	}
 
