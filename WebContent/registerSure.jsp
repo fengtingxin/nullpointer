@@ -95,7 +95,7 @@
 			</dl>
 			<section class="abstract">
 			<p>
-				<strong>简介：</strong> <br /> 项目名称：nullpointer-bug管理系统
+				<strong>简介：</strong> <br /> 项目名称：nullpointer网站
 			<hr />
 			项目的提出方：EXP项目小组
 			<hr />

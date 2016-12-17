@@ -1,5 +1,6 @@
 $(document).ready(
 				function() {
+					
 
 					// 获取JS传递的语言参数
 					var utils = new Utils();
@@ -12,7 +13,6 @@ $(document).ready(
 					// 加载国际化语言包资源
 					// utils.loadProperties(args.lang);
 					var remeberUser = new RemeberUser();
-
 					// 输入框激活焦点、移除焦点
 					jQuery.focusblur = function(focusid) {
 						var focusblurid = $(focusid);
@@ -60,15 +60,16 @@ $(document).ready(
 														.prop("请输入密码"),
 												minlength : jQuery
 														.format($.i18n
-																.prop("Form.PasswordFormat")),
+																.prop("请输入格式正确密码")),
 												maxlength : jQuery
 														.format($.i18n
-																.prop("Form.PasswordFormatMax"))
+																.prop("长度超过限制"))
 											},
 											codeValue : {
 												required : function(){
 													$(".login-error").show();
 													$(".login-error").html($.i18n.prop("您的验证码有误"));
+													
 												}
 											},
 											loginName : {
@@ -117,7 +118,8 @@ $(document).ready(
 					// ajax提交登录
 					$("#submit").bind("click", function() {
 						login(validate, remeberUser);
-					});
+					});					
+					
 
 				});
 
@@ -130,7 +132,7 @@ function login(validate, remeberUser) {
 		var f = "......" == $("#password").val() ? "" : md5.MD5($("#password")
 				.val());
 		var url = document.getElementById('url').getAttribute('data') + "";
-		console.log(url);
+		//console.log(url);
 		$.post({
 			url : "/nullpointer/loginUser/login",
 			data : {
@@ -142,20 +144,20 @@ function login(validate, remeberUser) {
 				$('.loading').show();
 			},
 			success : function(data, status) {
-				console.log(data);
+				//console.log(data);
 				$('.loading').hide();
 				if (data == "0") {
 					// 登录成功
 					if(url.indexOf("registerSure")>=0){
-						console.log(url.substring(0, url.indexOf("registerSure")));
+						//console.log(url.substring(0, url.indexOf("registerSure")));
 						url=url.substring(0, url.indexOf("registerSure"));
 					}
 					if(url.indexOf("activeLoginUser")>=0){
-						console.log(url.substring(0, url.indexOf("loginUser/activeLoginUser")));
+						//console.log(url.substring(0, url.indexOf("loginUser/activeLoginUser")));
 						url=url.substring(0, url.indexOf("loginUser/activeLoginUser"));
 					}
 					if(url.indexOf("upload")>=0){
-						console.log(url.substring(0, url.indexOf("userimg/upload")));
+						//console.log(url.substring(0, url.indexOf("userimg/upload")));
 						url=url.substring(0, url.indexOf("userimg/upload"));
 						url=url+"/home";
 					}

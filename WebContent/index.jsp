@@ -45,7 +45,7 @@
 	%>
 	<%@ include file="nav.jsp"%>
 
-	<!--导航栏完成-->
+	<--导航栏完成-->
 	<!-- 搜索栏开始 -->
 	<%@include file="search-area.jsp"%>
 	<!-- 搜索栏完成 -->
@@ -188,20 +188,6 @@
 
 				<div class="col-md-3 column">
 					<section class="widget">
-						<h3 class="title">目录</h3>
-						<ul>
-							<li><a href="#" title="Lorem ipsum dolor sit amet,">主页</a></li>
-							<li><a href="#" title="Lorem ipsum dolor sit amet,">BUGS</a></li>
-							<li><a href="#" title="Lorem ipsum dolor sit amet,">技术问答</a></li>
-							<li><a href="#" title="Lorem ipsum dolor sit amet, ">个人中心</a></li>
-							<li><a href="#" title="Lorem ipsum dolor sit amet,">信息反馈</a></li>
-							<li><a href="#" title="Lorem ipsum dolor sit amet,">联系我们</a></li>
-						</ul>
-					</section>
-				</div>
-
-				<div class="col-md-3 column">
-					<section class="widget">
 						<h3 class="title">最新消息</h3>
 						<div id="twitter_update_list">
 							<ul>
@@ -220,6 +206,16 @@
 						</ul>
 					</section>
 				</div>
+				<div class="col-md-3 column">
+					<section class="widget">
+						<h3 class="title">联系我们</h3>
+						<div class="textwidget">
+							<p>你有什么问题建议，欢迎联系我们。</p>
+							<p>联系方式：2601219524@qq.com</p>
+						</div>
+					</section>
+				</div>
+				
 
 			</div>
 		</div>
@@ -241,79 +237,6 @@
 <!-- 增强文档插件 -->
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
-<script type="text/javascript">
-	// 搜索框js @author Ray
-	//修改
-	$("#bugSearch").click(function() {
-		//	alert("点击事件");
-		var s = $("#s").val();
-		//alert("框里的内容"+s);
-		window.location = "${ctx}/findBugByPage?s=" + s;
-
-	})
-	$("#questionSearch").click(function() {
-		//	alert("点击事件");
-		var ss = $("#s").val();
-		window.location = "${ctx}/findQuestionByPage?s=" + ss;
-
-	})
-	// 显示搜索内容
-	$(document).ready($("#s").keypress(function(e) {
-		if (e.keyCode == 13 || e.keyCode == 32) {
-			var title = $("#s").val();
-			//3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("${ctx}/findBugAndQuestionByValue", {
-				"title" : title
-			}, function(data) {
-				if (title == "") {
-					$("#dtitles").hide();
-				} else {
-					//显示展示div,把它清空
-					$("#dtitles").show().html("");
-					if (data == "") {
-						$("#dtitles").hide();
-					} else {
-						$("#dtitles").append(data);
-						//4.鼠标移上去之后，加一个背景
-						$("li").hover(function() {
-							//alert("鼠标移上去");
-							$(this).addClass("li1");
-						}, function() {
-							$(this).removeClass("li1");
-						});
-						// 点击后显示在框里
-						$("li").click(function() {
-							$("#s").val($(this).text());
-							$("#dtitles").hide();
-							if ($("#s").val() != "" || $("#s").val() != null) {
-								$("#clear").show();
-							}
-						});
-					}
-				}
-			});
-
-		}
-	})
-
-	);
-
-	// 搜索框js @author Ray
-	//修改 红叉
-	$(document).ready(
-	//1.页面加载之后，找到文本框的内容对它触发一个事件
-	$("#s").keyup(function() {
-		if ($("#s").val() != "" || $("#s").val() != null) {
-			$("#clear").show();
-		}
-		if ($("#s").val() == "" || $("#s").val() == null) {
-			$("#clear").hide();
-			$("#dtitles").hide();
-		}
-		$("#clear").click(function() {
-			$("#s").val("");
-			$("#clear").hide();
-		})
-	}));
-</script>
+<script src="${ctx}/js/hibernateSearch.js"></script>
+	
 </html>

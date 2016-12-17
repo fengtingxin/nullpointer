@@ -163,4 +163,5 @@
 <!-- 增强文档插件 -->
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
+<script src="${ctx}/js/hibernateSearch.js"></script>
 </html>
