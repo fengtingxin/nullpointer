@@ -26,7 +26,9 @@
 <script type="text/javascript"
 	src="${ctx }/resources/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${ctx }/resources/js/md5.js"></script>
-<script type="text/javascript"	src="${ctx }/resources/js/page_login.js?lang=zh" id="url" data="<%= request.getHeader("REFERER")%>"></script>
+<script type="text/javascript"
+	src="${ctx }/resources/js/page_login.js?lang=zh" id="url"
+	data="<%= request.getHeader("REFERER")%>"></script>
 </head>
 <!--[if IE]>
   <script src="resources/js/html5.js"></script>
@@ -40,7 +42,8 @@
 <body class="loginbody">
 	<div class="dataEye">
 		<div>
-			<a href="${ctx }/index"><img src="${ctx }/resources/images/logo_touming.gif" width="240px"
+			<a href="${ctx }/index"><img
+				src="${ctx }/resources/images/logo_touming.gif" width="240px"
 				height="60px" /></a>
 		</div>
 		<div class="loginbox">
@@ -69,7 +72,8 @@
 							style="float: left" />
 					</div>
 					<div class="row btnArea">
-						<a class="login-btn" id="submit" style="text-decoration: none font-family="">登录</a>
+						<a class="login-btn" id="submit"
+							style="text-decoration: none font-family="">登录</a>
 					</div>
 					<div class="row tips">
 						<a href="${ctx }/admin/login.jsp" class="link">管理员登录</a>
@@ -93,4 +97,12 @@
 		</div>
 	</div>
 </body>
+<!-- 回车登陆 -->
+<script type="text/javascript">
+	$(document).keyup(function(e) {
+		if (e.keyCode == 13) {
+			$("#submit").click()
+		}
+	});
+</script>
 </html>
