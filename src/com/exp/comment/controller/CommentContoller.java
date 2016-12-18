@@ -1,7 +1,5 @@
 package com.exp.comment.controller;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,20 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.exp.bug.bugHateRecord.service.BugHateRecordServiceImpl;
 import com.exp.bug.bugLikeRecord.service.BugLikeRecordServiceImpl;
 import com.exp.bug.service.BugServiceImpl;
 import com.exp.comment.service.CommentServiceImpl;
 import com.exp.entity.Bug;
 import com.exp.entity.Comment;
-import com.exp.entity.CommentHateRecord;
-import com.exp.entity.CommentLikeRecord;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
+import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.userinfo.controller.UserInfoController;
 import com.exp.userinfo.service.UserInfoServiceImpl;
+import com.framework.EncodingTool;
 import com.framework.Page;
 
 @Controller
@@ -35,6 +31,8 @@ public class CommentContoller {
 	private BugServiceImpl bugServiceImpl;
 	@Resource
 	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private LoginUserServiceImpl loginUserServiceImpl;
 	@Resource
 	private BugLikeRecordServiceImpl bugLikeServiceRecordServiceImpl;
 	@Resource
@@ -81,8 +79,16 @@ public class CommentContoller {
 	 * @return
 	 */
 	@RequestMapping("findCommentByTimeTwo")
-	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,HttpServletRequest request,HttpSession session) {
-		UserInfo userInfo =(UserInfo) session.getAttribute("userInfo");
+	public String listTwo(@RequestParam(name = "loginName") String loginName,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,HttpServletRequest request) {
+		if(loginName==null||loginName.equals("")){
+			return "/404";
+		}
+		loginName =EncodingTool.encodeStr(loginName);
+		LoginUser loginUser =this.loginUserServiceImpl.findByName(loginName);
+		if(loginUser == null){
+			return "/404";
+		}
+		UserInfo userInfo =loginUser.getUserInfo();
 		
 
 		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围

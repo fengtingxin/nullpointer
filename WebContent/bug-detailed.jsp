@@ -295,7 +295,7 @@ xmlhttp.send();
 					<c:if test="${ct.parentComment == null }">
 						<div class="comment">
 							<c:set var="parentId" value="${ct.commentId }"></c:set>
-							<a href="${ctx }/hishome?userInfoId=${ct.userInfo.userInfoId}" class="avatar"> 
+							<a href="${ctx }/hishome?loginName=${ct.userInfo.loginUser.loginName}" class="avatar"> 
                                 
 								<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
 													<img src="${ctx}/imgUp/default.jpg" width="20px" height="20px"
@@ -312,7 +312,7 @@ xmlhttp.send();
 										pattern="yyyy-MM-dd HH:mm" />
 								</div>
 								<div>
-									<a href="${ctx }/hishome?userInfoId=${ct.userInfo.userInfoId}"><strong>${ct.userInfo.loginUser.loginName }</strong></a>
+									<a href="${ctx }/hishome?loginName=${ct.userInfo.loginUser.loginName}"><strong>${ct.userInfo.loginUser.loginName }</strong></a>
 								</div>
 								<div class="text">${ct.commentContent }</div>
 								<div class="actions">
@@ -327,7 +327,7 @@ xmlhttp.send();
 									<c:if
 										test="${cts.parentComment != null && cts.parentComment.commentId == parentId}">
 										<div class="comment">
-											<a href="${ctx }/hishome?userInfoId=${cts.userInfo.userInfoId}" class="avatar"> 
+											<a href="${ctx }/hishome?loginName=${cts.userInfo.loginUser.loginName}" class="avatar"> 
 												<c:if test="${empty ct.userInfo.userInfoHeadPortrait}">
 													<img src="${ctx}/imgUp/default.jpg" width="40px" height="40px"
 														class="img-circle" />
@@ -342,8 +342,8 @@ xmlhttp.send();
 														pattern="yyyy-MM-dd HH:mm" />
 												</div>
 												<div>
-													<a href="${ctx }/hishome?userInfoId=${cts.userInfo.userInfoId}"><strong>${cts.userInfo.loginUser.loginName }</strong></a>
-													<span class="text-muted">回复</span> <a href="${ctx }/hishome?userInfoId=${ct.userInfo.userInfoId}">${ct.userInfo.loginUser.loginName }</a>
+													<a href="${ctx }/hishome?loginName=${cts.userInfo.loginUser.loginName}"><strong>${cts.userInfo.loginUser.loginName }</strong></a>
+													<span class="text-muted">回复</span> <a href="${ctx }/hishome?loginName=${ct.userInfo.loginUser.loginName}">${ct.userInfo.loginUser.loginName }</a>
 												</div>
 												<div class="text">${cts.commentContent}</div>
 												<div class="actions">
