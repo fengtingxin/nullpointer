@@ -33,7 +33,7 @@ public class LoginUserServiceImpl {
 		// 1.判断是否存在这个email
 		if (this.loginUserDaoImpl.findByEmail(loginUser.getLoginEmail()) != null) {
 			// 存在这样的数据
-			return "4"; // 用户名已经存在
+			return "4"; // 邮箱已经存在
 		}
 		// 2.判断是否存在这个用户名
 		if (this.loginUserDaoImpl.findByLoginName(loginUser.getLoginName()) != null) {
@@ -82,7 +82,7 @@ public class LoginUserServiceImpl {
 				e.printStackTrace();
 				return "1";
 			}
-			System.out.println("email is success to ");
+			// System.out.println("email is success to ");
 		}
 		return result;
 	}
@@ -142,27 +142,27 @@ public class LoginUserServiceImpl {
 	 * @param password
 	 * @return 返回用户信息 Loginuser
 	 */
-	public LoginUser findLoginUser(String loginName, String password) {
-		// 判断登录名称是否为email
-		LoginUser t1 = this.loginUserDaoImpl.findByEmail(loginName);
-		if (t1 == null) {
-			t1 = this.loginUserDaoImpl.findByLoginName(loginName);
-		}
-		return t1;
+	public LoginUser findLoginUser(String loginName) {
+
+	    LoginUser t1=this.loginUserDaoImpl.findByEmail(loginName);
+	    if(t1==null){
+	    	t1=this.loginUserDaoImpl.findByLoginName(loginName);
+	    }
+	    return t1;
 	}
-	
+
 	/**
-	 * 功能：
-	 * 得到所有的loginUser
+	 * 功能： 得到所有的loginUser
+	 * 
 	 * @return
 	 * @author fengtingxin
 	 * 
 	 */
-	public List<LoginUser> findAllLoginUser(){
+	public List<LoginUser> findAllLoginUser() {
 		return this.loginUserDaoImpl.findAllUsers();
 	}
-	
-	public LoginUser fingOneLoginUserById(Integer loginUserId){
+
+	public LoginUser fingOneLoginUserById(Integer loginUserId) {
 		try {
 			return this.loginUserDaoImpl.get(loginUserId);
 		} catch (Exception e) {
@@ -170,6 +170,6 @@ public class LoginUserServiceImpl {
 			System.out.println("get a loginUser by Id error");
 			return null;
 		}
-		
+
 	}
 }

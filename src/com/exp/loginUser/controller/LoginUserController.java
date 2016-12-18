@@ -95,9 +95,6 @@ public class LoginUserController {
 			return "error";
 		}
 		loginUser.setLoginActive(true); // 激活用户
-		UserInfo userInfo = loginUser.getUserInfo();
-		userInfo.setUserInfoHeadPortrait("default.jpg"); // 设置用户的默认头像
-		loginUser.setUserInfo(userInfo);
 		this.userServiceImpl.updateLoginUser(loginUser); // 更新
 		String content = "<h4> <small>本页面将于10秒内自动跳转到登录！<a href='"+request.getContextPath()+"/login.jsp'>立即跳转</a></small></h4>";
 		session.setAttribute("regiserWelcome",
@@ -132,7 +129,7 @@ public class LoginUserController {
 		String result = this.userServiceImpl.loginVerify(loginName, password);
 		if (result.equals("0")) {
 			// 输入正确
-			LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName, password);
+			LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName);
 			session.setAttribute("loginUser", loginUser);
 		}
 		Calendar date = Calendar.getInstance();  

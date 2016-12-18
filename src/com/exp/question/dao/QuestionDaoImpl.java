@@ -47,7 +47,7 @@ public class QuestionDaoImpl extends BaseDao<Question, Integer> {
 	 */
 	public List<Question> findQuestionRecommend() {
 		Session session = super.getSession();
-		Query query = session.createQuery("from Question order by questionPublishTime DESC,questionLikeNum DESC");
+		Query query = session.createQuery("from Question order by questionLikeNum DESC,questionPublishTime DESC");
 		return query.list();
 	}
 

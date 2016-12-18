@@ -1072,8 +1072,8 @@ input[type=text].error,
   display: block;
 }
 
-#footer-bottom-wrapper {
-  background-color: #353c41;
+#footer-bottom-wrapper {	
+  background-color: #000;
   width: 100%;
 }
 #footer-bottom-wrapper > #footer-bottom {
@@ -1081,6 +1081,7 @@ input[type=text].error,
   height: auto !important;
   height: 25px;
   padding: 15px 35px 10px;
+  background-color: #000 !important;
 }
 
 #footer-bottom .copyright {

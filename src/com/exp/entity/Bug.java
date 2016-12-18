@@ -92,7 +92,8 @@ public class Bug {
 	public void setBugReason(String bugReason) {
 		this.bugReason = bugReason;
 	}
-
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Analyzer(impl=StandardAnalyzer.class)
 	public String getBugMethod() {
 		return bugMethod;
 	}
