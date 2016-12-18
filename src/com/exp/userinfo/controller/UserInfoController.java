@@ -5,7 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -27,12 +30,15 @@ import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.SignInRecord;
+import com.exp.entity.SignUpRecord;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
 import com.exp.entity.ZuiData;
+import com.exp.entity.ZuiDataTwo;
 import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.signInRecord.service.SignInRecordServiceImpl;
+import com.exp.signUpRecord.service.SignUpRecordServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 
@@ -52,7 +58,8 @@ public class UserInfoController {
 	private LoginUserServiceImpl loginUserServiceImpl;
 	@Resource
 	private SignInRecordServiceImpl signInRecordServiceImpl;
-
+	@Resource
+	private SignUpRecordServiceImpl signUpRecordServiceImpl;
 
 	/**
 	 * @zhangzhaolin
@@ -111,8 +118,28 @@ public class UserInfoController {
 				zuiData.setValue(tagNumber);
 				zuiData_List.add(zuiData);
 			}
+			ArrayList<ZuiDataTwo> zuiDataTwo_List=new ArrayList<ZuiDataTwo>();
+			Set<SignUpRecord> signUpRecords=new HashSet<SignUpRecord>(0);
+			Calendar c=Calendar.getInstance(); 
+			Iterator<SignUpRecord> iterator = userInfo.getSignUpRecords().iterator(); 
+			while(iterator.hasNext()){
+				SignUpRecord signUpRecord=iterator.next();
+				if(signUpRecord.getYears()==c.get(Calendar.YEAR)){
+					signUpRecords.add(signUpRecord);
+				}
+			}
+			for (SignUpRecord it : signUpRecords) {
+				ZuiDataTwo zuiDataTwo = new ZuiDataTwo();
+				Integer months = it.getMonths();
+				zuiDataTwo.setMonths(months);
+				Integer number = it.getSignUpNumber();
+				zuiDataTwo.setNumber(number);
+				zuiDataTwo_List.add(zuiDataTwo);
+			}
 			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			JSONArray jsonObjectTwo = JSONArray.fromObject(zuiDataTwo_List);
 			session.setAttribute("userInfo_tags", jsonObject);
+			session.setAttribute("signUpRecords", jsonObjectTwo);
 			// 等一下再打印
 			System.out.println(jsonObject);
 			SignInRecord temp = this.signInRecordServiceImpl.findSignInRecord(userInfo.getUserInfoId());

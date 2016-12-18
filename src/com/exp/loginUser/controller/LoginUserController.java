@@ -1,5 +1,6 @@
 package com.exp.loginUser.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.entity.LoginUser;
 import com.exp.entity.Role;
+import com.exp.entity.SignUpRecord;
 import com.exp.entity.UserInfo;
 import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.role.service.RoleServiceImpl;
+import com.exp.signUpRecord.service.SignUpRecordServiceImpl;
 import com.framework.EncodingTool;
 
 @Controller
@@ -26,6 +29,8 @@ public class LoginUserController {
 	private LoginUserServiceImpl userServiceImpl;
 	@Resource
 	private RoleServiceImpl roleServiceImpl;
+	@Resource
+	private SignUpRecordServiceImpl signUpRecordServiceImpl;
 
 	/**
 	 * 功能： 实现注册功能 同时实现发送邮件的功能！
@@ -130,6 +135,26 @@ public class LoginUserController {
 			LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName, password);
 			session.setAttribute("loginUser", loginUser);
 		}
+		Calendar date = Calendar.getInstance();  
+		System.out.println(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)));
+		if(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)).size()<12){
+			for(int i=1;i<13;i++){
+				SignUpRecord signUpRecord=new SignUpRecord();
+				signUpRecord.setMonths(i);
+				signUpRecord.setSignUpNumber(0);
+				signUpRecord.setYears(date.get(Calendar.YEAR));
+				this.signUpRecordServiceImpl.saveSignUpRecord(signUpRecord);
+			}
+			
+		}
+
+		if(this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1)!=null){
+			SignUpRecord signUpRecord=this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1);
+			signUpRecord.setSignUpNumber(signUpRecord.getSignUpNumber()+1);
+			this.signUpRecordServiceImpl.updateSignUpRecord(signUpRecord);
+		
+		}
+		
 		return result;
 	}
 

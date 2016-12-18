@@ -40,6 +40,7 @@ public class UserInfo {
 	private Set<R_Tag_UserInfo> r_tag_userInfo = new HashSet<R_Tag_UserInfo>(0);
 	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
     private SignInRecord signInRecord;
+    private Set<SignUpRecord> signUpRecords=new HashSet<SignUpRecord>(0);
 	@Id
 	@GenericGenerator(name = "foreignkey", strategy = "foreign", parameters = @Parameter(value = "loginUser", name = "property"))
 	@GeneratedValue(generator = "foreignkey")
@@ -173,6 +174,14 @@ public class UserInfo {
 
 	public void setSignInRecord(SignInRecord signInRecord) {
 		this.signInRecord = signInRecord;
+	}
+	@OneToMany(mappedBy = "userInfo",fetch=FetchType.EAGER)
+	public Set<SignUpRecord> getSignUpRecords() {
+		return signUpRecords;
+	}
+
+	public void setSignUpRecords(Set<SignUpRecord> signUpRecords) {
+		this.signUpRecords = signUpRecords;
 	}
 	
 
