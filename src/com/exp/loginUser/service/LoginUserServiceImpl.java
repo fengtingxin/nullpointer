@@ -28,7 +28,7 @@ public class LoginUserServiceImpl {
 	 * @author fengtingxin
 	 */
 	@Transactional(readOnly = false)
-	public String register(LoginUser loginUser) {
+	public String register(LoginUser loginUser,String serverNameAndPort) {
 		// 处理业务逻辑
 		// 1.判断是否存在这个email
 		if (this.loginUserDaoImpl.findByEmail(loginUser.getLoginEmail()) != null) {
@@ -51,7 +51,7 @@ public class LoginUserServiceImpl {
 			emailVo.setSender("m15315715815@163.com");
 			emailVo.setSubject("欢迎注册nullpointer");
 			// 邮件内容!
-			String activeURL = "http://localhost:8080/nullpointer/loginUser/activeLoginUser?loginName="
+			String activeURL = "http://"+serverNameAndPort+"/nullpointer/loginUser/activeLoginUser?loginName="
 					+ loginUser.getLoginName();
 			String emailContent = "<html><head><title>欢迎注册nullpointer</title></head><body>"
 					+ "<table border='0' cellpadding='0' cellspacing='0' width='100%'>" + "<tr>"

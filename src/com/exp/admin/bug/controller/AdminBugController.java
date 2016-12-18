@@ -160,9 +160,7 @@ public class AdminBugController {
 		List<Bug> bug=this.bugServiceImpl.getAllBugNoAudit();
 		if(bug==null){
 			session.setAttribute("allBugNoAudit", null);
-			System.out.println("is null");
 		}
-		System.out.println("not null");
 		session.setAttribute("allBugNoAudit", bug);
 		return "admin/bug_review";
 	}

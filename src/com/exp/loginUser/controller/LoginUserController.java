@@ -41,7 +41,7 @@ public class LoginUserController {
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	@ResponseBody
 	public String register(@RequestParam(name = "loginName") String name, @RequestParam(name = "email") String email,
-			@RequestParam(name = "password") String password, HttpSession session) {
+			@RequestParam(name = "password") String password, HttpSession session,HttpServletRequest request) {
 		// code转换
 		// 判断email是否符合格式,使用java正则表达式
 		if (EncodingTool.isEmail(email)) {
@@ -59,7 +59,7 @@ public class LoginUserController {
 			userInfo.setLoginUser(loginUser);
 			userInfo.setUserInfoHeadPortrait("default.jpg");
 			loginUser.setUserInfo(userInfo);
-			String result = this.userServiceImpl.register(loginUser);
+			String result = this.userServiceImpl.register(loginUser,request.getServerName()+":"+request.getServerPort());
 			if (result == "0") {
 				// 这里是迫不得已才改成的自动跳转，本来想的是自动关闭页面，但是由于google浏览器的限制，没有实现该功能！
 				String welcome = "您的注册邮箱为：" + email + ",注册奖励&nbsp;<b>10</b>&nbsp;荣誉值，已经存入您的账户，快去邮箱激活账户吧！";
