@@ -340,7 +340,9 @@ function signIn(){
 					function() {
 						var userInfoTag_data = ${userInfo_tags};
 						userInfoTag_data = eval(userInfoTag_data);
-						//console.log(userInfoTag_data);
+						var signUpRecords = ${signUpRecords}
+						signUpRecords = eval(signUpRecords);
+						console.log(signUpRecords);
 						if (userInfoTag_data.length == 0) {
 							userInfoTag_data = [ {
 								label: "暂无数据，默认为",
@@ -358,15 +360,57 @@ function signIn(){
 						var myNWwChart = new $.zui.Chart(ctx);
 						var myNWwChart2 = new $.zui.Chart(honor);
 						var data = userInfoTag_data;
-
+                        var a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0,k=0,l=0;
+                        
+                        var data3 = signUpRecords;
+                        for (var m=0;m<data3.length;m++){
+                        if(data3[m].months==1){
+                        	a=data3[m].number;
+                        }
+                        if(data3[m].months==2){
+                        	b=data3[m].number;
+                        }
+                        if(data3[m].months==3){
+                        	c=data3[m].number;
+                        }
+                        if(data3[m].months==4){
+                        	d=data3[m].number;
+                        }
+                        if(data3[m].months==5){
+                        	e=data3[m].number;
+                        }
+                        if(data3[m].months==6){
+                        	f=data3[m].number;
+                        }
+                        if(data3[m].months==7){
+                        	g=data3[m].number;
+                        }
+                        if(data3[m].months==8){
+                        	h=data3[m].number;
+                        }
+                        if(data3[m].months==9){
+                        	i=data3[m].number;
+                        }
+                        if(data3[m].months==10){
+                        	j=data3[m].number;
+                        }
+                        if(data3[m].months==11){
+                        	k=data3[m].number;
+                        }
+                        if(data3[m].months==12){
+                        	l=data3[m].number;
+                        }
+                        }
+                        
 						var data2 = {
 							labels : [ "一月", "二月", "三月", "四月", "五月", "六月",
 									"七月", "八月", "九月", "十月", "十一月", "十二月" ],
 							datasets : [ {
 								label : "蓝队",
 								color : 'primary',
-								data : [ 65, 59, 80, 81, 56, 55, 40, 66, 66,
-										66, 36, 69 ]
+								//data:[11,12,13,14,11,12,12,13,56,45,45,56]
+								data : [ a, b, c, d, e, f, g, h, i,
+										j, k, l ]
 							} ]
 						};
 						// 图表配置项，可以留空来使用默认的配置
