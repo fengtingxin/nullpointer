@@ -127,6 +127,9 @@ public class LoginUserController {
 			return "-1";
 		}
 		String result = this.userServiceImpl.loginVerify(loginName, password);
+		if(!result.equals("0")){
+			return result;
+		}
 		// 输入正确
 		LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName);
 		if (result.equals("0")) {

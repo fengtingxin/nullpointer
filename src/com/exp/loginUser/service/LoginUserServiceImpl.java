@@ -125,7 +125,7 @@ public class LoginUserServiceImpl {
 		}
 		//// 判断密码是否正确
 		if (!t1.getLoginPassword().equals(password)) {
-			return "19";
+			return "15";
 		}
 		// 判断是否激活
 		if (t1.isLoginActive() == false) {
