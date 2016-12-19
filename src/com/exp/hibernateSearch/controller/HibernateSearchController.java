@@ -193,12 +193,14 @@ public class HibernateSearchController {
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
 		Page<Bug> page;
 		search=EncodingTool.encodeStr(search);
-		System.out.println("search:" + search );
-		System.out.println("到了controller"+"search"+search);
+		// System.out.println("search:" + search );
+		// System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
 		//System.out.println("一共多少条："+page.getTotalCount());
-		session.setAttribute("bugpageCount", page.getTotalCount());
+		if(page!=null)
+		  session.setAttribute("bugpageCount", page.getTotalCount());
 		session.setAttribute("bugpages", page);
+		session.setAttribute("searchValue",search);
 		return "search_bug_list_admin";
 	}
 	/**
@@ -218,23 +220,7 @@ public class HibernateSearchController {
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
 		session.setAttribute("questionpageCount", page.getTotalCount());
+		session.setAttribute("searchValues",search);
 		return "search_q_a_list_new";
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

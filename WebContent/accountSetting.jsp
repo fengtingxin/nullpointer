@@ -109,7 +109,7 @@
 			<div class="alert alert-success with-icon alert-dismissable">
 				<i class="icon-user"></i>
 				<div class="content">
-					hi!&nbsp;&nbsp;&nbsp;${loginUser.loginName}&nbsp;&nbsp;&nbsp;你已经在这里度过了${request.day }天${hour }小时${min }分钟${second }秒
+					hi!&nbsp;&nbsp;&nbsp;${loginUser.loginName}&nbsp;&nbsp;&nbsp;你已经在这里度过了${request.day}天${hour }小时${min }分钟${second }秒
 				</div>
 				<button type="button" class="close" data-dismiss="alert"
 					aria-hidden="true">×</button>
