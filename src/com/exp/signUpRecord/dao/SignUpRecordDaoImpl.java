@@ -12,15 +12,16 @@ import com.framework.BaseDao;
 @Repository
 public class SignUpRecordDaoImpl extends BaseDao<SignUpRecord,String>{
    /**
-    * @function 根据年份查找登录记录
+    * @function 根据年份用户查找登录记录
     * @author tangwenru
     * @param year
     * @return
     */
-   public List<SignUpRecord> findByYear(Integer year){
+   public List<SignUpRecord> findByYear(Integer year,Integer userInfoId){
 	   Session session = super.getSession();
-	   Query query=session.createQuery("from SignUpRecord s where s.years=?");
+	   Query query=session.createQuery("from SignUpRecord s where s.years=? and s.userInfo.userInfoId=?");
 	   query.setInteger(0, year);
+	   query.setInteger(1, userInfoId);
 	   return query.list();
 	   
    }
@@ -31,9 +32,9 @@ public class SignUpRecordDaoImpl extends BaseDao<SignUpRecord,String>{
     * @param month
     * @return
     */
-   public SignUpRecord findByYearAndMonth(Integer year,Integer month){
+   public SignUpRecord findByYearAndMonth(Integer year,Integer month,Integer userInfoId){
 	  try {
-		return this.findOne("from SignUpRecord s where s.years=? and s.months=?",new Object[] { year,month });
+		return this.findOne("from SignUpRecord s where s.years=? and s.months=? and s.userInfo.userInfoId=?",new Object[] { year,month,userInfoId });
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

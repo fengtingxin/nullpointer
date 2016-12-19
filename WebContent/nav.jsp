@@ -22,11 +22,17 @@ session.setMaxInactiveInterval(3600);//单位为秒
 			</div>
 			<!-- 导航项目 -->
 			<div class="collapse navbar-collapse navbar-collapse-example">
-
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<li><a href="${ctx}/question/list_new">技术问答</a></li>
+					<c:if test="${searchValue==null}">
+					  <li><a href="${ctx}/question/list_new">技术问答</a></li>
+					</c:if>
+					<c:if test="${searchValue!=null}">
+					  <li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
+					</c:if>
+					
+					
 					<li><a href="${ctx}/contact">帮助</a></li>
 					<c:if test="${loginUser==null}">
 						<li><a href="${ctx}/login.jsp">登录/注册</a></li>
@@ -55,5 +61,4 @@ session.setMaxInactiveInterval(3600);//单位为秒
 			<!-- END .navbar-collapse -->
 		</div>
 	</div>
-
 </nav>

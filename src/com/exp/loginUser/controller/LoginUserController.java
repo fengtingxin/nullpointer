@@ -116,6 +116,7 @@ public class LoginUserController {
 	 * @return 返回一个string值 0 表示登录成功 -1 表示验证码错误 1 表示数据连接错误 2 表示参数传递错误 14 表示用户名不存在
 	 *         16 表示尚未激活 19 表示密码错误
 	 * @author fengtingxin
+	 * @author tangwenru 登录时修改登录记录表
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
@@ -127,17 +128,18 @@ public class LoginUserController {
 			return "-1";
 		}
 		String result = this.userServiceImpl.loginVerify(loginName, password);
-		if(!result.equals("0")){
+		if (!result.equals("0")) {
 			return result;
 		}
 		// 输入正确
 		LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName);
 		if (result.equals("0")) {
+			
 			session.setAttribute("loginUser", loginUser);
 		}
 		Calendar date = Calendar.getInstance();  
-		System.out.println(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)));
-		if(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)).size()<12){
+		System.out.println(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR),loginUser.getLoginUserId()));
+		if(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR),loginUser.getLoginUserId()).size()<12){
 			for(int i=1;i<13;i++){
 				SignUpRecord signUpRecord=new SignUpRecord();
 				signUpRecord.setMonths(i);
@@ -149,8 +151,8 @@ public class LoginUserController {
 			
 		}
 
-		if(this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1)!=null){
-			SignUpRecord signUpRecord=this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1);
+		if(this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1,loginUser.getLoginUserId())!=null){
+			SignUpRecord signUpRecord=this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1,loginUser.getLoginUserId());
 			signUpRecord.setSignUpNumber(signUpRecord.getSignUpNumber()+1);
 			this.signUpRecordServiceImpl.updateSignUpRecord(signUpRecord);
 		
