@@ -154,8 +154,7 @@
 	<script type="text/javascript">
 	$(document).keyup(function(e){
         if(e.keyCode==13){
-        	 $("#inputlogin").click()
-            
+        	 $("#inputlogin").click() 
         }
     });
 	

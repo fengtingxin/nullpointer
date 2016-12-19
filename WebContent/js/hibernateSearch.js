@@ -1,22 +1,31 @@
-// 搜索框js @author Ray
+// 搜索框js
+//@author Ray
 //修改
 $(document).ready(function() {
 	$("#bugSearch").click(function() {
 		// alert("点击事件");
-		var s = $("#s").val();
-		// alert("框里的内容"+s);
-		window.location = "http://localhost:8080/nullpointer/findBugByPage?s=" + s;
+		var searchValue=$("#s").val();
+		if(searchValue!=null||""!=searchValue)
+		   window.location = "http://localhost:8080/nullpointer/findBugByPage?s=" + searchValue;
+		else
+			//alert("不存在");
+		   window.location = "http://localhost:8080/nullpointer/bug/listadmin";
+	});
 
-	})
 	$("#questionSearch").click(function() {
 		// alert("点击事件");
 		var ss = $("#s").val();
-		window.location = "http://localhost:8080/nullpointer/findQuestionByPage?s=" + ss;
-
+		window.location = "http://localhost:8080/nullpointer/findQuestionByPage?s=" + ss;			
 	})
+	$(document).keyup(function(e) {
+			if (e.keyCode == 13) {
+				//alert("按了回车");
+				$("#bugSearch").click();
+			}
+		});
 	// 显示搜索内容
 	$("#s").keypress(function(e) {
-		if (e.keyCode == 13 || e.keyCode == 32) {
+		if ( e.keyCode == 32) {
 			var title = $("#s").val();
 			// 3.获取到输入的内容之后，就要通过ajax传给后台
 			$.post("http://localhost:8080/nullpointer/findBugAndQuestionByValue", {
@@ -46,6 +55,7 @@ $(document).ready(function() {
 								$("#clear").show();
 							}
 						});
+						
 					}
 				}
 			});
@@ -71,4 +81,5 @@ $(document).ready(function() {
 		$("#clear").hide();
 		$("#dtitles").hide();
 	});
+	
 });
