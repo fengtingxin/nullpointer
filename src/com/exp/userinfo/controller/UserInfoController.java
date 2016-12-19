@@ -5,7 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -27,14 +30,18 @@ import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.SignInRecord;
+import com.exp.entity.SignUpRecord;
 import com.exp.entity.Tag;
 import com.exp.entity.UserInfo;
 import com.exp.entity.ZuiData;
+import com.exp.entity.ZuiDataTwo;
 import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.signInRecord.service.SignInRecordServiceImpl;
+import com.exp.signUpRecord.service.SignUpRecordServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
+import com.framework.EncodingTool;
 
 import net.sf.json.JSONArray;
 
@@ -52,7 +59,8 @@ public class UserInfoController {
 	private LoginUserServiceImpl loginUserServiceImpl;
 	@Resource
 	private SignInRecordServiceImpl signInRecordServiceImpl;
-
+	@Resource
+	private SignUpRecordServiceImpl signUpRecordServiceImpl;
 
 	/**
 	 * @zhangzhaolin
@@ -83,18 +91,17 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = "hishome", method = RequestMethod.GET)
-
-	public String findByIdTwo(@RequestParam(value = "userInfoId", required = false) Integer userInfoId, HttpServletRequest request,
+	public String findByIdTwo(@RequestParam(value = "loginName") String loginName, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
-		// 获取用户的id信息
-		LoginUser loginUser=(LoginUser)session.getAttribute("loginUser");
-		UserInfo userInfo=null;
-		    if(userInfoId==null){
-		    	userInfo=(UserInfo)session.getAttribute("userInfo");
-		    }else{
-			userInfo = this.userInfoServiceImpl.findById(userInfoId);
-		    }
-
+			if(loginName==null||loginName.equals("")){
+				return "/404";
+			}
+			loginName =EncodingTool.encodeStr(loginName);
+			LoginUser lu=this.loginUserServiceImpl.findByName(loginName);
+			if(lu==null){
+				return "/404";
+			}
+			UserInfo userInfo =lu.getUserInfo();
 			// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
 			long array[] = UserInfoController.differ(userInfo);
 			session.setAttribute("day", array[0]);
@@ -111,8 +118,28 @@ public class UserInfoController {
 				zuiData.setValue(tagNumber);
 				zuiData_List.add(zuiData);
 			}
+			ArrayList<ZuiDataTwo> zuiDataTwo_List=new ArrayList<ZuiDataTwo>();
+			Set<SignUpRecord> signUpRecords=new HashSet<SignUpRecord>(0);
+			Calendar c=Calendar.getInstance(); 
+			Iterator<SignUpRecord> iterator = userInfo.getSignUpRecords().iterator(); 
+			while(iterator.hasNext()){
+				SignUpRecord signUpRecord=iterator.next();
+				if(signUpRecord.getYears()==c.get(Calendar.YEAR)){
+					signUpRecords.add(signUpRecord);
+				}
+			}
+			for (SignUpRecord it : signUpRecords) {
+				ZuiDataTwo zuiDataTwo = new ZuiDataTwo();
+				Integer months = it.getMonths();
+				zuiDataTwo.setMonths(months);
+				Integer number = it.getSignUpNumber();
+				zuiDataTwo.setNumber(number);
+				zuiDataTwo_List.add(zuiDataTwo);
+			}
 			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			JSONArray jsonObjectTwo = JSONArray.fromObject(zuiDataTwo_List);
 			session.setAttribute("userInfo_tags", jsonObject);
+			session.setAttribute("signUpRecords", jsonObjectTwo);
 			// 等一下再打印
 			System.out.println(jsonObject);
 			SignInRecord temp = this.signInRecordServiceImpl.findSignInRecord(userInfo.getUserInfoId());
@@ -120,6 +147,8 @@ public class UserInfoController {
 			request.setAttribute("signDay", temp.getSignNumber().intValue());
 			}
 			session.setAttribute("userInfo", userInfo);
+			// 获取用户的id信息
+			LoginUser loginUser=(LoginUser)session.getAttribute("loginUser");
 			if(loginUser!=null&&loginUser.getLoginUserId()==userInfo.getUserInfoId()){
 				return "home";
 			}
@@ -127,7 +156,6 @@ public class UserInfoController {
 		
 	}
 	@RequestMapping(value = "home", method = RequestMethod.GET)
-
 	public String findById(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
 		// 获取用户的id信息

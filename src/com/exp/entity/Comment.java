@@ -63,7 +63,7 @@ public class Comment {
 		this.commentHateNum = commentHateNum;
 	}
 	@ManyToOne(cascade =CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinColumn(name = "bugID")
+	@JoinColumn(name = "bugId")
 	public Bug getBug() {
 		return bug;
 	}

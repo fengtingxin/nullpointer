@@ -1,7 +1,5 @@
 package com.exp.answer.controller;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.exp.answer.service.AnswerServiceImpl;
 import com.exp.entity.Answer;
-import com.exp.entity.AnswerHateRecord;
-import com.exp.entity.AnswerLikeRecord;
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.UserInfo;
+import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
 import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
 import com.exp.userinfo.controller.UserInfoController;
 import com.exp.userinfo.service.UserInfoServiceImpl;
+import com.framework.EncodingTool;
 import com.framework.Page;
 
 @Controller
@@ -35,6 +33,8 @@ public class AnswerController {
 	private QuestionServiceImpl questionServiceImpl;
 	@Resource
 	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private LoginUserServiceImpl loginUserServiceImpl;
 	@Resource
 	private QuestionHateRecordServiceImpl questionHateRecordServiceImpl;
 	@Resource
@@ -80,8 +80,16 @@ public class AnswerController {
 	 * @return
 	 */
 	@RequestMapping("/findAnswerByTimeTwo")
-	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request,HttpSession session) {
-		UserInfo userInfo =(UserInfo) session.getAttribute("userInfo");
+	public String listTwo(@RequestParam(name = "loginName") String loginName,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
+		if(loginName==null||loginName.equals("")){
+			return "/404";
+		}
+		loginName =EncodingTool.encodeStr(loginName);
+		LoginUser loginUser =this.loginUserServiceImpl.findByName(loginName);
+		if(loginUser == null){
+			return "/404";
+		}
+		UserInfo userInfo =loginUser.getUserInfo();
 		
 
 		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围

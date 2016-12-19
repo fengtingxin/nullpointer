@@ -59,20 +59,20 @@
 						style="width: 200px;margin-top:20px;margin-bottom: 20px;">
 					<ul class="nav nav-primary">
 						<li class="nav-heading">个人中心</li>
-						<li><a href="${ctx}/hishome"><i class="icon icon-home"></i>
+						<li><a href="${ctx}/hishome?loginName=${userInfo.loginUser.loginName}"><i class="icon icon-home"></i>
 								Ta的主页</a></li>
 						
 						<li><a
-							href="${ctx }/question/findQuestionByTimeTwo"><i
+							href="${ctx }/question/findQuestionByTimeTwo?loginName=${userInfo.loginUser.loginName}"><i
 								class="icon icon-question-sign"></i> Ta的问题</a></li>
 						<li><a
-							href="${ctx }/answer/findAnswerByTimeTwo"><i
+							href="${ctx }/answer/findAnswerByTimeTwo?loginName=${userInfo.loginUser.loginName}"><i
 								class="icon icon-reply"></i> Ta的回答</a></li>
 						<li><a
-							href="${ctx }/comment/findCommentByTimeTwo"><i
+							href="${ctx }/comment/findCommentByTimeTwo?loginName=${userInfo.loginUser.loginName}"><i
 								class="icon icon-comments"></i> Ta的评论</a></li>
 						<li class="active"><a
-							href="${ctx }/share/shareByTimeTwo"><i
+							href="${ctx }/share/shareByTimeTwo?loginName=${userInfo.loginUser.loginName}"><i
 								class="icon icon-share"></i> Ta的分享</a></li>
 					</ul>
 					</nav>

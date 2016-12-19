@@ -1,5 +1,6 @@
 package com.exp.loginUser.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.entity.LoginUser;
 import com.exp.entity.Role;
+import com.exp.entity.SignUpRecord;
 import com.exp.entity.UserInfo;
 import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.role.service.RoleServiceImpl;
+import com.exp.signUpRecord.service.SignUpRecordServiceImpl;
 import com.framework.EncodingTool;
 
 @Controller
@@ -26,6 +29,8 @@ public class LoginUserController {
 	private LoginUserServiceImpl userServiceImpl;
 	@Resource
 	private RoleServiceImpl roleServiceImpl;
+	@Resource
+	private SignUpRecordServiceImpl signUpRecordServiceImpl;
 
 	/**
 	 * 功能： 实现注册功能 同时实现发送邮件的功能！
@@ -41,7 +46,7 @@ public class LoginUserController {
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	@ResponseBody
 	public String register(@RequestParam(name = "loginName") String name, @RequestParam(name = "email") String email,
-			@RequestParam(name = "password") String password, HttpSession session) {
+			@RequestParam(name = "password") String password, HttpSession session,HttpServletRequest request) {
 		// code转换
 		// 判断email是否符合格式,使用java正则表达式
 		if (EncodingTool.isEmail(email)) {
@@ -59,7 +64,7 @@ public class LoginUserController {
 			userInfo.setLoginUser(loginUser);
 			userInfo.setUserInfoHeadPortrait("default.jpg");
 			loginUser.setUserInfo(userInfo);
-			String result = this.userServiceImpl.register(loginUser);
+			String result = this.userServiceImpl.register(loginUser,request.getServerName()+":"+request.getServerPort());
 			if (result == "0") {
 				// 这里是迫不得已才改成的自动跳转，本来想的是自动关闭页面，但是由于google浏览器的限制，没有实现该功能！
 				String welcome = "您的注册邮箱为：" + email + ",注册奖励&nbsp;<b>10</b>&nbsp;荣誉值，已经存入您的账户，快去邮箱激活账户吧！";
@@ -122,11 +127,32 @@ public class LoginUserController {
 			return "-1";
 		}
 		String result = this.userServiceImpl.loginVerify(loginName, password);
+		// 输入正确
+		LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName);
 		if (result.equals("0")) {
-			// 输入正确
-			LoginUser loginUser = this.userServiceImpl.findLoginUser(loginName);
 			session.setAttribute("loginUser", loginUser);
 		}
+		Calendar date = Calendar.getInstance();  
+		System.out.println(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)));
+		if(this.signUpRecordServiceImpl.findByYear(date.get(Calendar.YEAR)).size()<12){
+			for(int i=1;i<13;i++){
+				SignUpRecord signUpRecord=new SignUpRecord();
+				signUpRecord.setMonths(i);
+				signUpRecord.setSignUpNumber(0);
+				signUpRecord.setUserInfo(loginUser.getUserInfo());
+				signUpRecord.setYears(date.get(Calendar.YEAR));
+				this.signUpRecordServiceImpl.saveSignUpRecord(signUpRecord);
+			}
+			
+		}
+
+		if(this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1)!=null){
+			SignUpRecord signUpRecord=this.signUpRecordServiceImpl.findByYearAndMonth(date.get(Calendar.YEAR),date.get(Calendar.MONTH)+1);
+			signUpRecord.setSignUpNumber(signUpRecord.getSignUpNumber()+1);
+			this.signUpRecordServiceImpl.updateSignUpRecord(signUpRecord);
+		
+		}
+		
 		return result;
 	}
 

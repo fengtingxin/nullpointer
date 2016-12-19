@@ -193,6 +193,11 @@ function regist(validate){
 							$(".login-error").html($.i18n.prop("系统错误"));
 						}
 					}
+				},
+				error: function (){
+					$(".loading").hide();
+					$(".login-error").hide();
+					$(".login-error").html($.i18n.prop("您的网络有问题，请刷新试试"));
 				}
 			});
 	}
