@@ -30,6 +30,7 @@ import com.exp.entity.R_Tag_UserInfo;
 import com.exp.entity.Tag;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
+import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.question.questionHateRecord.service.QuestionHateRecordServiceImpl;
 import com.exp.question.questionLikeRecord.service.QuestionLikeRecordServiceImpl;
 import com.exp.question.service.QuestionServiceImpl;
@@ -50,6 +51,8 @@ public class QuestionController {
 	private AnswerServiceImpl answerServiceImpl;
 	@Resource
 	private UserInfoServiceImpl userInfoServiceImpl;
+	@Resource
+	private LoginUserServiceImpl loginUserServiceImpl;
 	@Resource
 	private QuestionLikeRecordServiceImpl questionLikeRecordServiceImpl;
 	@Resource
@@ -213,10 +216,18 @@ public class QuestionController {
 	 * @return
 	 */
 	@RequestMapping("findQuestionByTimeTwo")
-	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpSession session,
+	public String listTwo(@RequestParam(name = "loginName") String loginName,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
 			HttpServletRequest request) {
+		if(loginName==null||loginName.equals("")){
+			return "/404";
+		}
+		loginName =EncodingTool.encodeStr(loginName);
 		// 获取用户信息
-		UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+		LoginUser loginUser =this.loginUserServiceImpl.findByName(loginName);
+		if(loginUser == null){
+			return "/404";
+		}
+		UserInfo userInfo = loginUser.getUserInfo();
 
 		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围
 		long array[] = UserInfoController.differ(userInfo);

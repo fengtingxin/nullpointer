@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.exp.entity.Bug;
 import com.exp.entity.LoginUser;
 import com.exp.entity.UserInfo;
+import com.exp.loginUser.service.LoginUserServiceImpl;
 import com.exp.share.service.ShareServiceImpl;
 import com.exp.userinfo.controller.UserInfoController;
+import com.framework.EncodingTool;
 import com.framework.Page;
 //汤文茹删除了不必要的导入的包
 @Controller
@@ -20,6 +22,8 @@ import com.framework.Page;
 public class ShareController {
 	@Resource
 	private ShareServiceImpl shareServiceImpl;//汤文茹修改了此处参数，由Bugserviceimpl改成shareServiceImpl
+	@Resource
+	private LoginUserServiceImpl loginUserServiceImpl;
 
 	/**
 	 * @author Ray_1 按时间顺序分页查询个人所分享的问题
@@ -61,8 +65,16 @@ public class ShareController {
 	 * @return
 	 */
 	@RequestMapping("/shareByTimeTwo")
-	public String listTwo(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request,HttpSession session) {
-		UserInfo userInfo =(UserInfo) session.getAttribute("userInfo");
+	public String listTwo(@RequestParam(name = "loginName") String loginName,@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, HttpServletRequest request) {
+		if(loginName==null||loginName.equals("")){
+			return "/404";
+		}
+		loginName =EncodingTool.encodeStr(loginName);
+		LoginUser loginUser =this.loginUserServiceImpl.findByName(loginName);
+		if(loginUser == null){
+			return "/404";
+		}
+		UserInfo userInfo =loginUser.getUserInfo();
 		
 
 		// 调用求时间差的方法，计算用户注册距离现在的时间差，并将时间差存到request范围

@@ -81,11 +81,10 @@
 				<h3 class="popover-title">${regiserWelcome }</h3>
 				<div class="popover-content">
 					<h4>
-						<small>本页面将于10秒内自动跳转到登录！<a href='${ctx}/login.jsp'>立即跳转</a></small>
+						<small id="remindContent">本页面将于10秒内自动跳转到登录！<a href='${ctx}/login.jsp'>立即跳转</a></small>
 					</h4>
 				</div>
 			</div>
-
 		</div>
 		<div class="container">
 			<article class="article"> <header>

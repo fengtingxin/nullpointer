@@ -135,8 +135,7 @@
 								<c:forEach items="${userList}" var="userInfo" varStatus="status">
 								 <li>
 						    <span class="label label-warning">${status.count }</span>&nbsp;&nbsp;
-						       <a href="${ctx }/hishome?userInfoId=${userInfo.userInfoId}">
-						  
+						       <a href="${ctx }/hishome?loginName=${userInfo.loginUser.loginName}">
 						    <img alt="" src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}" width="30px" height="30px" class="img-circle"> ${userInfo.loginUser.loginName }</a>
 						    &nbsp;&nbsp;<span class="label label-badge">${ userInfo.userInfoHonorCount}&nbsp;积分</span>
 						    </li>
