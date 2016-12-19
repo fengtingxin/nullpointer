@@ -36,13 +36,13 @@ public class SignUpRecordServiceImpl {
     	this.signUpRecordDaoImpl.updateSignUpRecord(signUpRecord);
     }
     /**
-     * @fucntion 根据年份查询登录记录
+     * @fucntion 根据年份和用户查询登录记录
      * @author tangwenru
      * @param year
      * @return
      */
-    public List<SignUpRecord> findByYear(Integer year){
-    	return this.signUpRecordDaoImpl.findByYear(year);
+    public List<SignUpRecord> findByYear(Integer year,Integer userInfoId){
+    	return this.signUpRecordDaoImpl.findByYear(year,userInfoId);
     }
     /**
      * @function 根据年份和月份查询登录记录
@@ -51,8 +51,8 @@ public class SignUpRecordServiceImpl {
      * @param month
      * @return
      */
-    public SignUpRecord findByYearAndMonth(Integer year,Integer month){
-    	return this.signUpRecordDaoImpl.findByYearAndMonth(year, month);
+    public SignUpRecord findByYearAndMonth(Integer year,Integer month,Integer userInfoId){
+    	return this.signUpRecordDaoImpl.findByYearAndMonth(year, month,userInfoId);
     }
     
 }

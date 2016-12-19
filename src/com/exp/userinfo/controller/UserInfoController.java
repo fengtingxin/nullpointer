@@ -84,10 +84,12 @@ public class UserInfoController {
 	}
 
 	/**
-	 * @function 根据用户的id查找用户，返回home.jsp页面
+	 * @function 返回他的主页
 	 * @author tangwenru
-	 * @param userInfo
+	 * @param loginName
 	 * @param request
+	 * @param session
+	 * @param response
 	 * @return
 	 */
 	@RequestMapping(value = "hishome", method = RequestMethod.GET)
@@ -128,6 +130,7 @@ public class UserInfoController {
 					signUpRecords.add(signUpRecord);
 				}
 			}
+			System.out.println("length"+signUpRecords.size());
 			for (SignUpRecord it : signUpRecords) {
 				ZuiDataTwo zuiDataTwo = new ZuiDataTwo();
 				Integer months = it.getMonths();
@@ -155,6 +158,13 @@ public class UserInfoController {
 			return "hishome";
 		
 	}
+	/**
+	 * @function 根据用户的id查找用户，返回home.jsp页面
+	 * @author tangwenru
+	 * @param userInfo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 	public String findById(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
@@ -179,10 +189,32 @@ public class UserInfoController {
 				zuiData.setValue(tagNumber);
 				zuiData_List.add(zuiData);
 			}
+			ArrayList<ZuiDataTwo> zuiDataTwo_List=new ArrayList<ZuiDataTwo>();
+			Set<SignUpRecord> signUpRecords=new HashSet<SignUpRecord>(0);
+			Calendar c=Calendar.getInstance(); 
+			Iterator<SignUpRecord> iterator = userInfo.getSignUpRecords().iterator(); 
+			while(iterator.hasNext()){
+				SignUpRecord signUpRecord=iterator.next();
+				if(signUpRecord.getYears()==c.get(Calendar.YEAR)){
+					signUpRecords.add(signUpRecord);
+				}
+			}
+			System.out.println("length"+signUpRecords.size());
+			for (SignUpRecord it : signUpRecords) {
+				ZuiDataTwo zuiDataTwo = new ZuiDataTwo();
+				Integer months = it.getMonths();
+				zuiDataTwo.setMonths(months);
+				Integer number = it.getSignUpNumber();
+				zuiDataTwo.setNumber(number);
+				zuiDataTwo_List.add(zuiDataTwo);
+			}
 			JSONArray jsonObject = JSONArray.fromObject(zuiData_List);
+			JSONArray jsonObjectTwo = JSONArray.fromObject(zuiDataTwo_List);
 			session.setAttribute("userInfo_tags", jsonObject);
+			session.setAttribute("signUpRecords", jsonObjectTwo);
 			// 等一下再打印
 			System.out.println(jsonObject);
+			System.out.println(jsonObjectTwo);
 			SignInRecord temp = this.signInRecordServiceImpl.findSignInRecord(loginUser.getLoginUserId());
 			if(temp!=null){
 			request.setAttribute("signDay", temp.getSignNumber().intValue());
