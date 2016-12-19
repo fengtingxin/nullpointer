@@ -22,11 +22,11 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
 					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
-					<c:if test="${searchValues==null&&searchValues==''}">
+					<c:if test="${searchValue==null}">
 					  <li><a href="${ctx}/question/list_new">技术问答</a></li>
 					</c:if>
-					<c:if test="${searchValues!=null}">
-					  <li><a href="${ctx}/findQuestionByPage?s=${searchValues}">技术问答</a></li>
+					<c:if test="${searchValue!=null}">
+					  <li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
 					</c:if>
 					
 					

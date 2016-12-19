@@ -221,7 +221,7 @@ public class HibernateSearchController {
 		session.setAttribute("questionpages", page);
 		if(page!=null)
 		session.setAttribute("questionpageCount", page.getTotalCount());
-		session.setAttribute("searchValues",search);
+		session.setAttribute("searchValue",search);
 		return "search_q_a_list_new";
 	}
 }
