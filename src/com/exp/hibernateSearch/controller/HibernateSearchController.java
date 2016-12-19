@@ -219,6 +219,7 @@ public class HibernateSearchController {
 		System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
+		if(page!=null)
 		session.setAttribute("questionpageCount", page.getTotalCount());
 		session.setAttribute("searchValues",search);
 		return "search_q_a_list_new";

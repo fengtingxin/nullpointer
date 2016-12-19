@@ -8,12 +8,12 @@
 		<form id="search-form" class="search-form clearfix" method="get"
 			action="#" autocomplete="off" novalidate="novalidate">
 
-			<c:if test="${searchValue==null}">
+			<c:if test="${searchValue==null&& searchValues==null}">
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG             按空格键出现提示内容"
 					title="请在这里搜索您遇到的问题或BUG吧!" style="height: 43px;" />
 			</c:if>
-			<c:if test="${searchValue!=null}">
+			<c:if test="${searchValue!=null|| searchValues!=null||searchValue!=''||searchValues!=''}">
 				<input class="search-term required" type="text" id="s" name="s"
 					placeholder="在这里搜索问题/BUG             按空格键出现提示内容"
 					title="请在这里搜索您遇到的问题或BUG吧!" style="height: 43px;"  value="${searchValue}"/>
