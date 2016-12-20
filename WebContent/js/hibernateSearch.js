@@ -2,31 +2,37 @@
 //@author Ray
 //修改
 $(document).ready(function() {
+	//获取本机ip
+	var rescourse = document.getElementById('rescourse').getAttribute('data') + "";
+	//alert(rescourse);
 	$("#bugSearch").click(function() {
 		// alert("点击事件");
 		var searchValue=$("#s").val();
 		if(searchValue!=null||""!=searchValue)
-		   window.location = "http://localhost:8080/nullpointer/findBugByPage?s=" + searchValue;
+		   window.location = rescourse+"nullpointer/findBugByPage?s=" + searchValue;
 		else
 			//alert("不存在");
-		   window.location = "http://localhost:8080/nullpointer/bug/listadmin";
+		   window.location = rescourse+"nullpointer/bug/listadmin";
 	});
 
 	$("#questionSearch").click(function() {
 		// alert("点击事件");
 		var ss = $("#s").val();
-		window.location = "http://localhost:8080/nullpointer/findQuestionByPage?s=" + ss;			
+		window.location = rescourse+"nullpointer/findQuestionByPage?s=" + ss;			
 	})
 	// 显示搜索内容
 	$("#s").keydown(function(e) {
-		if ( e.keyCode) {
-			//alert("呀");
+		var myDate = new Date();
+		if (e.keyCode) {
 			var title = $("#s").val();
+			//alert(title);
 			// 3.获取到输入的内容之后，就要通过ajax传给后台
-			$.post("http://localhost:8080/nullpointer/findBugAndQuestionByValue", {
+			console.log("=====开始请求的时间"+myDate.getSeconds());
+			$.post(rescourse+"nullpointer/findBugAndQuestionByValue", {
 				"title" : title
 			}, function(data) {
-				if (title == "") {
+				console.log("请求完回调的时间"+myDate.getSeconds());
+				if (title == ""||null==title) {
 					$("#dtitles").hide();
 				} else {
 					// 显示展示div,把它清空
@@ -34,7 +40,9 @@ $(document).ready(function() {
 					if (data == "") {
 						$("#dtitles").hide();
 					} else {
+						console.log("显示前的时间"+myDate.getSeconds());
 						$("#dtitles").append(data);
+						console.log("显示后的时间"+myDate.getSeconds());
 						// 4.鼠标移上去之后，加一个背景
 						$("li").hover(function() {
 							// alert("鼠标移上去");
@@ -54,6 +62,7 @@ $(document).ready(function() {
 					}
 				}
 			});
+			//console.log("请求完按键的时间"+myDate.getSeconds());
 		}
 	}
 	);

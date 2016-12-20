@@ -35,6 +35,9 @@
 	color: #f0b70c;
 }
 </style>
+<script type="text/javascript"
+	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
+	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
 <body>
 	<%
@@ -233,5 +236,5 @@
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
 <script src="${ctx}/js/hibernateSearch.js"></script>
-	
+
 </html>
