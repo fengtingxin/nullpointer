@@ -28,59 +28,36 @@ import com.framework.Page;
 public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 	/**
 	 * @author Ray_1
+	 * @author zhang zhao lin 优化
 	 * @功能：用hibernateSearch 获取4条bug，并用高亮显示。
 	 * @param search
 	 * @return
 	 */
 
-	public List<Bug> searchBug(String search) {
-
+	public List<Object> searchBug(String search) {
 		Session session = super.getSession();
-		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		List<Object> list = null;
 		try {
-			fullTextSession.createIndexer().startAndWait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		SearchFactory sf = fullTextSession.getSearchFactory();
-		QueryBuilder qb = sf.buildQueryBuilder().forEntity(Bug.class).get();
-		List<Bug> list = null;
-		try {
-			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.8f).onFields("bugTitle")
-					.matching(search).createQuery();
-			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
-			list = hibQuery.list();
-			// 集关键字高亮的实现代码
-			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font style='font-weight:bold;'>", "</font>");
-			QueryScorer queryScorer = new QueryScorer(luceneQuery);
-			Highlighter highlighter = new Highlighter(formatter, queryScorer);
-			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "bugTitle" };
-			for (Bug q : list) {
-				for (String fieldName : fieldNames) {
-					// 运用反射得到具体的标题内容
-					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
-					String hightLightFieldValue = null;
-					if (fieldValue instanceof String) {
-						// 获得高亮关键字
-						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
-								ObjectUtils.toString(fieldValue, null));
-						System.out.println("高亮"+hightLightFieldValue);
-					}
-					// 这个判断很关键，否则如果标题或内容中没有关键字的话，就会出现不显示的问题。
-					if (hightLightFieldValue != null) {
-						// 运用反射设置结果集中的关键字高亮
-						ReflectionUtils.invokeMethod(
-								BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getWriteMethod(), q,
-								hightLightFieldValue);
-					}
+			String sql = "select bugTitle from Bug where bugTitle like '%";
+			// 解析搜索内容 空格分隔的话…
+			String[] search_s = search.split("\\s+");
+			for (int i = 0; i < search_s.length; i++) {
+				sql += search_s[i] + "%";
+			}
+			sql += "'";
+			list = session.createSQLQuery(sql).list();
+			for (int i = 0; i < list.size(); i++) {
+				String title = list.get(i).toString();
+				if(title.length()>60){
+					title = title.substring(0, 60);
+					title += "...";
 				}
+				// 加粗处理
+				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>"+search_s[0]+"</font>");
+				list.set(i, title);
 			}
 		} catch (Exception e) {
-			//
+
 		}
 		return list;
 	}
@@ -92,53 +69,31 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 	 * @return
 	 */
 
-	public List<Question> searchQuestion(String search) {
+	public List<Object> searchQuestion(String search) {
 
 		Session session = super.getSession();
-		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		List<Object> list = null;
 		try {
-			fullTextSession.createIndexer().startAndWait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		SearchFactory sf = fullTextSession.getSearchFactory();
-		QueryBuilder qb = sf.buildQueryBuilder().forEntity(Question.class).get();
-		List<Question> list = null;
-		try {
-			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
-					.onFields("questionTitle").matching(search).createQuery();
-			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
-			list = hibQuery.list();
-			// 集关键字高亮的实现代码
-			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font style='font-weight:bold;'>", "</font>");
-			QueryScorer queryScorer = new QueryScorer(luceneQuery);
-			Highlighter highlighter = new Highlighter(formatter, queryScorer);
-			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = { "questionTitle" };
-			for (Question q : list) {
-				for (String fieldName : fieldNames) {
-					// 运用反射得到具体的标题内容
-					Object fieldValue = ReflectionUtils.invokeMethod(
-							BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
-					String hightLightFieldValue = null;
-					if (fieldValue instanceof String) {
-						// 获得高亮关键字
-						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
-								ObjectUtils.toString(fieldValue, null));
-					}
-					// 这个判断很关键，否则如果标题或内容中没有关键字的话，就会出现不显示的问题。
-					if (hightLightFieldValue != null) {
-						// 运用反射设置结果集中的关键字高亮
-						ReflectionUtils.invokeMethod(
-								BeanUtils.getPropertyDescriptor(Question.class, fieldName).getWriteMethod(), q,
-								hightLightFieldValue);
-					}
+			String sql = "select questionTitle from Question where questionTitle like '%";
+			// 解析搜索内容 空格分隔的话…
+			String[] search_s = search.split("\\s+");
+			for (int i = 0; i < search_s.length; i++) {
+				sql += search_s[i] + "%";
+			}
+			sql += "'";
+			list = session.createSQLQuery(sql).list();
+			for (int i = 0; i < list.size(); i++) {
+				String title = list.get(i).toString();
+				if(title.length()>60){
+					title = title.substring(0, 60);
+					title += "...";
 				}
+				// 加粗处理
+				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>"+search_s[0]+"</font>");
+				list.set(i, title);
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+
 		}
 		return list;
 	}
@@ -170,7 +125,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		try {
 			// 模糊查询
 			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
-					.onFields("bugTitle", "bugDescribe","bugReason","bugMethod").matching(search).createQuery();
+					.onFields("bugTitle", "bugDescribe", "bugReason", "bugMethod").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
 			hibQuery.setMaxResults(pageSize);
@@ -181,7 +136,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = {"bugTitle", "bugDescribe","bugReason","bugMethod" };
+			String[] fieldNames = { "bugTitle", "bugDescribe", "bugReason", "bugMethod" };
 			for (Bug q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
@@ -190,7 +145,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
-						System.out.println("bug 高亮"+fieldValue);
+						System.out.println("bug 高亮" + fieldValue);
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
 					}
@@ -260,8 +215,8 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			for (Question q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
-					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
+					Object fieldValue = ReflectionUtils.invokeMethod(
+							BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字

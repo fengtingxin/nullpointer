@@ -25,7 +25,7 @@ public class HibernateSearchServiceImpl {
 	 * @param search
 	 * @return
 	 */
-	public List<Bug> searchBug(String search) {
+	public List<Object> searchBug(String search) {
 		return hibernateSearchDaoImpl.searchBug(search);
 	}
 
@@ -35,7 +35,7 @@ public class HibernateSearchServiceImpl {
 	 * @param search
 	 * @return
 	 */
-	public List<Question> searchQuestion(String search) {
+	public List<Object> searchQuestion(String search) {
 		return hibernateSearchDaoImpl.searchQuestion(search);
 	}
 
