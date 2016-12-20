@@ -65,7 +65,6 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
-					System.out.println("未高亮"+fieldValue);
 						// 获得高亮关键字
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
