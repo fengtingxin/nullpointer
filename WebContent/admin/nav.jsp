@@ -13,6 +13,9 @@
 			response.sendRedirect("/nullpointer/admin/login.jsp");
 		%>
 		</c:if>
+		<%
+		session.setMaxInactiveInterval(3600);//单位为秒
+		%>
 <div class="navbar navbar-default" id="navbar">
 			<script type="text/javascript">
 				try{ace.settings.check('navbar' , 'fixed')}catch(e){}

@@ -45,6 +45,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 				sql += search_s[i] + "%";
 			}
 			sql += "'";
+			sql +=" and bugAudited=true and bugAuditPass=true";
 			list = session.createSQLQuery(sql).list();
 			for (int i = 0; i < list.size(); i++) {
 				String title = list.get(i).toString();

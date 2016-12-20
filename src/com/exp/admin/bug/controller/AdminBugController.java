@@ -130,6 +130,8 @@ public class AdminBugController {
 		bug.setBugLikeNum(0);
 		bug.setBugMethod(bugMethod);
 		bug.setBugPageviews(0);
+		bug.setBugAudited(true);
+		bug.setBugAuditPass(true);
 		bug.setBugPublishTime(new Date());
 		LoginUser loginUser =(LoginUser) session.getAttribute("loginUser");
 		bug.setUserInfo(loginUser.getUserInfo());

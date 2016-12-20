@@ -1,5 +1,9 @@
 package com.exp.entity;
-
+/**
+ * 与我的主页柱状图数据相关联的表
+ * @author tangwenru
+ *
+ */
 public class ZuiDataTwo {
 	private Integer months;
 	private Integer number;

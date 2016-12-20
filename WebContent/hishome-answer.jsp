@@ -52,6 +52,7 @@
 					${fn:substring(userInfo.userInfoDescribe,0,15)}
 									<c:if test="${fn:length(userInfo.userInfoDescribe) >15}">...</c:if>
 					</p>
+					
 				</div>
 				<div class="col-md-12">
 

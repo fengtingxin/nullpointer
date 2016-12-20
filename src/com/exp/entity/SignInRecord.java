@@ -1,5 +1,8 @@
 package com.exp.entity;
-
+/**
+ * @author tangwenru
+ * 签到记录表
+ */
 import java.util.Date;
 
 import javax.persistence.Entity;
