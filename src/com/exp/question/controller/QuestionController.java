@@ -67,6 +67,7 @@ public class QuestionController {
 
 	/**
 	 * @author zhang zhao lin
+	 * @author tangwenru 增加社区属性，修改荣誉值
 	 * @param questionTitle
 	 *            标题
 	 * @param questionTag

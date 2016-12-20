@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.bug.service.BugServiceImpl;
 import com.exp.entity.Bug;
+
 import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
 import com.exp.entity.R_Tag_UserInfo;
@@ -42,6 +43,7 @@ import com.exp.signUpRecord.service.SignUpRecordServiceImpl;
 import com.exp.tag.service.TagServiceImpl;
 import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
+
 
 import net.sf.json.JSONArray;
 
@@ -61,6 +63,7 @@ public class UserInfoController {
 	private SignInRecordServiceImpl signInRecordServiceImpl;
 	@Resource
 	private SignUpRecordServiceImpl signUpRecordServiceImpl;
+	
 
 	/**
 	 * @zhangzhaolin
@@ -358,4 +361,5 @@ public class UserInfoController {
 		// session.removeAttribute("loginUser");
 		return "login";
 	}
+	
 }
