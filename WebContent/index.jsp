@@ -26,7 +26,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
 <style id="themeStyle"></style>
-
 <style type="text/css">
 #top .primary-color, a, #cancel-comment-reply-link, .blog-tags a:hover,
 	.relThumb a:hover strong, .flex_column h1, .flex_column h2,
@@ -187,7 +186,7 @@
 						<h3 class="title">最新消息</h3>
 						<div id="twitter_update_list">
 							<ul>
-								<li>nullpointer_ver1.0更新与2016年12月</li>
+								<li>nullpointer_ver1.0更新于2016年12月</li>
 							</ul>
 						</div>
 

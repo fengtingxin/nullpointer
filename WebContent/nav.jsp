@@ -28,8 +28,6 @@
 					<c:if test="${searchValue!=null}">
 					  <li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
 					</c:if>
-					
-					
 					<li><a href="${ctx}/contact">帮助</a></li>
 					<c:if test="${loginUser==null}">
 						<li><a href="${ctx}/login.jsp">登录/注册</a></li>

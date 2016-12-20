@@ -17,15 +17,10 @@ $(document).ready(function() {
 		var ss = $("#s").val();
 		window.location = "http://localhost:8080/nullpointer/findQuestionByPage?s=" + ss;			
 	})
-	$(document).keyup(function(e) {
-			if (e.keyCode == 13) {
-				//alert("按了回车");
-				$("#bugSearch").click();
-			}
-		});
 	// 显示搜索内容
-	$("#s").keypress(function(e) {
-		if ( e.keyCode == 32) {
+	$("#s").keydown(function(e) {
+		if ( e.keyCode) {
+			//alert("呀");
 			var title = $("#s").val();
 			// 3.获取到输入的内容之后，就要通过ajax传给后台
 			$.post("http://localhost:8080/nullpointer/findBugAndQuestionByValue", {
@@ -59,7 +54,6 @@ $(document).ready(function() {
 					}
 				}
 			});
-
 		}
 	}
 	);
@@ -68,7 +62,9 @@ $(document).ready(function() {
 	// 修改 红叉
 	// 1.页面加载之后，找到文本框的内容对它触发一个事件
 	$("#s").keyup(function() {
-		if ($("#s").val() != "" || $("#s").val() != null) {
+		// 判断IE 浏览器 ，如果是IE的话，不显示。
+		if (($("#s").val() != "" || $("#s").val() != null)&&(navigator.userAgent.indexOf('MSIE') >= 0) 
+			    && (navigator.userAgent.indexOf('Opera') < 0)) {
 			$("#clear").show();
 		}
 		if ($("#s").val() == "" || $("#s").val() == null) {

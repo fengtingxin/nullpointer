@@ -39,11 +39,11 @@ public class HibernateSearchController {
 	@RequestMapping(value = "/findBugAndQuestionByValue", method = RequestMethod.POST)
 	public void searchAll(@RequestParam(name = "title", defaultValue = "") String search, HttpServletRequest request,
 			Model model, HttpServletResponse response, HttpSession session) {
-		System.out.println("searchParam为" + search);
+		//System.out.println("searchParam为" + search);
 		if (search == "" || search.length() == 0) {
 			return;
 		}
-		System.out.println("查询内容" + search);
+		//System.out.println("查询内容" + search);
 		try {
 			// 这里不设置编码会有乱码
 			response.setContentType("text/html;charset=utf-8");
@@ -55,24 +55,14 @@ public class HibernateSearchController {
 		bugs = hibernateSearchServiceImpl.searchBug(search);
 		List<Question> questions = null;
 		questions = hibernateSearchServiceImpl.searchQuestion(search);
-
-		// 打印
-		if (bugs != null)
-			System.out.println("BUG" + bugs);
-		if (questions != null)
-			System.out.println("Question" + questions);
-		// System.out.println("list长度为" + bugs.size());
-
 		if (bugs == null && questions == null) {
 			return;
 		}
 		try {
 			StringBuilder sb = new StringBuilder();
-			System.out.println("这是用hibernateSearch实现的");
-
 			// 如果bug和quesion不为空时，分两种情况
 			// 1 question+bug数小于4， 都显示出来
-			// 2 quesiont+bug 数大于4时， 若bug<4, 显示全部bug，再用question补充；
+			// 2 quesion+bug 数大于4时， 若bug<4, 显示全部bug，再用question补充；
 			// 若bug数大于4，直接显示4条bug。
 
 			// 如果 有为空的，则显示不为空的也分两种情况
@@ -80,7 +70,6 @@ public class HibernateSearchController {
 			// 2 bug为空，question不为空，显示小于等于4条question
 
 			if (bugs != null && questions != null) {
-
 				if (bugs.size() + questions.size() <= 4) {
 					for (Bug bug : bugs) {
 						String bugtitle = bug.getBugTitle();
@@ -169,7 +158,6 @@ public class HibernateSearchController {
 							}
 						}
 					}
-
 				}
 			}
 			// System.out.println(sb.toString());

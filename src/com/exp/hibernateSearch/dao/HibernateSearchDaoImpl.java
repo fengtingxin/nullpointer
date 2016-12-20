@@ -34,7 +34,6 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 	 */
 
 	public List<Bug> searchBug(String search) {
-
 		Session session = super.getSession();
 		FullTextSession fullTextSession = Search.getFullTextSession(session);
 		try {
@@ -48,12 +47,12 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Bug> list = null;
 		try {
 			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(0.8f).onFields("bugTitle")
-					.matching(search).createQuery();
+			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
+					.onFields("bugTitle").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			list = hibQuery.list();
 			// 集关键字高亮的实现代码
-			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font style='font-weight:bold;'>", "</font>");
+			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter("<font  style='font-weight:bold;'>", "</font>");
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
@@ -65,11 +64,11 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 							.invokeMethod(BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
-					System.out.println("未高亮"+fieldValue);
+						System.out.println("未高亮" + fieldValue);
 						// 获得高亮关键字
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
-						System.out.println("高亮"+hightLightFieldValue);
+						System.out.println("高亮" + hightLightFieldValue);
 					}
 					// 这个判断很关键，否则如果标题或内容中没有关键字的话，就会出现不显示的问题。
 					if (hightLightFieldValue != null) {
@@ -171,7 +170,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		try {
 			// 模糊查询
 			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
-					.onFields("bugTitle", "bugDescribe","bugReason","bugMethod").matching(search).createQuery();
+					.onFields("bugTitle", "bugDescribe", "bugReason", "bugMethod").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
 			hibQuery.setMaxResults(pageSize);
@@ -182,7 +181,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			QueryScorer queryScorer = new QueryScorer(luceneQuery);
 			Highlighter highlighter = new Highlighter(formatter, queryScorer);
 			Analyzer analyzer = new ChineseAnalyzer();
-			String[] fieldNames = {"bugTitle", "bugDescribe","bugReason","bugMethod" };
+			String[] fieldNames = { "bugTitle", "bugDescribe", "bugReason", "bugMethod" };
 			for (Bug q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
@@ -191,7 +190,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
-						System.out.println("bug 高亮"+fieldValue);
+						System.out.println("bug 高亮" + fieldValue);
 						hightLightFieldValue = highlighter.getBestFragment(analyzer, fieldName,
 								ObjectUtils.toString(fieldValue, null));
 					}
@@ -261,8 +260,8 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			for (Question q : list) {
 				for (String fieldName : fieldNames) {
 					// 运用反射得到具体的标题内容
-					Object fieldValue = ReflectionUtils
-							.invokeMethod(BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
+					Object fieldValue = ReflectionUtils.invokeMethod(
+							BeanUtils.getPropertyDescriptor(Question.class, fieldName).getReadMethod(), q);
 					String hightLightFieldValue = null;
 					if (fieldValue instanceof String) {
 						// 获得高亮关键字
