@@ -26,7 +26,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
 <style id="themeStyle"></style>
-
 <style type="text/css">
 #top .primary-color, a, #cancel-comment-reply-link, .blog-tags a:hover,
 	.relThumb a:hover strong, .flex_column h1, .flex_column h2,
@@ -36,6 +35,9 @@
 	color: #f0b70c;
 }
 </style>
+<script type="text/javascript"
+	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
+	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
 <body>
 	<%
@@ -187,7 +189,7 @@
 						<h3 class="title">最新消息</h3>
 						<div id="twitter_update_list">
 							<ul>
-								<li>nullpointer_ver1.0更新与2016年12月</li>
+								<li>nullpointer_ver1.0更新于2016年12月</li>
 							</ul>
 						</div>
 
@@ -234,5 +236,5 @@
 <script async src="${ctx}/assets/prettify/prettify.js"></script>
 <script src="${ctx}/assets/marked/marked.min.js"></script>
 <script src="${ctx}/js/hibernateSearch.js"></script>
-	
+
 </html>
