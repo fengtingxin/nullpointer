@@ -22,7 +22,7 @@ import com.framework.EncodingTool;
 import com.framework.Page;
 
 @Controller
-//@RequestMapping("hibernateSearch")
+// @RequestMapping("hibernateSearch")
 public class HibernateSearchController {
 	@Resource
 	private HibernateSearchServiceImpl hibernateSearchServiceImpl;
@@ -39,11 +39,11 @@ public class HibernateSearchController {
 	@RequestMapping(value = "/findBugAndQuestionByValue", method = RequestMethod.POST)
 	public void searchAll(@RequestParam(name = "title", defaultValue = "") String search, HttpServletRequest request,
 			Model model, HttpServletResponse response, HttpSession session) {
-		System.out.println("searchParam为" + search);
+		// System.out.println("searchParam为" + search);
 		if (search == "" || search.length() == 0) {
 			return;
 		}
-		System.out.println("查询内容" + search);
+		// System.out.println("查询内容" + search);
 		try {
 			// 这里不设置编码会有乱码
 			response.setContentType("text/html;charset=utf-8");
@@ -51,28 +51,18 @@ public class HibernateSearchController {
 		} catch (UnsupportedEncodingException e2) {
 			e2.printStackTrace();
 		}
-		List<Bug> bugs = null;
+		List<Object> bugs = null;
 		bugs = hibernateSearchServiceImpl.searchBug(search);
-		List<Question> questions = null;
+		List<Object> questions = null;
 		questions = hibernateSearchServiceImpl.searchQuestion(search);
-
-		// 打印
-		if (bugs != null)
-			System.out.println("BUG" + bugs);
-		if (questions != null)
-			System.out.println("Question" + questions);
-		// System.out.println("list长度为" + bugs.size());
-
 		if (bugs == null && questions == null) {
 			return;
 		}
 		try {
 			StringBuilder sb = new StringBuilder();
-			System.out.println("这是用hibernateSearch实现的");
-
 			// 如果bug和quesion不为空时，分两种情况
 			// 1 question+bug数小于4， 都显示出来
-			// 2 quesiont+bug 数大于4时， 若bug<4, 显示全部bug，再用question补充；
+			// 2 quesion+bug 数大于4时， 若bug<4, 显示全部bug，再用question补充；
 			// 若bug数大于4，直接显示4条bug。
 
 			// 如果 有为空的，则显示不为空的也分两种情况
@@ -80,10 +70,9 @@ public class HibernateSearchController {
 			// 2 bug为空，question不为空，显示小于等于4条question
 
 			if (bugs != null && questions != null) {
-
 				if (bugs.size() + questions.size() <= 4) {
-					for (Bug bug : bugs) {
-						String bugtitle = bug.getBugTitle();
+					for (Object bug : bugs) {
+						String bugtitle = bug.toString();
 						System.out.println(bugtitle);
 						if (bugtitle.length() > 120) {
 							sb.append("<li><a>" + bugtitle.substring(0, 120) + "</a></li>");
@@ -91,8 +80,8 @@ public class HibernateSearchController {
 							sb.append("<li><a>" + bugtitle + "</a></li>");
 						}
 					}
-					for (Question question : questions) {
-						String questiontitle = question.getQuestionTitle();
+					for (Object question : questions) {
+						String questiontitle = question.toString();
 						System.out.println(questiontitle);
 						if (questiontitle.length() > 120) {
 							sb.append("<li><a>" + questiontitle.substring(0, 120) + "</a></li>");
@@ -103,27 +92,26 @@ public class HibernateSearchController {
 				} else {
 					if (bugs.size() > 0 && bugs.size() <= 4) {
 						for (int i = 0; i < bugs.size(); i++) {
-							if (bugs.get(i).getBugTitle().length() >= 120) {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle().substring(0, 120) + "</a></li>");
+							if (bugs.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 						for (int i = 0; i < 4 - bugs.size(); i++) {
-							if (questions.get(i).getQuestionTitle().length() >= 120) {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle().substring(0, 120)
-										+ "</a></li>");
+							if (questions.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					}
 					if (bugs.size() > 4) {
 						for (int i = 0; i < 4; i++) {
-							if (bugs.get(i).getBugTitle().length() >= 120) {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle().substring(0, 120) + "</a></li>");
+							if (bugs.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					}
@@ -133,18 +121,18 @@ public class HibernateSearchController {
 				if (bugs != null && questions == null) {
 					if (bugs.size() > 4) {
 						for (int i = 0; i < 4; i++) {
-							if (bugs.get(i).getBugTitle().length() >= 120) {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle().substring(0, 120) + "</a></li>");
+							if (bugs.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					} else {
 						for (int i = 0; i < bugs.size(); i++) {
-							if (bugs.get(i).getBugTitle().length() >= 120) {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle().substring(0, 120) + "</a></li>");
+							if (bugs.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + bugs.get(i).getBugTitle() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					}
@@ -152,24 +140,21 @@ public class HibernateSearchController {
 				if (questions != null && bugs == null) {
 					if (questions.size() > 4) {
 						for (int i = 0; i < 4; i++) {
-							if (questions.get(i).getQuestionTitle().length() >= 120) {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle().substring(0, 120)
-										+ "</a></li>");
+							if (questions.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					} else {
 						for (int i = 0; i < questions.size(); i++) {
-							if (questions.get(i).getQuestionTitle().length() >= 120) {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle().substring(0, 120)
-										+ "</a></li>");
+							if (questions.get(i).toString().length() >= 120) {
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a>" + questions.get(i).getQuestionTitle() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					}
-
 				}
 			}
 			// System.out.println(sb.toString());
@@ -179,10 +164,10 @@ public class HibernateSearchController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * @author Ray_1
-	 * @desc  实现hibernate Search 查询分页bug
+	 * @desc 实现hibernate Search 查询分页bug
 	 * @param search
 	 * @param pageNum
 	 * @param session
@@ -190,22 +175,23 @@ public class HibernateSearchController {
 	 */
 	@RequestMapping("/findBugByPage")
 	public String listbug(@RequestParam("s") String search,
-			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
+			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Bug> page;
-		search=EncodingTool.encodeStr(search);
+		search = EncodingTool.encodeStr(search);
 		// System.out.println("search:" + search );
 		// System.out.println("到了controller"+"search"+search);
 		page = this.hibernateSearchServiceImpl.findBugByPage(pageNum, 8, search);
-		//System.out.println("一共多少条："+page.getTotalCount());
-		if(page!=null)
-		  session.setAttribute("bugpageCount", page.getTotalCount());
+		// System.out.println("一共多少条："+page.getTotalCount());
+		if (page != null)
+			session.setAttribute("bugpageCount", page.getTotalCount());
 		session.setAttribute("bugpages", page);
-		session.setAttribute("searchValue",search);
+		session.setAttribute("searchValue", search);
 		return "search_bug_list_admin";
 	}
+
 	/**
 	 * @author Ray_1
-	 * @desc  实现hibernate Search 查询分页question
+	 * @desc 实现hibernate Search 查询分页question
 	 * @param search
 	 * @param pageNum
 	 * @param session
@@ -213,15 +199,15 @@ public class HibernateSearchController {
 	 */
 	@RequestMapping("/findQuestionByPage")
 	public String listquestion(@RequestParam("s") String search,
-			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum,HttpSession session) {
+			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Question> page;
-		search=EncodingTool.encodeStr(search);
-		System.out.println("到了controller"+"search"+search);
+		search = EncodingTool.encodeStr(search);
+		System.out.println("到了controller" + "search" + search);
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
-		if(page!=null)
-		session.setAttribute("questionpageCount", page.getTotalCount());
-		session.setAttribute("searchValue",search);
+		if (page != null)
+			session.setAttribute("questionpageCount", page.getTotalCount());
+		session.setAttribute("searchValue", search);
 		return "search_q_a_list_new";
 	}
 }

@@ -14,11 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查看未审核的bug --nullpointer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<!-- basic styles -->
-
-		<link href="${ctx }/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome.min.css" />
+<!-- basic styles -->
+<link href="${ctx }/admin/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="${ctx }/admin/assets/css/font-awesome.min.css" />
 <!-- 网站logo缩略图 -->
 <link rel="shortcut icon" href="${ctx }/images/favicon.png" />
 <link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
@@ -315,8 +313,6 @@
 							</div>
 							<span>&nbsp; 选择皮肤</span>
 						</div>
-
-						
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
 							<label class="lbl" for="ace-settings-rtl"> 右向左 (rtl)</label>
@@ -340,7 +336,6 @@
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-
 		<script src="${ctx }/admin/assets/js/jquery.min.js"></script>
 
 		<!-- <![endif]-->
