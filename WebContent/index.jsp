@@ -134,7 +134,7 @@
 							<img alt="${ctx }/images/honor.png"
 								src="${ctx }/images/honor.png">&nbsp;&nbsp;荣&nbsp;誉&nbsp;榜
 						</h3>
-						<ul class="list-group">
+						<ul class="list-group" style="margin-top:20px;">
 							<c:set var="userList" value="${sessionScope.userList}"></c:set>
 							<c:if test="${userList!=null }">
 								<c:forEach items="${userList}" var="userInfo" varStatus="status">

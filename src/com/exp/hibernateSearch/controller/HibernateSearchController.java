@@ -202,7 +202,7 @@ public class HibernateSearchController {
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
 		Page<Question> page;
 		search = EncodingTool.encodeStr(search);
-		System.out.println("到了controller" + "search" + search);
+		//System.out.println("到了controller" + "search" + search);
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
 		if (page != null)
