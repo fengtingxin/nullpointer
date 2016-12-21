@@ -52,10 +52,11 @@
 		<div class="col-md-8 column">
 			<div class="example">
 				<h3>
-					<i class="icon-list-ul"></i> 官方BUG查询 <small>
+					<i class="icon-list-ul"></i> BUG查询 <small>
 						共${bugpageCount}条</small> 
 						<small>&nbsp;所用时间：${experienceTime }秒</small>
 				</h3>
+				<hr/>
 				<c:if test="${not empty bugpages.list }">
 				<div class="items items-hover">
 					<c:forEach items="${bugpages.list }" var="bug">
@@ -126,12 +127,12 @@
 				<c:if test="${not empty loginUser }">
 					<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip"
 						data-placement="right" id="share" title="分享需要经过管理员审核哦！"><button
-							class="btn btn-success btn-lg" type="button">我也要分享</button></a>
+							class="btn btn-success btn-lg" type="button">我要分享</button></a>
 				</c:if>
 				<c:if test="${empty loginUser }">
 					<a data-toggle="tooltip" data-placement="right" id="share"
 						title="分享需要经过管理员审核哦！"><button class="btn btn-success btn-lg"
-							type="button" onclick="verificate()">我也要分享</button></a>
+							type="button" onclick="verificate()">我要分享</button></a>
 					<!-- 点击分享之后 -->
 				</c:if>				
 			</div>

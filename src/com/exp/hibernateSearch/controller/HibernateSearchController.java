@@ -204,6 +204,7 @@ public class HibernateSearchController {
 	@RequestMapping("/findQuestionByPage")
 	public String listquestion(@RequestParam("s") String search,
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
+		Date startTime =new Date();
 		Page<Question> page;
 		search = EncodingTool.encodeStr(search);
 		//System.out.println("到了controller" + "search" + search);
@@ -212,6 +213,8 @@ public class HibernateSearchController {
 		if (page != null)
 			session.setAttribute("questionpageCount", page.getTotalCount());
 		session.setAttribute("searchValue", search);
+		Date endTime =new Date();
+		session.setAttribute("experienceTime", (endTime.getTime()-startTime.getTime())/1000+"."+(endTime.getTime()-startTime.getTime())%1000/100);
 		return "search_q_a_list_new";
 	}
 }
