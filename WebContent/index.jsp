@@ -130,21 +130,27 @@
 			<aside class="col-md-4 column">
 				<section class="widget">
 					<div class="quick-links-widget">
-						<h3 class="title"><img alt="${ctx }/images/honor.png" src="${ctx }/images/honor.png">&nbsp;&nbsp;荣&nbsp;誉&nbsp;榜</h3>
-						  <ul class="list-group">
-						  <c:set var="userList" value="${sessionScope.userList}"></c:set>
-						  <c:if test="${userList!=null }">
+						<h3 class="title">
+							<img alt="${ctx }/images/honor.png"
+								src="${ctx }/images/honor.png">&nbsp;&nbsp;荣&nbsp;誉&nbsp;榜
+						</h3>
+						<ul class="list-group">
+							<c:set var="userList" value="${sessionScope.userList}"></c:set>
+							<c:if test="${userList!=null }">
 								<c:forEach items="${userList}" var="userInfo" varStatus="status">
-								 <li>
-						    <span class="label label-warning">${status.count }</span>&nbsp;&nbsp;
-						       <a href="${ctx }/hishome?loginName=${userInfo.loginUser.loginName}">
-						    <img alt="" src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}" width="30px" height="30px" class="img-circle"> ${userInfo.loginUser.loginName }</a>
-						    &nbsp;&nbsp;<span class="label label-badge">${ userInfo.userInfoHonorCount}&nbsp;积分</span>
-						    </li>
+									<li><span class="label label-warning">${status.count }</span>&nbsp;&nbsp;
+										<a
+										href="${ctx }/hishome?loginName=${userInfo.loginUser.loginName}">
+											<img alt=""
+											src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}"
+											width="30px" height="30px" class="img-circle">
+											${userInfo.loginUser.loginName }
+									</a> &nbsp;&nbsp;<span class="label label-badge">${ userInfo.userInfoHonorCount}&nbsp;积分</span>
+									</li>
 								</c:forEach>
-						   </c:if>
-						   
-						  </ul>
+							</c:if>
+
+						</ul>
 					</div>
 				</section>
 
@@ -213,7 +219,7 @@
 						</div>
 					</section>
 				</div>
-				
+
 
 			</div>
 		</div>

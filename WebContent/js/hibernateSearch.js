@@ -40,9 +40,9 @@ $(document).ready(function() {
 					if (data == "") {
 						$("#dtitles").hide();
 					} else {
-						console.log("显示前的时间"+myDate.getSeconds());
+						//console.log("显示前的时间"+myDate.getSeconds());
 						$("#dtitles").append(data);
-						console.log("显示后的时间"+myDate.getSeconds());
+						//console.log("显示后的时间"+myDate.getSeconds());
 						// 4.鼠标移上去之后，加一个背景
 						$("li").hover(function() {
 							// alert("鼠标移上去");
@@ -52,6 +52,7 @@ $(document).ready(function() {
 						});
 						// 点击后显示在框里
 						$("li").click(function() {
+							
 							$("#s").val($(this).text());
 							$("#dtitles").hide();
 							if ($("#s").val() != "" || $("#s").val() != null) {

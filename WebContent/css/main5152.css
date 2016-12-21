@@ -144,10 +144,10 @@ span.tag-line {
 .main-nav .responsive-nav {
   display: none;
 }
-
 /* Header - Search ---------------------------------------------------------------------------------------------------*/
 .search-area-wrapper {
-  background: #353b65 url("../images/main-bg.jpg") center top no-repeat;
+  /*background: #353b65 url("../images/main-bg.jpg") center top no-repeat;*/
+  background: #353b65 url("../images/beijingtu.jpg") center top no-repeat;
   background-size: 100%;
   min-height: 279px;
   height: auto !important;
