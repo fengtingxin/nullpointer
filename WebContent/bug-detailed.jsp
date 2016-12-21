@@ -26,6 +26,7 @@
 <link href="${ctx}/docs/css/doc.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/css/main5152.css">
+<link rel="stylesheet" type="text/css" href="${ctx}/css/searchKuang.css">
 <style id="themeStyle"></style>
 <script type="text/javascript">
 function loadXMLDoc()
@@ -50,28 +51,17 @@ xmlhttp.open("GET","${ctx}/ajax/test1.txt",true);
 xmlhttp.send();
 }
 </script>
+<script type="text/javascript"
+	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
+	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
 
 <body>
 	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
-	<!--搜索框-->
-	<div class="search-area-wrapper">
-		<div class="search-area container">
-			<h3 class="search-header">今天你遇到什么技术难点了吗？</h3>
-			<p class="search-tag-line">请在下方搜索您所遇到的问题吧！</p>
-			<form id="search-form" class="search-form clearfix" method="get"
-				action="#" autocomplete="off" novalidate="novalidate">
-				<input class="search-term required" type="text" id="s" name="s"
-					placeholder="在这里搜索问题/BUG" title="* Please enter a search term!"
-					style="height: 43px;" />
-				<button type="button" class="btn btn-primary btn-lg"">BUG搜索</button>
-				<button type="button" class="btn btn-primary btn-lg"">问题搜索</button>
-				<div id="search-error-container"></div>
-			</form>
-		</div>
-	</div>
-	<!--搜索框完成-->
+	<!-- 搜索栏开始 -->
+	<%@include file="search-area.jsp"%>
+	<!-- 搜索栏完成 -->
 	<!--文章开始-->
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
 		<div style="border: 1px solid #ddd; padding: 20px;">
@@ -118,7 +108,7 @@ xmlhttp.send();
 			</section> <footer>
 			<div class="container" style="margin-top: 25px;">
 				<a href="javascript:void(0);" onclick="like()">
-					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left:45%; border: 1px solid #ddd;float:left">
 						<c:if test="${likeStatus==1 }">
 							<div id="likeOutSide" class="haveen">
 								<div class="container">
@@ -158,7 +148,7 @@ xmlhttp.send();
 				</a>
 				<a href="javascript:void(0);" onclick="hate()">
 					<div class="col-md-6 column thumbs"
-						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+						style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 1%;float:left">
 						<c:if test="${hateStatus==1 }">
 							<div id="hateOutSide" class="haveen">
 								<div class="container">
@@ -445,4 +435,6 @@ function focusAndChangeStatus(comentId){
 		});
 	});
 </script>
+<script src="${ctx}/js/hibernateSearch.js"></script>
+
 </html>

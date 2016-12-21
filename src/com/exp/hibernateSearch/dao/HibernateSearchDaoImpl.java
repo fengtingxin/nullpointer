@@ -29,8 +29,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 	/**
 	 * @author Ray_1
 	 * @author zhang zhao lin 优化
-	 * @功能：获取4条bug，并用高亮显示。
-	 * @param search
+	 * @功能：获取4条bug，并用高亮显示。 @param search
 	 * @return
 	 */
 
@@ -45,16 +44,16 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 				sql += search_s[i] + "%";
 			}
 			sql += "'";
-			sql +=" and bugAudited=true and bugAuditPass=true";
+			sql += " and bugAudited=true and bugAuditPass=true";
 			list = session.createSQLQuery(sql).list();
 			for (int i = 0; i < list.size(); i++) {
 				String title = list.get(i).toString();
-				if(title.length()>60){
+				if (title.length() > 60) {
 					title = title.substring(0, 60);
 					title += "...";
 				}
 				// 加粗处理
-				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>"+search_s[0]+"</font>");
+				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>" + search_s[0] + "</font>");
 				list.set(i, title);
 			}
 		} catch (Exception e) {
@@ -85,12 +84,12 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 			list = session.createSQLQuery(sql).list();
 			for (int i = 0; i < list.size(); i++) {
 				String title = list.get(i).toString();
-				if(title.length()>60){
+				if (title.length() > 60) {
 					title = title.substring(0, 60);
 					title += "...";
 				}
 				// 加粗处理
-				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>"+search_s[0]+"</font>");
+				title = title.replaceAll(search_s[0], "<font style='font-weight:bold;'>" + search_s[0] + "</font>");
 				list.set(i, title);
 			}
 		} catch (Exception e) {
@@ -124,8 +123,8 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		QueryBuilder qb = sf.buildQueryBuilder().forEntity(Bug.class).get();
 		List<Bug> list = null;
 		try {
-			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
+			// 精确短语查询(Exact Phrase Query)
+			org.apache.lucene.search.Query luceneQuery = qb.keyword()
 					.onFields("bugTitle", "bugDescribe", "bugReason", "bugMethod").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
@@ -200,8 +199,10 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 		List<Question> list = null;
 		try {
 			// 模糊查询
-			org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
+			org.apache.lucene.search.Query luceneQuery = qb.keyword()
 					.onFields("questionTitle", "questionDescribe").matching(search).createQuery();
+			//org.apache.lucene.search.Query luceneQuery = qb.keyword().fuzzy().withThreshold(1f)
+			//		.onFields("questionTitle", "questionDescribe").matching(search).createQuery();
 			Query hibQuery = fullTextSession.createFullTextQuery(luceneQuery);
 			hibQuery.setFirstResult((pageNum - 1) * pageSize);
 			hibQuery.setMaxResults(pageSize);
