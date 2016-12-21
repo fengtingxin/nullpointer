@@ -1,4 +1,8 @@
 package com.exp.entity;
+/**
+ * @author tangwenru
+ * 登录记录表
+ */
 import javax.persistence.CascadeType;
 /**
  * 

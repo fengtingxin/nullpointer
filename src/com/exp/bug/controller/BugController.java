@@ -243,7 +243,7 @@ public class BugController {
 	public String getBug(@RequestParam(name = "bugId") Integer bugId,HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
 		if(bug==null){
-			return "redirect:listadmin"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到listadmin页面
+			return "/404"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到404页面
 		}
 		LoginUser loginUser =(LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;
