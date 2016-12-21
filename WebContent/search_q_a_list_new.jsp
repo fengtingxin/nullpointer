@@ -35,6 +35,9 @@
 	color: #f0b70c;
 }
 </style>
+<script type="text/javascript"
+	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
+	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
 
 <body>
@@ -56,6 +59,7 @@
 					data-target="#tab2Content3">尚未解决</a></li>
 			</ul>
 			<div class="tab-content">
+				<c:if test="${not empty questionpages.list }">
 				<div class="tab-pane fade active in" id="tab2Content1">
 					<div class="items items-hover">
 						<!--标签1内容开始-->
@@ -104,6 +108,11 @@
 					</div>
 					<!--标签1内容结束-->
 				</div>
+				</c:if>
+				<c:if test="${empty questionpages.list }">
+					暂时不存在该数据
+				</c:if>
+				
 				<div class="tab-pane fade" id="tab2Content2">
 					<!--<p>标签2的内容。</p>-->
 
@@ -135,8 +144,15 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 

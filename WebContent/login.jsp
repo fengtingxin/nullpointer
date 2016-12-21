@@ -15,7 +15,7 @@
 <title>登录页面</title>
 <link rel="shortcut icon" href="${ctx }/images/favicon.png" />
 <link rel="shortcut icon" href="${ctx }/images/favicon.ico" />
-<link href="${ctx }/resources/style/style.css" rel="stylesheet"
+<link href="${ctx}/resources/style/style.css" rel="stylesheet"
 	type="text/css" />
 <script type="text/javascript"
 	src="${ctx }/resources/js/jquery-3.1.1.min.js"></script>

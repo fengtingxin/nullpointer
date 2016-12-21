@@ -2,6 +2,7 @@ package com.exp.hibernateSearch.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -73,45 +74,45 @@ public class HibernateSearchController {
 				if (bugs.size() + questions.size() <= 4) {
 					for (Object bug : bugs) {
 						String bugtitle = bug.toString();
-						System.out.println(bugtitle);
-						if (bugtitle.length() > 120) {
-							sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugtitle+"'>" + bugtitle.substring(0, 120) + "</a></li>");
+						//System.out.println(bugtitle);
+						if (bugtitle.length()> 120) {
+							sb.append("<li><a>" + bugtitle.substring(0, 120) + "</a></li>");
 						} else {
-							sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugtitle+"'>" + bugtitle + "</a></li>");
+							sb.append("<li><a>" + bugtitle + "</a></li>");
 						}
 					}
 					for (Object question : questions) {
 						String questiontitle = question.toString();
 						System.out.println(questiontitle);
 						if (questiontitle.length() > 120) {
-							sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questiontitle.replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questiontitle.substring(0, 120) + "</a></li>");
+							sb.append("<li><a>" + questiontitle.substring(0, 120) + "</a></li>");
 						} else {
-							sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questiontitle.replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questiontitle + "</a></li>");
+							sb.append("<li><a>" + questiontitle + "</a></li>");
 						}
 					}
 				} else {
 					if (bugs.size() > 0 && bugs.size() <= 4) {
 						for (int i = 0; i < bugs.size(); i++) {
 							if (bugs.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 						for (int i = 0; i < 4 - bugs.size(); i++) {
 							if (questions.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					}
 					if (bugs.size() > 4) {
 						for (int i = 0; i < 4; i++) {
 							if (bugs.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					}
@@ -122,17 +123,17 @@ public class HibernateSearchController {
 					if (bugs.size() > 4) {
 						for (int i = 0; i < 4; i++) {
 							if (bugs.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					} else {
 						for (int i = 0; i < bugs.size(); i++) {
 							if (bugs.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findBugByPage?s="+bugs.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + bugs.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + bugs.get(i).toString() + "</a></li>");
 							}
 						}
 					}
@@ -141,17 +142,17 @@ public class HibernateSearchController {
 					if (questions.size() > 4) {
 						for (int i = 0; i < 4; i++) {
 							if (questions.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					} else {
 						for (int i = 0; i < questions.size(); i++) {
 							if (questions.get(i).toString().length() >= 120) {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString().substring(0, 120) + "</a></li>");
 							} else {
-								sb.append("<li><a href='/nullpointer/findQuestionByPage?s="+questions.get(i).toString().replace("<font style='font-weight:bold;'>", "").replace("</font>", "")+"'>" + questions.get(i).toString() + "</a></li>");
+								sb.append("<li><a>" + questions.get(i).toString() + "</a></li>");
 							}
 						}
 					}
@@ -176,6 +177,7 @@ public class HibernateSearchController {
 	@RequestMapping("/findBugByPage")
 	public String listbug(@RequestParam("s") String search,
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
+		Date startTime =new Date();
 		Page<Bug> page;
 		search = EncodingTool.encodeStr(search);
 		// System.out.println("search:" + search );
@@ -184,6 +186,8 @@ public class HibernateSearchController {
 		// System.out.println("一共多少条："+page.getTotalCount());
 		if (page != null)
 			session.setAttribute("bugpageCount", page.getTotalCount());
+		Date endTime =new Date();
+		session.setAttribute("experienceTime", (endTime.getTime()-startTime.getTime())/1000+"."+(endTime.getTime()-startTime.getTime())%1000/100);
 		session.setAttribute("bugpages", page);
 		session.setAttribute("searchValue", search);
 		return "search_bug_list_admin";

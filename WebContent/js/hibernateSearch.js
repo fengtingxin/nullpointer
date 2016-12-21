@@ -25,9 +25,6 @@ $(document).ready(function() {
 		var myDate = new Date();
 		if (e.keyCode) {
 			var title = $("#s").val();
-			//alert(title);
-			// 3.获取到输入的内容之后，就要通过ajax传给后台
-			console.log("=====开始请求的时间"+myDate.getSeconds());
 			$.post(rescourse+"nullpointer/findBugAndQuestionByValue", {
 				"title" : title
 			}, function(data) {
@@ -40,9 +37,7 @@ $(document).ready(function() {
 					if (data == "") {
 						$("#dtitles").hide();
 					} else {
-						console.log("显示前的时间"+myDate.getSeconds());
 						$("#dtitles").append(data);
-						console.log("显示后的时间"+myDate.getSeconds());
 						// 4.鼠标移上去之后，加一个背景
 						$("li").hover(function() {
 							// alert("鼠标移上去");
@@ -52,6 +47,7 @@ $(document).ready(function() {
 						});
 						// 点击后显示在框里
 						$("li").click(function() {
+							
 							$("#s").val($(this).text());
 							$("#dtitles").hide();
 							if ($("#s").val() != "" || $("#s").val() != null) {
@@ -62,7 +58,6 @@ $(document).ready(function() {
 					}
 				}
 			});
-			//console.log("请求完按键的时间"+myDate.getSeconds());
 		}
 	}
 	);
