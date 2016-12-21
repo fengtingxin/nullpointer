@@ -41,6 +41,7 @@ public class UserInfo {
 	private Set<BugLikeRecord> bugLikeRecords = new HashSet<BugLikeRecord>(0);
     private SignInRecord signInRecord;
     private Set<SignUpRecord> signUpRecords=new HashSet<SignUpRecord>(0);
+  
 	@Id
 	@GenericGenerator(name = "foreignkey", strategy = "foreign", parameters = @Parameter(value = "loginUser", name = "property"))
 	@GeneratedValue(generator = "foreignkey")
@@ -179,10 +180,12 @@ public class UserInfo {
 	public Set<SignUpRecord> getSignUpRecords() {
 		return signUpRecords;
 	}
-
+    
 	public void setSignUpRecords(Set<SignUpRecord> signUpRecords) {
 		this.signUpRecords = signUpRecords;
 	}
+	
+
 	
 
 }

@@ -67,6 +67,7 @@ public class QuestionController {
 
 	/**
 	 * @author zhang zhao lin
+	 * @author tangwenru 增加社区属性，修改荣誉值
 	 * @param questionTitle
 	 *            标题
 	 * @param questionTag
@@ -373,7 +374,7 @@ public class QuestionController {
 	public String getQuestion(@RequestParam("questionId") Integer questionId,HttpServletRequest request) {
 		Question question = this.questionServiceImpl.getQuestion(questionId);
 		if (question == null) {
-			return "redirect:list_new"; // 若是没有找到这个问题，跳转到问题列表页，防止产生内容为空
+			return "/404"; // 若是没有找到这个问题，跳转到404，防止产生内容为空
 		}
 		LoginUser loginUser = (LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;

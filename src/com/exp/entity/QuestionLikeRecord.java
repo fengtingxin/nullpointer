@@ -1,4 +1,8 @@
 package com.exp.entity;
+/**
+ * @author tangwenru
+ * 问题被赞记录表
+ */
 import java.util.Date;
 
 import javax.persistence.CascadeType;

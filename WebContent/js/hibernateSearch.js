@@ -47,6 +47,7 @@ $(document).ready(function() {
 						});
 						// 点击后显示在框里
 						$("li").click(function() {
+							
 							$("#s").val($(this).text());
 							$("#dtitles").hide();
 							if ($("#s").val() != "" || $("#s").val() != null) {

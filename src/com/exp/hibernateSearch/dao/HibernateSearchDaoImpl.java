@@ -29,7 +29,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 	/**
 	 * @author Ray_1
 	 * @author zhang zhao lin 优化
-	 * @功能：用hibernateSearch 获取4条bug，并用高亮显示。
+	 * @功能：获取4条bug，并用高亮显示。
 	 * @param search
 	 * @return
 	 */
@@ -45,6 +45,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 				sql += search_s[i] + "%";
 			}
 			sql += "'";
+			sql +=" and bugAudited=true and bugAuditPass=true";
 			list = session.createSQLQuery(sql).list();
 			for (int i = 0; i < list.size(); i++) {
 				String title = list.get(i).toString();
@@ -64,7 +65,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 
 	/**
 	 * @author Ray_1
-	 * @功能：用hibernateSearch查询4条 question，并用高亮显示。
+	 * @功能：查询4条 question，并用高亮显示。
 	 * @param search
 	 * @return
 	 */

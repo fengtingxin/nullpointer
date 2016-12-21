@@ -32,7 +32,7 @@
 					<div class="login-container">
 						<div class="center">
 							<h1>
-								<img src="${ctx }/images/logo.png">
+								<a href="${ctx }/"><img src="${ctx }/images/logo.png"></a>
 							</h1>
 							<h4 class="blue">&copy; nullpointer<br/><span id="btitle">管理员登陆</span></h4>
 						</div>

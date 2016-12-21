@@ -73,8 +73,8 @@ public class HibernateSearchController {
 				if (bugs.size() + questions.size() <= 4) {
 					for (Object bug : bugs) {
 						String bugtitle = bug.toString();
-						System.out.println(bugtitle);
-						if (bugtitle.length() > 120) {
+						//System.out.println(bugtitle);
+						if (bugtitle.length()> 120) {
 							sb.append("<li><a>" + bugtitle.substring(0, 120) + "</a></li>");
 						} else {
 							sb.append("<li><a>" + bugtitle + "</a></li>");

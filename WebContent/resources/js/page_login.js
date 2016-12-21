@@ -144,7 +144,6 @@ function login(validate, remeberUser) {
 				$('.loading').show();
 			},
 			success : function(data, status) {
-				//console.log(data);
 				$('.loading').hide();
 				if (data == "0") {
 					// 登录成功
@@ -179,16 +178,16 @@ function login(validate, remeberUser) {
 					$(".login-error").show();
 					$(".login-error").html(
 							$.i18n.prop("不存在该用户"));
-				} else if (data =="19") {
-					// 登录失败[需要重新输入密码]
-					$(".login-error").show();
-					$(".loin-error").html(
-							$.i18n.prop("登录失败[密码错误]"));
-				} else if (data == "16") {
+				} else if (data =="16") {
 					// 邮箱未激活
 					$(".login-error").show();
 					$(".login-error").html(
 							$.i18n.prop("邮箱未激活，请激活后登录"));
+				} else if (data == "15") {
+					// 登录失败[需要重新输入密码]
+					$(".login-error").show();
+					$(".login-error").html(
+							$.i18n.prop("登录失败[密码错误]"));
 				}else {
 				// 登录异常
 				$(".login-error").show();

@@ -154,8 +154,9 @@ public class BugController {
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
-					bugList.add(it.next());
+				Bug bug_next = it.next();
+				if (bug_next.getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
+					bugList.add(bug_next);
 				}
 			}
 			System.out.println(bugList.size());
@@ -210,8 +211,9 @@ public class BugController {
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
-					bugList.add(it.next());
+				Bug bug_next = it.next();
+				if (bug_next.getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
+					bugList.add(bug_next);
 				}
 			}
 			page.setCurrentPageNum(pageNum);
@@ -243,7 +245,7 @@ public class BugController {
 	public String getBug(@RequestParam(name = "bugId") Integer bugId,HttpServletRequest request) {
 		Bug bug = this.bugServiceImpl.getBug(bugId);
 		if(bug==null){
-			return "redirect:listadmin"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到listadmin页面
+			return "/404"; //若是没有找到bug，也就是避免用户输入地址显示内容为空，跳转到404页面
 		}
 		LoginUser loginUser =(LoginUser) request.getSession().getAttribute("loginUser");
 		Integer userInfoId;

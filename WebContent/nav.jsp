@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+session.setMaxInactiveInterval(3600);//单位为秒
+%>
 <nav class="navbar navbar-inverse" role="navigation"
 	style="margin-bottom: 0px;">
 	<div class="center-block">

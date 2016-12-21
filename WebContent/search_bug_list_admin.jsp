@@ -35,6 +35,9 @@
 	color: #f0b70c;
 }
 </style>
+<script type="text/javascript"
+	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
+	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
 
 <body>
@@ -134,8 +137,15 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/listadmin?tagName=${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/bug/listadmin?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 			</div>
