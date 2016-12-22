@@ -73,7 +73,7 @@
 					</div>
 					<div class="row btnArea">
 						<a class="login-btn" id="submit"
-							style="text-decoration: none font-family="">登录</a>
+							style="text-decoration: none">登录</a>
 					</div>
 					<div class="row tips">
 						<a href="${ctx }/admin/login.jsp" class="link">管理员登录</a>

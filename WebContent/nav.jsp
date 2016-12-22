@@ -27,19 +27,14 @@
 			<div class="collapse navbar-collapse navbar-collapse-example">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<c:if test="${searchValue==null}">
-						<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
+					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
+					<li><a href="${ctx}/question/list_new">技术问答</a></li>
+					<li><a href="${ctx}/help.jsp">帮助</a></li>
+					<c:if test="${not empty loginUser}">
+						<c:if test="${loginUser.role.roleId ==1}">
+							<li><a href="${ctx}/admin/advice">后台</a></li>
+						</c:if>
 					</c:if>
-					<c:if test="${searchValue!=null}">
-						<li><a href="${ctx}/findBugByPage?s=${searchValue}">BUGS</a></li>
-					</c:if>
-					<c:if test="${searchValue==null}">
-						<li><a href="${ctx}/question/list_new">技术问答</a></li>
-					</c:if>
-					<c:if test="${searchValue!=null}">
-						<li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
-					</c:if>
-					<li><a href="${ctx}/contact">帮助</a></li>
 					<c:if test="${loginUser==null}">
 						<li><a href="${ctx}/login.jsp">登录/注册</a></li>
 					</c:if>

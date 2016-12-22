@@ -14,12 +14,14 @@ import com.exp.entity.LoginUser;
 import com.exp.entity.SignInRecord;
 import com.exp.entity.UserInfo;
 import com.exp.signInRecord.service.SignInRecordServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 
 @Controller
 public class SignInRecordController {
 	@Resource
 	private SignInRecordServiceImpl signInRecordServiceImpl;
-	
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
 	@RequestMapping(value="sign",method=RequestMethod.POST)
 	@ResponseBody
 	public String sign(HttpServletRequest request){
@@ -32,8 +34,11 @@ public class SignInRecordController {
 			SignInRecord signInRecord=new SignInRecord();
 			signInRecord.setLastTime(new Date());
 			signInRecord.setSignNumber(1);
+			
 			signInRecord.setUserInfo(loginUser.getUserInfo());
 			this.signInRecordServiceImpl.saveSignInRecord(signInRecord);
+			loginUser.getUserInfo().setUserInfoHonorCount(loginUser.getUserInfo().getUserInfoHonorCount()+1);
+			this.userInfoServiceImpl.updateUserInfo(loginUser.getUserInfo());
 			return "theFirst";
 		}else{
 		   Date date=new Date();
@@ -48,6 +53,8 @@ public class SignInRecordController {
 			   userInfo.getSignInRecord().setLastTime(new Date());
 			   userInfo.getSignInRecord().setSignNumber(userInfo.getSignInRecord().getSignNumber()+1);
 			   this.signInRecordServiceImpl.updateSignInRecord(userInfo.getSignInRecord());
+			   loginUser.getUserInfo().setUserInfoHonorCount(loginUser.getUserInfo().getUserInfoHonorCount()+1);
+			   this.userInfoServiceImpl.updateUserInfo(loginUser.getUserInfo());
 			   return "signOk";
 		   }
 		}

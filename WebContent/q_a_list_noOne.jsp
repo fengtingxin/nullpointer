@@ -84,23 +84,26 @@
 							</div>
 						</c:forEach>
 						<!--分页实现-->
+						<c:if test="${tagName=='C++'}">
+							<c:set var="tagName" value="C%2B%2B"></c:set>
+						</c:if>
 						<ul class="pager pager-loose">
 							<li class="previous"><a
-								href="${ctx}/question/list_noone?currentPageNum=${questionPage.prePageNum}">«</a></li>
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.prePageNum}&tagName=${tagName}">«</a></li>
 							<c:forEach begin="1" end="${questionPage.totalPageNum }"
 								var="pageNum">
 								<c:if test="${pageNum ==questionPage.currentPageNum }">
 									<li class="active"><a
-										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }&tagName=${tagName}">${pageNum }</a></li>
 								</c:if>
 								<c:if test="${pageNum !=questionPage.currentPageNum }">
 									<li><a
-										href="${ctx }/question/list_noone?currentPageNum=${pageNum }">${pageNum }</a></li>
+										href="${ctx }/question/list_noone?currentPageNum=${pageNum }&tagName=${tagName}">${pageNum }</a></li>
 								</c:if>
 
 							</c:forEach>
 							<li class="next"><a
-								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}">»</a></li>
+								href="${ctx}/question/list_noone?currentPageNum=${questionPage.nextPageNum}&tagName=${tagName}">»</a></li>
 						</ul>
 					</div>
 					<!--标签1内容结束-->
