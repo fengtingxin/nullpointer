@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -277,11 +276,13 @@ public class QuestionController {
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
 			page.setList(bugList);
+			session.setAttribute("tagName", tagName);
 			session.setAttribute("tagList", tagList);
 			session.setAttribute("questionPage", page);
 			return "q_a_list_new";
 		}
 		page = questionServiceImpl.findQuestion_theNew(currentPageNum, pageSize);
+		session.setAttribute("tagName", "");
 		session.setAttribute("questionPage", page);
 		session.setAttribute("tagList", tagList);
 		return "q_a_list_new";
@@ -319,11 +320,13 @@ public class QuestionController {
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
 			page.setList(bugList);
+			session.setAttribute("tagName", tagName);
 			session.setAttribute("tagList", tagList);
 			session.setAttribute("questionPage", page);
 			return "q_a_list_answer";
 		}
 		page = questionServiceImpl.findQuestion_theMostAnswerCount(currentPageNum, pageSize);
+		session.setAttribute("tagName", "");
 		session.setAttribute("questionPage", page);
 		return "q_a_list_answer";
 	}
@@ -354,11 +357,13 @@ public class QuestionController {
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
 			page.setList(bugList);
+			session.setAttribute("tagName", tagName);
 			session.setAttribute("tagList", tagList);
 			session.setAttribute("questionPage", page);
 			return "q_a_list_noOne";
 		}
 		page = questionServiceImpl.findQuestion_noOne(currentPageNum, pageSize);
+		session.setAttribute("tagName", "");
 		session.setAttribute("questionPage", page);
 		return "q_a_list_noOne";
 	}

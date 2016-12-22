@@ -71,8 +71,8 @@
 											<a
 												href="${ctx }/question/findone?questionId=${question.questionId}"
 												data-toggle="tooltip" title="${question.questionTitle}">
-												${fn:substring(question.questionTitle,0,20)} <c:if
-													test="${fn:length(question.questionTitle) >20}">...</c:if>
+												${fn:substring(question.questionTitle,0,25)} <c:if
+													test="${fn:length(question.questionTitle) >25}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"><fmt:formatDate
 												value="${question.questionPublishTime}" pattern="yyyy-MM-dd" />
@@ -101,8 +101,8 @@
 										<h4>
 											<a href="${ctx }/bug/findone?bugId=${bug.bugId}"
 												data-toggle="tooltip" title="${bug.bugTitle}">
-												${fn:substring(bug.bugTitle, 0,20)} <c:if
-													test="${fn:length(bug.bugTitle)>20}">...</c:if>
+												${fn:substring(bug.bugTitle, 0,25)} <c:if
+													test="${fn:length(bug.bugTitle)>25}">...</c:if>
 											</a>
 										</h4> <span class="article-meta"> <fmt:formatDate
 												value="${bug.bugPublishTime}" pattern="yyyy-MM-dd" /> <c:set

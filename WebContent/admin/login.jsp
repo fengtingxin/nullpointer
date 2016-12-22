@@ -54,12 +54,12 @@
 												<label class="block clearfix"> <span
 													class="block input-icon input-icon-right"> <input
 														type="text" id="name" class="form-control" name="name"
-														placeholder="Username" /> <i class="icon-user"></i>
+														placeholder="用户名" /> <i class="icon-user"></i>
 												</span>
 												</label> <label class="block clearfix"> <span
 													class="block input-icon input-icon-right"> <input
 														type="password" id="password" class="form-control"
-														name="password" placeholder="Password" /> <i
+														name="password" placeholder="密码" /> <i
 														class="icon-lock"></i> <c:if
 															test="${not empty loginError }">
 															<span id="loginErrorSpan"

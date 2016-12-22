@@ -85,22 +85,26 @@
 					</c:forEach>
 				</div>
 				<!--分页实现-->
+				<c:if test="${tagName=='C++'}">
+					<c:set var="tagName" value="C%2B%2B"></c:set>
+				</c:if>
 				<ul class="pager pager-loose">
 					<li class="previous"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.prePageNum}">«</a></li>
+						href="${ctx}/bug/listadmin?pageNum=${page.prePageNum}&tagName=${tagName}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum }" var="pageNum">
 						<c:if test="${pageNum ==page.currentPageNum}">
+							
 							<li class="active"><a name="pagen"
-								href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+								href="${ctx }/bug/listadmin?pageNum=${pageNum }&tagName=${tagName}">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=page.currentPageNum}">
 							<li><a name="pagen"
-								href="${ctx }/bug/listadmin?pageNum=${pageNum }">${pageNum }</a></li>
+								href="${ctx }/bug/listadmin?pageNum=${pageNum }&tagName=${tagName}">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/bug/listadmin?pageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/bug/listadmin?pageNum=${page.nextPageNum}&tagName=${tagName}">»</a></li>
 				</ul>
 			</div>
 

@@ -420,7 +420,7 @@ function focusAndChangeStatus(comentId){
 <script src="${ctx }/docs/js/doc.min.js"></script>
 <!-- 增强文档插件 -->
 <script src="${ctx }/assets/prettify/prettify.js"></script>
-<style type="text/css" href="${ctx }/assets/prettify/prettify.css"></style>
+<link type="text/css" href="${ctx }/assets/prettify/prettify.css"></link>
 <script src="${ctx }/assets/marked/marked.min.js"></script>
 <script src="${ctx }/js/kindeditor/kindeditor.js"></script>
 <script type="text/javascript">
