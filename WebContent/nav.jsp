@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-session.setMaxInactiveInterval(3600);//单位为秒
+	session.setMaxInactiveInterval(3600);//单位为秒
 %>
 <nav class="navbar navbar-inverse" role="navigation"
 	style="margin-bottom: 0px;">
@@ -24,12 +27,17 @@ session.setMaxInactiveInterval(3600);//单位为秒
 			<div class="collapse navbar-collapse navbar-collapse-example">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="current-menu-item"><a href="${ctx}/index.jsp">主页</a></li>
-					<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					<c:if test="${searchValue==null}">
-					  <li><a href="${ctx}/question/list_new">技术问答</a></li>
+						<li><a href="${ctx}/bug/listadmin">BUGS</a></li>
 					</c:if>
 					<c:if test="${searchValue!=null}">
-					  <li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
+						<li><a href="${ctx}/findBugByPage?s=${searchValue}">BUGS</a></li>
+					</c:if>
+					<c:if test="${searchValue==null}">
+						<li><a href="${ctx}/question/list_new">技术问答</a></li>
+					</c:if>
+					<c:if test="${searchValue!=null}">
+						<li><a href="${ctx}/findQuestionByPage?s=${searchValue}">技术问答</a></li>
 					</c:if>
 					<li><a href="${ctx}/contact">帮助</a></li>
 					<c:if test="${loginUser==null}">

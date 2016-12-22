@@ -52,10 +52,12 @@
 		<div class="col-md-8 column">
 			<div class="example">
 				<h3>
-					<i class="icon-list-ul"></i> 官方BUG查询 <small>
-						共${bugpageCount}条</small>
+					<i class="icon-list-ul"></i> BUG查询 <small>
+						共${bugpageCount}条</small> 
+						<small>&nbsp;所用时间：${experienceTime }秒</small>
 				</h3>
-			
+				<hr/>
+				<c:if test="${not empty bugpages.list }">
 				<div class="items items-hover">
 					<c:forEach items="${bugpages.list }" var="bug">
 						<div class="item">
@@ -100,6 +102,10 @@
 					<li class="next"><a
 						href="${ctx}/hibernateSearch/findBugByPage?pageBugNum=${bugpages.nextPageNum}">»</a></li>
 				</ul>
+				</c:if>
+				<c:if test="${empty bugpages.list }">
+					暂时不存在该数据
+				</c:if>
 			</div>
 		</div>
 		
@@ -110,7 +116,7 @@
 					<i class="icon icon-align-left"></i> 分类管理
 				</h2>
 				<ul class="nav nav-stacked nav-primary" style="margin-top: 20px;">
-					<li class="active"><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
+					<li><a href="${ctx}/bug/listadmin">官方BUG查询</a></li>
 					<li><a href="${ctx}/bug/listuser">用户BUG查询</a></li>
 				</ul>
 			</div>
@@ -121,12 +127,12 @@
 				<c:if test="${not empty loginUser }">
 					<a href="${ctx }/bug/bugShareByUser" data-toggle="tooltip"
 						data-placement="right" id="share" title="分享需要经过管理员审核哦！"><button
-							class="btn btn-success btn-lg" type="button">我也要分享</button></a>
+							class="btn btn-success btn-lg" type="button">我要分享</button></a>
 				</c:if>
 				<c:if test="${empty loginUser }">
 					<a data-toggle="tooltip" data-placement="right" id="share"
 						title="分享需要经过管理员审核哦！"><button class="btn btn-success btn-lg"
-							type="button" onclick="verificate()">我也要分享</button></a>
+							type="button" onclick="verificate()">我要分享</button></a>
 					<!-- 点击分享之后 -->
 				</c:if>				
 			</div>
@@ -137,8 +143,15 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/listadmin?tagName=${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/bug/listadmin?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/bug/listadmin?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 			</div>

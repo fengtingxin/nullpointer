@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!--搜索框-->
-
-<div class="search-area-wrapper">
+<script type="text/javascript" src="${ctx }/js/jquery-1.8.3.min.js"></script>
+ <!-- 刷新替换背景 -->
+  <script type="text/javascript">
+    $(function() {
+      var bg = Math.floor(Math.random() * 8+ 1);
+      $('#search-area-wrapper').css('background-image', 'url(images/main-bg'+ bg +'.jpg)');
+    });
+  </script>
+<div class="search-area-wrapper" id="search-area-wrapper">
 	<div class="search-area container">
 		<h3 class="search-header">今天你遇到什么技术难点了吗？</h3>
 		<p class="search-tag-line">请在下方搜索您所遇到的问题吧！</p>

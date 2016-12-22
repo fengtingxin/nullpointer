@@ -154,8 +154,9 @@ public class BugController {
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
-					bugList.add(it.next());
+				Bug bug_next = it.next();
+				if (bug_next.getUserInfo().getLoginUser().getRole().getRoleId() == 1) {
+					bugList.add(bug_next);
 				}
 			}
 			System.out.println(bugList.size());
@@ -210,8 +211,9 @@ public class BugController {
 			List<Bug> bugList = new ArrayList<Bug>(0);
 			Iterator<Bug> it = hashset.iterator();
 			while (it.hasNext()) {
-				if (it.next().getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
-					bugList.add(it.next());
+				Bug bug_next = it.next();
+				if (bug_next.getUserInfo().getLoginUser().getRole().getRoleId() == 2) {
+					bugList.add(bug_next);
 				}
 			}
 			page.setCurrentPageNum(pageNum);

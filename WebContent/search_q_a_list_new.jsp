@@ -50,15 +50,14 @@
 	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
 		<div class="col-md-8 column"
 			style="border: 1px solid #ddd; padding: 20px;">
-			<ul class="nav nav-tabs">
-				<li><a class="active" href="${ctx }/question/list_new"
-					data-target="#tab2Content1">最新发布</a></li>
-				<li><a href="${ctx }/question/list_answer"
-					data-target="#tab2Content2">最多人回答</a></li>
-				<li><a href="${ctx }/question/list_noone"
-					data-target="#tab2Content3">尚未解决</a></li>
-			</ul>
+			<h3>
+					<i class="icon-list-ul"></i> 问题查询 <small>
+						共${questionpageCount}条</small> 
+						<small>&nbsp;所用时间：${experienceTime }秒</small>
+				</h3>
+				<hr/>
 			<div class="tab-content">
+				<c:if test="${not empty questionpages.list }">
 				<div class="tab-pane fade active in" id="tab2Content1">
 					<div class="items items-hover">
 						<!--标签1内容开始-->
@@ -107,6 +106,11 @@
 					</div>
 					<!--标签1内容结束-->
 				</div>
+				</c:if>
+				<c:if test="${empty questionpages.list }">
+					暂时不存在该数据
+				</c:if>
+				
 				<div class="tab-pane fade" id="tab2Content2">
 					<!--<p>标签2的内容。</p>-->
 
@@ -122,14 +126,39 @@
 
 		</div>
 		<div class="col-md-4 column" style="margin-top: 30px;">
-			<div class="col-md-12" style="margin-top: 20px;">
-				<h2>
-					<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
-				</h2>
-				<a href="${ctx }/question.jsp"><button
-						class="btn btn-success btn-lg" type="button">向大哲们提问</button></a>
+			<!-- 如果用户没有登陆 提示登陆 -->
+			<c:if test="${empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a data-toggle="tooltip" data-placement="right" id="share"><button
+							class="btn btn-success btn-lg" type="button"
+							onclick="verificate()">向大哲们提问</button></a>
 
-			</div>
+				</div>
+				<!-- 点击分享之后 -->
+				<script type="text/javascript">
+					function verificate() {
+						new $.zui.Messager('您还没有登录哦！', {
+							icon : 'heart',
+							placement : 'top',// 定义显示位置
+							type : 'warning',
+						}).show();
+					}
+				</script>
+			</c:if>
+			<!-- 如果用户已经登陆 -->
+			<c:if test="${not empty loginUser }">
+				<div class="col-md-12" style="margin-top: 20px;">
+					<h2>
+						<i class="icon icon-comments icon-2x"></i> 没有你想要的问题？
+					</h2>
+					<a href="${ctx }/question.jsp"><button
+							class="btn btn-success btn-lg" type="button">向大哲们提问</button></a>
+
+				</div>
+			</c:if>
 
 			<div class="col-md-12" style="margin-top: 20px;">
 				<h2>
@@ -138,8 +167,15 @@
 				<div class="tagcloud">
 					<c:set var="tag" value="${sessionScope.tagList}"></c:set>
 					<c:forEach var="tt" items="${tag}">
-						<a href="${ctx}/listadmin?tagName = ${tt.tagName}"
-							class="btn btn-primary">${tt.tagName}</a>
+						<c:if test="${tt.tagName =='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=C%2B%2B"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+						<c:if test="${tt.tagName !='C++'}">
+							<a href="${ctx}/question/list_answer?tagName=${tt.tagName}"
+								class="btn btn-primary">${tt.tagName}</a>
+						</c:if>
+
 					</c:forEach>
 				</div>
 

@@ -2,6 +2,7 @@ package com.exp.hibernateSearch.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -176,6 +177,7 @@ public class HibernateSearchController {
 	@RequestMapping("/findBugByPage")
 	public String listbug(@RequestParam("s") String search,
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
+		Date startTime =new Date();
 		Page<Bug> page;
 		search = EncodingTool.encodeStr(search);
 		// System.out.println("search:" + search );
@@ -184,6 +186,8 @@ public class HibernateSearchController {
 		// System.out.println("一共多少条："+page.getTotalCount());
 		if (page != null)
 			session.setAttribute("bugpageCount", page.getTotalCount());
+		Date endTime =new Date();
+		session.setAttribute("experienceTime", (endTime.getTime()-startTime.getTime())/1000+"."+(endTime.getTime()-startTime.getTime())%1000/100);
 		session.setAttribute("bugpages", page);
 		session.setAttribute("searchValue", search);
 		return "search_bug_list_admin";
@@ -200,14 +204,17 @@ public class HibernateSearchController {
 	@RequestMapping("/findQuestionByPage")
 	public String listquestion(@RequestParam("s") String search,
 			@RequestParam(name = "pageBugNum", defaultValue = "1") int pageNum, HttpSession session) {
+		Date startTime =new Date();
 		Page<Question> page;
 		search = EncodingTool.encodeStr(search);
-		System.out.println("到了controller" + "search" + search);
+		//System.out.println("到了controller" + "search" + search);
 		page = this.hibernateSearchServiceImpl.findQuestionByPage(pageNum, 8, search);
 		session.setAttribute("questionpages", page);
 		if (page != null)
 			session.setAttribute("questionpageCount", page.getTotalCount());
 		session.setAttribute("searchValue", search);
+		Date endTime =new Date();
+		session.setAttribute("experienceTime", (endTime.getTime()-startTime.getTime())/1000+"."+(endTime.getTime()-startTime.getTime())%1000/100);
 		return "search_q_a_list_new";
 	}
 }
