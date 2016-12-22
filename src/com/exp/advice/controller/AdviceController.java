@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exp.advice.service.AdviceServiceImpl;
 import com.exp.entity.Advice;
+import com.exp.entity.LoginUser;
 import com.exp.entity.Question;
+import com.exp.entity.UserInfo;
 import com.exp.question.service.QuestionServiceImpl;
+import com.exp.userinfo.service.UserInfoServiceImpl;
 import com.framework.EncodingTool;
 @Controller
 public class AdviceController {
@@ -25,6 +28,8 @@ public class AdviceController {
 	private AdviceServiceImpl adviceServiceImpl;
 	@Resource
 	private QuestionServiceImpl questionServiceImpl;
+	@Resource
+	private UserInfoServiceImpl userInfoServiceImpl;
 	
 	/**
 	 * 功能：
@@ -64,10 +69,18 @@ public class AdviceController {
 	 * @return
 	 * 跳转回提交页面
 	 * @author fengtingxin
+	 * @author tangwenru 若当前用户登录，提交建议时，荣誉值+1
 	 */
 	@RequestMapping(value = "advice", method = RequestMethod.POST)
 	@ResponseBody
-	public String adviceSubmit(@RequestParam(name="name",defaultValue="")String adviceUserName,@RequestParam(name="email",defaultValue="")String adviceUserEmail,@RequestParam(name="theme",defaultValue="")String adviceTheme,@RequestParam(name="advice",defaultValue="")String adviceContent,HttpServletRequest request){
+	public String adviceSubmit(@RequestParam(name="name",defaultValue="")String adviceUserName,@RequestParam(name="email",defaultValue="")String adviceUserEmail,@RequestParam(name="theme",defaultValue="")String adviceTheme,@RequestParam(name="advice",defaultValue="")String adviceContent,HttpServletRequest request,HttpSession session){
+		if(session.getAttribute("loginUser")!=null){
+			LoginUser loginUser=(LoginUser)session.getAttribute("loginUser");
+			UserInfo userInfo=loginUser.getUserInfo();
+			userInfo.setUserInfoHonorCount(userInfo.getUserInfoHonorCount()+1);
+			this.userInfoServiceImpl.updateUserInfo(userInfo);
+			
+		}
 		//code
 		try {
 		adviceUserName=EncodingTool.encodeStr(adviceUserName);

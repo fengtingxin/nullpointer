@@ -145,7 +145,7 @@
 											src="${ctx}/imgUp/${userInfo.userInfoHeadPortrait}"
 											width="30px" height="30px" class="img-circle">
 											${userInfo.loginUser.loginName }
-									</a> &nbsp;&nbsp;<span class="label label-badge">${ userInfo.userInfoHonorCount}&nbsp;积分</span>
+									</a> &nbsp;&nbsp;<span class="label label-badge">荣誉值&nbsp;${ userInfo.userInfoHonorCount}</span>
 									</li>
 								</c:forEach>
 							</c:if>
