@@ -32,14 +32,13 @@
 	.flex_column h3, .flex_column h4, .flex_column h5, .flex_column h6,
 	#top #wrap_all .tweet-text a, #top #js_sort_items a.active_sort,
 	.callout a:hover {
-	color: #f0b70c;
+	color: #000;
 }
 </style>
 <script type="text/javascript"
 	src="${ctx }/js/hibernateSearch.js?lang=zh" id="rescourse"
 	data="<%= request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"%>"></script>
 </head>
-
 <body>
 	<%@ include file="nav.jsp"%>
 	<!--导航栏完成-->
@@ -67,7 +66,7 @@
 								<div class="item-heading">
 									<h2 class="post-title">
 										<a
-											href="${ctx }/question/findone?questionId=${question.questionId}">${question.questionTitle }</a>
+											href="${ctx }/question/findone?questionId=${question.questionId}" style="color:#000">${question.questionTitle }</a>
 									</h2>
 								</div>
 								<div class="item-content">

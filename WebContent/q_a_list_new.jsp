@@ -32,7 +32,7 @@
 	.flex_column h3, .flex_column h4, .flex_column h5, .flex_column h6,
 	#top #wrap_all .tweet-text a, #top #js_sort_items a.active_sort,
 	.callout a:hover {
-	color: #f0b70c;
+	color: #000;
 }
 </style>
 <script type="text/javascript"
@@ -131,7 +131,6 @@
 					<a data-toggle="tooltip" data-placement="right" id="share"><button
 							class="btn btn-success btn-lg" type="button"
 							onclick="verificate()">向大哲们提问</button></a>
-
 				</div>
 				<!-- 点击分享之后 -->
 				<script type="text/javascript">

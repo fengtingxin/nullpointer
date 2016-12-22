@@ -34,7 +34,7 @@
 	.flex_column h3, .flex_column h4, .flex_column h5, .flex_column h6,
 	#top #wrap_all .tweet-text a, #top #js_sort_items a.active_sort,
 	.callout a:hover {
-	color: #f0b70c;
+	color: #000;
 }
 </style>
 <script type="text/javascript"
@@ -63,7 +63,7 @@
 						<div class="item">
 							<div class="item-heading">
 								<h2 class="post-title">
-									<a href="${ctx }/bug/findone?bugId=${bug.bugId}">${fn:substring(bug.bugTitle,0,45)}
+									<a href="${ctx }/bug/findone?bugId=${bug.bugId}" style="color:#000">${fn:substring(bug.bugTitle,0,45)}
 										<c:if test="${fn:length(bug.bugTitle) >45}">...</c:if>
 									</a>
 								</h2>

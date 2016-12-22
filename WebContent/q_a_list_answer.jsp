@@ -32,7 +32,7 @@
 	.flex_column h3, .flex_column h4, .flex_column h5, .flex_column h6,
 	#top #wrap_all .tweet-text a, #top #js_sort_items a.active_sort,
 	.callout a:hover {
-	color: #f0b70c;
+	color: #000;
 }
 </style>
 <script type="text/javascript"
