@@ -19,7 +19,7 @@
 						<li class="flickr"><a target="_blank" href="https://www.flickr.com/"></a></li>
 						<li class="skype"><a target="_blank" href="http://skype.gmw.cn/"></a></li>
 						<li class="rss"><a target="_blank" href="http://rss.cnw.com.cn/"></a></li>
-						<li class="twitter"><a targetdd="_blank" href="https://twitter.com/"></a></li>
+						<li class="twitter"><a target="_blank" href="https://twitter.com/"></a></li>
 						<li class="facebook"><a target="_blank" href="https://www.facebook.com/"></a></li>
 					</ul>
 				</div>

@@ -164,6 +164,7 @@ public class BugController {
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
 			page.setList(bugList);
+			session.setAttribute("tagName", tagName);
 			session.setAttribute("tagList", tagList);
 			session.setAttribute("adminBugNum", hashset.size());
 			session.setAttribute("page", page);
@@ -171,7 +172,7 @@ public class BugController {
 		}
 
 		page = this.bugServiceImpl.listAdminBug(pageNum, 8, null);
-
+		session.setAttribute("tagName", "");
 		session.setAttribute("adminBugNum", this.bugServiceImpl.getAdminBugNum());
 		session.setAttribute("page", page);
 
@@ -220,6 +221,7 @@ public class BugController {
 			page.setPageSize(8);
 			page.setTotalCount(hashset.size());
 			page.setList(bugList);
+			session.setAttribute("tagName", tagName);
 			session.setAttribute("tagList", tagList);
 			session.setAttribute("userBugNum", hashset.size());
 			session.setAttribute("page", page);
@@ -228,6 +230,7 @@ public class BugController {
 		page = this.bugServiceImpl.listUserBug(pageNum, 8, null);
 		request.setAttribute("userBugNum", this.bugServiceImpl.getUserBugNum());
 		request.setAttribute("page", page);
+		session.setAttribute("tagName", "");
 		session.setAttribute("tagList", tagList);
 		return "bug-list-user";
 
@@ -350,6 +353,7 @@ public class BugController {
 	/**
 	 * @function 对bug进行点赞、取消赞
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param bugId
 	 * @param request
@@ -472,6 +476,7 @@ public class BugController {
 	/**
 	 * @function @function 对bug进行踩、取消踩
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param bugId
 	 * @param request
