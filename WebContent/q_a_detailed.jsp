@@ -83,7 +83,7 @@
 			</section> <footer> <!-- 新增 点赞 和 踩 --> <!--新增点赞和踩-->
 			<div class="container" style="margin-top: 25px;">
 				<a href="javascript:void(0);" onclick="like()">
-					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left: 400px; border: 1px solid #ddd">
+					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left:40%; border: 1px solid #ddd;float:left">
 						<c:if test="${likeStatus==1 }">
 							<div id="likeOutSide" class="haveen">
 								<div class="container">
@@ -126,7 +126,7 @@
 					</div>
 				</a>
 				<a href="javascript:void(0);" onclick="hate()">
-					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd; margin-left: 15px;">
+					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; border: 1px solid #ddd;  margin-left: 1%;float:left">
 						<c:if test="${hateStatus==1 }">
 							<div id="hateOutSide" class="haveen">
 								<div class="container">

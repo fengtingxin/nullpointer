@@ -108,7 +108,7 @@ xmlhttp.send();
 			</section> <footer>
 			<div class="container" style="margin-top: 25px;">
 				<a href="javascript:void(0);" onclick="like()">
-					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left:45%; border: 1px solid #ddd;float:left">
+					<div class="col-md-6 column thumbs"	style="width: 70px; height: 60px；text-align:center; margin-left:40%; border: 1px solid #ddd;float:left">
 						<c:if test="${likeStatus==1 }">
 							<div id="likeOutSide" class="haveen">
 								<div class="container">
