@@ -47,9 +47,9 @@
 	<!--搜索框-->
 	<%@include file="search-area.jsp"%>
 	<!--搜索框完成-->
-	<div class="container" style="padding-top: 20px; padding-bottom: 25px;">
+	<div class="container" style="padding-top: 10px; padding-bottom: 25px; margin-top:15px;">
 		<div class="col-md-8 column"
-			style="border: 1px solid #ddd; padding: 20px;">
+			style="border: 1px solid #ddd; padding: 20px;margin-top:20px;">
 			<ul class="nav nav-tabs">
 				<li><a class="active" href="${ctx }/question/list_new"
 					data-target="#tab2Content1">最新发布</a></li>
@@ -121,7 +121,7 @@
 
 
 		</div>
-		<div class="col-md-4 column" style="margin-top: 30px;">
+		<div class="col-md-4 column" style="margin-top: 5px;">
 			<!-- 如果用户没有登陆 提示登陆 -->
 			<c:if test="${empty loginUser }">
 				<div class="col-md-12" style="margin-top: 20px;">

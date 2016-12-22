@@ -153,7 +153,7 @@ public class HibernateSearchDaoImpl extends BaseDao<Bug, String> {
 					if (hightLightFieldValue != null) {
 						// 运用反射设置结果集中的关键字高亮
 						ReflectionUtils.invokeMethod(
-								BeanUtils.getPropertyDescriptor(Question.class, fieldName).getWriteMethod(), q,
+								BeanUtils.getPropertyDescriptor(Bug.class, fieldName).getWriteMethod(), q,
 								hightLightFieldValue);
 					}
 				}

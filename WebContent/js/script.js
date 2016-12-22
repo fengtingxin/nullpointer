@@ -108,7 +108,6 @@ function fileSelectHandler() {
                 var bounds = this.getBounds();
                 boundx = bounds[0];
                 boundy = bounds[1];
-
                 // Store the Jcrop API in the jcrop_api variable
                 jcrop_api = this;
             });
