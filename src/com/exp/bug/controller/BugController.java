@@ -260,6 +260,8 @@ public class BugController {
 						this.bugHateRecordServiceImpl.findBugHateRecord(bugId, userInfoId).getBugHateStatus());
 			}
 		}
+		bug.setBugPageviews(bug.getBugPageviews()+1);
+		this.bugServiceImpl.updateBug(bug);
 		request.setAttribute("bug", bug);
 		String bug_detailed_bell =(String) request.getSession().getAttribute("bug_detailed_bell");
 		if (bug_detailed_bell != null) {

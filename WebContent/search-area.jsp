@@ -6,8 +6,8 @@
  <!-- 刷新替换背景 -->
   <script type="text/javascript">
     $(function() {
-      var bg = Math.floor(Math.random() * 8+ 1);
-      $('#search-area-wrapper').css('background-image', 'url(images/main-bg'+ bg +'.jpg)');
+      var bg = Math.floor(Math.random() * 15+ 1);
+      $('#search-area-wrapper').css('background-image', 'url(${ctx }/images/main-bg'+ bg +'.jpg)');
     });
   </script>
 <div class="search-area-wrapper" id="search-area-wrapper">
