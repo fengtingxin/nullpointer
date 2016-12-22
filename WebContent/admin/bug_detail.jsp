@@ -80,7 +80,7 @@ ${fn:substring(oneAdvice.adviceTheme, 0, 10)}
 						<li>
 							<a href="${ctx }/admin/advice.jsp">
 								<i class="icon-dashboard"></i>
-								<span class="menu-text"> 控制台 </span>
+								<span class="menu-text" id="controllerT"> 控制台 </span>
 							</a>
 						</li>
 

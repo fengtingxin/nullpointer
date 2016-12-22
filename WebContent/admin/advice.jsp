@@ -96,7 +96,7 @@
 				<!-- #sidebar-shortcuts -->
 				<ul class="nav nav-list">
 					<li><a href="${ctx }/admin/advice.jsp"> <i
-							class="icon-dashboard"></i> <span class="menu-text"> 控制台 </span>
+							class="icon-dashboard"></i> <span class="menu-text" id="controllerT"> 控制台 </span>
 					</a></li>
 
 					<li class="active"><a href="${ctx }/admin/advice.jsp"> <i

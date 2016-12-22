@@ -86,7 +86,7 @@ font-family: "微软雅黑","宋体";
 						<li>
 							<a href="${ctx }/admin/advice">
 								<i class="icon-dashboard"></i>
-								<span class="menu-text"> 控制台 </span>
+								<span class="menu-text" id="controllerT"> 控制台 </span>
 							</a>
 						</li>
 

@@ -7,12 +7,16 @@ body {
 	padding-bottom: 0;
 	background-color: #e4e6e9;
 	min-height: 100%;
-	font-family: 'Open Sans';
+	font-family: '微软雅黑';
 	font-size: 13px;
 	color: #393939;
 	line-height: 1.5
 }
-
+#controllerT{
+	font-size:16px;
+	font-weight:bolder;	
+	color:#333;
+}
 body.navbar-fixed {
 	padding-top: 45px
 }
@@ -102,7 +106,7 @@ a:focus, a:active {
 h1 {
 	font-size: 32px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h1.smaller {
@@ -120,7 +124,7 @@ h1.block {
 h2 {
 	font-size: 26px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h2.smaller {
@@ -138,7 +142,7 @@ h2.block {
 h3 {
 	font-size: 22px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h3.smaller {
@@ -156,7 +160,7 @@ h3.block {
 h4 {
 	font-size: 18px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h4.smaller {
@@ -174,7 +178,7 @@ h4.block {
 h5 {
 	font-size: 15px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h5.smaller {
@@ -192,7 +196,7 @@ h5.block {
 h6 {
 	font-size: 13px;
 	font-weight: normal;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+	font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
 h6.smaller {
@@ -1774,7 +1778,7 @@ blockquote, blockquote.pull-right {
 }
 
 .breadcrumb>li+li:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 14px;
 	content: "\f105";
 	color: #b2b6bf;
@@ -5061,7 +5065,7 @@ button.btn:active {
 .dropdown-colorpicker>.dropdown-menu>li>.colorpick-btn.selected:after {
 	content: "\f00c";
 	display: inline-block;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 11px;
 	color: #FFF;
 	position: absolute;
@@ -5679,7 +5683,7 @@ input[type=checkbox].ace+.lbl.padding-0::before, input[type=radio].ace+.lbl.padd
 
 input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before
 	{
-	font-family: fontAwesome;
+	font-family: 微软雅黑;
 	font-weight: normal;
 	font-size: 12px;
 	color: #32a3ce;
@@ -5745,7 +5749,7 @@ input[type=checkbox].ace:disabled+.lbl::before, input[type=radio].ace:disabled+.
 input[type=radio].ace+.lbl::before {
 	border-radius: 100%;
 	font-size: 11px;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	text-shadow: 0 0 1px #32a3ce;
 	line-height: 15px;
 	height: 17px;
@@ -5767,7 +5771,7 @@ input[type=checkbox].ace.ace-switch+.lbl {
 }
 
 input[type=checkbox].ace.ace-switch+.lbl::before {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 微软雅黑, Helvetica, sans-serif;
 	content: "ON\a0\a0\a0\a0\a0\a0\a0\a0\a0OFF";
 	color: #999;
 	font-weight: bold;
@@ -5793,7 +5797,7 @@ input[type=checkbox].ace.ace-switch+.lbl::before {
 }
 
 input[type=checkbox].ace.ace-switch+.lbl::after {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 微软雅黑, Helvetica, sans-serif;
 	content: '|||';
 	font-size: 10px;
 	font-weight: lighter;
@@ -5833,7 +5837,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-2+.lbl::before {
 }
 
 input[type=checkbox].ace.ace-switch.ace-switch-3+.lbl::after {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 13px;
 	line-height: 23px;
 	content: "\f00d";
@@ -5847,7 +5851,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-3:checked+.lbl::after {
 input[type=checkbox].ace.ace-switch.ace-switch-4+.lbl::before, input[type=checkbox].ace.ace-switch.ace-switch-5+.lbl::before
 	{
 	content: "ON\a0\a0\a0\a0\a0\a0\a0\a0\a0\a0\a0OFF";
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 微软雅黑, Helvetica, sans-serif;
 	font-weight: bolder;
 	font-size: 12px;
 	line-height: 23px;
@@ -5870,7 +5874,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-4+.lbl::before, input[type=checkb
 
 input[type=checkbox].ace.ace-switch.ace-switch-4+.lbl::after, input[type=checkbox].ace.ace-switch.ace-switch-5+.lbl::after
 	{
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 微软雅黑, Arial, sans-serif;
 	content: '|||';
 	text-shadow: -1px 0 0 rgba(0, 0, 0, 0.2);
 	font-size: 8px;
@@ -5916,7 +5920,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-6+.lbl {
 }
 
 input[type=checkbox].ace.ace-switch.ace-switch-6+.lbl::before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	content: "\f00d";
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	box-shadow: none;
@@ -5998,7 +6002,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-7+.lbl::before {
 
 input[type=checkbox].ace.ace-switch.ace-switch-7+.lbl::after {
 	content: '\f00d';
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 16px;
 	position: absolute;
 	top: 3px;
@@ -6169,7 +6173,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked+.lbl::after {
 	line-height: 24px;
 	width: 26px;
 	text-align: center;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 13px;
 	border: 2px solid #FFF;
 	color: #FFF;
@@ -6263,7 +6267,7 @@ input[type=checkbox].ace.ace-switch.ace-switch-7:checked+.lbl::after {
 	line-height: 24px;
 	width: 26px;
 	text-align: center;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 13px;
 	border: 2px solid #FFF;
 	color: #FFF;
@@ -7495,7 +7499,7 @@ th .lbl:only-child, td .lbl:only-child {
 	content: "\f0dc";
 	display: inline-block;
 	color: #555;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 13px;
 	font-weight: normal;
 	float: right;
@@ -8687,7 +8691,7 @@ th .lbl:only-child, td .lbl:only-child {
 	line-height: 16px;
 	text-align: center;
 	font-size: 12px;
-	font-family: Verdana
+	font-family:微软雅黑
 }
 
 .progress.progress-yellow[data-percent]:after {
@@ -10569,7 +10573,7 @@ li.item-default {
 	line-height: 26px;
 	font-size: 13px;
 	font-weight: bold;
-	font-family: "Open Sans";
+	font-family: "微软雅黑";
 	padding: 0 8px
 }
 
@@ -11810,7 +11814,7 @@ ul.attachment-list>li {
 	content: "\f00d";
 	display: inline-block;
 	color: #888;
-	font-family: FontAwesome;
+	font-family: "微软雅黑";
 	font-size: 13px;
 	position: absolute;
 	right: 0;
@@ -11834,7 +11838,7 @@ ul.attachment-list>li {
 	content: "\f0d7";
 	display: inline-block;
 	color: #888;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 12px;
 	position: relative;
 	top: -1px;
@@ -11860,7 +11864,7 @@ ul.attachment-list>li {
 	content: "\f002";
 	display: inline-block;
 	color: #888;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 14px;
 	position: absolute;
 	top: 8px;
@@ -11882,7 +11886,7 @@ ul.attachment-list>li {
 	content: "\f00d";
 	display: inline-block;
 	color: #888;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 13px;
 	position: absolute;
 	right: 2px;
@@ -11914,7 +11918,7 @@ ul.attachment-list>li {
 	content: "\f0d7";
 	display: inline-block;
 	color: #888;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 12px;
 	position: relative;
 	top: -1px;
@@ -12105,7 +12109,7 @@ ul.attachment-list>li {
 
 .select2-container .select2-choice abbr:before,
 	.select2-search-choice-close:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 12px;
 	display: inline;
 	content: "\f00d";
@@ -12163,7 +12167,7 @@ ul.attachment-list>li {
 }
 
 .select2-container .select2-choice .select2-arrow b:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 12px;
 	display: inline;
 	content: "\f0d7";
@@ -12182,7 +12186,7 @@ ul.attachment-list>li {
 }
 
 .select2-search:after {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 14px;
 	display: inline;
 	content: "\f002";
@@ -12524,7 +12528,7 @@ ul.attachment-list>li {
 	content: "\f00c";
 	background-color: #FFF;
 	z-index: 3;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 17px;
 	color: #87ba21
 }
@@ -12786,7 +12790,7 @@ ul.attachment-list>li {
 .tree .icon-plus[class*="icon-"]:first-child:before {
 	display: block;
 	content: "+";
-	font-family: "Open Sans";
+	font-family: "微软雅黑";
 	font-size: 16px;
 	position: relative;
 	z-index: 1
@@ -12914,7 +12918,7 @@ ul.attachment-list>li {
 }
 
 .gritter-close:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 16px;
 	content: "\f00d"
 }
@@ -13356,7 +13360,7 @@ img.editable-click:hover {
 .editable-clear-x:before {
 	display: inline-block;
 	content: "\f057";
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 15px;
 	position: absolute;
 	margin-top: -9px;
@@ -13458,7 +13462,7 @@ img.editable-click:hover {
 	display: inline-block;
 	content: "|||";
 	font-size: 8px;
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 微软雅黑, Arial, sans-serif;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -13629,7 +13633,7 @@ img.editable-click:hover {
 .ui-datepicker .ui-datepicker-prev:before, .ui-datepicker .ui-datepicker-next:before
 	{
 	display: inline;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 14px;
 	content: "\f060";
 	color: #393939
@@ -13767,7 +13771,7 @@ img.editable-click:hover {
 	{
 	content: "\f00d";
 	display: inline;
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 16px
 }
 
@@ -13822,7 +13826,7 @@ img.editable-click:hover {
 
 .ui-accordion .ui-accordion-header .ui-accordion-header-icon:before {
 	display: inline;
-	font-family: FontAwesome;
+	font-family:微软雅黑;
 	font-size: 15px;
 	content: "\f0da"
 }
@@ -13916,7 +13920,7 @@ img.editable-click:hover {
 
 .ui-menu .ui-menu-item a .ui-menu-icon:before {
 	content: "\f105";
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 14px;
 	display: inline
 }
@@ -14282,7 +14286,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 .ui-grid-ico-sort:before {
 	display: inline;
 	content: "\f0d7";
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 12px
 }
 
@@ -14373,7 +14377,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 }
 
 .ui-pg-div .ui-icon:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	display: inline
 }
 
@@ -14806,7 +14810,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 }
 
 .dd-item>button:before {
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	content: '\f067';
 	display: block;
 	position: absolute;
@@ -14997,7 +15001,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 
 .dropzone .dz-preview .dz-error-mark:before, .dropzone-previews .dz-preview .dz-error-mark:before
 	{
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 30px;
 	color: #db6262;
 	content: "\f00d"
@@ -15005,7 +15009,7 @@ th[aria-selected=true] .ui-jqgrid-sortable {
 
 .dropzone .dz-preview .dz-success-mark:before, .dropzone-previews .dz-preview .dz-success-mark:before
 	{
-	font-family: FontAwesome;
+	font-family: 微软雅黑;
 	font-size: 30px;
 	color: #6da552;
 	content: "\f00c"
