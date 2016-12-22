@@ -348,6 +348,7 @@ public class BugController {
 	/**
 	 * @function 对bug进行点赞、取消赞
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param bugId
 	 * @param request
@@ -470,6 +471,7 @@ public class BugController {
 	/**
 	 * @function @function 对bug进行踩、取消踩
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param bugId
 	 * @param request

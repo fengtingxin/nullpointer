@@ -462,6 +462,7 @@ public class QuestionController {
 	/**
 	 * @function 对问题进行赞、取消赞
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param questionId
 	 * @param request
@@ -593,6 +594,7 @@ public class QuestionController {
 	/**
 	 * @function 对问题进行踩，取消踩
 	 * @author tangwenru
+	 * @author fengtingxin 完善此模块，使用ajax局部刷新
 	 * @param userInfoId
 	 * @param questionId
 	 * @param request
