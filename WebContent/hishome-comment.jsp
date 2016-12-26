@@ -130,20 +130,20 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/comment/findCommentByTimeTwo?pageNum=${pageComment.prePageNum}">«</a></li>
+						href="${ctx}/comment/findCommentByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageComment.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${pageComment.totalPageNum }" var="pageNum">
 						<c:if test="${pageNum ==pageComment.currentPageNum}">
 						<li class="active"><a name="pagen"
-							href="${ctx }/comment/findCommentByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+							href="${ctx }/comment/findCommentByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=pageComment.currentPageNum}">
 						<li><a name="pagen"
-							href="${ctx }/comment/findCommentByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+							href="${ctx }/comment/findCommentByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/comment/findCommentByTimeTwo?pageNum=${pageComment.nextPageNum}">»</a></li>
+						href="${ctx}/comment/findCommentByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageComment.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>

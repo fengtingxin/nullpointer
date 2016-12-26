@@ -128,20 +128,20 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/question/findQuestionByTimeTwo?pageNum=${page.prePageNum}">«</a></li>
+						href="${ctx}/question/findQuestionByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${page.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${page.totalPageNum}" var="pageNum">
 						<c:if test="${pageNum ==page.currentPageNum}">
 						<li class="active"><a name="pagen"
-							href="${ctx }/question/findQuestionByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+							href="${ctx }/question/findQuestionByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=page.currentPageNum}">
 						<li><a name="pagen"
-							href="${ctx }/question/findQuestionByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+							href="${ctx }/question/findQuestionByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/question/findQuestionByTimeTwo?pageNum=${page.nextPageNum}">»</a></li>
+						href="${ctx}/question/findQuestionByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${page.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>

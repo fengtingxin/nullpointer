@@ -85,7 +85,7 @@
 			<div class="alert alert-success with-icon alert-dismissable">
 				<i class="icon-user"></i>
 				<div class="content">
-					${loginUser.loginName}&nbsp;&nbsp;&nbsp;你已经在这里度过了${day}天${hour}小时${min}分${second }秒
+					${userInfo.loginUser.loginName}&nbsp;&nbsp;&nbsp;你已经在这里度过了${day}天${hour}小时${min}分${second }秒
 				</div>
 				<button type="button" class="close" data-dismiss="alert"
 					aria-hidden="true">×</button>
@@ -139,21 +139,21 @@
 
 				<ul class="pager">
 					<li class="previous"><a
-						href="${ctx}/share/shareByTimeTwo?pageNum=${pagesShare.prePageNum}">«</a></li>
+						href="${ctx}/share/shareByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pagesShare.prePageNum}">«</a></li>
 					<c:forEach begin="1" end="${pagesShare.totalPageNum }"
 						var="pageNum">
 						<c:if test="${pageNum ==pagesShare.currentPageNum}">
 							<li class="active"><a name="pagen"
-								href="${ctx }/share/shareByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+								href="${ctx }/share/shareByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 						<c:if test="${pageNum !=pagesShare.currentPageNum}">
 							<li><a name="pagen"
-								href="${ctx }/share/shareByTimeTwo?pageNum=${pageNum }">${pageNum }</a></li>
+								href="${ctx }/share/shareByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pageNum }">${pageNum }</a></li>
 						</c:if>
 					</c:forEach>
 
 					<li class="next"><a
-						href="${ctx}/share/shareByTimeTwo?pageNum=${pagesShare.nextPageNum}">»</a></li>
+						href="${ctx}/share/shareByTimeTwo?loginName=${userInfo.loginUser.loginName}&pageNum=${pagesShare.nextPageNum}">»</a></li>
 				</ul>
 				</c:if>
 			</div>
