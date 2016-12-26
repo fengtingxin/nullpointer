@@ -306,17 +306,13 @@ public class UserInfoController {
 			@RequestParam(value = "loginName", required = false, defaultValue = "") String loginName,
 			@RequestParam(value = "birthday", required = false, defaultValue = "") String birthday,
 			@RequestParam(value = "sex", required = false, defaultValue = "") String sex,
-			@RequestParam(value = "describe", required = false, defaultValue = "") String describe,HttpSession session) {
-		// 防止中文乱码
-		try {
-			sex = new String(sex.getBytes(), "utf-8");
-			describe = new String(describe.getBytes(), "utf-8");
-			loginName = new String(loginName.getBytes(), "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "encodeError";
-		}
+			@RequestParam(value = "describe", required = false, defaultValue = "") String describe,
+			HttpSession session, HttpServletResponse response) {
+		// 修改格式编码 @Ray
+			sex =EncodingTool.encodeStr(sex);
+			describe =EncodingTool.encodeStr(describe);
+			loginName =EncodingTool.encodeStr(loginName);
+		response.setCharacterEncoding("utf-8");
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		LoginUser lu =this.loginUserServiceImpl.findByName(loginName);
 		if(lu!=null && lu.getLoginUserId()!= loginUser.getLoginUserId()){
