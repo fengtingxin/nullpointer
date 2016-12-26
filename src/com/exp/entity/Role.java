@@ -26,7 +26,6 @@ public class Role {
 	//属性 
 	private Integer roleId; //id //主键
 	private String  roleName; //角色名
-	private Set<Power> powers=new HashSet<Power>(0);
 	//set/get方法	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,17 +40,6 @@ public class Role {
 	}
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "r_role_power", joinColumns = {
-			@JoinColumn(name = "roleId", referencedColumnName = "roleId") }, inverseJoinColumns = {
-					@JoinColumn(name = "powerId", referencedColumnName = "powerId") })
-	public Set<Power> getPowers() {
-		return powers;
-	}
-	public void setPowers(Set<Power> powers) {
-		this.powers = powers;
 	}
 	
 }
