@@ -18,6 +18,19 @@ public class EncodingTool {
 			return null;
 		}
 	}
+	/**
+	 * @author Ray_1 编码格式
+	 * @param str
+	 * @return
+	 */
+	public static String encodeStrs(String str) {
+		try {
+			return new String(str.getBytes(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public static boolean isEmail(String email) {
 		/**

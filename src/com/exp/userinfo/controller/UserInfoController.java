@@ -270,9 +270,17 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = "edit", method = RequestMethod.GET)
-	public String toEdit(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request) {
+	public String toEdit(@RequestParam(value = "id", required = false) Integer id, HttpServletRequest request,HttpServletResponse response) {
 		UserInfo userinfo = this.userInfoServiceImpl.findById(id);
 		request.setAttribute("userinfo", userinfo);
+		try {
+			response.setContentType("text/html;charset=utf-8");
+			response.setCharacterEncoding("utf-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Date userInfoBirthday = userinfo.getUserInfoBirthday();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String birthday = sdf.format(userInfoBirthday);
@@ -307,12 +315,20 @@ public class UserInfoController {
 			@RequestParam(value = "birthday", required = false, defaultValue = "") String birthday,
 			@RequestParam(value = "sex", required = false, defaultValue = "") String sex,
 			@RequestParam(value = "describe", required = false, defaultValue = "") String describe,
-			HttpSession session, HttpServletResponse response) {
+			HttpSession session,HttpServletResponse response,HttpServletRequest request) {
 		// 修改格式编码 @Ray
-			sex =EncodingTool.encodeStr(sex);
-			describe =EncodingTool.encodeStr(describe);
-			loginName =EncodingTool.encodeStr(loginName);
+		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sex =EncodingTool.encodeStrs(sex);
+		describe =EncodingTool.encodeStrs(describe);
+		loginName =EncodingTool.encodeStrs(loginName);
+		
 		LoginUser loginUser = (LoginUser) session.getAttribute("loginUser");
 		LoginUser lu =this.loginUserServiceImpl.findByName(loginName);
 		if(lu!=null && lu.getLoginUserId()!= loginUser.getLoginUserId()){

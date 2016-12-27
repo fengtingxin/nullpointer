@@ -159,6 +159,8 @@ function login(validate, remeberUser) {
 						//console.log(url.substring(0, url.indexOf("userimg/upload")));
 						url=url.substring(0, url.indexOf("userimg/upload"));
 						url=url+"/home";
+					}else{
+						url="http://localhost:8080/nullpointer/index"
 					}
 					window.location.href = url;
 				}else if(data=="-1"){
